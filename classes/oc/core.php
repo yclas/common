@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * Core class for OC, contains commons functions and helpers
+ * Core class for OC common, contains commons functions and helpers
  *
  * @package    OC
  * @category   Core

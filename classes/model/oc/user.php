@@ -470,6 +470,45 @@ class Model_OC_User extends ORM {
         return $seotitle;
     }
 
+    /**
+     * creates a user from email if exists doesn't...
+     * @param  string $email 
+     * @param  string $name  
+     * @return Model_User        
+     */
+    public static function create_email($email,$name=NULL)
+    {
+        $user = new self();
+        $user->where('email','=',$email)->limit(1)->find();
+
+        if (!$user->loaded())
+        {
+            $password           = Text::random('alnum', 8);
+            $user->email        = $email;
+            $user->name         = $name;
+            $user->status       = self::STATUS_ACTIVE;
+            $user->id_role      = self::ROLE_USER;;
+            $user->seoname      = $user->gen_seo_title($user->name);
+            $user->password     = $password;
+            try
+            {
+                $user->save();
+                //send welcome email
+                $url = $user->ql('oc-panel',array('controller' => 'profile', 
+                                                  'action'     => 'edit'),NULL,TRUE);
+
+                $user->email('auth.register',array('[USER.PWD]'=>$password,
+                                                    '[URL.QL]'=>$url)
+                                            );
+            }
+            catch (ORM_Validation_Exception $e)
+            {
+                throw HTTP_Exception::factory(500,$e->getMessage());
+            }
+        }
+
+        return $user;
+    }
    
     /**
      * creates a User from social data
@@ -481,128 +520,23 @@ class Model_OC_User extends ORM {
      */
     public static function create_social($email,$name=NULL,$provider, $identifier)
     {
-        $user = new self();
-        $user->where('email','=',$email)->limit(1)->find();
-
-        //doesnt exists
-        if (!$user->loaded())
-        {
-            $password           = Text::random('alnum', 8);
-            $user->email        = $email;
-            $user->name         = $name;
-            $user->status       = self::STATUS_ACTIVE;
-            $user->id_role      = 1;
-            $user->seoname      = $user->gen_seo_title($user->name);
-            $user->password     = $password;
-            $user->subscriber   = 1;
-        }
+        //get the user or create it
+        $user = self::create_email($email,$name);
+        
         //always we set this values even if user existed
         $user->hybridauth_provider_name = $provider;
         $user->hybridauth_provider_uid  = $identifier;
         try
         {
             $user->save();
-            //send welcome email only if its new
-            if (isset($password))
-                $user->email('auth.register',array('[USER.PWD]'=>$password,
-                                                    '[URL.QL]'=>$user->ql('default',NULL,TRUE))
-                                            );
         }
         catch (ORM_Validation_Exception $e)
         {
-            // d($e->errors(''));
+            throw HTTP_Exception::factory(500,$e->getMessage());
         }
 
         return $user;
     }
-
-    /**
-     * creates a user from email if exists doesn't...
-     * @param  string $email 
-     * @param  string $name  
-     * @return integer        
-     */
-    public static function create_email($email,$name=NULL)
-    {
-        $user = new self();
-        $user->where('email','=',$email)->limit(1)->find();
-
-        if (!$user->loaded())
-        {
-            $user->email        = $email;
-            $user->name         = $name;
-            $user->status       = self::STATUS_ACTIVE;
-            $user->id_role      = 1;
-            $user->seoname      = $user->gen_seo_title($user->name);
-            $user->password     = Text::random('alnum', 8);
-            $user->subscriber   = 1;
-            try
-            {
-                $user->save();
-            }
-            catch (ORM_Validation_Exception $e)
-            {
-                // d($e->errors(''));
-            }
-        }
-
-        return $user->id_user;
-    }
-
-    /**
-     * Create new User in database 
-     * @param $name String
-     * @param $email String
-     * @return $id_user Int
-     */ 
-    public function create_new_user($name,$email)
-    {
-        // check validity of email
-        if (Valid::email($email,TRUE))
-        {
-            $user_obj = new self;
-            // search for email in DB
-            $user = $user_obj->where('email', '=', $email)
-                    ->limit(1)
-                    ->find();
-       
-            if(!$user->loaded())
-            { 
-                $new_password_plain = Text::random();
-                $user->email        = $email;
-                $user->name         = $name;
-                $user->status       = Model_User::STATUS_ACTIVE;
-                $user->id_role      = Model_Role::ROLE_USER;//normal user
-                $user->password     = $new_password_plain;
-                $user->seoname      = $this->gen_seo_title($name);
-                $user->subscriber   = 1;
-                
-                try
-                {
-                    $user->save();
-
-                    Alert::set(Alert::SUCCESS, __('New profile has been created. Welcome ').$name.' !');
-                    //we get the QL, and force the regen of token for security
-                    $url_pwch = $user->ql('oc-panel',array('controller' => 'profile', 
-                                                           'action'     => 'edit'),TRUE);
-                    $ret = $user->email('user.new',array('[URL.PWCH]'=>$url_pwch,
-                                                         '[USER.PWD]'=>$new_password_plain));                   
-                }
-                catch (ORM_Validation_Exception $e)
-                {
-                    throw HTTP_Exception::factory(500,$e->getMessage());
-                }
-            }
-
-            return $user->id_user;
-        }
-        else
-        {
-            Alert::set(Alert::ALERT, __('Invalid Email'));
-            $this->redirect(Route::url('post_new'));
-        }
-    
-    } 
 
     /**
      * reurns the url of the users profile image

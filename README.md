@@ -9,7 +9,7 @@ In includes common helpers, tests, views (that belong to the system), vendors an
 Without the module Common OC or OE won't work.
 
 # License GPL v3
-Please read [LICENSE.md](LICENSE.md)
+Please read [LICENSE](LICENSE)
 
 # How to Contribute
 Please read [CONTRIBUTING.md](CONTRIBUTING.md)

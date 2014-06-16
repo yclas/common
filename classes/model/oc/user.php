@@ -497,7 +497,7 @@ class Model_OC_User extends ORM {
                 $url = $user->ql('oc-panel',array('controller' => 'profile', 
                                                   'action'     => 'edit'),NULL,TRUE);
 
-                $user->email('auth.register',array('[USER.PWD]'=>$password,
+                $user->email('auth_register',array('[USER.PWD]'=>$password,
                                                     '[URL.QL]'=>$url)
                                             );
             }

@@ -30,7 +30,7 @@ class Controller_Panel_Forum extends Auth_Crud {
 
         list($forums,$order)  = Model_Forum::get_all();
 
-        $this->template->content = View::factory('oc-panel/pages/forums',array('forums' => $forums,'order'=>$order));
+        $this->template->content = View::factory('oc-panel/pages/forum/forums',array('forums' => $forums,'order'=>$order));
     }
 
 

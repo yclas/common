@@ -80,7 +80,7 @@ class Controller_Panel_Theme extends Auth_Controller {
         Breadcrumbs::add(Breadcrumb::factory()->set_title(__('Themes')));  
         $this->template->title = __('Themes');     
         
-        $market_url = (Kohana::$environment!== Kohana::DEVELOPMENT)? 'market.'.self::DOMAIN.'':'eshop.lo';
+        $market_url = (Kohana::$environment!== Kohana::DEVELOPMENT)? 'market.'.Core::DOMAIN.'':'eshop.lo';
         $this->template->scripts['footer'][] = 'http://'.$market_url.'/embed.js';
 
         //getting the themes

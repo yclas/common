@@ -45,9 +45,9 @@ We only accept issues that are bug reports or feature requests. Bugs must be iso
 
 ## Coding standards
 
-PHP http://kohanaframework.org/3.2/guide/kohana/conventions
-SQL https://github.com/open-classifieds/openclassifieds2/wiki/SQL-Coding-Standard
+- PHP http://kohanaframework.org/3.3/guide/kohana/conventions
+- SQL https://github.com/open-classifieds/openclassifieds2/wiki/SQL-Coding-Standard
 
 ## License
 
-By contributing your code, you agree to license your contribution under the terms of the GPLv3: Read LICENSE.md
+By contributing your code, you agree to license your contribution under the terms of the GPLv3, read [LICENSE](LICENSE)

@@ -7,10 +7,13 @@ Recommended PHP 5.5 , MySQL 5.5, Apache 2.2, Linux.
 
 
 ## Git usage
-Example to clone project on local:
+Go to https://github.com/open-classifieds for each repo in the top right theres a button that says Fork. Click there to clone each repo, don't forget to clone common. That will copy the repos to your github user, ex: https://github.com/neo22s?tab=repositories
 
-git clone git@github.com:open-classifieds/common.git common
+Clone your project in local
+```
+git clone git@github.com:neo22s/common.git common
 cd common
+```
 
 Please check guide for each project.
 

@@ -71,7 +71,7 @@ class Controller_Panel_Topic extends Auth_Crud {
         foreach ($get_all[0] as $parent )
             $forum_parents[$parent['id']] = $parent['name'];
 
-        $this->template->content = View::factory('oc-panel/pages/topic/update', array('topic'=>$topic, 'forum_parents'=>$forum_parents));
+        $this->template->content = View::factory('oc-panel/pages/forum/topic', array('topic'=>$topic, 'forum_parents'=>$forum_parents));
         
         if ($_POST)
         {

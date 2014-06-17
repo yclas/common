@@ -3,7 +3,7 @@
 Looking to contribute something to Open Classifieds? **Here's how you can help.**
 
 ## Environment
-Recommended PHP 5.5 , MySQL 5.5, Apache 2.2, Linux
+Recommended PHP 5.5 , MySQL 5.5, Apache 2.2, Linux.
 
 
 ## Git usage

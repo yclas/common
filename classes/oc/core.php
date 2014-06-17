@@ -206,7 +206,7 @@ class OC_Core {
         if ( time() > strtotime('+1 week',filemtime($version_file)) OR $reload === TRUE )
         {
             //read from oc/versions.json on CDN
-            $json = Core::curl_get_contents('http://'.self::DOMAIN.'/files/versions.json?r='.time());
+            $json = Core::curl_get_contents('http://'.Core::DOMAIN.'/files/versions.json?r='.time());
             $versions = json_decode($json,TRUE);
             if (is_array($versions))
             {
@@ -228,7 +228,7 @@ class OC_Core {
      */
     public static function get_market($reload = FALSE)
     {
-        $market_url = (Kohana::$environment!== Kohana::DEVELOPMENT)? 'market.'.self::DOMAIN.'':'eshop.lo';
+        $market_url = (Kohana::$environment!== Kohana::DEVELOPMENT)? 'market.'.Core::DOMAIN.'':'eshop.lo';
         $market_url = 'http://'.$market_url.'/api/products';
 
         //try to get the json from the cache

@@ -5,7 +5,7 @@
 </div>
 
 <div class="well">
-    <a class="label label-default" href="<?=Route::url('profile',  array('seoname'=>$post->user->seoname))?>"><?=$post->user->name?></a>
+    <span class="label label-default"><?=$post->user->name?></span>
     <div class="pull-right">
         <span class="label label-info"><?=Date::format($post->created, core::config('general.date_format'))?></span>
     </div>    

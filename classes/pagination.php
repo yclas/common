@@ -37,5 +37,22 @@ class Pagination extends Kohana_Pagination
 			
 		return $this->title;
 	}
+
+
+    /**
+     * Generates the full URL for a certain page.
+     *
+     * @param   integer  page number
+     * @return  string   page URL
+     */
+    public function url($page = 1)
+    {
+        $url = strtolower(parent::url($page));
+
+        //removing the parameter rel=ajax just in case
+        $url = str_replace(array('&rel=ajax','rel=ajax&','rel=ajax'), '', $url);
+
+        return $url;
+    }
 	
 }

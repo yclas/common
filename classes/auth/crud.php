@@ -67,8 +67,6 @@ class Auth_Crud extends Auth_Controller
 	}
 
 
-	
-
 	/**
 	 *
 	 * Loads a basic list info
@@ -82,7 +80,7 @@ class Auth_Crud extends Auth_Controller
 		$elements = ORM::Factory($this->_orm_model);//->find_all();
 
 		$pagination = Pagination::factory(array(
-					'view'           => 'pagination',
+					'view'           => 'oc-panel/crud/pagination',
 					'total_items' 	 => $elements->count_all(),
 		//'items_per_page' => 10// @todo from config?,
 		))->route_params(array(

@@ -63,7 +63,7 @@ class Controller_Panel_Translations extends Auth_Controller {
 
 
             } catch (Exception $e) {
-                echo $e;
+                throw HTTP_Exception::factory(500,$e->getMessage());
             }
         }
 

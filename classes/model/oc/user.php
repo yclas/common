@@ -487,7 +487,7 @@ class Model_OC_User extends ORM {
             $user->email        = $email;
             $user->name         = $name;
             $user->status       = self::STATUS_ACTIVE;
-            $user->id_role      = self::ROLE_USER;;
+            $user->id_role      = Model_Role::ROLE_USER;;
             $user->seoname      = $user->gen_seo_title($user->name);
             $user->password     = $password;
             try

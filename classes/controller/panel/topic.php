@@ -32,7 +32,7 @@ class Controller_Panel_Topic extends Auth_Crud {
         $elements = ORM::Factory($this->_orm_model)->where('id_forum','IS NOT',NULL);//->find_all();
 
         $pagination = Pagination::factory(array(
-                    'view'           => 'pagination',
+                    'view'           => 'oc-panel/crud/pagination',
                     'total_items'    => $elements->count_all(),
         //'items_per_page' => 10// @todo from config?,
         ))->route_params(array(

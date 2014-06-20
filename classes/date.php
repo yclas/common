@@ -200,6 +200,122 @@ class Date extends Kohana_Date {
             return $sign . str_pad($hour, 2, '0', STR_PAD_LEFT) .':'. str_pad($minutes,2, '0');
     }
     
+
+    /**
+     * Overwrite to force translation
+     * Returns the difference between a time and now in a "fuzzy" way.
+     * Displaying a fuzzy time instead of a date is usually faster to read and understand.
+     *
+     *     $span = Date::fuzzy_span(time() - 10); // "moments ago"
+     *     $span = Date::fuzzy_span(time() + 20); // "in moments"
+     *
+     * A second parameter is available to manually set the "local" timestamp,
+     * however this parameter shouldn't be needed in normal usage and is only
+     * included for unit tests
+     *
+     * @param   integer $timestamp          "remote" timestamp
+     * @param   integer $local_timestamp    "local" timestamp, defaults to time()
+     * @return  string
+     */
+    public static function fuzzy_span($timestamp, $local_timestamp = NULL)
+    {
+        $local_timestamp = ($local_timestamp === NULL) ? time() : (int) $local_timestamp;
+
+        // Determine the difference in seconds
+        $offset = abs($local_timestamp - $timestamp);
+
+        if ($offset <= Date::MINUTE)
+        {
+            $span = __('moments');
+        }
+        elseif ($offset < (Date::MINUTE * 20))
+        {
+            $span = __('a few minutes');
+        }
+        elseif ($offset < Date::HOUR)
+        {
+            $span = __('less than an hour');
+        }
+        elseif ($offset < (Date::HOUR * 4))
+        {
+            $span = __('a couple of hours');
+        }
+        elseif ($offset < Date::DAY)
+        {
+            $span = __('less than a day');
+        }
+        elseif ($offset < (Date::DAY * 2))
+        {
+            $span = __('about a day');
+        }
+        elseif ($offset < (Date::DAY * 4))
+        {
+            $span = __('a couple of days');
+        }
+        elseif ($offset < Date::WEEK)
+        {
+            $span = __('less than a week');
+        }
+        elseif ($offset < (Date::WEEK * 2))
+        {
+            $span = __('about a week');
+        }
+        elseif ($offset < Date::MONTH)
+        {
+            $span = __('less than a month');
+        }
+        elseif ($offset < (Date::MONTH * 2))
+        {
+            $span = __('about a month');
+        }
+        elseif ($offset < (Date::MONTH * 4))
+        {
+            $span = __('a couple of months');
+        }
+        elseif ($offset < Date::YEAR)
+        {
+            $span = __('less than a year');
+        }
+        elseif ($offset < (Date::YEAR * 2))
+        {
+            $span = __('about a year');
+        }
+        elseif ($offset < (Date::YEAR * 4))
+        {
+            $span = __('a couple of years');
+        }
+        elseif ($offset < (Date::YEAR * 8))
+        {
+            $span = __('a few years');
+        }
+        elseif ($offset < (Date::YEAR * 12))
+        {
+            $span = __('about a decade');
+        }
+        elseif ($offset < (Date::YEAR * 24))
+        {
+            $span = __('a couple of decades');
+        }
+        elseif ($offset < (Date::YEAR * 64))
+        {
+            $span = __('several decades');
+        }
+        else
+        {
+            $span = __('a long time');
+        }
+
+        if ($timestamp <= $local_timestamp)
+        {
+            // This is in the past
+            return $span.__(' ago');
+        }
+        else
+        {
+            // This in the future
+            return __('in ').$span;
+        }
+    }
    
     
 } // End Date

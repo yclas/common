@@ -312,7 +312,7 @@ class Theme {
         {
             return self::theme_folder($theme).'/'.$file;
         }
-        //reading form parent
+        //reading from parent
         elseif (Theme::$parent_theme!==NULL AND file_exists(self::theme_folder(Theme::$parent_theme).'/'.$file))
         {
             return self::theme_folder(Theme::$parent_theme).'/'.$file;
@@ -557,8 +557,25 @@ class Theme {
             'License'     => 'License',
             'Tags'        => 'Tags',
             'Mobile'      => 'Mobile',
+            'Parent'      => 'Parent Theme',
         )); 
     }
+
+    /**
+     * returns the parent from the header at init.php, used in cases where theme is not loaded from the init.php
+     * @param  string $theme theme to search info
+     * @return string/false        
+     */
+    public static function get_theme_parent($theme = NULL)
+    {
+        if ($theme === NULL)
+            $theme = self::$theme;
+
+        $info = self::get_theme_info($theme);
+        return ($info['Parent']!='')?$info['Parent']:FALSE;
+    }
+
+
 
     /**
      * returns the screenshot
@@ -734,20 +751,27 @@ class Theme {
         //getting the licenses unique. to avoid downloading twice
         $themes = core::config('theme');
 
+        //child  theme can use parent license, so we remove the parent from the list
+        $parent_theme = self::get_theme_parent($current_theme);
+        if ( $parent_theme !==FALSE AND isset($themes[$parent_theme]))
+            unset($themes[$parent_theme]);
+
+        //remove current theme from themes checking list
+        if (isset($themes[$current_theme]))
+            unset($themes[$current_theme]);
+
+        //for the remaining themes checking the values
         foreach ($themes as $theme=>$settings) 
         {
-            //do not check the license for current theme
-            if ($theme != $current_theme)
+            $settings = json_decode($settings,TRUE);
+            //theme has a license 
+            if (isset($settings['license']))
             {
-                $settings = json_decode($settings,TRUE);
-                //theme has a license and already is in use...so do not activate
-                if (isset($settings['license']))
+                //license is already in use in that theme
+                if ($settings['license'] == $l)
                 {
-                    if ($settings['license'] == $l)
-                    {
-                        Alert::set(Alert::INFO, sprintf(__('This license is in use in the theme %s'),$theme));
-                        return FALSE;
-                    }
+                    Alert::set(Alert::INFO, sprintf(__('This license is in use in the theme %s'),$theme));
+                    return FALSE;
                 }
             }
         }
@@ -858,8 +882,20 @@ class Theme {
         if ($theme === NULL)
             $theme = self::$theme;
 
-        $options = self::theme_folder($theme).DIRECTORY_SEPARATOR.'options.php';
-        if (file_exists($options))
+        $options = self::file_path('options.php', $theme);
+
+        //no options file found, let's try the parent
+        if($options===FALSE)
+        {
+            //child  theme can use parent license
+            if ( ($parent = self::get_theme_parent($theme))!==FALSE )
+                $theme = $parent;
+
+            $options = self::file_path('options.php', $theme);
+        }
+
+        //$options = self::theme_folder($theme).DIRECTORY_SEPARATOR.'options.php';
+        if ($options!==FALSE)
             return Kohana::load($options);
         else 
             return array();

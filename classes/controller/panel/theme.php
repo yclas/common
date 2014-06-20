@@ -111,7 +111,7 @@ class Controller_Panel_Theme extends Auth_Controller {
             $opt = Theme::get_options($theme);
             Theme::load($theme,FALSE);
 
-            if (isset($opt['premium']) AND Theme::get('license')==NULL)
+            if (isset($opt['premium']) AND Theme::get('license')===NULL)
             {
                  $this->redirect(Route::url('oc-panel',array('controller'=>'theme','action'=> 'license','id'=>$theme) ));
             }

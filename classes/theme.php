@@ -249,7 +249,12 @@ class Theme {
     public static function public_path($file, $theme = NULL)
     {
         if ($theme === NULL)
+        {
             $theme = self::$theme;
+            $parent_theme = Theme::$parent_theme;
+        }
+        else
+            $parent_theme = self::get_theme_parent($theme);
 
         //getting the public url only if was not external
         if (!Valid::url($file))
@@ -270,9 +275,9 @@ class Theme {
                 return $uri.$theme.DIRECTORY_SEPARATOR.$file;
             }
             //check if the parent has the file
-            elseif (Theme::$parent_theme!==NULL AND file_exists(self::theme_folder(Theme::$parent_theme).'/'.$file_check))
+            elseif ($parent_theme!==NULL AND file_exists(self::theme_folder($parent_theme).'/'.$file_check))
             {
-                return $uri.Theme::$parent_theme.DIRECTORY_SEPARATOR.$file;
+                return $uri.$parent_theme.DIRECTORY_SEPARATOR.$file;
             }
             //lastly check at default theme as last resource
             elseif (file_exists(self::theme_folder('default').'/'.$file_check))
@@ -466,6 +471,7 @@ class Theme {
 
     }
 
+
      /**
      * sets the theme we need to use in front
      * @param string $theme 
@@ -501,6 +507,7 @@ class Theme {
 
     }
     
+
     /**
      * Read the folder /themes/ for themes
      * @param  boolean $only_mobile set to true an returns the mobile themes
@@ -533,6 +540,7 @@ class Theme {
         return $themes;
     }
 
+
     /**
      * returns the info regarding to the theme stores at init.php
      * @param  string $theme theme to search info
@@ -561,6 +569,7 @@ class Theme {
         )); 
     }
 
+
     /**
      * returns the parent from the header at init.php, used in cases where theme is not loaded from the init.php
      * @param  string $theme theme to search info
@@ -572,9 +581,8 @@ class Theme {
             $theme = self::$theme;
 
         $info = self::get_theme_info($theme);
-        return ($info['Parent']!='')?$info['Parent']:FALSE;
+        return ($info['Parent']!='')?$info['Parent']:NULL;
     }
-
 
 
     /**
@@ -584,13 +592,10 @@ class Theme {
      */
     public static function get_theme_screenshot($theme = NULL)
     {
-
         if ($theme === NULL)
             $theme = self::$theme;
 
         return self::public_path('screenshot.png',$theme);
-
-        return FALSE;
     }
 
 
@@ -616,7 +621,6 @@ class Theme {
             return View::factory('oc-panel/admin_link',$data);
         }
     }
-
 
 
     /**
@@ -753,7 +757,7 @@ class Theme {
 
         //child  theme can use parent license, so we remove the parent from the list
         $parent_theme = self::get_theme_parent($current_theme);
-        if ( $parent_theme !==FALSE AND isset($themes[$parent_theme]))
+        if ( $parent_theme !==NULL AND isset($themes[$parent_theme]))
             unset($themes[$parent_theme]);
 
         //remove current theme from themes checking list

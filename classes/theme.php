@@ -892,10 +892,11 @@ class Theme {
         if($options===FALSE)
         {
             //child  theme can use parent license
-            if ( ($parent = self::get_theme_parent($theme))!==FALSE )
-                $theme = $parent;
-
-            $options = self::file_path('options.php', $theme);
+            if ( ($parent = self::get_theme_parent($theme))!==NULL )
+            {
+                $options = self::file_path('options.php', $parent);
+            }
+                
         }
 
         //$options = self::theme_folder($theme).DIRECTORY_SEPARATOR.'options.php';

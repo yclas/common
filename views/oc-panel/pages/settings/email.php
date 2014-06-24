@@ -33,31 +33,37 @@
 				<div class="form-group">
 					<?= FORM::label($forms['smtp_active']['key'], __('Smtp active'), array('class'=>'control-label col-sm-3', 'for'=>$forms['smtp_active']['key']))?>
 					<div class="col-sm-4">
-						<?= FORM::select($forms['smtp_active']['key'], array(FALSE=>'FALSE',TRUE=>'TRUE'), $forms['smtp_active']['value'], array(
-						'placeholder' => "TRUE or FALSE", 
-						'class' => 'tips form-control', 
-						'id' => $forms['smtp_active']['key'], 
-						'data-content'=> '',
-						'data-trigger'=>"hover",
-						'data-placement'=>"right",
-						'data-toggle'=>"popover",
-						'data-original-title'=>'',
-						))?> 
+                        <div class="onoffswitch">
+                            <?= Form::checkbox($forms['smtp_active']['key'], 1, (bool) $forms['smtp_active']['value'], array(
+                            'placeholder' => "TRUE or FALSE", 
+                            'class' => 'onoffswitch-checkbox', 
+							'id' => $forms['smtp_active']['key'], 
+							'data-content'=> '',
+							'data-trigger'=>"hover",
+							'data-placement'=>"right",
+							'data-toggle'=>"popover",
+							'data-original-title'=>'',
+                            ))?>
+                            <?= FORM::label($forms['smtp_active']['key'], "<span class='onoffswitch-inner'></span><span class='onoffswitch-switch'></span>", array('class'=>'onoffswitch-label', 'for'=>$forms['smtp_active']['key']))?>
+                        </div>
 					</div>
 				</div>
                 <div class="form-group">
                     <?= FORM::label($forms['smtp_ssl']['key'], __('Smtp ssl'), array('class'=>'control-label col-sm-3', 'for'=>$forms['smtp_ssl']['key']))?>
                     <div class="col-sm-4">
-                        <?= FORM::select($forms['smtp_ssl']['key'], array(FALSE=>'FALSE',TRUE=>'TRUE'), $forms['smtp_ssl']['value'], array(
-                        'placeholder' => "TRUE or FALSE", 
-                        'class' => 'tips form-control', 
-                        'id' => $forms['smtp_ssl']['key'], 
-						'data-content'=> '',
-						'data-trigger'=>"hover",
-						'data-placement'=>"right",
-						'data-toggle'=>"popover",
-						'data-original-title'=>'',                     
-						))?> 
+                        <div class="onoffswitch">
+                            <?= Form::checkbox($forms['smtp_ssl']['key'], 1, (bool) $forms['smtp_ssl']['value'], array(
+                            'placeholder' => "TRUE or FALSE", 
+                            'class' => 'onoffswitch-checkbox', 
+							'id' => $forms['smtp_ssl']['key'], 
+							'data-content'=> '',
+							'data-trigger'=>"hover",
+							'data-placement'=>"right",
+							'data-toggle'=>"popover",
+							'data-original-title'=>'',                     
+                            ))?>
+                            <?= FORM::label($forms['smtp_ssl']['key'], "<span class='onoffswitch-inner'></span><span class='onoffswitch-switch'></span>", array('class'=>'onoffswitch-label', 'for'=>$forms['smtp_ssl']['key']))?>
+                        </div>
                     </div>
                 </div>
 				<div class="form-group">
@@ -139,16 +145,19 @@
 				<div class="form-group">
 					<?= FORM::label($forms['new_ad_notify']['key'], __('Notify me on new ad'), array('class'=>'control-label col-sm-3', 'for'=>$forms['new_ad_notify']['key']))?>
 					<div class="col-sm-4">
-						<?= FORM::select($forms['new_ad_notify']['key'], array(FALSE=>'FALSE',TRUE=>'TRUE'), $forms['new_ad_notify']['value'], array(
-						'placeholder' => "TRUE or FALSE",
-						'class' => 'tips form-control', 
-						'id' => $forms['new_ad_notify']['key'], 
-						'data-content'=> '',
-						'data-trigger'=>"hover",
-						'data-placement'=>"right",
-						'data-toggle'=>"popover",
-						'data-original-title'=>'',
-						))?> 
+                        <div class="onoffswitch">
+                            <?= Form::checkbox($forms['new_ad_notify']['key'], 1, (bool) $forms['new_ad_notify']['value'], array(
+                            'placeholder' => "TRUE or FALSE", 
+                            'class' => 'onoffswitch-checkbox', 
+							'id' => $forms['new_ad_notify']['key'], 
+							'data-content'=> '',
+							'data-trigger'=>"hover",
+							'data-placement'=>"right",
+							'data-toggle'=>"popover",
+							'data-original-title'=>'',                     
+                            ))?>
+                            <?= FORM::label($forms['new_ad_notify']['key'], "<span class='onoffswitch-inner'></span><span class='onoffswitch-switch'></span>", array('class'=>'onoffswitch-label', 'for'=>$forms['new_ad_notify']['key']))?>
+                        </div>
 					</div>
 				</div>
 				

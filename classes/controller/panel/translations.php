@@ -59,12 +59,10 @@ class Controller_Panel_Translations extends Auth_Controller {
             try {
                 $locale->save();
                 Alert::set(Alert::SUCCESS,'');
-                HTTP::redirect(Route::url('oc-panel',array('controller'  => 'translations')));  
-
-
             } catch (Exception $e) {
                 throw HTTP_Exception::factory(500,$e->getMessage());
             }
+            HTTP::redirect(Route::url('oc-panel',array('controller'  => 'translations'))); 
         }
 
         $this->template->content = View::factory('oc-panel/pages/translations/index',array('languages' => i18n::get_languages(),

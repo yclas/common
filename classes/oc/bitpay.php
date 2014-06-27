@@ -10,7 +10,7 @@
  * @license    GPL v3
  */
 
-class Bitpay {
+class OC_Bitpay {
 
     /**
      * from here to down are the functions provided by bitpay I've tried to modify them as little as possible.

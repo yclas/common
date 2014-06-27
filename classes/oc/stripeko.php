@@ -10,4 +10,15 @@
  * @license    GPL v3
  */
 
-class OC_StripeKO {}
+class OC_StripeKO {
+    
+    /**
+     * formats an amount to the correct format for paymill. 2.50 == 250
+     * @param  float $amount 
+     * @return string         
+     */
+    public static function money_format($amount)
+    {
+        return $amount*100;
+    }
+}

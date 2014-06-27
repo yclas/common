@@ -46,7 +46,7 @@ class OC_Paymill {
             CURLOPT_CUSTOMREQUEST  => 'POST',
             CURLOPT_USERAGENT      => 'Paymill-php/0.0.2',
             CURLOPT_SSL_VERIFYPEER => true,
-            CURLOPT_CAINFO         =>  APPPATH.'config/paymill.crt',
+            CURLOPT_CAINFO         =>  COMMONPATH.'config/paymill.crt',
         );
 
         $curlOpts[ CURLOPT_POSTFIELDS ] = http_build_query( $params, null, '&' );

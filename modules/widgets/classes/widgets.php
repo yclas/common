@@ -71,6 +71,27 @@ class Widgets {
 		return $widgets;
 	}
 
+    /**
+     * shortcut that returns already the widgets rendered, but only those that can be rendered!!
+     * @param  string $name_placeholder 
+     * @return array                   
+     */
+    public static function render($name_placeholder)
+    {
+        $renders = array();
+
+        $widgets = self::get($name_placeholder);
+
+        foreach ($widgets as $widget) 
+        {
+            //only if renders returns something
+            if ( ($out = $widget->render())!==FALSE )
+                $renders[] = $out;
+        }
+
+        return $renders;
+    }
+
 	/**
 	 * returns all the widgets 
 	 * @param bool $only_names, returns only an array with the widgets names, if not array with widgets instances

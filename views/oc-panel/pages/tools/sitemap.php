@@ -23,12 +23,15 @@
       <div class="form-group">
         <label class="control-label col-sm-2"><?=__("Update on publish")?>:</label>
           <div class="col-sm-4"> 
-            <? $input = array("1"=>"TRUE","0"=>"FALSE");?>
-              <?= FORM::select('on_post', $input, core::config('sitemap.on_post'), array(
-              'placeholder' => 'on_post' ,
-              'class' => 'col-md-2', 
+            <div class="onoffswitch">
+              <?= FORM::hidden('on_post', 0);?>
+              <?= FORM::checkbox('on_post', 1, (bool) core::config('sitemap.on_post'), array(
+              'placeholder' => 'on_post', 
+              'class' => 'onoffswitch-checkbox', 
               'id' => 'on_post', 
               ))?>
+              <?= FORM::label('on_post', "<span class='onoffswitch-inner'></span><span class='onoffswitch-switch'></span>", array('class'=>'onoffswitch-label', 'for'=>'on_post'))?>
+            </div>
           </div>
       </div>
       

@@ -91,7 +91,7 @@ class Model_Content extends ORM {
     public static function get_by_title($seotitle, $type = 'page')
     {   
         //we remove the '.' replace them by _ since its not allowed as seo title. Just in case we forgot somewhere in the code a '.'
-        $seotitle = str_replace('.', '_', $seotitle);
+        $seotitle = str_replace('.', '-', $seotitle);
 
         $content = new self();
         $content = $content->where('seotitle','=', $seotitle)

@@ -17,7 +17,7 @@
         <th></th>
     </tr>
 <?foreach ($languages as $language):?>
-    <tr>
+    <tr class="<?=($language==$current_language)?'success':''?>">
         <td><?=$language?></td>
         <td width="5%">
             

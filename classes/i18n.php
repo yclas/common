@@ -136,6 +136,9 @@ class I18n extends Kohana_I18n {
                 $languages[$file->getFilename()] = $file->getFilename();
             }
         }
+        
+        //alphabetical order
+        asort($languages);
 
         return $languages;
     }

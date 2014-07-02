@@ -58,7 +58,7 @@ class Controller_Panel_Translations extends Auth_Controller {
             $locale->config_value = $this->request->param('id');
             try {
                 $locale->save();
-                Alert::set(Alert::SUCCESS,'');
+                Alert::set(Alert::SUCCESS,__('Translations regenarated'));
             } catch (Exception $e) {
                 throw HTTP_Exception::factory(500,$e->getMessage());
             }
@@ -80,7 +80,7 @@ class Controller_Panel_Translations extends Auth_Controller {
             $default_mo = DOCROOT.'languages/'.$language.'/LC_MESSAGES/messages.mo';
         }
         else
-             HTTP::redirect(Route::url('oc-panel',array('controller'  => 'translations')));  
+            HTTP::redirect(Route::url('oc-panel',array('controller'  => 'translations')));  
 
 
         Breadcrumbs::add(Breadcrumb::factory()->set_title(__('Edit Translation')));  

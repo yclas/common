@@ -3,9 +3,9 @@
 <div class="page-header">
 	<h1><?=__('Cache')?></h1>
     <p><?=__('Cache configuration information')?></p>
-    <a class="btn btn-warning pull-right" href="<?=Route::url('oc-panel',array('controller'=>'tools','action'=>'cache'))?>?force=1">
+    <a class="btn btn-warning pull-right ajax-load" href="<?=Route::url('oc-panel',array('controller'=>'tools','action'=>'cache'))?>?force=1">
         <?=__('Delete all')?></a>
-    <a class="btn btn-primary pull-right" href="<?=Route::url('oc-panel',array('controller'=>'tools','action'=>'cache'))?>?force=2">
+    <a class="btn btn-primary pull-right ajax-load" href="<?=Route::url('oc-panel',array('controller'=>'tools','action'=>'cache'))?>?force=2">
         <?=__('Delete expired')?></a>
 </div>
 

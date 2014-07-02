@@ -6,7 +6,7 @@
 
     <a class="btn btn-warning pull-right" href="<?=Route::url('oc-panel',array('controller'=>'translations','action'=>'index'))?>?parse=1" >
         <?=__('Scan')?></a>
-    <a class="btn btn-primary pull-right" href="http://open-classifieds.com/documentation/translate/"><?=__('New translation')?></a>
+    <a class="btn btn-primary pull-right ajax-load" href="http://open-classifieds.com/documentation/translate/"><?=__('New translation')?></a>
 
 </div>
 
@@ -21,7 +21,7 @@
         <td><?=$language?></td>
         <td width="5%">
             
-            <a class="btn btn-warning" 
+            <a class="btn btn-warning ajax-load" 
                 href="<?=Route::url('oc-panel', array('controller'=>'translations','action'=>'edit','id'=>$language))?>" 
                 rel"tooltip" title="<?=__('Edit')?>">
                 <i class="glyphicon glyphicon-pencil"></i>

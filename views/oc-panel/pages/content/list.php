@@ -9,9 +9,9 @@
         <h1><?=__('FAQ')?></h1>
     <?endif?>
 </div>
-<a class="btn btn-primary pull-right" 
+<a class="btn btn-primary pull-right ajax-load" 
     href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'create')).'?type='.$type ?>" 
-    rel="tooltip" title="<?=__('Edit')?>">
+    rel="tooltip" title="<?=__('New')?>">
     <?=__('New')?>
 </a>
 
@@ -46,7 +46,7 @@
             <td><?=$content->status?></td>
             <td width="5%">
                 
-                <a class="btn btn-primary" 
+                <a class="btn btn-primary ajax-load" 
                     href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'edit','id'=>$content))?>" 
                     rel="tooltip" title="<?=__('Edit')?>">
                     <i class="glyphicon   glyphicon-edit"></i>

@@ -3,7 +3,7 @@
 <div class="page-header">
     <h1><?=__('Forums')?></h1>
     <p><?=__("Change the order of your forums. Keep in mind that more than 2 levels nested probably won´t be displayed in the theme (it is not recommended).")?></p>
-    <a class="btn btn-primary pull-right" href="<?=Route::url('oc-panel',array('controller'=>'forum','action'=>'create'))?>">
+    <a class="btn btn-primary pull-right ajax-load" href="<?=Route::url('oc-panel',array('controller'=>'forum','action'=>'create'))?>">
   <?=__('New forum')?></a>
 </div>
 
@@ -18,7 +18,7 @@
                     <i class="glyphicon glyphicon-trash"></i>
         </a>
 
-        <a class="btn btn-xs btn-primary pull-right" 
+        <a class="btn btn-xs btn-primary pull-right ajax-load" 
             href="<?=Route::url('oc-panel',array('controller'=>'forum','action'=>'update','id'=>$key))?>">
             <?=__('Edit')?>
         </a>

@@ -1,13 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 
 <div class="page-header">
-    <?if($type == 'page'):?>
-        <h1><?=__('Create').' '.__('Page')?></h1>
-    <?elseif($type == 'email'):?>
-        <h1><?=__('Create').' '.__('Email')?></h1>
-    <?elseif($type == 'help'):?>
-        <h1><?=__('Create').' '.__('FAQ')?></h1>
-    <?endif?>
+    <h1><?=__('Create')?> <?=Controller_Panel_Content::translate_type($type)?></h1>
 </div>
 
  <?= FORM::open(Route::url('oc-panel',array('controller'=>'content','action'=>'create')), array('class'=>'form-horizontal', 'enctype'=>'multipart/form-data'))?>
@@ -31,7 +25,7 @@
         </div>
     </div>
     
-    <?if($_REQUEST['type'] == 'email'):?>
+    <?if(core::request('type') == 'email'):?>
     <div class="form-group">
         <?= FORM::label('from_email', __('From email'), array('class'=>'control-label col-md-2', 'for'=>'from_email'))?>
         <div class="col-sm-4">
@@ -39,14 +33,14 @@
         </div>
     </div>
     <?endif?>
-    <?if($_REQUEST['type'] == 'email'):?>
+
     <div class="form-group">
         <?= FORM::label('seotitle', __('Seotitle'), array('class'=>'control-label col-md-2', 'for'=>'seotitle'))?>
         <div class="col-sm-4">
             <?= FORM::input('seotitle', '', array('placeholder' => __('seotitle'), 'class' => 'form-control', 'id' => 'seotitle'))?>
         </div>
     </div>
-    <?endif?>
+
     <div class="form-group">
         <div class="col-sm-4">
             <?= FORM::hidden('type', $type, array('placeholder' => __('Type'), 'class' => 'form-control', 'id' => 'type'))?>
@@ -56,7 +50,7 @@
     
         <div class="col-sm-offset-2 col-sm-10">
             <label class="status checkbox">
-                <?=__('Status')?><input type="checkbox" name="status" >
+                <?=__('Active')?><input type="checkbox" name="status" >
             </label>
         </div>
     </div>

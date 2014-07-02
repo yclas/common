@@ -2,13 +2,7 @@
 
 
 <div class="page-header">
-    <?if($cont->type == 'page'):?>
-        <h1><?=__('Edit').' '.__('Page')?></h1>
-    <?elseif($cont->type == 'email'):?>
-        <h1><?=__('Edit').' '.__('Email')?></h1>
-    <?elseif($cont->type == 'help'):?>
-        <h1><?=__('Edit').' '.__('FAQ')?></h1>
-    <?endif?>
+    <h1><?=__('Edit')?> <?=Controller_Panel_Content::translate_type($cont->type)?></h1>
 </div>
 
  <?= FORM::open(Route::url('oc-panel',array('controller'=>'content','action'=>'edit','id'=>$cont->id_content)), array('class'=>'form-horizontal', 'enctype'=>'multipart/form-data'))?>
@@ -31,8 +25,27 @@
             <?= FORM::textarea('description', $cont->description, array('id' => 'description','class' => 'form-control', 'data-editor'=>($cont->type != 'email')?'html':'bbcode'))?>
         </div>
     </div>
+
+    <?if($cont->type == 'email'):?>
     <div class="form-group">
-    <?= FORM::label('status', __('Status'), array('class'=>'control-label col-md-2', 'for'=>'status'))?>
+        <?= FORM::label('from_email', __('From email'), array('class'=>'control-label col-md-2', 'for'=>'from_email'))?>
+        <div class="col-sm-4">
+            <?= FORM::input('from_email', $cont->from_email, array('placeholder' => __('from_email'), 'class' => 'form-control', 'id' => 'from_email'))?>
+        </div>
+    </div>
+    <?endif?>
+
+    <?if($cont->type != 'email'):?>
+    <div class="form-group">
+        <?= FORM::label('seotitle', __('Seotitle'), array('class'=>'control-label col-md-2', 'for'=>'seotitle'))?>
+        <div class="col-sm-4">
+            <?= FORM::input('seotitle', $cont->seotitle, array('placeholder' => __('seotitle'), 'class' => 'form-control', 'id' => 'seotitle'))?>
+        </div>
+    </div>
+    <?endif?>
+
+    <div class="form-group">
+    <?= FORM::label('status', __('Active'), array('class'=>'control-label col-md-2', 'for'=>'status'))?>
         <div class="col-sm-4">
             <label class="status">
                 <input type="checkbox" value="<?=$cont->status?>" name="status" <?=($cont->status == TRUE)?'checked':''?> >

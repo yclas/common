@@ -226,6 +226,37 @@ class Model_Content extends ORM {
         return $return;
     }
 
+
+    public static function copy($from_locale,$to_locale,$type)
+    {
+        //get the contents for type locale
+        $contents = Model_Content::get_contents($type,$to_locale);
+
+        //only if theres no existent content
+        if (count($contents)==0)
+        {
+            $prefix = Database::instance()->table_prefix();
+
+            $query = "INSERT INTO ".$prefix."content (locale,`order`,title,seotitle,description,from_email,type,status)
+                        SELECT '".$to_locale."',`order`,title,seotitle,description,from_email,type,status
+                        FROM ".$prefix."content
+                        WHERE type='".$type."' AND locale='".$from_locale."'";
+            try
+            {
+                DB::query(Database::DELETE,$query)->execute();
+            }
+            catch (Exception $e) 
+            {
+                Alert::set(Alert::ERROR, $e->getMessage());
+            }
+
+            return TRUE;
+            
+        }
+
+        return FALSE;
+    }
+
     protected $_table_columns =  
 array (
   'id_content' => 

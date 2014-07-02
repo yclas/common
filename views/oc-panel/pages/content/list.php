@@ -1,15 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 
 <div class="page-header">
-    <?if($type == 'page'):?>
-        <h1><?=__('Page')?></h1>
-    <?elseif($type == 'email'):?>
-        <h1><?=__('Email')?></h1>
-    <?elseif($type == 'help'):?>
-        <h1><?=__('FAQ')?></h1>
-    <?endif?>
+    <h1><?=Controller_Panel_Content::translate_type($type)?></h1>
 </div>
-<a class="btn btn-primary pull-right" 
+
+<a class="btn btn-primary pull-right ajax-load" 
     href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'create')).'?type='.$type ?>" 
     rel="tooltip" title="<?=__('Edit')?>">
     <?=__('New')?>
@@ -27,6 +22,8 @@
         </div>
     </div>
 <?= FORM::close()?>
+
+<?if (count($contents)>0):?>
 <table class="table table-bordered">
     <tr>
         <th><?=__('Title')?></th>
@@ -38,12 +35,12 @@
     </tr>
 <?foreach ($contents as $content):?>
     <?if(isset($content->title)):?>
-        <tr>
+        <tr id="tr<?=$content->id_content?>">
             <td><?=$content->title?></td>
             <td><?=$content->locale?></td>
             <td><?=$content->created?></td>
             <td><?=$content->seotitle?></td>
-            <td><?=$content->status?></td>
+            <td><?=($content->status==1)?__('Yes'):__('No')?></td>
             <td width="5%">
                 
                 <a class="btn btn-primary" 
@@ -51,7 +48,8 @@
                     rel="tooltip" title="<?=__('Edit')?>">
                     <i class="glyphicon   glyphicon-edit"></i>
                 </a>
-                <a class="btn btn-danger" 
+                <a class="btn btn-danger index-delete"  data-text="<?=__('Are you sure you want to delete?')?>" 
+                        data-id="tr<?=$content->id_content?>"
                     href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'delete','id'=>$content))?>" 
                     rel="tooltip" title="<?=__('Delete')?>">
                     <i class="glyphicon   glyphicon-trash"></i>
@@ -60,6 +58,10 @@
             </td>
         </tr>
     <?endif?>
-    
 <?endforeach?>
+<?else:?>
+    <a class="btn btn-warning btn-lg pull-right" href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'copy'))?>?to_locale=<?=$locale?>&type=<?=$type?>"  >
+         <?=sprintf(__('Create all new %s from original'),$type)?>
+    </a>
+<?endif?>
 </table>

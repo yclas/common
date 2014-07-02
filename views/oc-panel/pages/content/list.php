@@ -27,18 +27,14 @@
 <table class="table table-bordered">
     <tr>
         <th><?=__('Title')?></th>
-        <th><?=__('locale')?></th>
-        <th><?=__('created')?></th>
-        <th><?=__('seotitle')?></th>
-        <th><?=__('status')?></th>
+        <th><?=__('Seo Title')?></th>
+        <th><?=__('Active')?></th>
         <th></th>
     </tr>
 <?foreach ($contents as $content):?>
     <?if(isset($content->title)):?>
         <tr id="tr<?=$content->id_content?>">
             <td><?=$content->title?></td>
-            <td><?=$content->locale?></td>
-            <td><?=$content->created?></td>
             <td><?=$content->seotitle?></td>
             <td><?=($content->status==1)?__('Yes'):__('No')?></td>
             <td width="5%">

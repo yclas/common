@@ -209,7 +209,7 @@ class Controller_Panel_Content extends Auth_Controller {
 
     public function action_copy()
     {
-        $from_locale   = core::get('from_locale','en_UK');
+        $from_locale   = core::get('from_locale',i18n::$locale_default);
         $to_locale     = core::get('to_locale');
         $type          = core::get('type');
 

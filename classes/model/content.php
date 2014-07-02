@@ -105,7 +105,7 @@ class Model_Content extends ORM {
         {
 
             $content = $content->where('seotitle','=', $seotitle)
-                 ->where('locale','=', 'en_UK')
+                 ->where('locale','=', i18n::$locale_default)
                  ->where('type','=', $type)
                  ->where('status','=', 1)
                  ->limit(1)->cached()->find();
@@ -116,7 +116,6 @@ class Model_Content extends ORM {
         {
 
             $content = $content->where('seotitle','=', $seotitle)
-                 //->where('locale','=', 'en_UK')
                  ->where('type','=', $type)
                  ->where('status','=', 1)
                  ->limit(1)->cached()->find();

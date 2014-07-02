@@ -5,7 +5,7 @@
 		<h1><?=__('Sitemap')?></h1>
     <p><?=__('Last time generated')?> <?=Date::unix2mysql(Sitemap::last_generated_time())?></p>
     <p><?=__('Next sitemap')?> <?=Date::unix2mysql(Sitemap::last_generated_time()+core::config('sitemap.expires'))?></p>
-    <a class="btn btn-primary pull-right" href="<?=Route::url('oc-panel',array('controller'=>'tools','action'=>'sitemap'))?>?force=1">
+    <a class="btn btn-primary pull-right ajax-load" href="<?=Route::url('oc-panel',array('controller'=>'tools','action'=>'sitemap'))?>?force=1">
       <?=__('Generate')?></a>
 	</div>
 

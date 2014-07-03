@@ -31,70 +31,79 @@ class OC_Email {
         //get the template from the html email boilerplate
         $body = View::factory('email',array('title'=>$subject,'content'=>$body))->render();
 
-        $mail= new PHPMailer();
-        $mail->CharSet = Kohana::$charset;
-
-        if(core::config('email.smtp_active') == TRUE)
-        { 
-            $mail->IsSMTP();
-
-            //SMTP HOST config
-            if (core::config('email.smtp_host')!="")
-            {
-                $mail->Host       = core::config('email.smtp_host');              // sets custom SMTP server
-            }
-
-            //SMTP PORT config
-            if (core::config('email.smtp_port')!="")
-            {
-                $mail->Port       = core::config('email.smtp_port');              // set a custom SMTP port
-            }
-
-            //SMTP AUTH config
-
-            if (core::config('email.smtp_auth') == TRUE)
-            {
-                $mail->SMTPAuth   = TRUE;                                                  // enable SMTP authentication
-                $mail->Username   = core::config('email.smtp_user');              // SMTP username
-                $mail->Password   = core::config('email.smtp_pass');              // SMTP password
-               
-
-                if (core::config('email.smtp_ssl') == TRUE)
-                {
-                    $mail->SMTPSecure = "ssl";                  // sets the prefix to the server
-                }
-                    
-            }
-        }
-
-        $mail->From       = core::config('email.notify_email');
-        $mail->FromName   = "no-reply ".core::config('general.site_name');
-        $mail->Subject    = $subject;
-        $mail->MsgHTML($body);
-
-        if($file !== NULL) 
-            $mail->AddAttachment($file['tmp_name'],$file['name']);
-
-        $mail->AddReplyTo($reply,$replyName);//they answer here
-
-        if (is_array($to))
+        //sendign via elasticemail
+        if (Core::config('email.elastic_active')==TRUE)
         {
-            foreach ($to as $contact) 
-                $mail->AddBCC($contact['email'],$contact['name']);               
+            return self::ElasticEmail($to,$to_name, $subject, $body, core::config('email.notify_email'), "no-reply ".core::config('general.site_name'));
         }
         else
-            $mail->AddAddress($to,$to_name);
+        {
+            $mail= new PHPMailer();
+            $mail->CharSet = Kohana::$charset;
 
-        $mail->IsHTML(TRUE); // send as HTML
+            if(core::config('email.smtp_active') == TRUE)
+            { 
+                $mail->IsSMTP();
 
-        if(!$mail->Send()) 
-        {//to see if we return a message or a value bolean
-            Alert::set(Alert::ALERT,"Mailer Error: " . $mail->ErrorInfo);
-            return FALSE;
-        } 
-        else 
-            return TRUE;
-        
+                //SMTP HOST config
+                if (core::config('email.smtp_host')!="")
+                {
+                    $mail->Host       = core::config('email.smtp_host');              // sets custom SMTP server
+                }
+
+                //SMTP PORT config
+                if (core::config('email.smtp_port')!="")
+                {
+                    $mail->Port       = core::config('email.smtp_port');              // set a custom SMTP port
+                }
+
+                //SMTP AUTH config
+
+                if (core::config('email.smtp_auth') == TRUE)
+                {
+                    $mail->SMTPAuth   = TRUE;                                                  // enable SMTP authentication
+                    $mail->Username   = core::config('email.smtp_user');              // SMTP username
+                    $mail->Password   = core::config('email.smtp_pass');              // SMTP password
+                   
+
+                    if (core::config('email.smtp_ssl') == TRUE)
+                    {
+                        $mail->SMTPSecure = "ssl";                  // sets the prefix to the server
+                    }
+                        
+                }
+            }
+
+            $mail->From       = core::config('email.notify_email');
+            $mail->FromName   = "no-reply ".core::config('general.site_name');
+            $mail->Subject    = $subject;
+            $mail->MsgHTML($body);
+
+            if($file !== NULL) 
+                $mail->AddAttachment($file['tmp_name'],$file['name']);
+
+            $mail->AddReplyTo($reply,$replyName);//they answer here
+
+            if (is_array($to))
+            {
+                foreach ($to as $contact) 
+                    $mail->AddBCC($contact['email'],$contact['name']);               
+            }
+            else
+                $mail->AddAddress($to,$to_name);
+
+            $mail->IsHTML(TRUE); // send as HTML
+
+            if(!$mail->Send()) 
+            {//to see if we return a message or a value bolean
+                Alert::set(Alert::ALERT,"Mailer Error: " . $mail->ErrorInfo);
+                return FALSE;
+            } 
+            else 
+                return TRUE;
+        }
+
+        return FALSE;
  
     }
 
@@ -152,7 +161,8 @@ class OC_Email {
             return Email::send($to,$to_name,$subject,$body,$from,$from_name, $file_upload); 
 
         }
-        else return FALSE;
+        else 
+            return FALSE;
 
     }
 
@@ -180,5 +190,90 @@ class OC_Email {
             return TRUE;
         }
     }
+
+
+
+    /**
+     * Send Elastic Email using cURL (libcurl) in PHP
+     *
+     */
+    public static function ElasticEmail($to,$to_name='', $subject, $body_html, $from, $from_name) {
+        
+        // Initialize cURL
+        $ch = curl_init();
+        
+        // Set cURL options
+        curl_setopt($ch, CURLOPT_URL, 'https://api.elasticemail.com/mailer/send');
+        curl_setopt($ch, CURLOPT_POST, 1);
+
+        // Parameter data
+        // $data = array( 
+        //     'username'  => Core::config('email.elastic_username'), 
+        //     'api_key'   => Core::config('email.elastic_username'), 
+        //     'from'      => $from, 
+        //     'from_name' => $from_name, 
+        //     'to'        => $to, 
+        //     'is_html'   => "true", 
+        //     'subject'   => $subject, 
+        //     'body'      => $body 
+        // );
+
+        //multiple recipients in elasctic sent as BCC internally
+        if (is_array($to))
+        {
+            $to_aux = '';
+            foreach ($to as $contact) 
+                 $to_aux .= $contact['name'].' <'.$contact['email'].'>;';
+
+             $to = $to_aux;
+        }
+        elseif($to_name!='')
+            $to = $to_name . ' <'.$to.'>;';
+        
+
+
+        $data = 'username='.urlencode(Core::config('email.elastic_username')).
+                '&api_key='.urlencode(Core::config('email.elastic_username')).
+                '&from='.urlencode($from).
+                '&from_name='.urlencode($from_name).
+                '&to='.urlencode($to).
+                '&subject='.urlencode($subject).
+                '&body_html='.urlencode($body_html);
+        
+        // Set parameter data to POST fields
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+        // Header data
+            $header = "Content-Type: application/x-www-form-urlencoded\r\n";
+            $header .= "Content-Length: ".strlen($data)."\r\n\r\n";
+
+        // Set header
+        curl_setopt($ch, CURLOPT_HEADER, $header);
+
+        //timeout
+        curl_setopt($ch,CURLOPT_TIMEOUT, 2);
+        
+        // Set to receive server response
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+        // Set cURL to verify SSL
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        
+        // Get result
+        $result = curl_exec($ch);
+        
+        // Close cURL
+        curl_close($ch);
+        
+        return ($result === false) ? FALSE : TRUE;
+
+        // Return the response or NULL on failure
+        //  return ($result === false) ? NULL : $result;
+        
+        // Alternative error checking return
+        // return ($result === false) ? 'Curl error: ' . curl_error($ch): $result;
+    }
+  
+
 
 } //end email

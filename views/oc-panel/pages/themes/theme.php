@@ -16,7 +16,7 @@
         <p>
             <span class="label label-info"><?=__('Current Theme')?></span>
             <?if (Theme::has_options()):?>
-            <a class="btn btn-xs btn-primary" title="<?=__('Theme Options')?>" 
+            <a class="btn btn-xs btn-primary ajax-load" title="<?=__('Theme Options')?>" 
                 href="<?=Route::url('oc-panel',array('controller'=>'theme','action'=>'options'))?>">
                 <i class="glyphicon  glyphicon-wrench glyphicon"></i> </a>
             <?endif?>

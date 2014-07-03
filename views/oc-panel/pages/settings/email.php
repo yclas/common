@@ -30,6 +30,81 @@
 						))?> 
 					</div>
 				</div>
+
+                <div class="form-group">
+                    <?= FORM::label($forms['new_sale_notify']['key'], __('Notify me on new sale'), array('class'=>'control-label col-sm-3', 'for'=>$forms['new_sale_notify']['key']))?>
+                    <div class="col-sm-4">
+                        <div class="onoffswitch">
+                            <?= FORM::hidden($forms['new_sale_notify']['key'], 0);?>
+                            <?= Form::checkbox($forms['new_sale_notify']['key'], 1, (bool) $forms['new_sale_notify']['value'], array(
+                            'placeholder' => "TRUE or FALSE", 
+                            'class' => 'onoffswitch-checkbox', 
+                            'id' => $forms['new_sale_notify']['key'], 
+                            'data-content'=> '',
+                            'data-trigger'=>"hover",
+                            'data-placement'=>"right",
+                            'data-toggle'=>"popover",
+                            'data-original-title'=>'',                     
+                            ))?>
+                            <?= FORM::label($forms['new_sale_notify']['key'], "<span class='onoffswitch-inner'></span><span class='onoffswitch-switch'></span>", array('class'=>'onoffswitch-label', 'for'=>$forms['new_sale_notify']['key']))?>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <h2>ElasticEmail Configuration</h2>
+                <div class="form-group">
+                    <?= FORM::label($forms['elastic_active']['key'], __('ElasticEmail active'), array('class'=>'control-label col-sm-3', 'for'=>$forms['elastic_active']['key']))?>
+                    <div class="col-sm-4">
+                        <div class="onoffswitch">
+                            <?= FORM::hidden($forms['elastic_active']['key'], 0);?>
+                            <?= Form::checkbox($forms['elastic_active']['key'], 1, (bool) $forms['elastic_active']['value'], array(
+                            'placeholder' => "TRUE or FALSE", 
+                            'class' => 'onoffswitch-checkbox', 
+                            'id' => $forms['elastic_active']['key'], 
+                            'data-content'=> '',
+                            'data-trigger'=>"hover",
+                            'data-placement'=>"right",
+                            'data-toggle'=>"popover",
+                            'data-original-title'=>'',
+                            ))?>
+                            <?= FORM::label($forms['elastic_active']['key'], "<span class='onoffswitch-inner'></span><span class='onoffswitch-switch'></span>", array('class'=>'onoffswitch-label', 'for'=>$forms['elastic_active']['key']))?>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <?= FORM::label($forms['elastic_username']['key'], __('API Username'), array('class'=>'control-label col-sm-3', 'for'=>$forms['elastic_username']['key']))?>
+                    <div class="col-sm-4">
+                        <?= FORM::input($forms['elastic_username']['key'], $forms['elastic_username']['value'], array(
+                        'placeholder' => '', 
+                        'class' => 'tips form-control', 
+                        'id' => $forms['elastic_username']['key'], 
+                        'data-content'=> '',
+                        'data-trigger'=>"hover",
+                        'data-placement'=>"right",
+                        'data-toggle'=>"popover",
+                        'data-original-title'=>'',              
+                        ))?> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <?= FORM::label($forms['elastic_password']['key'], __('API Password'), array('class'=>'control-label col-sm-3', 'for'=>$forms['elastic_password']['key']))?>
+                    <div class="col-sm-4">
+                        <?= FORM::input($forms['elastic_password']['key'], $forms['elastic_password']['value'], array(
+                        'placeholder' => "", 
+                        'class' => 'tips form-control', 
+                        'id' => $forms['elastic_password']['key'], 
+                        'data-content'=> '',
+                        'data-trigger'=>"hover",
+                        'data-placement'=>"right",
+                        'data-toggle'=>"popover",
+                        'data-original-title'=>'',          
+                        ))?> 
+                    </div>
+                </div>
+
+                <hr>
+                <h2>SMTP Configuration</h2>
 				<div class="form-group">
 					<?= FORM::label($forms['smtp_active']['key'], __('Smtp active'), array('class'=>'control-label col-sm-3', 'for'=>$forms['smtp_active']['key']))?>
 					<div class="col-sm-4">
@@ -148,27 +223,9 @@
 						))?> 
 					</div>
 				</div>
-				<div class="form-group">
-					<?= FORM::label($forms['new_ad_notify']['key'], __('Notify me on new ad'), array('class'=>'control-label col-sm-3', 'for'=>$forms['new_ad_notify']['key']))?>
-					<div class="col-sm-4">
-						<div class="onoffswitch">
-							<?= FORM::hidden($forms['new_ad_notify']['key'], 0);?>
-							<?= Form::checkbox($forms['new_ad_notify']['key'], 1, (bool) $forms['new_ad_notify']['value'], array(
-							'placeholder' => "TRUE or FALSE", 
-							'class' => 'onoffswitch-checkbox', 
-							'id' => $forms['new_ad_notify']['key'], 
-							'data-content'=> '',
-							'data-trigger'=>"hover",
-							'data-placement'=>"right",
-							'data-toggle'=>"popover",
-							'data-original-title'=>'',                     
-                            ))?>
-							<?= FORM::label($forms['new_ad_notify']['key'], "<span class='onoffswitch-inner'></span><span class='onoffswitch-switch'></span>", array('class'=>'onoffswitch-label', 'for'=>$forms['new_ad_notify']['key']))?>
-						</div>
-					</div>
-				</div>
 				
-					<?= FORM::button('submit', 'Update', array('type'=>'submit', 'class'=>'btn btn-primary', 'action'=>Route::url('oc-panel',array('controller'=>'settings', 'action'=>'email'))))?>
+				
+				<?= FORM::button('submit', 'Update', array('type'=>'submit', 'class'=>'btn btn-primary', 'action'=>Route::url('oc-panel',array('controller'=>'settings', 'action'=>'email'))))?>
 				
 			</fieldset>	
 	</div><!--end col-md-10-->

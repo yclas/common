@@ -85,18 +85,15 @@ class Chart{
 		switch($chart_type)
 		{
 			case 'GeoChart':
-				$ret.='google.load("visualization", "1", {packages:["geochart"]});'.PHP_EOL;
-				$ret.='google.setOnLoadCallback(drawMarkersMap);'.PHP_EOL;
+				$ret.='google.load("visualization", "1", {packages:["geochart"], callback : drawMarkersMap});'.PHP_EOL;
 				$ret.='function drawMarkersMap() {'.PHP_EOL;
 				break;
 			case 'Gauge':
-				$ret.='google.load("visualization", "1", {packages:["gauge"]});'.PHP_EOL;
-				$ret.='google.setOnLoadCallback(drawChart);'.PHP_EOL;
+				$ret.='google.load("visualization", "1", {packages:["gauge"], callback : drawChart});'.PHP_EOL;
 				$ret.='function drawChart() {'.PHP_EOL;
 				break;
 			default:
-				$ret.='google.load("visualization", "1", {packages:["corechart"]});'.PHP_EOL;
-				$ret.='google.setOnLoadCallback(drawChart);'.PHP_EOL;
+				$ret.='google.load("visualization", "1", {packages:["corechart"], callback : drawChart});'.PHP_EOL;
 				$ret.='function drawChart() {'.PHP_EOL;
 		}	
 

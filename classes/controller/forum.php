@@ -89,6 +89,7 @@ class Controller_Forum extends Controller {
                         ->from(array('posts', 'p'))
                         ->where('id_post_parent','IS',NULL)
                         ->where('id_forum','=',$forum->id_forum)
+                        ->where('status','=',Model_Post::STATUS_ACTIVE)
                         ->order_by('last_message','DESC')
                         ->limit($pagination->items_per_page)
                         ->offset($pagination->offset)

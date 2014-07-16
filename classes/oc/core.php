@@ -146,6 +146,32 @@ class OC_Core {
             return Cache::instance()->set($name,$data, $lifetime);
     }
 
+    /**
+     * deletes all the cache + theme temp files
+     * @return [type] [description]
+     */
+    public static function delete_cache()
+    {
+        Cache::instance()->delete_all();
+        Theme::delete_minified();
+    }
+
+    /**
+     * optmizes all the tables found in the database
+     * @return [type] [description]
+     */
+    public static function optimize_db()
+    {
+        $db = Database::instance('default');
+        $tables = $db->query(Database::SELECT, 'SHOW TABLES');
+
+        foreach ($tables as $table)
+        {
+            $table = array_values($table);
+            $to[] = $table[0];
+        }
+        $db->query(Database::SELECT, 'OPTIMIZE TABLE '.implode(', ', $to));
+    }
 
 
     /**

@@ -15,47 +15,58 @@ class File extends Kohana_File{
      * copies files/directories recursively
      * @param  string  $source    from
      * @param  string  $dest      to
-     * @param  boolean $overwrite overwrite existing file
+     * @param  integer $overwrite 0=do not overwrite 1=force overwrite 2=overwrite only is size is different
+     * @param  array ignore the copy of this files
      * @return void             
      */
-    public static function copy($source, $dest, $overwrite = false)
+    public static function copy($source, $dest, $overwrite = 0, $ignore_list = NULL)
     { 
         //be sure source exists..
         if (!is_readable($source))
-            return;
+            throw HTTP_Exception::factory(500,'File ('.$source.') could not be readed, likely a permissions problem.');
 
-        //Lets just make sure our new folder is already created. Alright so its not efficient to check each time... bite me
-        if(is_file($dest))
+        //just a file to copy, so do it!
+        if(is_file($source))
         {
-            copy($source, $dest);
+            //if file in the ignore list just do not copy it
+            if ($ignore_list!==NULL)
+            {
+                if (in_array($source, $ignore_list))
+                    return;
+            }
+
+            $copy_file = FALSE;
+
+            //if doesnt exists OR we want to overwrite always OR different size copy the file.
+            if( !is_file( $dest ) OR $overwrite == 1 OR ( $overwrite == 2 AND filesize($source)===filesize($dest) ) ) 
+                $copy_file = TRUE;
+
+            if ($copy_file === TRUE)
+            {
+                try {
+                    copy($source, $dest);
+                } catch (Exception $e) {
+                    throw HTTP_Exception::factory(500,'File ('.$source.') could not be copied, likely a permissions problem.');
+                }     
+            }
+            
+            //always return if its a file, so we dont move forward
             return;
         }
         
+        //was not a file, so folder...lets check exists, if not create it
         if(!is_dir($dest))
             mkdir($dest);     
 
+        //read folder contents
         $objects = scandir($source);
         foreach ($objects as $object) 
         {
             if($object != '.' && $object != '..')
             { 
-                $path = $source . '/' . $object; 
-                if(is_file( $path))
-                { 
-                    if(!is_file( $dest . '/' . $object) || $overwrite) 
-                    {
-                        if(!@copy( $path,  $dest . '/' . $object))
-                            die('File ('.$path.') could not be copied, likely a permissions problem.'); 
-                    }
-                }
-                elseif(is_dir( $path))
-                { 
-                    if(!is_dir( $dest . '/' . $object)) 
-                        mkdir( $dest . '/' . $object); // make subdirectory before subdirectory is copied 
-
-                    File::copy($path, $dest . '/' . $object, $overwrite); //recurse! 
-                }
-                 
+                $from = $source . '/' . $object; 
+                $to   = $dest   . '/' . $object;
+                File::copy($from, $to, $overwrite, $ignore_list);                  
             } 
         } 
         

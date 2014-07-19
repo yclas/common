@@ -12,7 +12,6 @@ class Controller_Panel_OC_Update extends Auth_Controller {
 
     static $db_prefix     = NULL;
     static $db_charset    = NULL;
-    static $folder_prefix = 'openclassifieds2-';
 
     public function __construct($request, $response)
     {
@@ -131,11 +130,19 @@ class Controller_Panel_OC_Update extends Auth_Controller {
      */
     public function action_files()
     {
-
-        $last_version   = key(core::config('versions')); //get latest version
         $update_src_dir = DOCROOT.'update'; // update dir 
-        //this sucks!! lets read update_src_dir needs to be only 1 folder, if only 1 folder then use that folder, if more than 1 folder as from use update_src_dir
-        $from           = $update_src_dir.'/'.self::$folder_prefix.$last_version;
+        
+        //getting the directory where the zip was uncompressed
+        foreach (new DirectoryIterator($update_src_dir) as $file) 
+        {
+            if($file->isDir())
+            {
+                $folder_udpate = $file->getFilename();
+                break;
+            }
+        }
+
+        $from = $update_src_dir.'/'.$folder_udpate;
 
         //can we access the folder?
         if (is_dir($from))
@@ -149,11 +156,14 @@ class Controller_Panel_OC_Update extends Auth_Controller {
                             'sitemap.xml',
                             'install/install.lock',
                             );
+            //so we just simpply delete them ;)
+            foreach ($ignore_list as $file) 
+                File::delete($from.'/'.$file);
 
             //activate maintenance mode since we are moving files...
             Model_Config::set_value('general','maintenance',1);
-            //copy all except the ignored files and only if files different size
-            File::copy($from, DOCROOT, 2, $ignore_list);
+            //copy all only if files different size
+            File::copy($from, DOCROOT, 2);
         }
         else
         {
@@ -188,7 +198,7 @@ class Controller_Panel_OC_Update extends Auth_Controller {
         //getting the version from where we are upgrading
         $update_from_version = Session::instance()->get('update_from_version',Core::VERSION);
 
-        $from_version = str_replace('.', '',$update_from_version);
+        $from_version = str_replace('.', '',$update_from_version)+1;//from your current version +1
         $to_version   = str_replace('.', '',Core::VERSION);
 
         for ($version=$from_version; $version <= $to_version ; $version++) 

@@ -13,6 +13,17 @@ class Controller_Panel_OC_Update extends Auth_Controller {
     static $db_prefix     = NULL;
     static $db_charset    = NULL;
 
+    //list of files to ignore the copy, TODO ignore languages folder?
+    static $update_ignore_list = array('robots.txt',
+                                        'oc/config/auth.php',
+                                        'oc/config/database.php',
+                                        '.htaccess',
+                                        'sitemap.xml.gz',
+                                        'sitemap.xml',
+                                        'install/install.lock',
+                                        );
+
+
     public function __construct($request, $response)
     {
         ignore_user_abort(TRUE);
@@ -147,22 +158,14 @@ class Controller_Panel_OC_Update extends Auth_Controller {
         //can we access the folder?
         if (is_dir($from))
         {
-            //list of files to ignore the copy, TODO ignore languages folder?
-            $ignore_list = array('robots.txt',
-                            'oc/config/auth.php',
-                            'oc/config/database.php',
-                            '.htaccess',
-                            'sitemap.xml.gz',
-                            'sitemap.xml',
-                            'install/install.lock',
-                            );
-            //so we just simpply delete them ;)
-            foreach ($ignore_list as $file) 
+            //so we just simpply delete the ignored files ;)
+            foreach (self::$update_ignore_list as $file) 
                 File::delete($from.'/'.$file);
 
             //activate maintenance mode since we are moving files...
             Model_Config::set_value('general','maintenance',1);
-            //copy all only if files different size
+
+            //copy from update to docroot only if files different size
             File::copy($from, DOCROOT, 2);
         }
         else
@@ -187,7 +190,7 @@ class Controller_Panel_OC_Update extends Auth_Controller {
 
     /**
      *  STEP 3
-     *  Updates the DB using the functions action_2XX
+     *  Updates the DB using the functions action_XX
      *  they are actions, just in case you want to launch the update of a specific release like /oc-panel/update/218 for example
      */
     public function action_database()

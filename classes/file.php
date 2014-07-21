@@ -16,10 +16,9 @@ class File extends Kohana_File{
      * @param  string  $source    from
      * @param  string  $dest      to
      * @param  integer $overwrite 0=do not overwrite 1=force overwrite 2=overwrite only is size is different
-     * @param  array ignore the copy of this files
      * @return void             
      */
-    public static function copy($source, $dest, $overwrite = 0, $ignore_list = NULL)
+    public static function copy($source, $dest, $overwrite = 0)
     { 
         //be sure source exists..
         if (!is_readable($source))
@@ -28,13 +27,6 @@ class File extends Kohana_File{
         //just a file to copy, so do it!
         if(is_file($source))
         {
-            //if file in the ignore list just do not copy it
-            if ($ignore_list!==NULL)
-            {
-                if (in_array($source, $ignore_list))
-                    return;
-            }
-
             $copy_file = FALSE;
 
             //if doesnt exists OR we want to overwrite always OR different size copy the file.
@@ -66,7 +58,7 @@ class File extends Kohana_File{
             { 
                 $from = $source . '/' . $object; 
                 $to   = $dest   . '/' . $object;
-                File::copy($from, $to, $overwrite, $ignore_list);                  
+                File::copy($from, $to, $overwrite);                  
             } 
         } 
         

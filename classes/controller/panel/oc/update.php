@@ -201,8 +201,8 @@ class Controller_Panel_OC_Update extends Auth_Controller {
         //getting the version from where we are upgrading
         $update_from_version = Session::instance()->get('update_from_version',Core::VERSION);
 
-        $from_version = str_replace('.', '',$update_from_version)+1;//from your current version +1
-        $to_version   = str_replace('.', '',Core::VERSION);
+        $from_version = (int) str_replace('.', '',$update_from_version)+1;//from your current version +1
+        $to_version   = (int) str_replace('.', '',Core::VERSION);
 
         for ($version=$from_version; $version <= $to_version ; $version++) 
         { 

@@ -20,7 +20,7 @@ class Controller_Panel_OC_Update extends Auth_Controller {
                                         '.htaccess',
                                         'sitemap.xml.gz',
                                         'sitemap.xml',
-                                        'install/install.lock',
+                                        'install/',
                                         );
 
 
@@ -158,7 +158,7 @@ class Controller_Panel_OC_Update extends Auth_Controller {
         //can we access the folder?
         if (is_dir($from))
         {
-            //so we just simpply delete the ignored files ;)
+            //so we just simply delete the ignored files ;)
             foreach (self::$update_ignore_list as $file) 
                 File::delete($from.'/'.$file);
 

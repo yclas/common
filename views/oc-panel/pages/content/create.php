@@ -21,7 +21,7 @@
     <div class="form-group">
         <?= FORM::label('description', __('Description'), array('class'=>'control-label col-md-2', 'for'=>'description'))?>
         <div class="col-sm-9">
-            <?= FORM::textarea('description', __('Description'), array('class'=>'form-control','id' => 'description','data-editor'=>($type != 'email')?'html':'bbcode'))?>
+            <?= FORM::textarea('description', __('Description'), array('class'=>'form-control','id' => 'description','data-editor'=>'html'))?>
         </div>
     </div>
     

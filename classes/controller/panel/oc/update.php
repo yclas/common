@@ -5,7 +5,7 @@
  * @package    OC
  * @category   Update
  * @author     Chema <chema@open-classifieds.com>, Slobodan <slobodan@open-classifieds.com>
- * @copyright  (c) 2009-2013 Open Classifieds Team
+ * @copyright  (c) 2009-2014 Open Classifieds Team
  * @license    GPL v3
  */
 class Controller_Panel_OC_Update extends Auth_Controller {    

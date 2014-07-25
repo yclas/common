@@ -48,4 +48,67 @@ class Controller_Panel_Blog extends Auth_Crud {
         
         $this->render($view, array('elements' => $elements,'pagination'=>$pagination));
     }    
+
+
+        /**
+     * CRUD controller: CREATE
+     */
+    public function action_create()
+    {
+
+        $this->template->title = __('New').' '.__($this->_orm_model);
+        
+        $form = new FormOrm($this->_orm_model);
+            
+        if ($this->request->post())
+        {
+            if ( $success = $form->submit() )
+            {
+                $form->object->description = Kohana::$_POST_ORIG['formorm']['description'];
+                $form->save_object();
+                Alert::set(Alert::SUCCESS, __('Item created').'. '.__('Please to see the changes delete the cache')
+                    .'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1">'
+                    .__('Delete All').'</a>');
+            
+                $this->redirect(Route::get($this->_route_name)->uri(array('controller'=> Request::current()->controller())));
+            }
+            else 
+            {
+                Alert::set(Alert::ERROR, __('Check form for errors'));
+            }
+        }
+    
+        return $this->render('oc-panel/crud/create', array('form' => $form));
+    }
+    
+    
+    /**
+     * CRUD controller: UPDATE
+     */
+    public function action_update()
+    {
+        $this->template->title = __('Update').' '.__($this->_orm_model).' '.$this->request->param('id');
+    
+        $form = new FormOrm($this->_orm_model,$this->request->param('id'));
+        
+        if ($this->request->post())
+        {
+            if ( $success = $form->submit() )
+            {
+                $form->object->description = Kohana::$_POST_ORIG['formorm']['description'];
+              
+                $form->save_object();
+                Alert::set(Alert::SUCCESS, __('Item updated').'. '.__('Please to see the changes delete the cache')
+                    .'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1">'
+                    .__('Delete All').'</a>');
+                $this->redirect(Route::get($this->_route_name)->uri(array('controller'=> Request::current()->controller())));
+            }
+            else
+            {
+                Alert::set(Alert::ERROR, __('Check form for errors'));
+            }
+        }
+    
+        return $this->render('oc-panel/crud/update', array('form' => $form));
+    }
 }

@@ -12,7 +12,7 @@
     	
     	<?=Date::format($post->created, core::config('general.date_format'))?>
 	   		
-	    <p><?=substr(Text::removebbcode($post->description),0, 255);?></p>
+	    <p><?=substr($post->description,0, 255);?></p>
 	    
 	    <a title="<?= $post->seotitle;?>" href="<?=Route::url('blog', array('seotitle'=>$post->seotitle))?>"><i class="glyphicon glyphicon-share"></i><?=__('Read more')?></a>
     	<?if ($user !== NULL AND $user!=FALSE):?>

@@ -108,9 +108,8 @@ class OC_Text extends Kohana_Text {
      * @param boolean $specialchars if true transform specal chars
      * @return string
      */
-    public static function bb2html($text,$advanced = FALSE, $specialchars = TRUE)
+    public static function bb2html($text,$advanced = FALSE, $specialchars = TRUE, $nl2br = TRUE)
     {
-
         //special chars
         if ($specialchars === TRUE)
             $text  = htmlspecialchars($text, ENT_QUOTES, Kohana::$charset);
@@ -122,13 +121,14 @@ class OC_Text extends Kohana_Text {
         $text = str_replace(self::$basic_bbcode, self::$basic_html, $text);
 
         //advanced BBCODE
-        if ($advanced)
-        {
+        if ($advanced === TRUE)
             $text = preg_replace(self::$advanced_bbcode, self::$advanced_html, $text);
-        }
        
         //before return convert line breaks to HTML
-        return Text::nl2br($text);
+        if ($nl2br === TRUE)
+            $text = Text::nl2br($text);
+
+        return $text;
     }
 
     /**

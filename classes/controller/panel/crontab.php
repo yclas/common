@@ -12,5 +12,15 @@ class Controller_Panel_Crontab extends Auth_Crud {
 	 */
 	protected $_orm_model = 'crontab';
 
+    /**
+     *
+     * Loads a basic list info
+     * @param string $view template to render 
+     */
+    public function action_index($view = NULL)
+    {
+        parent::action_index('oc-panel/pages/cron/index');
+    }
+
 	
 }

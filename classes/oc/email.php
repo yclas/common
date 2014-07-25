@@ -27,7 +27,9 @@ class OC_Email {
     {
         require_once Kohana::find_file('vendor', 'php-mailer/phpmailer','php');
 
-        $body = Text::bb2html($body,TRUE);
+        //render BBCODE but leave HTML
+        $body = Text::bb2html($body,TRUE,FALSE,FALSE);
+
         //get the template from the html email boilerplate
         $body = View::factory('email',array('title'=>$subject,'content'=>$body))->render();
 

@@ -16,7 +16,7 @@
     <div class="form-group">
         <?= FORM::label('locale', __('Locale'), array('class'=>'control-label col-md-2', 'for'=>'locale'))?>
         <div class="col-sm-4">
-            <?= FORM::select('locale', $locale, core::config('i18n.locale'),array('placeholder' => __('locale'), 'class' => 'form-control', 'id' => 'locale', 'required'))?>
+            <?= FORM::select('locale', $locale, $cont->locale,array('placeholder' => __('locale'), 'class' => 'form-control', 'id' => 'locale', 'required'))?>
         </div>
     </div>
     <div class="form-group">

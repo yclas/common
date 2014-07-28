@@ -31,7 +31,7 @@ class URL extends Kohana_URL {
         // if ($ascii_only === NULL)
         //     $ascii_only = ( in_array(i18n::$locale, array('hi_IN','ar','ur_PK','ru_RU','bn_BD','ml_IN','ja_JP')) )? FALSE:TRUE;
                 
-        return parent::title($title, $separator, mb_detect_encoding($title,'ASCII'));
+        return parent::title(str_replace("'",'-',$title), $separator, mb_detect_encoding($title,'ASCII'));
     }
 
     /**

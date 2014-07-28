@@ -76,6 +76,7 @@ class Model_OC_User extends ORM {
                         'last_login'    => array(),
                         'last_ip'       => array(),
                         'user_agent'    => array(),
+                        'description'   => array(),
                         'token'         => array(array('max_length', array(':value', 40))),
                         'token_created' => array(),
                         'token_expires' => array(),
@@ -100,6 +101,7 @@ class Model_OC_User extends ORM {
                         'id_role'       => __('Role'),
                         'id_location'   => __('Location'),
                         'created'       => __('Created'),
+                        'description'   => __('Description'),
                         'last_modified' => __('Last modified'),
                         'last_login'    => __('Last login'),
                     );

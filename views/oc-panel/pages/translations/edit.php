@@ -1,5 +1,5 @@
 <div class="page-header">
-    <h1><?=__('Translations')?> <?=$edit_language?></h1>
+    <h1><?=__('Translations')?> <?=$edit_language?><button type="submit" class="btn btn-primary pull-right" id="button-showhide-translated"><i id="icon-showhide-translated" class="glyphicon glyphicon-eye-open"></i> <?=__('Show / Hide translated texts')?></button></h1>
     <p><?=__('Here you can modify any text you find in your web.')?><a href="http://open-classifieds.com/2013/08/16/how-to-change-texts/" target="_blank"><?=__('Read more')?></a></p>
 </div>
 
@@ -28,7 +28,7 @@
     <?foreach($strings_en as $key => $value):?>
     <?$chars+=strlen($key)?>
         <? $value = (isset($strings_default[$key])) ? $strings_default[$key] : ''?>
-        <tr id="tr_<?=$cont?>" class="<?=($value)? 'success': 'error'?>">
+        <tr id="tr_<?=$cont?>" class="<?=($value)? 'success hidden': 'error'?>">
             <td width="5%"><?=$cont?></td>
             <td>
                 <textarea id="orig_<?=$cont?>" disabled style="width: 100%"><?=$key?></textarea>

@@ -1,5 +1,5 @@
 <div class="page-header">
-    <h1><?=__('Translations')?> <?=$edit_language?></h1>
+    <h1><?=__('Translations')?> <?=$edit_language?><button type="submit" class="btn btn-primary pull-right" id="button-showhide-translated"><i id="icon-showhide-translated" class="glyphicon glyphicon-eye-open"></i> <?=__('Show / Hide translated texts')?></button></h1>
     <p><?=__('Here you can modify any text you find in your web.')?><a href="http://open-classifieds.com/2013/08/16/how-to-change-texts/" target="_blank"><?=__('Read more')?></a></p>
 </div>
 
@@ -24,16 +24,11 @@
     </tr>
     <button type="submit" class="btn btn-primary pull-right" name="translation[submit]"><i class="glyphicon glyphicon-hdd"></i> <?=__('Save')?></button>
 
-    <?$cont = $cont_not_translated = 0;?>
+    <?$cont = 0; $chars=0;?>
     <?foreach($strings_en as $key => $value):?>
-        <? if (isset($strings_default[$key]))
-            $value = $strings_default[$key];
-        else
-        {
-            $value = '';
-            $cont_not_translated++;
-        }?>
-        <tr id="tr_<?=$cont?>" class="<?=($value)? 'success': 'error'?>">
+    <?$chars+=strlen($key)?>
+        <? $value = (isset($strings_default[$key])) ? $strings_default[$key] : ''?>
+        <tr id="tr_<?=$cont?>" class="<?=($value)? 'success hidden': 'error'?>">
             <td width="5%"><?=$cont?></td>
             <td>
                 <textarea id="orig_<?=$cont?>" disabled style="width: 100%"><?=$key?></textarea>
@@ -62,8 +57,7 @@
     </table>
     <button type="submit" class="btn btn-primary pull-right" name="translation[submit]"><i class="glyphicon glyphicon-hdd"></i> <?=__('Save')?></button>
 
-    <?=sprintf(__('Total of %u translation strings.'),$cont)?>
-    <span class="error"><?=sprintf(__('%u strings not yet translated.'),$cont_not_translated)?></span>
+    <?=$chars?>
 
     <div id="translate-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">

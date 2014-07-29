@@ -27,9 +27,8 @@ class OC_Email {
     {
         require_once Kohana::find_file('vendor', 'php-mailer/phpmailer','php');
 
-        //render BBCODE but leave HTML
-        $body = Text::bb2html($body,TRUE,FALSE,FALSE);
-
+        $body = Text::nl2br($body);
+        
         //get the template from the html email boilerplate
         $body = View::factory('email',array('title'=>$subject,'content'=>$body))->render();
 
@@ -154,14 +153,13 @@ class OC_Email {
             foreach ($replace as $key => $value) 
             {
                 if(strpos($key, '[URL.')===0 OR $key == '[SITE.URL]'  AND $value!='')
-                    $replace[$key] = '[url='.$value.']'.parse_url($value, PHP_URL_HOST).'[/url]';
+                    $replace[$key] = '<a href="'.$value.'">'.parse_url($value, PHP_URL_HOST).'</a>';
             }
 
             $subject = str_replace(array_keys($replace), array_values($replace), $email->title);
             $body    = str_replace(array_keys($replace), array_values($replace), $email->description);
 
             return Email::send($to,$to_name,$subject,$body,$from,$from_name, $file_upload); 
-
         }
         else 
             return FALSE;

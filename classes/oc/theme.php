@@ -282,7 +282,7 @@ class OC_Theme {
             //lastly check at default theme as last resource
             elseif (file_exists(self::theme_folder('default').'/'.$file_check))
             {
-                return $uri.Theme::$parent_theme.DIRECTORY_SEPARATOR.$file;
+                return $uri.'default'.DIRECTORY_SEPARATOR.$file;
             }
                    
         }

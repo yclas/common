@@ -24,10 +24,15 @@
     </tr>
     <button type="submit" class="btn btn-primary pull-right" name="translation[submit]"><i class="glyphicon glyphicon-hdd"></i> <?=__('Save')?></button>
 
-    <?$cont = 0; $chars=0;?>
+    <?$cont = $cont_not_translated = 0;?>
     <?foreach($strings_en as $key => $value):?>
-    <?$chars+=strlen($key)?>
-        <? $value = (isset($strings_default[$key])) ? $strings_default[$key] : ''?>
+        <? if (isset($strings_default[$key]))
+            $value = $strings_default[$key];
+        else
+        {
+            $value = '';
+            $cont_not_translated++;
+        }?>
         <tr id="tr_<?=$cont?>" class="<?=($value)? 'success': 'error'?>">
             <td width="5%"><?=$cont?></td>
             <td>
@@ -57,7 +62,8 @@
     </table>
     <button type="submit" class="btn btn-primary pull-right" name="translation[submit]"><i class="glyphicon glyphicon-hdd"></i> <?=__('Save')?></button>
 
-    <?=$chars?>
+    <?=sprintf(__('Total of %u translation strings.'),$cont)?>
+    <span class="error"><?=sprintf(__('%u strings not yet translated.'),$cont_not_translated)?></span>
 
     <div id="translate-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">

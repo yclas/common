@@ -285,6 +285,7 @@ class OC_Core {
         curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($c, CURLOPT_URL, $url);
         curl_setopt($c, CURLOPT_TIMEOUT,$timeout); 
+        curl_setopt($c, CURLOPT_REFERER, URL::current());
         // curl_setopt($c, CURLOPT_FOLLOWLOCATION, TRUE);
         // $contents = curl_exec($c);
         $contents = core::curl_exec_follow($c);

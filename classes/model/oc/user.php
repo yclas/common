@@ -476,22 +476,27 @@ class Model_OC_User extends ORM {
      * creates a user from email if exists doesn't...
      * @param  string $email 
      * @param  string $name  
+     * @param  string $password
      * @return Model_User        
      */
-    public static function create_email($email,$name=NULL)
+    public static function create_email($email,$name=NULL,$password=NULL)
     {
         $user = new self();
         $user->where('email','=',$email)->limit(1)->find();
 
         if (!$user->loaded())
         {
-            $password           = Text::random('alnum', 8);
+            if ($password === NULL)
+                $password           = Text::random('alnum', 8);
+
             $user->email        = $email;
             $user->name         = $name;
             $user->status       = self::STATUS_ACTIVE;
             $user->id_role      = Model_Role::ROLE_USER;;
             $user->seoname      = $user->gen_seo_title($user->name);
             $user->password     = $password;
+            $user->subscriber   = 1;
+
             try
             {
                 $user->save();

@@ -487,7 +487,7 @@ class Model_OC_User extends ORM {
         if (!$user->loaded())
         {
             if ($password === NULL)
-                $password           = Text::random('alnum', 8);
+                $password       = Text::random('alnum', 8);
 
             $user->email        = $email;
             $user->name         = $name;

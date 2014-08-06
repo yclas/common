@@ -110,13 +110,13 @@ class Controller_Panel_Content extends Auth_Controller {
                 Alert::set(Alert::SUCCESS, $this->request->post('type').' '.__('is created').'. '.__('Please to see the changes delete the cache')
                     .'<br><a class="btn btn-primary btn-mini" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1">'
                     .__('Delete All').'</a>');
-                HTTP::redirect(Route::url('oc-panel',array('controller'  => 'content','action'=>'list')).'?type='.$p['type'].'&locale_select='.$p['locale']);
             } 
             catch (Exception $e) 
             {
                 Alert::set(Alert::ERROR, $e->getMessage());
-                HTTP::redirect(Route::url('oc-panel',array('controller'  => 'content','action'=>'list')).'?type='.$p['type'].'&locale_select='.$p['locale']);
             }
+
+            HTTP::redirect(Route::url('oc-panel',array('controller'  => 'content','action'=>'list')).'?type='.$p['type'].'&locale_select='.$p['locale']);
         }
 
     }
@@ -166,12 +166,12 @@ class Controller_Panel_Content extends Auth_Controller {
                 {
                     $content->save();
                     Alert::set(Alert::SUCCESS, $content->type.' '.__('is edited'));
-                    HTTP::redirect(Route::url('oc-panel',array('controller'  => 'content','action'=>'edit', 'id'=>$content->id_content)));
                 } 
                 catch (Exception $e) 
                 {
                     Alert::set(Alert::ERROR, $e->getMessage());
                 }
+                HTTP::redirect(Route::url('oc-panel',array('controller'  => 'content','action'=>'edit', 'id'=>$content->id_content)));
             }
         }
         else

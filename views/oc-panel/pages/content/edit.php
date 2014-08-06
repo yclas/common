@@ -45,11 +45,12 @@
     <?endif?>
 
     <div class="form-group">
-    <?= FORM::label('status', __('Active'), array('class'=>'control-label col-md-2', 'for'=>'status'))?>
-        <div class="col-sm-4">
-            <label class="status">
-                <input type="checkbox" value="<?=$cont->status?>" name="status" <?=($cont->status == TRUE)?'checked':''?> >
-            </label>
+        <div class="col-sm-offset-2 col-sm-10">
+            <div class="checkbox">
+                <label class="status">
+                    <input type="checkbox" value="<?=$cont->status?>" name="status" <?=($cont->status == TRUE)?'checked':''?> > <?=__('Active')?>
+                </label>
+            </div>
         </div>
     </div>
     <div class="form-actions">

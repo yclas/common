@@ -47,11 +47,12 @@
         </div>
     </div>
     <div class="form-group ">
-    
         <div class="col-sm-offset-2 col-sm-10">
-            <label class="status checkbox">
-                <?=__('Active')?><input type="checkbox" name="status" >
-            </label>
+            <div class="checkbox">
+                <label class="status">
+                	<input type="checkbox" name="status"> <?=__('Active')?>
+                </label>
+            </div>
         </div>
     </div>
     <div class="form-actions">

@@ -55,16 +55,19 @@
             <div class="accordion-heading"> 
 
                 <?if (count($item)>0):?>
-                    <label class="radio">
+                    <div class="radio">
+                    <label>
+                    <input <?=($cats[$key]['seoname']==Core::get('category'))?'checked':''?> type="radio" id="radio_<?=$cats[$key]['seoname']?>" data-name="radio_<?=$cats[$key]['name']?>" class="menu_category"  value="<?=$cats[$key]['id']?>" required > 
                         <a class="btn btn-primary btn-xs" data-toggle="collapse" type="button"  
                             data-target="#acc_<?=$cats[$key]['seoname']?>">                    
                             <i class=" glyphicon   glyphicon-plus"></i> <?=$cats[$key]['name']?>
                         </a>
-                    <input <?=($cats[$key]['seoname']==Core::get('category'))?'checked':''?> type="radio" id="radio_<?=$cats[$key]['seoname']?>" data-name="radio_<?=$cats[$key]['name']?>" class="menu_category"  value="<?=$cats[$key]['id']?>" required > 
                     </label>
+                    </div>
                     
                 <?else:?>
-                    <label class="radio">
+                    <div class="radio">
+                    <label>
                     <input <?=($cats[$key]['seoname']==Core::get('category'))?'checked':''?> type="radio" id="radio_<?=$cats[$key]['seoname']?>" data-name="radio_<?=$cats[$key]['name']?>" class="menu_category"  value="<?=$cats[$key]['id']?>" required > 
                     
                         <a class="btn btn-xs btn-primary" data-toggle="collapse" type="button"  
@@ -72,6 +75,7 @@
                             <?=$cats[$key]['name']?>
                         </a>
                     </label>
+                    </div>
                 <?endif?>
             </div>
 
@@ -97,42 +101,54 @@
         <div class="accordion" >
             <div class="accordion-group">
                 <div class="accordion-heading">
-                <label class="radio">
-                <input type="radio" class="default_links" id="radio_home"  name="home" data-url="" data-icon="  glyphicon-home glyphicon" value="home">    
-                    <a class="btn btn-primary btn-xs" type="button"  >                    
-                         <?=__('Home')?>
-                    </a>
-                </label>
-                <label class="radio">
-                <input type="radio" class="default_links" id="radio_listing" name="listing" data-url="all" data-icon="glyphicon  glyphicon-list glyphicon" value="listing">
-                    <a class="btn btn-primary btn-xs" type="button"  >                    
-                         <?=__('listing')?>
-                    </a>
-                </label>
-                <label class="radio">
-                <input type="radio" class="default_links" id="radio_search" name="search" data-url="search.html" data-icon="glyphicon  glyphicon-search glyphicon" value="search">
-                    <a class="btn btn-primary btn-xs" type="button"  >                    
-                         <?=__('Search')?>
-                    </a>
-                </label>
-                <label class="radio">
-                <input type="radio" class="default_links" id="radio_contact" name="contact" data-url="contact.html" data-icon="glyphicon  glyphicon-envelope glyphicon" value="contact">
-                    <a class="btn btn-primary btn-xs" type="button"  >                    
-                         <?=__('contact')?>
-                    </a>
-                </label>
-                <label class="radio">
-                <input type="radio" class="default_links" id="radio_rss" name="rss" data-url="rss.xml" data-icon="glyphicon  glyphicon-signal glyphicon" value="rss">
-                    <a class="btn btn-primary btn-xs" type="button"  >                    
-                         <?=__('rss')?>
-                    </a>
-                </label>
-                <label class="radio">
-                <input type="radio" class="default_links" id="radio_map" name="map" data-url="map.html" data-icon="glyphicon  glyphicon-globe glyphicon" value="map">
-                    <a class="btn btn-primary btn-xs" type="button"  >                    
-                         <?=__('map')?>
-                    </a>
-                </label>
+                <div class="radio">
+                    <label>
+                    <input type="radio" class="default_links" id="radio_home"  name="home" data-url="" data-icon="  glyphicon-home glyphicon" value="home">    
+                        <a class="btn btn-primary btn-xs" type="button"  >                    
+                             <?=__('Home')?>
+                        </a>
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                    <input type="radio" class="default_links" id="radio_listing" name="listing" data-url="all" data-icon="glyphicon  glyphicon-list glyphicon" value="listing">
+                        <a class="btn btn-primary btn-xs" type="button"  >                    
+                             <?=__('listing')?>
+                        </a>
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                    <input type="radio" class="default_links" id="radio_search" name="search" data-url="search.html" data-icon="glyphicon  glyphicon-search glyphicon" value="search">
+                        <a class="btn btn-primary btn-xs" type="button"  >                    
+                             <?=__('Search')?>
+                        </a>
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                    <input type="radio" class="default_links" id="radio_contact" name="contact" data-url="contact.html" data-icon="glyphicon  glyphicon-envelope glyphicon" value="contact">
+                        <a class="btn btn-primary btn-xs" type="button"  >                    
+                             <?=__('contact')?>
+                        </a>
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                    <input type="radio" class="default_links" id="radio_rss" name="rss" data-url="rss.xml" data-icon="glyphicon  glyphicon-signal glyphicon" value="rss">
+                        <a class="btn btn-primary btn-xs" type="button"  >                    
+                             <?=__('rss')?>
+                        </a>
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                    <input type="radio" class="default_links" id="radio_map" name="map" data-url="map.html" data-icon="glyphicon  glyphicon-globe glyphicon" value="map">
+                        <a class="btn btn-primary btn-xs" type="button"  >                    
+                             <?=__('map')?>
+                        </a>
+                    </label>
+                </div>
                 </div>
             </div>
         </div>

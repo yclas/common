@@ -17,9 +17,11 @@
           			<?=__('Forgot password?')?>
           		</a></small>
             </p>
-            <label class="checkbox">
-                <input type="checkbox" name="remember" checked="checked"><?=__('Remember me')?>
-            </label>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="remember" checked="checked"><?=__('Remember me')?>
+                </label>
+            </div>
         </div>
     </div>
     <div class="page-header"></div>     

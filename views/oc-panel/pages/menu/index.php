@@ -15,9 +15,14 @@
         <?=$data['url']?> (<?=$data['target']?>)
         <a data-text="<?=__('Are you sure you want to delete? All data contained in this field will be deleted.')?>" 
            data-id="li_<?=$key?>" 
-           class="btn btn-xs btn-danger  pull-right"  
+           class="btn btn-xs btn-danger pull-right index-delete-inline"  
            href="<?=Route::url('oc-panel', array('controller'=> 'menu', 'action'=>'delete','id'=>$key))?>">
                     <i class="glyphicon   glyphicon-trash"></i>
+        </a>
+
+        <a class="btn btn-xs btn-primary pull-right ajax-load" 
+            href="<?=Route::url('oc-panel', array('controller'=>'menu','action'=>'update','id'=>$key))?>">
+            <?=__('Edit')?>
         </a>
     </li>
 <?endforeach?>

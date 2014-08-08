@@ -1,6 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 <div class="page-header">
 	<h1><?=ucfirst(__($name))?></h1>
+	<?if($name == 'role'):?><p><a href="http://open-classifieds.com/2014/06/04/roles-work-classified-ads-script/" target="_blank"><?=__('Read more')?></a></p><?endif;?>
 	
 	<?if ($controller->allowed_crud_action('create')):?>
 	<a class="btn btn-primary pull-right ajax-load" href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'create')) ?>">

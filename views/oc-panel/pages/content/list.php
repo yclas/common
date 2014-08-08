@@ -2,6 +2,7 @@
 
 <div class="page-header">
     <h1><?=Controller_Panel_Content::translate_type($type)?></h1>
+    <?if($type == 'page'):?><p><a href="http://open-classifieds.com/2013/08/13/how_to_add_pages/" target="_blank"><?=__('Read more')?></a></p><?endif;?>
 </div>
 
 <a class="btn btn-primary pull-right ajax-load" 

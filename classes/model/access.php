@@ -33,22 +33,49 @@ class Model_Access extends ORM {
 
         foreach ($controllers as $controller) 
         {
-            $controller = basename($controller,'.php');
-
-            $class      = new ReflectionClass('Controller_Panel_'.$controller);
-            $methods    = $class->getMethods();
-            foreach ($methods as $obj => $val) 
+            if (is_array($controller))
             {
-                if (strpos( $val->name , 'action_') !== FALSE )
+                foreach ($controller as $c) 
                 {
-                    $list_controllers[$controller][] = str_replace('action_', '', $val->name);
+                    $c = basename($c,'.php');
+                    $list_controllers[$c] = self::get_action_methods($c);
                 }
+            }
+            else
+            {
+                $controller = basename($controller,'.php');
+                $list_controllers[$controller] = self::get_action_methods($controller);
             }
         }
 
         return $list_controllers;
     }
     
+    /**
+     * gets the actions from the controller panel of the desire controller
+     * @param  string $controller 
+     * @return array
+     */
+    private static function get_action_methods($controller)
+    {
+        $methods_list = array();
+        $class = 'Controller_Panel_'.$controller;
+
+        if (class_exists($class))
+        {
+            $class      = new ReflectionClass($class);
+            $methods    = $class->getMethods();
+            foreach ($methods as $obj => $val) 
+            {
+                if (strpos( $val->name , 'action_') !== FALSE )
+                {
+                    $methods_list[] = str_replace('action_', '', $val->name);
+                }
+            }
+        }
+
+        return $methods_list;
+    }
 
     public function form_setup($form)
     {

@@ -331,22 +331,24 @@ class Model_OC_User extends ORM {
      * @param  string $email
      * @return bool
      */
-    public function is_spam($email = NULL)
+    public static function is_spam($email = NULL)
     {
-        
-        if($email != NULL)
-        {
-            $user = new self();
-            $user = $user->where('email', '=', $email)
-                     ->limit(1)
-                     ->find();
 
-            if($user->loaded() AND $user->status == self::STATUS_SPAM)
-                return TRUE;
-        }
-        else
+        //if he is login we can check if its an spammer
+        if ( Auth::instance()->logged_in() === TRUE ) 
         {
-            if($this->status == self::STATUS_SPAM)
+            if (Auth::instance()->get_user()->status == Model_User::STATUS_SPAM)
+                return TRUE;
+        } 
+        //not loged in so only way to see it is after he posted with his email   
+        elseif(Valid::email($email))
+        {
+            $spammer = new Model_User();
+            $spammer->where('email','=',$email)
+                    ->where('status','=',Model_User::STATUS_SPAM)
+                    ->find();
+
+            if ($spammer->loaded())
                 return TRUE;
         }
 

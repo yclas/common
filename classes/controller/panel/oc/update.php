@@ -201,19 +201,21 @@ class Controller_Panel_OC_Update extends Auth_Controller {
         //getting the version from where we are upgrading
         $from_version = Session::instance()->get('update_from_version', Core::get('from_version',Core::VERSION));
         $from_version = str_replace('.', '',$from_version);//getting the integer
-        $from_version = substr($from_version,0,3);//we allow only 3 digits updates
+        //$from_version = substr($from_version,0,3);//we allow only 3 digits updates, if update has more than 3 its a minor release no DB changes?
         $from_version = (int) $from_version;
 
-        //the new version from core.php
-        $to_version   = (int) str_replace('.', '',Core::VERSION);
+        //we get all the DB updates available
+        $db_updates   = $this->get_db_action_methods();
 
-        for ($version=$from_version; $version < $to_version ; $version++) 
-        { 
-            if (method_exists($this,'action_'.$version))
+        foreach ($db_updates as $version) 
+        {
+            //we only execute those that are newer or same
+            if ($version >= $from_version)
             {
                 call_user_method('action_'.$version, $this);
                 Alert::set(Alert::INFO, __('Updated to ').$version);
-            }
+            }    
+
         }
 
         //deactivate maintenance mode
@@ -274,4 +276,26 @@ class Controller_Panel_OC_Update extends Auth_Controller {
                     
     }
 
+    /**
+     * we get all the DB updates available
+     * @return array
+     */
+    private function get_db_action_methods()
+    {
+        $updates = array();
+        
+        $class      = new ReflectionClass($this);
+        $methods    = $class->getMethods();
+        foreach ($methods as $obj => $val) 
+        {
+            //only if they are actions and numeric ;)
+            if ( is_numeric($version = str_replace('action_', '', $val->name)) )
+                $updates[] = $version;
+        }
+        
+        //from less to more, so they are executed in order for sure
+        sort($updates);
+
+        return $updates;
+    }
 }

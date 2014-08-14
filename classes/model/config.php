@@ -98,7 +98,7 @@ class Model_Config extends ORM {
             // get config from DB
             $confp = new self();
             $confp->where('config_key','=',$value['config_key'])
-                  ->where('group_name','=',$value['group_name'])
+                  //->where('group_name','=',$value['group_name'])
                   ->limit(1)->find();
 
             // if do not exist (not loaded) create them, else do nothing

@@ -19,12 +19,13 @@ class Controller_Jslocalization extends Controller {
 								  'creditcard'		=> __('Please enter a valid credit card number.'),
 								  'equalTo'			=> __('Please enter the same value again.'),
 								  'accept'			=> __('Please enter a value with a valid extension.'),
-								  'maxlength'		=> 'jQuery.validator.format("'.__('Please enter no more than {0} characters.').'")',
-								  'minlength'		=> 'jQuery.validator.format("'.__('Please enter at least {0} characters.').'")',
-								  'rangelength'		=> 'jQuery.validator.format("'.__('Please enter a value between {0} and {1} characters long.').'")',
-								  'range'			=> 'jQuery.validator.format("'.__('Please enter a value between {0} and {1}.').'")',
-								  'max'				=> 'jQuery.validator.format("'.__('Please enter a value less than or equal to {0}.').'")',
-								  'min'				=> 'jQuery.validator.format("'.__('Please enter a value greater than or equal to {0}.').'")',		  
+								  'maxlength'		=> __('Please enter no more than {0} characters.'),
+								  'minlength'		=> __('Please enter at least {0} characters.'),
+								  'rangelength'		=> __('Please enter a value between {0} and {1} characters long.'),
+								  'range'			=> __('Please enter a value between {0} and {1}.'),
+								  'max'				=> __('Please enter a value less than or equal to {0}.'),
+								  'min'				=> __('Please enter a value greater than or equal to {0}.'),		  
+								  'regex'			=> __('Please enter a valid format.'),		  
 		);
 		
 		$this->template->content = '(function ($) {$.extend($.validator.messages, '.json_encode($localization_rules). ');}(jQuery));';

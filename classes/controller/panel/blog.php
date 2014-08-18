@@ -60,13 +60,19 @@ class Controller_Panel_Blog extends Auth_Crud {
         
         $form = new FormOrm($this->_orm_model);
             
+        // fields array
+        foreach ($form->fields as $field_key => $field) 
+        {
+            $fields[$field_key] = array('name'=>$field['field_name'], 'value'=>$field['value'], 'id'=>$field['field_id'], 'label'=>$field['label']);
+        }
+        
         if ($this->request->post())
         {
             if ( $success = $form->submit() )
             {
                 $form->object->description = Kohana::$_POST_ORIG['formorm']['description'];
                 $form->save_object();
-                Alert::set(Alert::SUCCESS, __('Item created').'. '.__('Please to see the changes delete the cache')
+                Alert::set(Alert::SUCCESS, __('Blog post created').'. '.__('Please to see the changes delete the cache')
                     .'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1">'
                     .__('Delete All').'</a>');
             
@@ -78,7 +84,7 @@ class Controller_Panel_Blog extends Auth_Crud {
             }
         }
     
-        return $this->render('oc-panel/crud/create', array('form' => $form));
+        return $this->render('oc-panel/pages/blog/create', array('form' => $fields));
     }
     
     
@@ -91,6 +97,12 @@ class Controller_Panel_Blog extends Auth_Crud {
     
         $form = new FormOrm($this->_orm_model,$this->request->param('id'));
         
+         // fields array
+         foreach ($form->fields as $field_key => $field) 
+         {
+             $fields[$field_key] = array('name'=>$field['field_name'], 'value'=>$field['value'], 'id'=>$field['field_id'], 'label'=>$field['label']);
+         }
+
         if ($this->request->post())
         {
             if ( $success = $form->submit() )
@@ -98,7 +110,7 @@ class Controller_Panel_Blog extends Auth_Crud {
                 $form->object->description = Kohana::$_POST_ORIG['formorm']['description'];
               
                 $form->save_object();
-                Alert::set(Alert::SUCCESS, __('Item updated').'. '.__('Please to see the changes delete the cache')
+                Alert::set(Alert::SUCCESS, __('Blog post updated').'. '.__('Please to see the changes delete the cache')
                     .'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1">'
                     .__('Delete All').'</a>');
                 $this->redirect(Route::get($this->_route_name)->uri(array('controller'=> Request::current()->controller())));
@@ -109,6 +121,6 @@ class Controller_Panel_Blog extends Auth_Crud {
             }
         }
     
-        return $this->render('oc-panel/crud/update', array('form' => $form));
+        return $this->render('oc-panel/pages/blog/update', array('form' => $fields));
     }
 }

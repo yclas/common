@@ -83,7 +83,7 @@ class Controller_Blog extends Controller {
             Breadcrumbs::add(Breadcrumb::factory()->set_title($post->title));
 
             $this->template->title            = $post->title;
-            $this->template->meta_description = ' ';
+            $this->template->meta_description = $post->description;
 
             $previous = new Model_Post();
             $previous = $previous->where('status','=',Model_Post::STATUS_ACTIVE)

@@ -21,7 +21,7 @@ class Controller_Page extends Controller {
                 Breadcrumbs::add(Breadcrumb::factory()->set_title($page->title));
 
                 $this->template->title            = $page->title;
-                $this->template->meta_description = ' ';
+                $this->template->meta_description = $page->description;;
 
                 $this->template->bind('content', $content);
                 $this->template->content = View::factory('page',array('page'=>$page));

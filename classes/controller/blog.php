@@ -20,7 +20,7 @@ class Controller_Blog extends Controller {
 
 	    //template header
 	    $this->template->title            = __('Blog');
-	    $this->template->meta_description = __('Blog');
+	    $this->template->meta_description = core::config('general.site_name').' '.__('blog section.');
 	    
 	    $posts = new Model_Post();
         $posts->where('status','=', Model_Post::STATUS_ACTIVE)->where('id_forum','IS',NULL);
@@ -83,7 +83,7 @@ class Controller_Blog extends Controller {
             Breadcrumbs::add(Breadcrumb::factory()->set_title($post->title));
 
             $this->template->title            = $post->title;
-            $this->template->meta_description = $post->description;
+            $this->template->meta_description = ' ';
 
             $previous = new Model_Post();
             $previous = $previous->where('status','=',Model_Post::STATUS_ACTIVE)

@@ -20,7 +20,7 @@ class Controller_FAQ extends Controller {
 
         //template header
         $this->template->title            = __(' Frequently Asked Questions - FAQ');
-        $this->template->meta_description = $this->template->title;
+        $this->template->meta_description = core::config('general.site_name').' '.__('frequently asked questions.');
 
         $this->template->styles = array('css/faq.css' => 'screen');
         $this->template->scripts['footer'] = array('js/faq.js');

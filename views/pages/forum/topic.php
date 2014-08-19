@@ -15,7 +15,7 @@
 
     <div class="col-md-3 span2">
         <div class="thumbnail highlight">
-            <img src="<?=$topic->user->get_profile_image()?>" width="120px" height="120px">
+            <img src="<?=$topic->user->get_profile_image()?>" width="120px" height="120px" alt="<?=$topic->user->name?>">
             <div class="caption">
                 <p>
                     <?=$topic->user->name?><br>
@@ -43,7 +43,7 @@
 
     <div class="col-md-3 span2">
         <div class="thumbnail highlight">
-            <img src="<?=$reply->user->get_profile_image()?>" width="120px" height="120px">
+            <img src="<?=$reply->user->get_profile_image()?>" width="120px" height="120px" alt="<?=$reply->user->name?>">
             <div class="caption">
                 <p>
                     <?=$reply->user->name?><br>

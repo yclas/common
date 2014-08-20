@@ -20,7 +20,7 @@ class Controller_Forum extends Controller {
     {
         //template header
         $this->template->title            = __('Forum');
-        $this->template->meta_description = __('Forum');
+        $this->template->meta_description = core::config('general.site_name').' '.__('community forums.');
         $this->template->styles              = array('css/forums.css' => 'screen');
         $this->template->scripts['footer'][] = 'js/forums.js';
         $forums = Model_Forum::get_forum_count();
@@ -227,7 +227,7 @@ class Controller_Forum extends Controller {
             Breadcrumbs::add(Breadcrumb::factory()->set_title($topic->title));
 
             $this->template->title            = $topic->title.' - '.$forum->name.' - '.__('Forum');
-            $this->template->meta_description = $topic->description;
+            $this->template->meta_description = $topic->title. ' '.__('in').' '.core::config('general.site_name').' '.__('forums');
 
             //getting all the topic replies, pagination
             $replies = new Model_Post();

@@ -20,7 +20,7 @@ class Controller_Blog extends Controller {
 
 	    //template header
 	    $this->template->title            = __('Blog');
-	    $this->template->meta_description = __('Blog');
+	    $this->template->meta_description = core::config('general.site_name').' '.__('blog section.');
 	    
 	    $posts = new Model_Post();
         $posts->where('status','=', Model_Post::STATUS_ACTIVE)->where('id_forum','IS',NULL);

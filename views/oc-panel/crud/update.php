@@ -30,6 +30,17 @@
                 </div>
                 
                     <button type="submit" class="btn btn-primary"><?=__('Submit')?></button> 
+                    <?if (( $icon_src = $location->get_icon() )!==FALSE ):?>
+                      <button type="submit"
+                         class="btn btn-danger index-delete index-delete-inline"
+                         onclick="return confirm('<?=__('Delete icon?')?>');" 
+                         type="submit" 
+                         name="icon_delete"
+                         value="1" 
+                         title="<?=__('Delete icon')?>">
+                        <?=__('Delete icon')?>
+                      </button>
+                    <?endif?>
           </form>
         </div><!--end col-md-10-->
     </div>

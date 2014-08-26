@@ -89,13 +89,15 @@
         </div>
     </div>
 
+    <?if (core::config('advertisement.captcha') != FALSE):?>
     <div class="form-group">
             <div class="col-md-4">
                 <?=__('Captcha')?>*:<br />
                 <?=captcha::image_tag('new-reply-topic')?><br />
                 <?= FORM::input('captcha', "", array('class' => 'form-control', 'id' => 'captcha', 'required'))?>
             </div>
-        </div>
+    </div>
+    <?endif?>
 
     <button type="submit" class="btn btn-primary" name="submit"><?=__('Reply')?></button>
 </form>  

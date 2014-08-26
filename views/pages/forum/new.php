@@ -43,6 +43,7 @@
 			</div>
 		</div>
 		
+		<?if (core::config('advertisement.captcha') != FALSE):?>
 		<div class="form-group control-group">
 			<div class="col-md-6 col-md-offset-2 controls">
 				<?=__('Captcha')?>*:<br />
@@ -50,6 +51,7 @@
 				<?= FORM::input('captcha', "", array('class' => 'form-control input-xlarge', 'id' => 'captcha', 'required'))?>
 			</div>
 		</div>
+		<?endif?>
 		<div class="clearfix"></div><br>
 		<div class="form-group control-group">
 			<div class="col-md-6 col-md-offset-2 controls">

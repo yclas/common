@@ -63,7 +63,7 @@
                 <?if (count($item)>0):?>
                     <div class="radio">
                     <label>
-                    <input <?=($cats[$key]['seoname']==Core::get('category'))?'checked':''?> type="radio" id="radio_<?=$cats[$key]['seoname']?>" data-name="radio_<?=$cats[$key]['name']?>" class="menu_category"  value="<?=$cats[$key]['id']?>" required > 
+                    <input <?=($cats[$key]['seoname']==Core::get('category'))?'checked':''?> type="radio" id="radio_<?=$cats[$key]['seoname']?>" data-name="radio_<?=$cats[$key]['name']?>" class="menu_category"  value="<?=$cats[$key]['id']?>"> 
                         <a class="btn btn-primary btn-xs" data-toggle="collapse" type="button"  
                             data-target="#acc_<?=$cats[$key]['seoname']?>">                    
                             <i class=" glyphicon   glyphicon-plus"></i> <?=$cats[$key]['name']?>
@@ -74,7 +74,7 @@
                 <?else:?>
                     <div class="radio">
                     <label>
-                    <input <?=($cats[$key]['seoname']==Core::get('category'))?'checked':''?> type="radio" id="radio_<?=$cats[$key]['seoname']?>" data-name="radio_<?=$cats[$key]['name']?>" class="menu_category"  value="<?=$cats[$key]['id']?>" required > 
+                    <input <?=($cats[$key]['seoname']==Core::get('category'))?'checked':''?> type="radio" id="radio_<?=$cats[$key]['seoname']?>" data-name="radio_<?=$cats[$key]['name']?>" class="menu_category"  value="<?=$cats[$key]['id']?>"> 
                     
                         <a class="btn btn-xs btn-primary" data-toggle="collapse" type="button"  
                             data-target="#acc_<?=$cats[$key]['seoname']?>">                    

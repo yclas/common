@@ -73,6 +73,7 @@ class Controller_Panel_User extends Auth_Crud {
 				//check we have this email in the DB
 				$user = new Model_User();
 				$user = $user->where('email', '=', Kohana::$_POST_ORIG['formorm']['email'])
+                        ->where('id_user','!=',$this->request->param('id'))
 						->limit(1)
 						->find();
 				

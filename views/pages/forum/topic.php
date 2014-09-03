@@ -4,18 +4,18 @@
     <h1><?=$topic->title?></h1>
     <span class="label label-info"><?=$topic->user->name?> <?=Date::fuzzy_span(Date::mysql2unix($topic->created))?></span>
     <?if($previous->loaded()):?>
-        <a class="label" href="<?=Route::url('forum-topic',  array('seotitle'=>$previous->seotitle,'forum'=>$forum->seoname))?>" title="<?=$previous->title?>">
+        <a class="label" href="<?=Route::url('forum-topic',  array('seotitle'=>$previous->seotitle,'forum'=>$forum->seoname))?>" title="<?=HTML::chars($previous->title)?>">
         <i class="icon-white icon-backward glyphicon-backward glyphicon"></i> <?=$previous->title?></i></a>
     <?endif?>
     <?if($next->loaded()):?>
-        <a class="label" href="<?=Route::url('forum-topic',  array('seotitle'=>$next->seotitle,'forum'=>$forum->seoname))?>" title="<?=$next->title?>">
+        <a class="label" href="<?=Route::url('forum-topic',  array('seotitle'=>$next->seotitle,'forum'=>$forum->seoname))?>" title="<?=HTML::chars($next->title)?>">
         <?=$next->title?> <i class="icon-white icon-forward glyphicon-forward glyphicon"></i></a>
     <?endif?>
 </div>
 
     <div class="col-md-3 span2">
         <div class="thumbnail highlight">
-            <img src="<?=$topic->user->get_profile_image()?>" width="120px" height="120px" alt="<?=$topic->user->name?>">
+            <img src="<?=$topic->user->get_profile_image()?>" width="120" height="120" alt="<?=HTML::chars($topic->user->name)?>">
             <div class="caption">
                 <p>
                     <?=$topic->user->name?><br>
@@ -43,7 +43,7 @@
 
     <div class="col-md-3 span2">
         <div class="thumbnail highlight">
-            <img src="<?=$reply->user->get_profile_image()?>" width="120px" height="120px" alt="<?=$reply->user->name?>">
+            <img src="<?=$reply->user->get_profile_image()?>" width="120" height="120" alt="<?=HTML::chars($reply->user->name)?>">
             <div class="caption">
                 <p>
                     <?=$reply->user->name?><br>

@@ -725,7 +725,7 @@ class OC_Theme {
     public static function checker()
     {
         if (self::get('premium')!=1 
-                OR (Request::current()->controller()=='theme' AND Request::current()->action()=='license') 
+                OR (strtolower(Request::current()->controller())=='theme' AND strtolower(Request::current()->action()=='license'))
                 OR !Auth::instance()->logged_in())
             return TRUE;
 

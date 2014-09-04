@@ -4,7 +4,7 @@
 	<? foreach ($breadcrumbs as $crumb) : ?>
 		<? if ($crumb->get_url() !== NULL) :  ?>
 			<li>
-				<a title="<?=$crumb->get_title()?>" href="<?=$crumb->get_url()?>"><?=$crumb->get_title()?></a>
+				<a title="<?=HTML::chars($crumb->get_title())?>" href="<?=$crumb->get_url()?>"><?=$crumb->get_title()?></a>
 			</li>
 		<? else : ?>
 			<li class="active"><?=$crumb->get_title()?></li>

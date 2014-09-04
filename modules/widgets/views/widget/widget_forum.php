@@ -4,7 +4,7 @@
 
 <?foreach($widget->topic as $topic):?>
 <?if($topic->forum->seoname != NULL):?>
-    <li><a href="<?=Route::url('forum-topic', array('forum'=>$topic->forum->seoname,'seotitle'=>$topic->seotitle))?>" title="<?=$topic->title?>">  
+    <li><a href="<?=Route::url('forum-topic', array('forum'=>$topic->forum->seoname,'seotitle'=>$topic->seotitle))?>" title="<?=HTML::chars($topic->title)?>">  
         <?=$topic->title?></a>
     </li>
 <?endif?>

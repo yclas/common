@@ -7,14 +7,14 @@
     <?foreach($posts as $post ):?>
     <article class="list well clearfix">
     	<h2>
-    		<a title="<?= $post->title;?>" href="<?=Route::url('blog', array('seotitle'=>$post->seotitle))?>"> <?=$post->title; ?></a>
+    		<a title="<?=HTML::chars($post->title)?>" href="<?=Route::url('blog', array('seotitle'=>$post->seotitle))?>"> <?=$post->title; ?></a>
     	</h2>
     	
     	<?=Date::format($post->created, core::config('general.date_format'))?>
 	   		
 	    <p><?=substr($post->description,0, 255);?></p>
 	    
-	    <a title="<?= $post->seotitle;?>" href="<?=Route::url('blog', array('seotitle'=>$post->seotitle))?>"><i class="glyphicon glyphicon-share"></i><?=__('Read more')?></a>
+	    <a title="<?=HTML::chars($post->title)?>" href="<?=Route::url('blog', array('seotitle'=>$post->seotitle))?>"><i class="glyphicon glyphicon-share"></i><?=__('Read more')?></a>
     	<?if ($user !== NULL AND $user!=FALSE):?>
             <?if ($user->id_role == 10):?>
     		<br />

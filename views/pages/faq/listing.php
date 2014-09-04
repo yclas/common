@@ -8,10 +8,10 @@
     <?foreach($faqs as $faq ):?>
     <li>
         <h4>
-            <a title="<?= $faq->title;?>" href="<?=Route::url('faq', array('seotitle'=>$faq->seotitle))?>"> <?=$faq->title?></a>
+            <a title="<?=HTML::chars($faq->title)?>" href="<?=Route::url('faq', array('seotitle'=>$faq->seotitle))?>"> <?=$faq->title?></a>
         </h4>            
         <p><?=Text::limit_chars(Text::removebbcode($faq->description),400, NULL, TRUE);?>
-            <a title="<?= $faq->title;?>" href="<?=Route::url('faq', array('seotitle'=>$faq->seotitle))?>"><?=__('Read more')?>.</a>
+            <a title="<?=HTML::chars($faq->title)?>" href="<?=Route::url('faq', array('seotitle'=>$faq->seotitle))?>"><?=__('Read more')?>.</a>
         </p>
     </li>
     <?endforeach?>

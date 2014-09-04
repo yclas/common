@@ -393,17 +393,16 @@ class OC_Core {
 
     /**
      * prints the QR code script from the view
-     * @param $url is the URL for your QRCode
-     * @param $size in pixels for image
-     * @param $EC_level Error Correction Level
-     * @param $margin around image
+     * @param string $url the URL for your QRCode
+     * @param string $size pixels for image
+     * @param string $EC_level Error Correction Level
+     * @param string $margin around image
      * @return string HTML or false in case not loaded
      */
     public static function generate_qr($url = NULL, $size ='150',$EC_level='L',$margin='0')
     {
-        $url = ($url == NULL)?URL::current():$url;
-        $url = urlencode($url);
-        return '<img src="https://chart.googleapis.com/chart?chs='.$size.'x'.$size.'&cht=qr&chld='.$EC_level.'|'.$margin.'&chl='.$url.'" alt="QR code" width="'.$size.'" height="'.$size.'"/>';
+        if ($url == NULL) $url = URL::current();
+        return '<img src="https://chart.googleapis.com/chart?chs='.$size.'x'.$size.'&cht=qr&chld='.$EC_level.'|'.$margin.'&chl='.urlencode($url).'" alt="QR code" width="'.$size.'" height="'.$size.'" />';
     }
 
     /**
@@ -422,6 +421,20 @@ class OC_Core {
         }
     }
 
+    /**
+     * Use CDN or local CSS & JS files
+     * Flag from Core::config('general.use_cdn')
+     * 
+     * Force use of local files when in DEVELOPMENT for not connected local dev boxes
+     * 
+     * @return boolean TRUE if CDN files are to be used, FALSE if local files are to be used
+     */
+    public static function use_cdn_for_css_js()
+    {
+        //return Core::config('general.use_cdn') === '1';
+        return Kohana::$environment !== Kohana::DEVELOPMENT AND Core::config('general.use_cdn') === '1'; // Force use of local files when in DEVELOPMENT
+    }
+
 } //end core
 
 /**
@@ -432,7 +445,7 @@ class OC_Core {
 /**
  *
  * Dies and var_dumps
- * @param any $var
+ * @param mixed $var
  */
 function d($var)
 {

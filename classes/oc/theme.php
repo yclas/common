@@ -256,6 +256,18 @@ class OC_Theme {
         else
             $parent_theme = self::get_theme_parent($theme);
 
+        // Handle CDN protocol-relative URLs
+        if (strpos($file,'//')===0) 
+        {
+            // add current page protocol to CDN protocol-relative URL
+            $protocol = (
+                isset( $_SERVER['HTTPS'] ) && ( $_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1 )
+            || 	isset( $_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https'
+        ) ? 'https:' : 'http:';
+
+            return $protocol.$file; // return it now as a valid URL regarding check done by \Kohana_HTML::script oc/kohana/system/classes/Kohana/HTML.php:242
+        }
+
         //getting the public url only if was not external
         if (!Valid::url($file))
         {

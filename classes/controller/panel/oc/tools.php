@@ -120,27 +120,28 @@ class Controller_Panel_OC_Tools extends Auth_Controller {
         $this->template->title = __('System logs');
         Breadcrumbs::add(Breadcrumb::factory()->set_title($this->template->title));
 
-        //local files
-        if (Theme::get('cdn_files') == FALSE)
-        {
-            $this->template->styles = array('css/datepicker.css' => 'screen');
-            $this->template->scripts['footer'] = array('js/bootstrap-datepicker.js', 'js/oc-panel/logs.js');
-        }
-        else
-        {
-            $this->template->styles = array('https://cdn.jsdelivr.net/bootstrap.datepicker/0.1/css/datepicker.css' => 'screen');
-            $this->template->scripts['footer'] = array('https://cdn.jsdelivr.net/bootstrap.datepicker/0.1/js/bootstrap-datepicker.js', 'js/oc-panel/logs.js');
-        }
+        // use CDN or local files
+        $use_cdn = Core::use_cdn_for_css_js() OR (Theme::get('cdn_files') !== FALSE);
+
+        $this->template->styles = array(
+            $use_cdn?'//cdn.jsdelivr.net/bootstrap.datepicker/0.1/css/datepicker.css':'css/datepicker.0.1.css' => 'screen'
+        );
+        $this->template->scripts['footer'] = array(
+            $use_cdn?'//cdn.jsdelivr.net/bootstrap.datepicker/0.1/js/bootstrap-datepicker.js':'js/bootstrap-datepicker.0.1.js',
+            'js/oc-panel/logs.js'
+        );
         
         $date = core::get('date',date('Y-m-d'));
 
         $file = APPPATH.'logs/'.str_replace('-', '/', $date).'.php';
 
-        if (file_exists($file))
-            $log = file_get_contents($file);
-        else $log = NULL;
-
-        $this->template->content = View::factory('oc-panel/pages/tools/logs',array('file'=>$file,'log'=>$log,'date'=>$date));
+        $this->template->content = View::factory('oc-panel/pages/tools/logs',
+            array(
+                'file'=>$file,
+                'log'=>file_exists($file) ? file_get_contents($file) : NULL,
+                'date'=>$date
+            )
+        );
     }
 
 

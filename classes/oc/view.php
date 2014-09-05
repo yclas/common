@@ -49,13 +49,13 @@ class OC_View extends Kohana_View{
 
     
     /**
-     * gets the fragment name, unique using i18n theme and skin and cat and loc
+     * gets the fragment name, unique using i18n theme and URL
      * @param  string $name 
      * @return string       
      */
     public static function fragment_name($name)
     {
-        return 'fragment_'.$name.'_'.i18n::lang().'_'.Theme::$theme;
+        return 'fragment_'.$name.'_'.i18n::lang().'_'.Theme::$theme.'_'.URL::title(Request::current()->uri());
     }
 
 

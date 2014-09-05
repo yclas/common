@@ -429,23 +429,29 @@ class Model_OC_User extends ORM {
     /**
      * return the title formatted for the URL
      *
-     * @param  string $title
+     * @param  string $seoname
      * 
      */
-    public function gen_seo_title($title)
+    public function gen_seo_title($seoname)
     {
         //in case seoname is really small or null
-        if (strlen($title)<3)
-            $title = $this->name;
+        if (strlen($seoname)<3)
+        {   
+            if (Valid::email($this->email))
+                $seoname = substr($this->email, 0, strpos($this->email, '@'));
+            elseif (strlen($this->name)>=3)
+                $seoname = $this->name;
+            else
+                $seoname = __('user').'-'.$seoname;
+        }
 
-        $seotitle = URL::title($title);
-        
+        $seoname = URL::title($seoname);
 
-        if ($seotitle != $this->seoname)
+        if ($seoname != $this->seoname)
         {
             $user = new self;
             //find a user same seotitle
-            $s = $user->where('seoname', '=', $seotitle)->where('id_user', '!=', $this->id_user)->limit(1)->find();
+            $s = $user->where('seoname', '=', $seoname)->where('id_user', '!=', $this->id_user)->limit(1)->find();
 
             //found, increment the last digit of the seotitle
             if ($s->loaded())
@@ -454,24 +460,24 @@ class Model_OC_User extends ORM {
                 $loop = TRUE;
                 while($loop)
                 {
-                    $attempt = $seotitle.'-'.$cont;
+                    $attempt = $seoname.'-'.$cont;
                     $user = new self;
                     unset($s);
                     $s = $user->where('seoname', '=', $attempt)->where('id_user', '!=', $this->id_user)->limit(1)->find();
                     if(!$s->loaded())
                     {
                         $loop = FALSE;
-                        $seotitle = $attempt;
+                        $seoname = $attempt;
                     }
                     else
-                  {
+                    {
                         $cont++;
                     }
                 }
             }
         }
         
-        return $seotitle;
+        return $seoname;
     }
 
     /**
@@ -492,7 +498,7 @@ class Model_OC_User extends ORM {
                 $password       = Text::random('alnum', 8);
 
             $user->email        = $email;
-            $user->name         = $name;
+            $user->name         = ($name===NULL OR !isset($name))? substr($email, 0, strpos($email, '@')):$name;
             $user->status       = self::STATUS_ACTIVE;
             $user->id_role      = Model_Role::ROLE_USER;;
             $user->seoname      = $user->gen_seo_title($user->name);

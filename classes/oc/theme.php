@@ -255,6 +255,18 @@ class OC_Theme {
         }
         else
             $parent_theme = self::get_theme_parent($theme);
+            
+        //handle protocol-relative URLs, we return it directly
+        if (strpos($file,'//')===0)
+        {
+            // Use the initial request to get the protocol
+            $protocol = Request::$initial;
+            
+            // This request is secure?
+            $protocol = ($protocol->secure()) ? 'https:' : 'http:';
+            
+            return $protocol.$file;
+        }
 
         //getting the public url only if was not external
         if (!Valid::url($file))

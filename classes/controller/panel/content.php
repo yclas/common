@@ -36,7 +36,21 @@ class Controller_Panel_Content extends Auth_Controller {
     //list index FAQ
     public function action_help()
     {
-        $this->action_list('help');
+        $type = 'help';
+        
+        //template header
+        $this->template->title  = __('FAQ');
+        
+        Breadcrumbs::add(Breadcrumb::factory()->set_title(__('FAQ')));
+        $this->template->styles              = array('css/sortable.css' => 'screen');
+        $this->template->scripts['footer'][] = 'js/jquery-sortable-min.js';
+        $this->template->scripts['footer'][] = 'js/oc-panel/content.js';
+        
+        $locale = core::get('locale_select', core::config('i18n.locale'));
+        
+        $contents = Model_Content::get_contents($type,$locale);
+        
+        $this->template->content = View::factory('oc-panel/pages/content/help',array('contents'=>$contents, 'type'=>$type, 'locale_list'=>i18n::get_languages(), 'locale' => $locale));
     }
 
     /**
@@ -116,7 +130,7 @@ class Controller_Panel_Content extends Auth_Controller {
                 Alert::set(Alert::ERROR, $e->getMessage());
             }
 
-            HTTP::redirect(Route::url('oc-panel',array('controller'  => 'content','action'=>'list')).'?type='.$p['type'].'&locale_select='.$p['locale']);
+            HTTP::redirect(Route::url('oc-panel',array('controller'  => 'content','action'=>$p['type'])).'?locale_select='.$p['locale']);
         }
 
     }
@@ -224,5 +238,35 @@ class Controller_Panel_Content extends Auth_Controller {
 
     }
 
+    /**
+     * saves the content in a specific order
+     * @return void 
+     */
+    public function action_saveorder()
+    {
+        $this->auto_render = FALSE;
+        $this->template = View::factory('js');
+        
+        $locale = core::get('locale_select', core::config('i18n.locale'));
+                
+        if ($contents = Model_Content::get_contents(core::get('type'),$locale))
+        {
+            $order = Core::get('order');
+            
+            //using order they send us
+            foreach ($order as $key => $value)
+            {
+                $c = new Model_Content($value);
+                $c->order = $key;
+                $c->save();
+            }
+                
+            Core::delete_cache();
+            $this->template->content = __('Saved');
+        }
+        else
+            $this->template->content = __('Error');
+    
+    }
 
 }

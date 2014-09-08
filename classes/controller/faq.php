@@ -27,7 +27,7 @@ class Controller_FAQ extends Controller {
         
         //FAQ CMS 
         $faqs =  new Model_Content();
-        $faqs = $faqs->where('type','=','help')->where('status','=','1')->find_all();
+        $faqs = $faqs->where('type','=','help')->where('status','=','1')->order_by('order','asc')->find_all();
 
         
         $this->template->bind('content', $content);

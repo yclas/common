@@ -9,7 +9,6 @@ class Controller_Maintenance extends Kohana_Controller {
             HTTP::redirect(Route::url('default'));
 
         $this->response->status(503);
-        $this->response->headers('Status','503 Service Temporarily Unavailable'); // header('Status: 503 Service Temporarily Unavailable');
         $this->response->headers('Retry-After','555'); // header('Retry-After: 555');
  
         $this->response->body(View::factory('pages/error/503')->render());

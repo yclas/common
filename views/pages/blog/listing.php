@@ -15,13 +15,11 @@
 	    <p><?=substr($post->description,0, 255);?></p>
 	    
 	    <a title="<?=HTML::chars($post->title)?>" href="<?=Route::url('blog', array('seotitle'=>$post->seotitle))?>"><i class="glyphicon glyphicon-share"></i><?=__('Read more')?></a>
-    	<?if ($user !== NULL AND $user!=FALSE):?>
-            <?if ($user->id_role == 10):?>
+    	<?if ($user !== NULL AND $user!=FALSE AND $user->id_role == Model_Role::ROLE_ADMIN):?>
     		<br />
 			<a href="<?=Route::url('oc-panel', array('controller'=>'blog','action'=>'update','id'=>$post->id_post))?>"><?=__("Edit");?></a> |
 			<a href="<?=Route::url('oc-panel', array('controller'=>'blog','action'=>'delete','id'=>$post->id_post))?>" 
 				onclick="return confirm('<?=__('Delete?')?>');"><?=__("Delete");?></a>
-		    <?endif?>
         <?endif?>
     </article>
     <?endforeach?>

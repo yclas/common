@@ -38,8 +38,7 @@
             <td><?=$content->title?></td>
             <td><?=$content->seotitle?></td>
             <td><?=($content->status==1)?__('Yes'):__('No')?></td>
-            <td width="5%">
-                
+            <td width="15%">
                 <a class="btn btn-primary ajax-load" 
                     href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'edit','id'=>$content))?>" 
                     rel="tooltip" title="<?=__('Edit')?>">
@@ -56,7 +55,6 @@
                     rel="tooltip" title="<?=__('Delete')?>">
                     <i class="glyphicon glyphicon-trash"></i>
                 </a>
-
             </td>
         </tr>
     <?endif?>

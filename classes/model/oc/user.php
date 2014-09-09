@@ -563,7 +563,7 @@ class Model_OC_User extends ORM {
         if(is_file(DOCROOT."images/users/".$this->id_user.".png"))
             $imgurl = URL::base().'images/users/'.$this->id_user.'.png';
         else
-            $imgurl = 'http://www.gravatar.com/avatar/'.md5(strtolower(trim($this->email))).'?s=200';
+            $imgurl = 'https://www.gravatar.com/avatar/'.md5(strtolower(trim($this->email))).'?s=200';
 
         return $imgurl;
     }

@@ -43,13 +43,18 @@
                 <a class="btn btn-primary ajax-load" 
                     href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'edit','id'=>$content))?>" 
                     rel="tooltip" title="<?=__('Edit')?>">
-                    <i class="glyphicon   glyphicon-edit"></i>
+                    <i class="glyphicon glyphicon-edit"></i>
+                </a>
+                <a class="btn btn-success" target="_blank"
+                    href="/<?=$content->seotitle.'.html'?>" 
+                    rel="tooltip" title="<?=__('View')?>">
+                    <i class="glyphicon glyphicon-eye-open"></i>
                 </a>
                 <a class="btn btn-danger index-delete"  data-text="<?=__('Are you sure you want to delete?')?>" 
                         data-id="tr<?=$content->id_content?>"
                     href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'delete','id'=>$content))?>" 
                     rel="tooltip" title="<?=__('Delete')?>">
-                    <i class="glyphicon   glyphicon-trash"></i>
+                    <i class="glyphicon glyphicon-trash"></i>
                 </a>
 
             </td>

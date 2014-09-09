@@ -74,7 +74,7 @@ class OC_View extends Kohana_View{
         $path = Kohana::find_file(Theme::views_path(), $file);
 
         //if file does not exists on this theme and theme has a parent (its a child theme)
-        if ($path === FALSE AND Theme::$parent_theme!==NULL)
+        if ($path === FALSE AND isset(Theme::$parent_theme) AND Theme::$parent_theme!==NULL)
             $path = Kohana::find_file(Theme::views_parent_path(), $file);
     
         //in case view not found try to read from default theme

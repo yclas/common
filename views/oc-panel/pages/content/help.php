@@ -27,20 +27,20 @@
 <div class="row">
     <ol class='plholder col-md-9' id="ol_1" data-id="1">
     <?foreach($contents as $content):?>
-        <li data-id="<?=$content?>" id="<?=$content?>"><i class="glyphicon   glyphicon-move"></i>
+        <li data-id="<?=$content->id_content?>" id="<?=$content->id_content?>"><i class="glyphicon glyphicon-move"></i>
             <?=$content->title?>
-            <?if ((bool) $content->status) : ?>
+            <?if ($content->status==1) : ?>
             <span class="label label-info "><?=__('Active')?></span>
             <?endif?>
             <a data-text="<?=__('Are you sure you want to delete? All data contained in this field will be deleted.')?>" 
-               data-id="<?=$content?>" 
+               data-id="<?=$content->id_content?>" 
                class="btn btn-xs btn-danger pull-right index-delete index-delete-inline"  
-               href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'delete','id'=>$content))?>">
+               href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'delete','id'=>$content->id_content))?>">
                 <i class="glyphicon glyphicon-trash"></i>
             </a>
     
             <a class="btn btn-xs btn-primary pull-right ajax-load" 
-                href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'edit','id'=>$content))?>">
+                href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'edit','id'=>$content->id_content))?>">
                 <?=__('Edit')?>
             </a>
         </li>

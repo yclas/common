@@ -231,7 +231,7 @@ class Controller_Forum extends Controller {
 
             //getting all the topic replies, pagination
             $replies = new Model_Post();
-            $replies = $replies->where('id_post_parent','=',$topic->id_post);
+            $replies = $replies->where('id_post_parent','=',$topic->id_post)->where('status','=',Model_Post::STATUS_ACTIVE);
             $replies_count = clone $replies;
 
             $pagination = Pagination::factory(array(

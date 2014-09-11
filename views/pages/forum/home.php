@@ -36,7 +36,7 @@
                     <?if($fhi['id_forum_parent'] == $f['id_forum']):?>
                     <tr>
                         <th><a title="<?=HTML::chars($fhi['name'])?>" href="<?=Route::url('forum-list', array('forum'=>$fhi['seoname']))?>"><?=$fhi['name'];?></a></th>
-                        <th width="15%"><span class="label label-warning pull-right"><?=(isset($fhi['last_message'])?Date::format($f['last_message']):'')?></span></th>
+                        <th width="15%"><span class="label label-warning pull-right"><?=(isset($fhi['last_message'])?Date::format($fhi['last_message']):'')?></span></th>
                         <th width="5%"><span class="label label-success pull-right"><?=$fhi['count']?></span></th>
                     </tr>
                     <?endif?>

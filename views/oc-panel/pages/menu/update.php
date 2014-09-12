@@ -31,7 +31,7 @@
                 <?if (count($item)>0):?>
                     <div class="radio">
                     <label>
-                    <input <?=($cats[$key]['seoname']==Core::get('category'))?'checked':''?> type="radio" id="radio_<?=$cats[$key]['seoname']?>" data-name="radio_<?=$cats[$key]['name']?>" class="menu_category"  value="<?=$cats[$key]['id']?>" required > 
+                    <input <?=($cats[$key]['seoname']==Core::get('category'))?'checked':''?> type="radio" id="radio_<?=$cats[$key]['seoname']?>" data-name="radio_<?=$cats[$key]['name']?>" class="menu_category"  value="<?=$cats[$key]['id']?>"> 
                         <a class="btn btn-primary btn-xs" data-toggle="collapse" type="button"  
                             data-target="#acc_<?=$cats[$key]['seoname']?>">                    
                             <i class=" glyphicon   glyphicon-plus"></i> <?=$cats[$key]['name']?>
@@ -42,7 +42,7 @@
                 <?else:?>
                     <div class="radio">
                     <label>
-                    <input <?=($cats[$key]['seoname']==Core::get('category'))?'checked':''?> type="radio" id="radio_<?=$cats[$key]['seoname']?>" data-name="radio_<?=$cats[$key]['name']?>" class="menu_category"  value="<?=$cats[$key]['id']?>" required > 
+                    <input <?=($cats[$key]['seoname']==Core::get('category'))?'checked':''?> type="radio" id="radio_<?=$cats[$key]['seoname']?>" data-name="radio_<?=$cats[$key]['name']?>" class="menu_category"  value="<?=$cats[$key]['id']?>"> 
                     
                         <a class="btn btn-xs btn-primary" data-toggle="collapse" type="button"  
                             data-target="#acc_<?=$cats[$key]['seoname']?>">                    
@@ -77,7 +77,7 @@
                 <div class="accordion-heading">
                 <div class="radio">
                     <label>
-                    <input type="radio" class="default_links" id="radio_home"  name="home" data-url="" data-icon="  glyphicon-home glyphicon" value="home">    
+                    <input type="radio" class="default_links" id="radio_home"  name="home" data-url="" data-icon="glyphicon-home glyphicon" value="home">    
                         <a class="btn btn-primary btn-xs" type="button"  >                    
                              <?=__('Home')?>
                         </a>
@@ -85,7 +85,7 @@
                 </div>
                 <div class="radio">
                     <label>
-                    <input type="radio" class="default_links" id="radio_listing" name="listing" data-url="all" data-icon="glyphicon  glyphicon-list glyphicon" value="listing">
+                    <input type="radio" class="default_links" id="radio_listing" name="listing" data-url="all" data-icon="glyphicon glyphicon-list" value="listing">
                         <a class="btn btn-primary btn-xs" type="button"  >                    
                              <?=__('listing')?>
                         </a>
@@ -93,7 +93,7 @@
                 </div>
                 <div class="radio">
                     <label>
-                    <input type="radio" class="default_links" id="radio_search" name="search" data-url="search.html" data-icon="glyphicon  glyphicon-search glyphicon" value="search">
+                    <input type="radio" class="default_links" id="radio_search" name="search" data-url="search.html" data-icon="glyphicon glyphicon-search" value="search">
                         <a class="btn btn-primary btn-xs" type="button"  >                    
                              <?=__('Search')?>
                         </a>
@@ -101,7 +101,7 @@
                 </div>
                 <div class="radio">
                     <label>
-                    <input type="radio" class="default_links" id="radio_contact" name="contact" data-url="contact.html" data-icon="glyphicon  glyphicon-envelope glyphicon" value="contact">
+                    <input type="radio" class="default_links" id="radio_contact" name="contact" data-url="contact.html" data-icon="glyphicon glyphicon-envelope" value="contact">
                         <a class="btn btn-primary btn-xs" type="button"  >                    
                              <?=__('contact')?>
                         </a>
@@ -109,7 +109,7 @@
                 </div>
                 <div class="radio">
                     <label>
-                    <input type="radio" class="default_links" id="radio_rss" name="rss" data-url="rss.xml" data-icon="glyphicon  glyphicon-signal glyphicon" value="rss">
+                    <input type="radio" class="default_links" id="radio_rss" name="rss" data-url="rss.xml" data-icon="glyphicon glyphicon-signal" value="rss">
                         <a class="btn btn-primary btn-xs" type="button"  >                    
                              <?=__('rss')?>
                         </a>
@@ -117,7 +117,7 @@
                 </div>
                 <div class="radio">
                     <label>
-                    <input type="radio" class="default_links" id="radio_map" name="map" data-url="map.html" data-icon="glyphicon  glyphicon-globe glyphicon" value="map">
+                    <input type="radio" class="default_links" id="radio_map" name="map" data-url="map.html" data-icon="glyphicon glyphicon-globe" value="map">
                         <a class="btn btn-primary btn-xs" type="button"  >                    
                              <?=__('map')?>
                         </a>

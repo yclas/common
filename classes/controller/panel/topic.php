@@ -91,11 +91,11 @@ class Controller_Panel_Topic extends Auth_Crud {
             try {
                 $topic->save();
                 Alert::set(Alert::SUCCESS, __('Topic is updated.'));
-                HTTP::redirect(Route::url('oc-panel',array('controller'  => 'topic','action'=>'index')));  
             } catch (Exception $e) {
                 Alert::set(Alert::ERROR, $e->getMessage());
-                HTTP::redirect(Route::url('oc-panel',array('controller'  => 'topic','action'=>'index'))); 
             }
+
+            HTTP::redirect(Route::url('oc-panel',array('controller'  => 'topic','action'=>'index')));
         }
     }
 

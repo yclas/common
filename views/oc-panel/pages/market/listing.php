@@ -44,7 +44,7 @@ foreach ($market as $item):?>
                     <i class="glyphicon  glyphicon-shopping-cart"></i>  <?=__('Buy Now')?>
                 </a>
                 <?if (strtolower($item['type'])=='themes' AND $item['title']!='Pack of themes'):?>
-                <a class="btn btn-warning" href="http://open-classifieds.com/hosting/">
+                <a class="btn btn-warning" href="http://<?=Core::DOMAIN?>/hosting/">
                     <i class="glyphicon  glyphicon-shopping-cart"></i>  Hosted $3.49/M
                 </a>
                 <?endif?>

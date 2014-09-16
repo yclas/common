@@ -30,7 +30,7 @@ class File extends Kohana_File{
             $copy_file = FALSE;
 
             //if doesnt exists OR we want to overwrite always OR different size copy the file.
-            if( !is_file( $dest ) OR $overwrite == 1 OR ( $overwrite == 2 AND filesize($source)===filesize($dest) ) ) 
+            if( !is_file( $dest ) OR $overwrite == 1 OR ( $overwrite == 2 AND filesize($source)!==filesize($dest) ) ) 
                 $copy_file = TRUE;
 
             if ($copy_file === TRUE)

@@ -166,7 +166,7 @@ class Controller_Panel_OC_Update extends Auth_Controller {
             Model_Config::set_value('general','maintenance',1);
 
             //copy from update to docroot only if files different size
-            File::copy($from, DOCROOT, 2);
+            File::copy($from, DOCROOT, 1);
         }
         else
         {

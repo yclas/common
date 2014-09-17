@@ -146,7 +146,7 @@ class Controller_Panel_OC_Update extends Auth_Controller {
         //getting the directory where the zip was uncompressed
         foreach (new DirectoryIterator($update_src_dir) as $file) 
         {
-            if($file->isDir())
+            if($file->isDir() AND !$file->isDot())
             {
                 $folder_udpate = $file->getFilename();
                 break;

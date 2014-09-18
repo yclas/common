@@ -50,9 +50,17 @@
                 <button class="btn btn-warning" data-dismiss="modal" aria-hidden="true" ><?=__('Close')?></button>
                 
                 <?if ($widget->loaded):?>
-                    <a onclick="return confirm('<?=__('Sure you want to delete the widget? You can move it to the inactive placeholder')?>');"
-                        href="<?=Route::url('oc-panel',array('controller'=>'widget','action'=>'remove','id'=>$widget->widget_name))?>" class="btn btn-danger pull-left">
-                        <i class="glyphicon   glyphicon-trash"></i></a>
+                    <a
+                        href="<?=Route::url('oc-panel',array('controller'=>'widget','action'=>'remove','id'=>$widget->widget_name))?>" 
+                        class="btn btn-danger pull-left" 
+                        title="<?=__('Sure you want to delete the widget? You can move it to the inactive placeholder')?>" 
+                        data-toggle="confirmation" 
+                        data-placement="right" 
+                        data-href="<?=Route::url('oc-panel',array('controller'=>'widget','action'=>'remove','id'=>$widget->widget_name))?>" 
+                        data-btnOkLabel="<?=__('Yes, definitely!')?>" 
+                        data-btnCancelLabel="<?=__('No way!')?>">
+                        <i class="glyphicon   glyphicon-trash"></i>
+                    </a>
                 <?endif?>
 
                 <button onclick="form_widget_<?=$widget->id_name()?>.submit();" class="btn btn-primary"><?=__('Save changes')?></button>

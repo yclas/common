@@ -14,11 +14,16 @@
                
         <span class="label label-info "><?=$data['title']?></span>
         <?=$data['url']?> (<?=$data['target']?>)
-        <a data-text="<?=__('Are you sure you want to delete? All data contained in this field will be deleted.')?>" 
-           data-id="li_<?=$key?>" 
-           class="btn btn-xs btn-danger pull-right index-delete-inline"  
-           href="<?=Route::url('oc-panel', array('controller'=> 'menu', 'action'=>'delete','id'=>$key))?>">
-                    <i class="glyphicon   glyphicon-trash"></i>
+        <a 
+            href="<?=Route::url('oc-panel', array('controller'=> 'menu', 'action'=>'delete','id'=>$key))?>" 
+            class="btn btn-xs btn-danger pull-right index-delete index-delete-inline" 
+            title="<?=__('Are you sure you want to delete?')?>" 
+            data-id="<?=$key?>" 
+            data-placement="left" 
+            data-href="<?=Route::url('oc-panel', array('controller'=> 'menu', 'action'=>'delete','id'=>$key))?>" 
+            data-btnOkLabel="<?=__('Yes, definitely!')?>" 
+            data-btnCancelLabel="<?=__('No way!')?>">
+            <i class="glyphicon glyphicon-trash"></i>
         </a>
 
         <a class="btn btn-xs btn-primary pull-right ajax-load" 

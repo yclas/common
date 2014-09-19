@@ -28,10 +28,10 @@
     <?foreach($strings_en as $key => $value):?>
     <? if (isset($strings_default[$key])) {
             $value = $strings_default[$key];
-            $nb_not_translated++;
         }
         else {
             $value = '';
+            $nb_not_translated++;
         }
         ?>
         <tr id="tr_<?=$cont?>" class="<?=($value)? 'success': 'error'?>">

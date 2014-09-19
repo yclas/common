@@ -36,9 +36,16 @@
 					</a>
 					<?endif?>
 					<?if ($controller->allowed_crud_action('delete')):?>
-					<a data-text="<?=__('Are you sure you want to delete?')?>" 
-						data-id="tr<?=$element->pk()?>" class="btn btn-danger index-delete" title="<?=__('Delete')?>" href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'delete','id'=>$element->pk()))?>">
-						<i class="glyphicon   glyphicon-trash"></i>
+					<a 
+						href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'delete','id'=>$element->pk()))?>" 
+						class="btn btn-danger index-delete" 
+						title="<?=__('Are you sure you want to delete?')?>" 
+						data-id="tr<?=$element->pk()?>" 
+						data-placement="left" 
+						data-href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'delete','id'=>$element->pk()))?>" 
+						data-btnOkLabel="<?=__('Yes, definitely!')?>" 
+						data-btnCancelLabel="<?=__('No way!')?>">
+						<i class="glyphicon glyphicon-trash"></i>
 					</a>
 					<?endif?>
 				</td>

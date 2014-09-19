@@ -63,7 +63,7 @@
     </table>
     <button type="submit" class="btn btn-primary pull-right" name="translation[submit]"><i class="glyphicon glyphicon-hdd"></i> <?=__('Save')?></button>
 
-    <?=sprintf("%u strings already translated",$cont)?>. <span class="error"><?=sprintf("%u strings yet to translate",$nb_not_translated)?></span>
+    <?=sprintf("Total of %u strings. %u strings already translated", $cont, $cont-$nb_not_translated)?>. <span class="error"><?=sprintf("%u strings yet to translate",$nb_not_translated)?>.</span>
 
     <div id="translate-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">

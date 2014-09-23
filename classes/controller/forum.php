@@ -178,7 +178,7 @@ class Controller_Forum extends Controller {
                 }
                 else
                 {
-                    Alert::set(Alert::SUCCESS, __('This email has been considered as spam! We are sorry but we can not send this email.'));
+                    Alert::set(Alert::WARNING, __('This email has been considered as spam! We are sorry but we can not send this email.'));
                 }
             }
             else

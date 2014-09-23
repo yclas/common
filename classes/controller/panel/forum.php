@@ -207,7 +207,7 @@ class Controller_Panel_Forum extends Auth_Crud {
             }
         }
         else
-             Alert::set(Alert::SUCCESS, __('Forum not deleted'));
+             Alert::set(Alert::ERROR, __('Forum not deleted'));
 
         
         HTTP::redirect(Route::url('oc-panel',array('controller'  => 'forum','action'=>'index')));  

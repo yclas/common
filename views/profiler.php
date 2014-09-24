@@ -9,33 +9,34 @@ $group_stats      = Profiler::group_stats();
 $group_cols       = array('min', 'max', 'average', 'total');
 $application_cols = array('min', 'max', 'average', 'current');
 ?>
-
+<h2 id="profiler-header" class="profiler_header">Profiler</h2>
+<a href="#kohana_error"><button type="button" class="btn btn-primary pull-right">jump to ENVIRONMENT</button></a>
 <div class="kohana">
 	<?php foreach (Profiler::groups() as $group => $benchmarks): ?>
 	<table class="profiler">
 		<tr class="group">
-			<th class="name" rowspan="2"><?php echo __(ucfirst($group)) ?></th>
-			<td class="time" colspan="4"><?php echo number_format($group_stats[$group]['total']['time'], 6) ?> <abbr title="seconds">s</abbr></td>
+			<th class="name" rowspan="2"><?=__(ucfirst($group)) ?></th>
+			<td class="time" colspan="4"><?=number_format($group_stats[$group]['total']['time'], 6) ?> <abbr title="seconds">s</abbr></td>
 		</tr>
 		<tr class="group">
-			<td class="memory" colspan="4"><?php echo number_format($group_stats[$group]['total']['memory'] / 1024, 4) ?> <abbr title="kilobyte">kB</abbr></td>
+			<td class="memory" colspan="4"><?=number_format($group_stats[$group]['total']['memory'] / 1024, 4) ?> <abbr title="kilobyte">kB</abbr></td>
 		</tr>
 		<tr class="headers">
-			<th class="name"><?php echo __('Benchmark') ?></th>
+			<th class="name"><?=__('Benchmark') ?></th>
 			<?php foreach ($group_cols as $key): ?>
-			<th class="<?php echo $key ?>"><?php echo __(ucfirst($key)) ?></th>
+			<th class="<?=$key?>"><?=__(ucfirst($key)) ?></th>
 			<?php endforeach ?>
 		</tr>
 		<?php foreach ($benchmarks as $name => $tokens): ?>
 		<tr class="mark time">
 			<?php $stats = Profiler::stats($tokens) ?>
-			<th class="name" rowspan="2" scope="rowgroup"><?php echo HTML::chars($name), ' (', count($tokens), ')' ?></th>
+			<th class="name" rowspan="2" scope="rowgroup"><?=HTML::chars($name), ' (', count($tokens), ')' ?></th>
 			<?php foreach ($group_cols as $key): ?>
-			<td class="<?php echo $key ?>">
+			<td class="<?=$key ?>">
 				<div>
-					<div class="value"><?php echo number_format($stats[$key]['time'], 6) ?> <abbr title="seconds">s</abbr></div>
+					<div class="value"><?=number_format($stats[$key]['time'], 6) ?> <abbr title="seconds">s</abbr></div>
 					<?php if ($key === 'total'): ?>
-						<div class="graph" style="left: <?php echo max(0, 100 - $stats[$key]['time'] / $group_stats[$group]['max']['time'] * 100) ?>%"></div>
+						<div class="graph" style="left: <?=max(0, 100 - $stats[$key]['time'] / $group_stats[$group]['max']['time'] * 100) ?>%"></div>
 					<?php endif ?>
 				</div>
 			</td>
@@ -43,11 +44,11 @@ $application_cols = array('min', 'max', 'average', 'current');
 		</tr>
 		<tr class="mark memory">
 			<?php foreach ($group_cols as $key): ?>
-			<td class="<?php echo $key ?>">
+			<td class="<?=$key ?>">
 				<div>
-					<div class="value"><?php echo number_format($stats[$key]['memory'] / 1024, 4) ?> <abbr title="kilobyte">kB</abbr></div>
+					<div class="value"><?=number_format($stats[$key]['memory'] / 1024, 4) ?> <abbr title="kilobyte">kB</abbr></div>
 					<?php if ($key === 'total'): ?>
-						<div class="graph" style="left: <?php echo max(0, 100 - $stats[$key]['memory'] / $group_stats[$group]['max']['memory'] * 100) ?>%"></div>
+						<div class="graph" style="left: <?=max(0, 100 - $stats[$key]['memory'] / $group_stats[$group]['max']['memory'] * 100) ?>%"></div>
 					<?php endif ?>
 				</div>
 			</td>
@@ -60,18 +61,20 @@ $application_cols = array('min', 'max', 'average', 'current');
 	<table class="profiler">
 		<?php $stats = Profiler::application() ?>
 		<tr class="final mark time">
-			<th class="name" rowspan="2" scope="rowgroup"><?php echo __('Application Execution').' ('.$stats['count'].')' ?></th>
+			<th class="name" rowspan="2" scope="rowgroup"><?=__('Application Execution').' ('.$stats['count'].')' ?></th>
 			<?php foreach ($application_cols as $key): ?>
-			<td class="<?php echo $key ?>"><?php echo number_format($stats[$key]['time'], 6) ?> <abbr title="seconds">s</abbr></td>
+			<td class="<?=$key ?>"><?=number_format($stats[$key]['time'], 6) ?> <abbr title="seconds">s</abbr></td>
 			<?php endforeach ?>
 		</tr>
 		<tr class="final mark memory">
 			<?php foreach ($application_cols as $key): ?>
-			<td class="<?php echo $key ?>"><?php echo number_format($stats[$key]['memory'] / 1024, 4) ?> <abbr title="kilobyte">kB</abbr></td>
+			<td class="<?=$key ?>"><?=number_format($stats[$key]['memory'] / 1024, 4) ?> <abbr title="kilobyte">kB</abbr></td>
 			<?php endforeach ?>
 		</tr>
 	</table>
 </div>
+<a href="#profiler-header"><button type="button" class="btn btn-primary pull-right">^ PROFILER ^</button></a>
+<a href="#"><button type="button" class="btn btn-primary pull-right">^ TOP ^</button></a>
 
 <style type="text/css">
 #kohana_error { background: #ddd; font-size: 1em; font-family:sans-serif; text-align: left; color: #111; }
@@ -116,40 +119,41 @@ function koggle(elem)
 	return false;
 }
 </script>
+
 <div id="kohana_error">
-	<h2><?php echo __('Environment') ?></h2>
+	<h2><?=__('Environment') ?></h2>
 	<div class="content">
 		<?php $included = get_included_files() ?>
-		<h3><a href="#<?php echo $env_id = 'environment_included' ?>" onclick="return koggle('<?php echo $env_id ?>')"><?php echo __('Included files') ?></a> (<?php echo count($included) ?>)</h3>
-		<div id="<?php echo $env_id ?>" class="collapsed">
+		<h3><a href="#<?=$env_id = 'environment_included'?>" onclick="return koggle('<?=$env_id?>')"><?=__('Included files') ?></a> (<?=count($included)?>)</h3>
+		<div id="<?=$env_id?>" class="collapsed">
 			<table cellspacing="0">
 				<?php foreach ($included as $file): ?>
 				<tr>
-					<td><code><?php echo Debug::path($file) ?></code></td>
+					<td><code><?=Debug::path($file)?></code></td>
 				</tr>
 				<?php endforeach ?>
 			</table>
 		</div>
 		<?php $included = get_loaded_extensions() ?>
-		<h3><a href="#<?php echo $env_id = 'environment_loaded' ?>" onclick="return koggle('<?php echo $env_id ?>')"><?php echo __('Loaded extensions') ?></a> (<?php echo count($included) ?>)</h3>
-		<div id="<?php echo $env_id ?>" class="collapsed">
+		<h3><a href="#<?=$env_id = 'environment_loaded' ?>" onclick="return koggle('<?=$env_id?>')"><?=__('Loaded extensions')?></a> (<?=count($included)?>)</h3>
+		<div id="<?=$env_id?>" class="collapsed">
 			<table cellspacing="0">
 				<?php foreach ($included as $file): ?>
 				<tr>
-					<td><code><?php echo Debug::path($file) ?></code></td>
+					<td><code><?=Debug::path($file)?></code></td>
 				</tr>
 				<?php endforeach ?>
 			</table>
 		</div>
 		<?php foreach (array('_SESSION', '_GET', '_POST', '_FILES', '_COOKIE', '_SERVER') as $var): ?>
 		<?php if (empty($GLOBALS[$var]) OR ! is_array($GLOBALS[$var])) continue ?>
-		<h3><a href="#<?php echo $env_id = 'environment'.strtolower($var) ?>" onclick="return koggle('<?php echo $env_id ?>')">$<?php echo $var ?></a></h3>
-		<div id="<?php echo $env_id ?>" class="collapsed">
+		<h3><a href="#<?=$env_id = 'environment'.strtolower($var)?>" onclick="return koggle('<?=$env_id?>')">$<?=$var?></a></h3>
+		<div id="<?=$env_id ?>" class="collapsed">
 			<table cellspacing="0">
 				<?php foreach ($GLOBALS[$var] as $key => $value): ?>
 				<tr>
-					<td><code><?php echo HTML::chars($key) ?></code></td>
-					<td><pre><?php echo Debug::dump($value) ?></pre></td>
+					<td><code><?=HTML::chars($key)?></code></td>
+					<td><pre><?=Debug::dump($value)?></pre></td>
 				</tr>
 				<?php endforeach ?>
 			</table>
@@ -157,3 +161,7 @@ function koggle(elem)
 		<?php endforeach ?>
 	</div>
 </div>
+
+<a href="#profiler-header"><button type="button" class="btn btn-primary pull-right">^ PROFILER ^</button></a>
+<a href="#kohana_error"><button type="button" class="btn btn-primary pull-right">^ ENVIRONMENT ^</button></a>
+<a href="#"><button type="button" class="btn btn-primary pull-right">^ TOP ^</button></a>

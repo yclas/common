@@ -559,12 +559,26 @@ class Model_OC_User extends ORM {
      */
     public function get_profile_image()
     {
-
-        if(is_file(DOCROOT."images/users/".$this->id_user.".png"))
-            $imgurl = URL::base().'images/users/'.$this->id_user.'.png';
+        if(core::config('image.aws_s3_active'))
+        {
+            require_once Kohana::find_file('vendor', 'amazon-s3-php-class/S3','php');
+            $s3 = new S3(core::config('image.aws_access_key'), core::config('image.aws_secret_key'));
+            if (($s3->getObjectInfo(core::config('image.aws_s3_bucket'),
+                'images/users/'.$this->id_user.'.png')) !== false)
+                
+                return ((Request::$initial->secure()) ? 'https://' : 'http://')
+                    .core::config('image.aws_s3_bucket').'.'.'s3.amazonaws.com/'
+                    .'images/users/'.$this->id_user.'.png';
+            else
+                $imgurl = '//www.gravatar.com/avatar/'.md5(strtolower(trim($this->email))).'?s=200';
+        }
         else
-            $imgurl = '//www.gravatar.com/avatar/'.md5(strtolower(trim($this->email))).'?s=200';
-
+        {
+            if(is_file(DOCROOT."images/users/".$this->id_user.".png"))
+                $imgurl = URL::base().'images/users/'.$this->id_user.'.png';
+            else
+                $imgurl = '//www.gravatar.com/avatar/'.md5(strtolower(trim($this->email))).'?s=200';
+        }
         return $imgurl;
     }
 

@@ -29,7 +29,7 @@ class Controller_Panel_OC_Update extends Auth_Controller {
         ignore_user_abort(TRUE);
         parent::__construct($request, $response);
 
-        self::$db_prefix  = Core::config('database.default.table_prefix');
+        self::$db_prefix  = Database::instance('default')->table_prefix();
         self::$db_charset = Core::config('database.default.charset');
     }
 

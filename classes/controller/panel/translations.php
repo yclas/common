@@ -131,9 +131,7 @@ class Controller_Panel_Translations extends Auth_Controller {
                 }
             }
             //write the generated .po to file
-            $fp = fopen($default, 'w+');
-            $read = fwrite($fp, $out);
-            fclose($fp);
+           file_put_contents($default, $out, LOCK_EX);
 
             $pocreator_default->strings = $strings;
 

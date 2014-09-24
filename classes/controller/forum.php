@@ -74,14 +74,14 @@ class Controller_Forum extends Controller {
             $topics =   DB::select('p.*')
                         ->select(array(DB::select(DB::expr('COUNT("id_post")'))
                             ->from(array('posts','pc'))
-                            ->where('pc.id_post_parent','=',DB::expr(core::config('database.default.table_prefix').'p.id_post'))
+                            ->where('pc.id_post_parent','=',DB::expr(Database::instance('default')->table_prefix().'p.id_post'))
                             ->where('pc.id_forum','=',$forum->id_forum)
                             ->where('pc.status','=',Model_Post::STATUS_ACTIVE)
                             ->group_by('pc.id_post_parent'), 'count_replies'))
                         ->select(array(DB::select('ps.created')
                             ->from(array('posts','ps'))
-                            ->where('ps.id_post','=',DB::expr(core::config('database.default.table_prefix').'p.id_post'))
-                            ->or_where('ps.id_post_parent','=',DB::expr(core::config('database.default.table_prefix').'p.id_post'))
+                            ->where('ps.id_post','=',DB::expr(Database::instance('default')->table_prefix().'p.id_post'))
+                            ->or_where('ps.id_post_parent','=',DB::expr(Database::instance('default')->table_prefix().'p.id_post'))
                             ->where('ps.id_forum','=',$forum->id_forum)
                             ->where('ps.status','=',Model_Post::STATUS_ACTIVE)
                             ->order_by('ps.created','DESC')
@@ -178,7 +178,7 @@ class Controller_Forum extends Controller {
                 }
                 else
                 {
-                    Alert::set(Alert::SUCCESS, __('This email has been considered as spam! We are sorry but we can not send this email.'));
+                    Alert::set(Alert::WARNING, __('This email has been considered as spam! We are sorry but we can not send this email.'));
                 }
             }
             else

@@ -124,7 +124,7 @@ class Controller_Panel_Topic extends Auth_Crud {
             }
         }
         else
-             Alert::set(Alert::SUCCESS, __('Topic not deleted'));
+             Alert::set(Alert::ERROR, __('Topic not deleted'));
 
         
         HTTP::redirect(Route::url('oc-panel',array('controller'  => 'topic','action'=>'index')));  

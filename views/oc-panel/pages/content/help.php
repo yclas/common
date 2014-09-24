@@ -32,10 +32,15 @@
             <?if ($content->status==1) : ?>
             <span class="label label-info "><?=__('Active')?></span>
             <?endif?>
-            <a data-text="<?=__('Are you sure you want to delete? All data contained in this field will be deleted.')?>" 
-               data-id="<?=$content->id_content?>" 
-               class="btn btn-xs btn-danger pull-right index-delete index-delete-inline"  
-               href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'delete','id'=>$content->id_content))?>">
+            <a 
+                href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'delete','id'=>$content->id_content))?>" 
+                class="btn btn-xs btn-danger pull-right index-delete index-delete-inline" 
+                title="<?=__('Are you sure you want to delete? All data contained in this field will be deleted.')?>" 
+                data-id="<?=$content->id_content?>" 
+                data-placement="left" 
+                data-href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'delete','id'=>$content->id_content))?>" 
+                data-btnOkLabel="<?=__('Yes, definitely!')?>" 
+                data-btnCancelLabel="<?=__('No way!')?>">
                 <i class="glyphicon glyphicon-trash"></i>
             </a>
     

@@ -11,11 +11,16 @@
 <?function lili($item, $key,$forums){?>
     <li data-id="<?=$key?>" id="li_<?=$key?>"><i class="icon-move"></i> <?=$forums[$key]['name']?>
         
-        <a data-text="<?=__('Are you sure you want to delete? We will move the siblings forums and ads to the parent of this forum.')?>" 
-           data-id="li_<?=$key?>" 
-           class="btn btn-xs btn-danger pull-right"  
-           href="<?=Route::url('oc-panel', array('controller'=> 'forum', 'action'=>'delete','id'=>$key))?>">
-                    <i class="glyphicon glyphicon-trash"></i>
+        <a 
+            href="<?=Route::url('oc-panel', array('controller'=> 'forum', 'action'=>'delete','id'=>$key))?>" 
+            class="btn btn-xs btn-danger pull-right index-delete index-delete-inline" 
+            title="<?=__('Are you sure you want to delete? We will move the siblings forums and ads to the parent of this forum.')?>" 
+            data-id="li_<?=$key?>" 
+            data-placement="left" 
+            data-href="<?=Route::url('oc-panel', array('controller'=> 'forum', 'action'=>'delete','id'=>$key))?>" 
+            data-btnOkLabel="<?=__('Yes, definitely!')?>" 
+            data-btnCancelLabel="<?=__('No way!')?>">
+            <i class="glyphicon glyphicon-trash"></i>
         </a>
 
         <a class="btn btn-xs btn-primary pull-right ajax-load" 

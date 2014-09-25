@@ -80,6 +80,7 @@ class Model_OC_User extends ORM {
                         'token'         => array(array('max_length', array(':value', 40))),
                         'token_created' => array(),
                         'token_expires' => array(),
+                        'has_images'    => array(array('numeric')),
                     );
     }
     
@@ -104,6 +105,7 @@ class Model_OC_User extends ORM {
                         'description'   => __('Description'),
                         'last_modified' => __('Last modified'),
                         'last_login'    => __('Last login'),
+                        'has_image'     => __('Has image'),
                     );
     }
 
@@ -423,7 +425,7 @@ class Model_OC_User extends ORM {
 
     public function exclude_fields()
     {
-       return array('logins','last_login','hybridauth_provider_uid','password','last_modified','created','salt', 'ip_created', 'last_ip','token','token_created','token_expires','user_agent','id_location','seoname');
+       return array('logins','last_login','hybridauth_provider_uid','password','last_modified','created','salt', 'ip_created', 'last_ip','token','token_created','token_expires','user_agent','id_location','seoname','has_image');
     }
 
     /**
@@ -559,28 +561,22 @@ class Model_OC_User extends ORM {
      */
     public function get_profile_image()
     {
-        if(core::config('image.aws_s3_active'))
-        {
-            require_once Kohana::find_file('vendor', 'amazon-s3-php-class/S3','php');
-            $s3 = new S3(core::config('image.aws_access_key'), core::config('image.aws_secret_key'));
-            if (($s3->getObjectInfo(core::config('image.aws_s3_bucket'),
-                'images/users/'.$this->id_user.'.png')) !== false)
+        if ($this->has_image) {
+            if(core::config('image.aws_s3_active'))
             {
                 $protocol = Request::$initial->secure() ? 'https://' : 'http://';
-                $imgdomain = core::config('image.aws_s3_bucket').(core::config('image.aws_s3_domain') ? NULL : '.s3.amazonaws.com');
-                $imgurl = $protocol.$imgdomain.'/images/users/'.$this->id_user.'.png';
+                $cdndomain = core::config('image.aws_s3_bucket')
+                            .(core::config('image.aws_s3_domain') ? '/' : '.s3.amazonaws.com/');
+                $version = $this->last_modified ? '?v='.Date::mysql2unix($this->last_modified) : NULL;
+                
+                return $protocol.$cdndomain.'images/users/'.$this->id_user.'.png'.$version;
             }
             else
-                $imgurl = '//www.gravatar.com/avatar/'.md5(strtolower(trim($this->email))).'?s=200';
+                return URL::base().'images/users/'.$this->seoname.'.png'
+                        .(($this->last_modified) ? '?v='.Date::mysql2unix($this->last_modified) : NULL);
         }
         else
-        {
-            if(is_file(DOCROOT."images/users/".$this->id_user.".png"))
-                $imgurl = URL::base().'images/users/'.$this->id_user.'.png';
-            else
-                $imgurl = '//www.gravatar.com/avatar/'.md5(strtolower(trim($this->email))).'?s=200';
-        }
-        return $imgurl;
+            return '//www.gravatar.com/avatar/'.md5(strtolower(trim($this->email))).'?s=200';
     }
 
 } // END Model_User

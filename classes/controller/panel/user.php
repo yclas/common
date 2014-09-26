@@ -28,24 +28,32 @@ class Controller_Panel_User extends Auth_Crud {
 		{
 			if ( $success = $form->submit() )
 			{
-				//check we have this email in the DB
-				$user = new Model_User();
-				$user = $user->where('email', '=', Kohana::$_POST_ORIG['formorm']['email'])
-						->limit(1)
-						->find();
-				
-				if ($user->loaded())
+				if (Valid::email($form->object->email,TRUE))
 				{
-					Alert::set(Alert::ERROR, __('A user with the email you specified already exists'));
+					//check we have this email in the DB
+					$user = new Model_User();
+					$user = $user->where('email', '=', Kohana::$_POST_ORIG['formorm']['email'])
+							->limit(1)
+							->find();
+					
+					if ($user->loaded())
+					{
+						Alert::set(Alert::ERROR, __('A user with the email you specified already exists'));
+					}
+					else 
+					{
+						$form->object->seoname = $user->gen_seo_title($form->object->name);
+						$form->save_object();
+						Alert::set(Alert::SUCCESS, __('Item created').'. '.__('Please to see the changes delete the cache')
+							.'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1">'
+							.__('Delete All').'</a>');
+			
+						$this->redirect(Route::get($this->_route_name)->uri(array('controller'=> Request::current()->controller())));
+					}
 				}
-				else 
+				else
 				{
-					$form->save_object();
-					Alert::set(Alert::SUCCESS, __('Item created').'. '.__('Please to see the changes delete the cache')
-						.'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1">'
-						.__('Delete All').'</a>');
-		
-					$this->redirect(Route::get($this->_route_name)->uri(array('controller'=> Request::current()->controller())));
+					Alert::set(Alert::ERROR, __('Invalid Email'));
 				}
 			}
 			else 
@@ -70,24 +78,31 @@ class Controller_Panel_User extends Auth_Crud {
 		{
 			if ( $success = $form->submit() )
 			{
-				//check we have this email in the DB
-				$user = new Model_User();
-				$user = $user->where('email', '=', Kohana::$_POST_ORIG['formorm']['email'])
-                        ->where('id_user','!=',$this->request->param('id'))
-						->limit(1)
-						->find();
-				
-				if ($user->loaded())
+				if (Valid::email($form->object->email,TRUE))
 				{
-					Alert::set(Alert::ERROR, __('A user with the email you specified already exists'));
+					//check we have this email in the DB
+					$user = new Model_User();
+					$user = $user->where('email', '=', Kohana::$_POST_ORIG['formorm']['email'])
+							->where('id_user','!=',$this->request->param('id'))
+							->limit(1)
+							->find();
+					
+					if ($user->loaded())
+					{
+						Alert::set(Alert::ERROR, __('A user with the email you specified already exists'));
+					}
+					else
+					{
+						$form->save_object();
+						Alert::set(Alert::SUCCESS, __('Item updated').'. '.__('Please to see the changes delete the cache')
+							.'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1">'
+							.__('Delete All').'</a>');
+						$this->redirect(Route::get($this->_route_name)->uri(array('controller'=> Request::current()->controller())));
+					}
 				}
 				else
 				{
-					$form->save_object();
-					Alert::set(Alert::SUCCESS, __('Item updated').'. '.__('Please to see the changes delete the cache')
-						.'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1">'
-						.__('Delete All').'</a>');
-					$this->redirect(Route::get($this->_route_name)->uri(array('controller'=> Request::current()->controller())));
+					Alert::set(Alert::ERROR, __('Invalid Email'));
 				}
 			}
 			else

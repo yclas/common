@@ -64,7 +64,7 @@ class Model_OC_User extends ORM {
     {
         return array(
                         'id_user'       => array(array('numeric')),
-                        'name'          => array(array('max_length', array(':value', 145))),
+                        'name'          => array(array('not_empty'), array('max_length', array(':value', 145)), ),
                         'email'         => array(array('not_empty'), array('max_length', array(':value', 145)), ),
                         'password'      => array(array('not_empty'), array('max_length', array(':value', 64)), ),
                         'status'        => array(array('numeric')),
@@ -425,7 +425,12 @@ class Model_OC_User extends ORM {
 
     public function exclude_fields()
     {
-       return array('logins','last_login','hybridauth_provider_uid','password','last_modified','created','salt', 'ip_created', 'last_ip','token','token_created','token_expires','user_agent','id_location','seoname','has_image');
+        $exclude_fields = array('logins','last_login','hybridauth_provider_uid','last_modified','created','salt', 'ip_created', 'last_ip','token','token_created','token_expires','user_agent','id_location','seoname','has_image');
+        
+        if (Request::current()->action() == 'update')
+            array_push($exclude_fields, 'password');
+        
+        return $exclude_fields;
     }
 
     /**

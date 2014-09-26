@@ -1,15 +1,27 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
-<div class="page-header">
-	<h1><?=ucfirst(__($name))?></h1>
-	<?if($name == 'role'):?><p><a href="http://open-classifieds.com/2014/06/04/roles-work-classified-ads-script/" target="_blank"><?=__('Read more')?></a></p><?endif;?>
-	
+<div class="page-header">	
 	<?if ($controller->allowed_crud_action('create')):?>
 	<a class="btn btn-primary pull-right ajax-load" href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'create')) ?>">
 		<i class="glyphicon   glyphicon-pencil"></i>
 		<?=__('New')?>
 	</a>				
 	<?endif?>
+
+	<h1><?=ucfirst(__($name))?></h1>
+	<?if($name == 'role'):?><p><a href="http://open-classifieds.com/2014/06/04/roles-work-classified-ads-script/" target="_blank"><?=__('Read more')?></a></p><?endif;?>
 </div>
+
+<?if($name == "user") :?>
+	<form class="form-horizontal" role="form" method="get" action="<?=URL::current();?>">
+		<div class="form-group has-feedback">
+			<label class="sr-only" for="search"><?=__('Search')?></label>
+			<div class="col-md-4 col-md-offset-8">
+				<input type="text" class="form-control search-query" name="search" placeholder="<?=__('Search users by name or email')?>" value="<?=core::get('search')?>">
+				<span class="glyphicon glyphicon-search form-control-feedback"></span>
+			</div>
+		</div>
+	</form>
+<?endif?>
 
 <table class="table table-striped table-bordered">
 	<thead>

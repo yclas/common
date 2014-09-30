@@ -81,6 +81,8 @@ class Model_OC_User extends ORM {
                         'token_created' => array(),
                         'token_expires' => array(),
                         'has_images'    => array(array('numeric')),
+                        'last_failed'   => array(),
+                        'failed_attempts'   => array(),
                     );
     }
     
@@ -425,7 +427,7 @@ class Model_OC_User extends ORM {
 
     public function exclude_fields()
     {
-        $exclude_fields = array('logins','last_login','hybridauth_provider_uid','last_modified','created','salt', 'ip_created', 'last_ip','token','token_created','token_expires','user_agent','id_location','seoname','has_image');
+        $exclude_fields = array('logins','last_login','hybridauth_provider_uid','last_modified','created','salt', 'ip_created', 'last_ip','token','token_created','token_expires','user_agent','id_location','seoname','has_image','failed_attempts','last_failed');
         
         if (Request::current()->action() == 'update')
             array_push($exclude_fields, 'password');

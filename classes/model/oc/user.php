@@ -577,7 +577,7 @@ class Model_OC_User extends ORM {
                 return $protocol.core::config('image.aws_s3_domain').'images/users/'.$this->id_user.'.png'.$version;
             }
             else
-                return URL::base().'images/users/'.$this->seoname.'.png'
+                return URL::base().'images/users/'.$this->id_user.'.png'
                         .(($this->last_modified) ? '?v='.Date::mysql2unix($this->last_modified) : NULL);
         }
         else

@@ -148,7 +148,7 @@ class Controller_Panel_User extends Auth_Crud {
 			}
 		}
 	
-		return $this->render('oc-panel/crud/update', array('form' => $form));
+		return $this->render('oc-panel/pages/user/update', array('form' => $form));
 	}	
 
 }

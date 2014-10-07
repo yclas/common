@@ -206,16 +206,23 @@ class Controller_Panel_Content extends Auth_Controller {
         $content = new Model_Content($id);
         
         if ($content->loaded())
-        {
-            try
+        {   
+            //deleting default locale emails is not allowed
+            if ($content->type == 'email' AND $content->locale == i18n::$locale_default)
             {
-                $content->delete();
-                $this->template->content = 'OK';
+                Alert::set(Alert::INFO, sprintf(__('Sorry, deleting %s locale emails is not allowed'), i18n::$locale_default));
+                HTTP::redirect(Route::url('oc-panel',array('controller'  => 'content','action'=>'list')).'?type='.$content->type.'&locale_select='.$content->locale);
             }
-            catch (Exception $e)
-            {
-                 Alert::set(Alert::ERROR, $e->getMessage());
-            }
+            else
+                try
+                {
+                    $content->delete();
+                    $this->template->content = 'OK';
+                }
+                catch (Exception $e)
+                {
+                     Alert::set(Alert::ERROR, $e->getMessage());
+                }
         }
        
     }

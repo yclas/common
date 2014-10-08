@@ -45,13 +45,20 @@
                     rel="tooltip" title="<?=__('Edit')?>">
                     <i class="glyphicon   glyphicon-edit"></i>
                 </a>
-                <a class="btn btn-danger index-delete"  data-text="<?=__('Are you sure you want to delete?')?>" 
-                        data-id="tr<?=$content->id_content?>"
-                    href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'delete','id'=>$content))?>" 
-                    rel="tooltip" title="<?=__('Delete')?>">
-                    <i class="glyphicon   glyphicon-trash"></i>
+                <?if ( ! ($type == 'email' AND $locale == i18n::$locale_default)):?>
+                <a 
+                    href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'delete','id'=>$content->id_content))?>" 
+                    class="btn btn-danger index-delete" 
+                    title="<?=__('Are you sure you want to delete?')?>" 
+                    data-id="tr<?=$content->id_content?>" 
+                    data-placement="left" 
+                    data-href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'delete','id'=>$content->id_content))?>" 
+                    data-btnOkLabel="<?=__('Yes, definitely!')?>" 
+                    data-btnCancelLabel="<?=__('No way!')?>">
+                    <i class="glyphicon glyphicon-trash"></i>
                 </a>
-
+                <?endif?>
+                
             </td>
         </tr>
     <?endif?>

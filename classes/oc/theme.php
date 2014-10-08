@@ -622,7 +622,7 @@ class OC_Theme {
      */
     public static function admin_link($name,$controller,$action='index',$route='oc-panel', $icon = NULL, $id=NULL)
     {   
-        if (Auth::instance()->get_user()->has_access($controller))
+        if (Auth::instance()->get_user()->has_access($controller,$action))
         {
             $data = array('name'=>$name,
                             'controller'=> $controller,

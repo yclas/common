@@ -10,32 +10,32 @@
  */
 
 class OC_Theme {
-    
-    
+
+
     public static $theme        = 'default';
     public static $parent_theme = NULL; //used for child themes
     public static $skin         = ''; //skin that the theme is using, used in premium themes
     private static $views_path  = 'views';
     public  static $scripts     = array();
     public  static $styles      = array();
-    
+
 
 
     /**
      * returns the JS scripts to include in the view with the tag
-     * @param  array $scripts 
+     * @param  array $scripts
      * @param  string $type    placeholder
-     * @param  string $theme   
+     * @param  string $theme
      * @return string          HTML
      */
     public static function scripts($scripts, $type = 'header' , $theme = NULL)
     {
-        
+
         if ($theme === NULL)
             $theme = self::$theme;
 
         $ret = '';
-    
+
         if (isset($scripts[$type])===TRUE)
         {
 
@@ -45,7 +45,7 @@ class OC_Theme {
                 foreach($scripts[$type] as $file)
                 {
                     $file = self::public_path($file, $theme);
-               
+
                     if ($file !== FALSE)
                         $ret .= HTML::script($file, NULL, TRUE);
                 }
@@ -64,7 +64,7 @@ class OC_Theme {
                     }
                     //externals do nothing...
                     else
-                        $ret .= HTML::script($file, NULL, TRUE); 
+                        $ret .= HTML::script($file, NULL, TRUE);
                 }
 
                 //name for the minify js file
@@ -79,7 +79,7 @@ class OC_Theme {
                     $min = '';
                     require_once Kohana::find_file('vendor', 'minify/jsmin','php');
                     //getting the content form files
-                    foreach ($files as $file) 
+                    foreach ($files as $file)
                     {
                         $file = self::file_path($file,$theme);
                         if ($file !== FALSE)
@@ -96,11 +96,11 @@ class OC_Theme {
         return $ret;
     }
 
-    
+
     /**
      * merges and minifies the styles
-     * @param  array $styles 
-     * @param  string $theme  
+     * @param  array $styles
+     * @param  string $theme
      * @return string         HTML
      */
     public static function styles($styles , $theme = NULL)
@@ -111,7 +111,7 @@ class OC_Theme {
         $ret = '';
 
         if (Kohana::$environment == Kohana::DEVELOPMENT OR Core::config('general.minify') == FALSE)
-        {   
+        {
             //for each style we add a HTML tag to include the CSS
             foreach($styles as $file => $type)
             {
@@ -123,11 +123,11 @@ class OC_Theme {
         //only minify in production or stagging
         else
         {
-        
+
             $files = array();
 
             foreach($styles as $file => $type)
-            {            
+            {
                 //not external file we need the public link
                 if (!Valid::url($file))
                 {
@@ -150,7 +150,7 @@ class OC_Theme {
                 $min = '';
                 require_once Kohana::find_file('vendor', 'minify/css','php');
                 //getting the content from files
-                foreach ($files as $file) 
+                foreach ($files as $file)
                 {
                     $file = self::file_path($file,$theme);
                     if ($file !== FALSE)
@@ -168,8 +168,8 @@ class OC_Theme {
 
     /**
      * deletes minified files for theme, for JS and CSS
-     * @param  string $theme  
-     * @return void 
+     * @param  string $theme
+     * @return void
      */
     public static function delete_minified($theme = NULL)
     {
@@ -183,7 +183,7 @@ class OC_Theme {
         //check directory for files and delete them
         if (is_writable($css_folder))
         {
-            foreach (new DirectoryIterator($css_folder) as $file) 
+            foreach (new DirectoryIterator($css_folder) as $file)
             {
                 if($file->isFile() AND !$file->isDot() AND  strpos($file->getFilename(), $match) === 0 )
                 {
@@ -194,7 +194,7 @@ class OC_Theme {
 
         if (is_writable($js_folder))
         {
-            foreach (new DirectoryIterator($js_folder) as $file) 
+            foreach (new DirectoryIterator($js_folder) as $file)
             {
                 if($file->isFile() AND !$file->isDot() AND  strpos($file->getFilename(), $match) === 0 )
                 {
@@ -204,7 +204,7 @@ class OC_Theme {
         }
     }
 
-    
+
     /**
      *
      * gets where the views are located in the default theme
@@ -215,7 +215,7 @@ class OC_Theme {
     {
         return 'default'.DIRECTORY_SEPARATOR.self::$views_path;
     }
-    
+
     /**
      *
      * gets the where the views are located in the theme
@@ -238,7 +238,7 @@ class OC_Theme {
     {
         return Theme::$parent_theme.DIRECTORY_SEPARATOR.self::$views_path;
     }
-    
+
     /**
      *
      * given a file returns it's public path relative to the selected theme
@@ -255,16 +255,16 @@ class OC_Theme {
         }
         else
             $parent_theme = self::get_theme_parent($theme);
-            
+
         //handle protocol-relative URLs, we return it directly
         if (strpos($file,'//')===0)
         {
             // Use the initial request to get the protocol
             $protocol = Request::$initial;
-            
+
             // This request is secure?
             $protocol = ($protocol->secure()) ? 'https:' : 'http:';
-            
+
             return $protocol.$file;
         }
 
@@ -275,28 +275,28 @@ class OC_Theme {
             $file_check = $file;
 
             //public URI
-            $uri = URL::base().'themes'.DIRECTORY_SEPARATOR;
+            $uri = URL::base().'themes/';
 
             //remove the query from the uri
             if ( ($version = strpos($file, '?'))>0 )
                     $file_check = substr($file, 0, $version );
 
             //check file exists in the theme folder
-            if (file_exists(self::theme_folder($theme).'/'.$file_check))
+            if (file_exists(self::theme_folder($theme).DIRECTORY_SEPARATOR.$file_check))
             {
-                return $uri.$theme.DIRECTORY_SEPARATOR.$file;
+                return $uri.$theme.'/'.$file;
             }
             //check if the parent has the file
-            elseif ($parent_theme!==NULL AND file_exists(self::theme_folder($parent_theme).'/'.$file_check))
+            elseif ($parent_theme!==NULL AND file_exists(self::theme_folder($parent_theme).DIRECTORY_SEPARATOR.$file_check))
             {
-                return $uri.$parent_theme.DIRECTORY_SEPARATOR.$file;
+                return $uri.$parent_theme.'/'.$file;
             }
             //lastly check at default theme as last resource
-            elseif (file_exists(self::theme_folder('default').'/'.$file_check))
+            elseif (file_exists(self::theme_folder('default').DIRECTORY_SEPARATOR.$file_check))
             {
-                return $uri.'default'.DIRECTORY_SEPARATOR.$file;
+                return $uri.'default/'.$file;
             }
-                   
+
         }
         //seems an external url, we return it directly
         else
@@ -304,8 +304,8 @@ class OC_Theme {
             return $file;
         }
 
-        return FALSE;          
-        
+        return FALSE;
+
     }
 
     /**
@@ -333,15 +333,15 @@ class OC_Theme {
         elseif (Theme::$parent_theme!==NULL AND file_exists(self::theme_folder(Theme::$parent_theme).'/'.$file))
         {
             return self::theme_folder(Theme::$parent_theme).'/'.$file;
-        }    
+        }
 
         return FALSE;
-    }   
-    
+    }
+
     /**
      * get the full path folder for the theme
-     * @param  string $theme 
-     * @return string        
+     * @param  string $theme
+     * @return string
      */
     public static function theme_folder($theme = 'default')
     {
@@ -350,8 +350,8 @@ class OC_Theme {
 
     /**
      * get the full path folder for the theme init.php file
-     * @param  string $theme 
-     * @return string        
+     * @param  string $theme
+     * @return string
      */
     public static function theme_init_path($theme = 'default')
     {
@@ -374,7 +374,7 @@ class OC_Theme {
         //check if we selected a mobile theme
         elseif ( Core::config('appearance.theme_mobile')!='' )
         {
-            
+
             //they are forcing to show the mobile
             if ( Core::get('theme')==Core::config('appearance.theme_mobile')
                 OR Cookie::get('theme')==Core::config('appearance.theme_mobile'))
@@ -387,7 +387,7 @@ class OC_Theme {
                 require Kohana::find_file('vendor', 'Mobile-Detect/Mobile_Detect','php');
                 $detect = new Mobile_Detect();
                 if ($detect->isMobile() AND ! $detect->isTablet())
-                    $is_mobile = TRUE;    
+                    $is_mobile = TRUE;
             }
         }
 
@@ -399,7 +399,7 @@ class OC_Theme {
     /**
      * initialize theme
      * @param  string $theme forcing theme to load used in the admin
-     * @return void        
+     * @return void
      */
     public static function initialize($theme = NULL)
     {
@@ -412,9 +412,9 @@ class OC_Theme {
             {
                $theme = $mobile_theme;
             }
-            else 
+            else
                 $theme = Core::config('appearance.theme');
-                
+
             //if we allow the user to select the theme, perfect for the demo
             if (Core::config('appearance.allow_query_theme')=='1')
             {
@@ -435,7 +435,7 @@ class OC_Theme {
         //check the theme exists..
         if (!file_exists(self::theme_init_path($theme)))
             $theme = Core::config('appearance.theme');
-            
+
 
         //load theme init.php like in module, to load default JS and CSS for example
         self::$theme = $theme;
@@ -448,7 +448,7 @@ class OC_Theme {
 
     /**
      * sets the theme we need to use in front
-     * @param string $theme 
+     * @param string $theme
      */
     public static function set_theme($theme)
     {
@@ -467,26 +467,26 @@ class OC_Theme {
             $conf->group_name = 'appearance';
             $conf->config_key = 'theme';
         }
-        
+
         $conf->config_value = $theme;
 
-        try 
+        try
         {
             Cookie::set('theme', $theme, Core::config('auth.lifetime'));
             $conf->save();
             return TRUE;
-        } 
-        catch (Exception $e) 
+        }
+        catch (Exception $e)
         {
-            throw HTTP_Exception::factory(500,$e->getMessage());     
-        }   
+            throw HTTP_Exception::factory(500,$e->getMessage());
+        }
 
     }
 
 
      /**
      * sets the theme we need to use in front
-     * @param string $theme 
+     * @param string $theme
      */
     public static function set_mobile_theme($theme)
     {
@@ -504,26 +504,26 @@ class OC_Theme {
             $conf->group_name = 'appearance';
             $conf->config_key = 'theme_mobile';
         }
-        
+
         $conf->config_value = $theme;
 
-        try 
+        try
         {
             $conf->save();
             return TRUE;
-        } 
-        catch (Exception $e) 
+        }
+        catch (Exception $e)
         {
-            throw HTTP_Exception::factory(500,$e->getMessage());     
-        }   
+            throw HTTP_Exception::factory(500,$e->getMessage());
+        }
 
     }
-    
+
 
     /**
      * Read the folder /themes/ for themes
      * @param  boolean $only_mobile set to true an returns the mobile themes
-     * @return array               
+     * @return array
      */
     public static function get_installed_themes($only_mobile = FALSE)
     {
@@ -533,7 +533,7 @@ class OC_Theme {
         $themes = array();
 
         //check directory for themes
-        foreach (new DirectoryIterator($folder) as $file) 
+        foreach (new DirectoryIterator($folder) as $file)
         {
             if($file->isDir() AND !$file->isDot())
             {
@@ -545,7 +545,7 @@ class OC_Theme {
                     elseif(!$only_mobile AND $info['Mobile']!='TRUE')
                         $themes[$file->getFilename()] = $info;
                 }
-                    
+
             }
         }
 
@@ -556,7 +556,7 @@ class OC_Theme {
     /**
      * returns the info regarding to the theme stores at init.php
      * @param  string $theme theme to search info
-     * @return array        
+     * @return array
      */
     public static function get_theme_info($theme = NULL)
     {
@@ -578,14 +578,14 @@ class OC_Theme {
             'Tags'        => 'Tags',
             'Mobile'      => 'Mobile',
             'Parent'      => 'Parent Theme',
-        )); 
+        ));
     }
 
 
     /**
      * returns the parent from the header at init.php, used in cases where theme is not loaded from the init.php
      * @param  string $theme theme to search info
-     * @return string/false        
+     * @return string/false
      */
     public static function get_theme_parent($theme = NULL)
     {
@@ -600,7 +600,7 @@ class OC_Theme {
     /**
      * returns the screenshot
      * @param  string $theme theme to search info
-     * @return array        
+     * @return array
      */
     public static function get_theme_screenshot($theme = NULL)
     {
@@ -616,12 +616,12 @@ class OC_Theme {
      * generates a link used in the admin HTML
      * @param  string $name       translated name in the A
      * @param  string $controller
-     * @param  string $action     
-     * @param  string $route      
-     * @param  string $icon         class name of bootstrap icon to append with nav-link 
+     * @param  string $action
+     * @param  string $route
+     * @param  string $icon         class name of bootstrap icon to append with nav-link
      */
     public static function admin_link($name,$controller,$action='index',$route='oc-panel', $icon = NULL, $id=NULL)
-    {   
+    {
         if (Auth::instance()->get_user()->has_access($controller,$action))
         {
             $data = array('name'=>$name,
@@ -639,14 +639,14 @@ class OC_Theme {
      * nav_link generates a link for main nav-bar
      * @param  string $name       translated name in the A
      * @param  string $controller
-     * @param  string $action  
-     * @param  string $icon         class name of bootstrap icon to append with nav-link   
-     * @param  string $route      
-     * @param  string $style extra class div 
+     * @param  string $action
+     * @param  string $icon         class name of bootstrap icon to append with nav-link
+     * @param  string $route
+     * @param  string $style extra class div
      * @param  mixed  $id id for the route
      */
     public static function nav_link($name, $controller, $icon=NULL, $action='index', $route='default' , $style = NULL, $id=NULL)
-    {   
+    {
         $data = array('name'=>$name,
                         'controller'=> $controller,
                         'action'    => $action,
@@ -664,7 +664,7 @@ class OC_Theme {
     /**
      * All the Custom options for the theme goes here
      */
-    
+
 
     /**
      * array option the theme have, defined in the theme/ init.php
@@ -672,7 +672,7 @@ class OC_Theme {
      * array(     'rss_items' => array( 'type'      => 'numeric',
      *                                                  'display'   => 'select',
      *                                                  'label'     => __('# items to display'),
-     *                                                  'options'   => range(1,10), 
+     *                                                  'options'   => range(1,10),
      *                                                  'required'  => TRUE),);
      * @var array
      */
@@ -685,15 +685,15 @@ class OC_Theme {
      */
     public static $data = array();
 
- 
+
 
     /**
      * loads the theme data from the config
      * @param  string $theme theme to load from
-     * @return void 
+     * @return void
      */
     public static function load($theme = NULL, $create_data = TRUE)
-    {   
+    {
         self::$data = array();
 
         if ($theme === NULL)
@@ -704,7 +704,7 @@ class OC_Theme {
 
         //found and with data!
         if($theme_data!==NULL AND !empty($theme_data) AND $theme_data !== '[]')
-        { 
+        {
             self::$data = json_decode($theme_data, TRUE);
         }
         ///save empty with default values & first time installed
@@ -715,8 +715,8 @@ class OC_Theme {
 
     /**
      * function that sets the data of the theme if was the first time activated
-     * @param  string $theme 
-     * @return void        
+     * @param  string $theme
+     * @return void
      */
     public static function data_set($theme)
     {
@@ -726,7 +726,7 @@ class OC_Theme {
         self::$data = array();
 
         //we set the array with empty values or the default in the option attributes
-        foreach (self::$options as $field => $attributes) 
+        foreach (self::$options as $field => $attributes)
         {
             self::$data[$field] = (isset($attributes['default']))?$attributes['default']:'';
         }
@@ -736,7 +736,7 @@ class OC_Theme {
 
     public static function checker()
     {
-        if (self::get('premium')!=1 
+        if (self::get('premium')!=1
                 OR (strtolower(Request::current()->controller())=='theme' AND strtolower(Request::current()->action())=='license')
                 OR !Auth::instance()->logged_in())
             return TRUE;
@@ -754,11 +754,11 @@ class OC_Theme {
                 Alert::set(Alert::INFO, __('License validation error, please insert again.'));
                 HTTP::redirect(Route::url('oc-panel',array('controller'=>'theme', 'action'=>'license')));
             }
-        } 
+        }
     }
 
     public static function license($l, $current_theme = NULL)
-    {  
+    {
         if ($current_theme === NULL)
             $current_theme = Theme::$theme;
 
@@ -777,10 +777,10 @@ class OC_Theme {
             unset($themes[$current_theme]);
 
         //for the remaining themes checking the values
-        foreach ($themes as $theme=>$settings) 
+        foreach ($themes as $theme=>$settings)
         {
             $settings = json_decode($settings,TRUE);
-            //theme has a license 
+            //theme has a license
             if (isset($settings['license']))
             {
                 //license is already in use in that theme
@@ -791,7 +791,7 @@ class OC_Theme {
                 }
             }
         }
-         
+
         $api_url = (Kohana::$environment!== Kohana::DEVELOPMENT)? 'market.'.Core::DOMAIN:'eshop.lo';
         $api_url = 'http://'.$api_url.'/api/license/'.$l.'/?domain='.parse_url(URL::base(), PHP_URL_HOST);
 
@@ -799,7 +799,7 @@ class OC_Theme {
     }
 
     public static function download($l)
-    {  
+    {
         $api_url = (Kohana::$environment!== Kohana::DEVELOPMENT)? 'market.'.Core::DOMAIN:'eshop.lo';
         $download_url = 'http://'.$api_url.'/api/download/'.$l.'/?domain='.parse_url(URL::base(), PHP_URL_HOST);
         $fname = DOCROOT.'themes/'.$l.'.zip'; //root folder
@@ -810,19 +810,19 @@ class OC_Theme {
             // saving zip file to dir.
             file_put_contents($fname, $file_content);
             $zip = new ZipArchive;
-            if ($zip_open = $zip->open($fname)) 
+            if ($zip_open = $zip->open($fname))
             {
                 //if theres nothing in that ZIP file...zip corrupted :(
                 if ($zip->getNameIndex(0)===FALSE)
                     return FALSE;
-                
+
                 $theme_name = (substr($zip->getNameIndex(0), 0,-1));
                 $zip->extractTo(DOCROOT.'themes/');
-                $zip->close();  
+                $zip->close();
                 unlink($fname);
 
                 return $theme_name;
-            }   
+            }
         }
 
         return FALSE;
@@ -833,10 +833,10 @@ class OC_Theme {
      * saves thme options as json 'theme.NAMETHEME' = array json
      * @param  string $theme theme to save at
      * @param  array $data to save
-     * @return void 
+     * @return void
      */
     public static function save($theme = NULL, $data = NULL)
-    {   
+    {
         if ($theme === NULL)
             $theme = self::$theme;
 
@@ -855,22 +855,22 @@ class OC_Theme {
             $conf->group_name = 'theme';
             $conf->config_key = $theme;
         }
-        
+
         $conf->config_value = json_encode($data);
 
-        try 
+        try
         {
             $conf->save();
-        } 
-        catch (Exception $e) 
+        }
+        catch (Exception $e)
         {
-            throw HTTP_Exception::factory(500,$e->getMessage());     
-        }   
+            throw HTTP_Exception::factory(500,$e->getMessage());
+        }
     }
 
     /**
      * to know if we need to render form for example
-     * @return boolean 
+     * @return boolean
      */
     public static function has_options()
     {
@@ -881,7 +881,7 @@ class OC_Theme {
      * get from data array
      * @param  string $name key
      * @param mixed default value in case is not set
-     * @return mixed       
+     * @return mixed
      */
     public static function get($name, $default = NULL)
     {
@@ -891,7 +891,7 @@ class OC_Theme {
     /**
      * gets the options array from and external file options.php
      * @param  string $theme theme to load from
-     * @return array        
+     * @return array
      */
     public static function get_options($theme = NULL)
     {
@@ -908,13 +908,13 @@ class OC_Theme {
             {
                 $options = self::file_path('options.php', $parent);
             }
-                
+
         }
 
         //$options = self::theme_folder($theme).DIRECTORY_SEPARATOR.'options.php';
         if ($options!==FALSE)
             return Kohana::load($options);
-        else 
+        else
             return array();
     }
 

@@ -259,11 +259,8 @@ class OC_Theme {
         //handle protocol-relative URLs, we return it directly
         if (strpos($file,'//')===0)
         {
-            // Use the initial request to get the protocol
-            $protocol = Request::$initial;
-
             // This request is secure?
-            $protocol = ($protocol->secure()) ? 'https:' : 'http:';
+            $protocol = (Core::is_HTTPS()) ? 'https:' : 'http:';
 
             return $protocol.$file;
         }

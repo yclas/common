@@ -422,6 +422,16 @@ class OC_Core {
         }
     }
 
+    /**
+     * checks if URL is using HTTPS
+     * we use this since Core::is_HTTPS() checks that the server has a real SSL certificate installed.
+     * @return boolean 
+     */
+    public static function is_HTTPS()
+    {
+        return (strpos(URL::base(),'https://')===0) ? TRUE : FALSE;
+    }
+
 } //end core
 
 /**

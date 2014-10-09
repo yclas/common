@@ -33,7 +33,7 @@ class Chart{
 		if (self::$included_lib == FALSE OR $force==TRUE)
 		{
 			self::$included_lib = TRUE;
-			return HTML::script(((Request::$initial->secure()) ? 'https:' : 'http:').'//www.google.com/jsapi').PHP_EOL;
+			return HTML::script(((Core::is_HTTPS()) ? 'https:' : 'http:').'//www.google.com/jsapi').PHP_EOL;
 		}
 		
 		return FALSE;

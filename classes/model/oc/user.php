@@ -571,7 +571,7 @@ class Model_OC_User extends ORM {
         if ($this->has_image) {
             if(core::config('image.aws_s3_active'))
             {
-                $protocol = Request::$initial->secure() ? 'https://' : 'http://';
+                $protocol = Core::is_HTTPS() ? 'https://' : 'http://';
                 $version = $this->last_modified ? '?v='.Date::mysql2unix($this->last_modified) : NULL;
                 
                 return $protocol.core::config('image.aws_s3_domain').'images/users/'.$this->id_user.'.png'.$version;

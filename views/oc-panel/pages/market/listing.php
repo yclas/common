@@ -10,7 +10,7 @@ foreach ($market as $item):?>
         <?if (empty($item['url_screenshot'])===FALSE):?>
             <img  class="thumb_market" src="<?=$item['url_screenshot']?>">
         <?else:?>
-             <img class="thumb_market" src="http://www.placehold.it/300x200&text=<?=$item['title']?>">
+             <img class="thumb_market" src="//www.placehold.it/300x200&text=<?=$item['title']?>">
         <?endif?>   
         
         <div class="caption">

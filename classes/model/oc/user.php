@@ -65,7 +65,7 @@ class Model_OC_User extends ORM {
         return array(
                         'id_user'       => array(array('numeric')),
                         'name'          => array(array('not_empty'), array('max_length', array(':value', 145)), ),
-                        'email'         => array(array('not_empty'), array('max_length', array(':value', 145)), ),
+                        'email'         => array(array('email'),array('not_empty'), array('max_length', array(':value', 145)), ),
                         'password'      => array(array('not_empty'), array('max_length', array(':value', 64)), ),
                         'status'        => array(array('numeric')),
                         'id_role'       => array(array('numeric')),

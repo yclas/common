@@ -919,20 +919,26 @@ class OC_Theme {
     /**
      * uploads the given image to S3
      * @param  $_FILE $image 
+     * @param  boolean $favicon set to true if image is a favicon
      * @return FALSE/string url        
      */
-    public static function upload_image($image)
+    public static function upload_image($image, $favicon = FALSE)
     {                
         if(core::config('image.aws_s3_active'))
         {
             require_once Kohana::find_file('vendor', 'amazon-s3-php-class/S3','php');
             $s3 = new S3(core::config('image.aws_access_key'), core::config('image.aws_secret_key'));
         }
+        
+        if ($favicon)
+            $allowed_formats = array('ico');
+        else
+            $allowed_formats = explode(',',core::config('image.allowed_formats'));
 
         if ( 
         ! Upload::valid($image) OR
         ! Upload::not_empty($image) OR
-        ! Upload::type($image, explode(',',core::config('image.allowed_formats'))) OR
+        ! Upload::type($image, $allowed_formats) OR
         ! Upload::size($image, core::config('image.max_image_size').'M'))
         {
             if (Upload::not_empty($image) && ! Upload::type($image, explode(',',core::config('image.allowed_formats')))){
@@ -947,7 +953,7 @@ class OC_Theme {
                 return FALSE;
         }
           
-        if (core::config('image.disallow_nudes') AND ! Upload::not_nude_image($image))
+        if (! $favicon AND core::config('image.disallow_nudes') AND ! Upload::not_nude_image($image))
         {
             Alert::set(Alert::ALERT, $image['name'].' '.__('Seems a nude picture so you cannot upload it'));
             return FALSE;

@@ -46,6 +46,14 @@ class Controller_Panel_Theme extends Auth_Controller {
         // save only changed values
         if($this->request->post())
         {
+            //uploads the logo
+            if (isset($_FILES['logo_url']))
+            {
+                $url = Theme::upload_image($_FILES['logo_url']);
+
+                if ($url!==FALSE)
+                    $data['logo_url'] = $url;
+            }
 
             //for each option read the post and store it
             foreach ($_POST as $key => $value) 
@@ -56,7 +64,7 @@ class Controller_Panel_Theme extends Auth_Controller {
                     if ($options[$key]['display'] == 'textarea')
                         $data[$key] = Kohana::$_POST_ORIG[$key];
                     else
-                        $data[$key] = core::post($key);
+                        $data[$key] = core::post($key);                    
                 }
             }
             
@@ -68,6 +76,7 @@ class Controller_Panel_Theme extends Auth_Controller {
 
         $this->template->content = View::factory('oc-panel/pages/themes/options', array('options' => $options, 'data'=>$data));
     }
+
 
     /**
      * theme selector

@@ -214,6 +214,11 @@ class OC_Form extends Kohana_Form {
             case 'hidden':
                 $input = FORM::hidden($name, $value, $attributes);
                 break;
+            case 'logo':
+                $input = FORM::file($name, $attributes);
+                if (!empty($value))
+                    $input.= HTML::image($value);
+                break;
             case 'text':
             default:
                 $input = FORM::input($name, $value, $attributes);

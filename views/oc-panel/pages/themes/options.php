@@ -19,7 +19,7 @@
 </div>
 
 <div class="well">
-<form action="<?=URL::base()?><?=Request::current()->uri()?>" method="post" class="form-horizontal"> 
+<form action="<?=URL::base()?><?=Request::current()->uri()?>" method="post" class="form-horizontal" enctype="multipart/form-data"> 
     <fieldset>
         <?foreach ($options as $field => $attributes):?>
             <div class="form-group">

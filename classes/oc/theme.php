@@ -915,4 +915,71 @@ class OC_Theme {
             return array();
     }
 
+
+    /**
+     * uploads the given image to S3
+     * @param  $_FILE $image 
+     * @return FALSE/string url        
+     */
+    public static function upload_image($image)
+    {                
+        if(core::config('image.aws_s3_active'))
+        {
+            require_once Kohana::find_file('vendor', 'amazon-s3-php-class/S3','php');
+            $s3 = new S3(core::config('image.aws_access_key'), core::config('image.aws_secret_key'));
+        }
+
+        if ( 
+        ! Upload::valid($image) OR
+        ! Upload::not_empty($image) OR
+        ! Upload::type($image, explode(',',core::config('image.allowed_formats'))) OR
+        ! Upload::size($image, core::config('image.max_image_size').'M'))
+        {
+            if (Upload::not_empty($image) && ! Upload::type($image, explode(',',core::config('image.allowed_formats')))){
+                Alert::set(Alert::ALERT, $image['name'].' '.sprintf(__('Is not valid format, please use one of this formats "%s"'),core::config('image.allowed_formats')));
+                return FALSE;
+            }
+            if( ! Upload::size($image, core::config('image.max_image_size').'M')){
+                Alert::set(Alert::ALERT, $image['name'].' '.sprintf(__('Is not of valid size. Size is limited to %s MB per image'),core::config('general.max_image_size')));
+                return FALSE;
+            }
+            if( ! Upload::not_empty($image))
+                return FALSE;
+        }
+          
+        if (core::config('image.disallow_nudes') AND ! Upload::not_nude_image($image))
+        {
+            Alert::set(Alert::ALERT, $image['name'].' '.__('Seems a nude picture so you cannot upload it'));
+            return FALSE;
+        }
+
+        if ($image !== NULL)
+        {
+            $directory  = DOCROOT.'images/';
+            if ($file = Upload::save($image, $image['name'], $directory))
+            {
+                // put image and thumb to Amazon S3
+                if(core::config('image.aws_s3_active'))
+                {
+                    $s3->putObject($s3->inputFile($directory.$image['name']), core::config('image.aws_s3_bucket'), 'images/'.$image['name'], S3::ACL_PUBLIC_READ);
+                }
+            }
+            else 
+            {
+                Alert::set(Alert::ALERT, __('Something went wrong uploading your logo'));
+                return FALSE;
+            }
+        }   
+
+        if (core::config('image.aws_s3_active'))
+        {
+            $protocol = Core::is_HTTPS() ? 'https://' : 'http://';
+            $base = $protocol.core::config('image.aws_s3_domain');
+        }
+        else
+            $base = URL::base();
+
+        return $base.'images/'.$image['name'];
+    }
+
 }

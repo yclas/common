@@ -54,6 +54,15 @@ class Controller_Panel_Theme extends Auth_Controller {
                 if ($url!==FALSE)
                     $data['logo_url'] = $url;
             }
+            
+            //uploads the favicon
+            if (isset($_FILES['favicon_url']))
+            {
+                $url = Theme::upload_image($_FILES['favicon_url'], TRUE);
+            
+                if ($url!==FALSE)
+                    $data['favicon_url'] = $url;
+            }
 
             //for each option read the post and store it
             foreach ($_POST as $key => $value) 

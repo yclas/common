@@ -53,13 +53,13 @@
                     <a
                         href="<?=Route::url('oc-panel',array('controller'=>'widget','action'=>'remove','id'=>$widget->widget_name))?>" 
                         class="btn btn-danger pull-left" 
-                        title="<?=__('Sure you want to delete the widget? You can move it to the inactive placeholder')?>" 
+                        title="<?=__('Sure you want to delete the widget?')?>" 
                         data-toggle="confirmation" 
-                        data-placement="right" 
                         data-href="<?=Route::url('oc-panel',array('controller'=>'widget','action'=>'remove','id'=>$widget->widget_name))?>" 
+                        data-title="<?=__('You can move it to the inactive placeholder')?>" 
                         data-btnOkLabel="<?=__('Yes, definitely!')?>" 
                         data-btnCancelLabel="<?=__('No way!')?>">
-                        <i class="glyphicon   glyphicon-trash"></i>
+                        <i class="glyphicon glyphicon-trash"></i>
                     </a>
                 <?endif?>
 

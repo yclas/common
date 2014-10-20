@@ -133,7 +133,7 @@ class Model_Content extends ORM {
     public static function text($seotitle, $replace = NULL, $type = 'page')
     {
         if ($replace===NULL) $replace = array();
-        $content = self::get_contents($seotitle, $type);
+        $content = self::get_by_title($seotitle, $type);
         if ($content->loaded())
         {
             $user = Auth::instance()->get_user();

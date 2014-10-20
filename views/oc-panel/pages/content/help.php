@@ -35,10 +35,9 @@
             <a 
                 href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'delete','id'=>$content->id_content))?>" 
                 class="btn btn-xs btn-danger pull-right index-delete index-delete-inline" 
-                title="<?=__('Are you sure you want to delete? All data contained in this field will be deleted.')?>" 
+                title="<?=__('Are you sure you want to delete?')?>" 
                 data-id="<?=$content->id_content?>" 
-                data-placement="left" 
-                data-href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'delete','id'=>$content->id_content))?>" 
+                data-text="<?=__('All data contained in this field will be deleted.')?>" 
                 data-btnOkLabel="<?=__('Yes, definitely!')?>" 
                 data-btnCancelLabel="<?=__('No way!')?>">
                 <i class="glyphicon glyphicon-trash"></i>

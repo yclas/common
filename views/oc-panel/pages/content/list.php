@@ -51,8 +51,6 @@
                     class="btn btn-danger index-delete" 
                     title="<?=__('Are you sure you want to delete?')?>" 
                     data-id="tr<?=$content->id_content?>" 
-                    data-placement="left" 
-                    data-href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'delete','id'=>$content->id_content))?>" 
                     data-btnOkLabel="<?=__('Yes, definitely!')?>" 
                     data-btnCancelLabel="<?=__('No way!')?>">
                     <i class="glyphicon glyphicon-trash"></i>

@@ -96,7 +96,7 @@ class ConfigDB extends Config_Database {
     public function reload_config()
     {
         // Clears cached data
-        Cache::instance()->delete('config_db');  
+        Core::cache('config_db',NULL,0);  
         //load config
         return $this->load_config();
     }

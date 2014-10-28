@@ -53,5 +53,55 @@ class Controller_Jslocalization extends Controller {
 								}';	
 		$this->template->content = $localization_rules;
 	}
+
+    public function action_bstour()
+	{
+	    $this->auto_render = FALSE;
+	    $this->template = View::factory('js');
+	    
+	    $localization_rules = 'function getTourLocalization(text)
+	                            {
+	                                switch (text)
+	                                { 
+	                                    case "step1_title": 
+	                                        return "'.__('Hey!').'";
+	                                        break;
+	                                    case "step1_content": 
+	                                        return "'.__('You are now viewing your admin panel, where you can control almost everything in your classifieds site.').'";
+	                                        break;
+	                                    case "step2_content": 
+	                                        return "'.__('Get started by creating and editing categories and locations for your site here.').'";
+	                                        break;
+	                                    case "step3_content": 
+	                                        return "'.__('Put your website on maintenance mode until you want to launch it, manage other general settings and create custom fields through this tab.').'";
+	                                        break;
+	                                    case "step4_content": 
+	                                        return "'.__('Customize your website look and feel by choosing one of the many available themes and changing theme options.').'";
+	                                        break;
+	                                    case "step5_content": 
+	                                        return "'.__('When there is something you want to know type your question here or check the full list of our <a href=\'http://open-classifieds.com/support/\'>guides and faqs</a>.').'";
+	                                        break;
+	                                    case "step6_title": 
+	                                        return "'.__('Hey!').'";
+	                                        break;
+	                                    case "step6_content": 
+	                                        return "'.sprintf(__('You are now viewing the back panel at %s here you can manage your ads, favorites, payments and more.'), core::config('general.site_name')).'";
+	                                        break;
+	                                    case "step7_content": 
+	                                        return "'.__('Manage ads you published and edit them through this tab, you can also ask to feature or place your ad to top here.').'";
+	                                        break;
+	                                    case "step8_content": 
+	                                        return "'.__('Customize your profile, upload a photo, description and change your password.').'";
+	                                        break;
+	                                    case "step9_content": 
+	                                        return "'.__('You can check payments you made and see your favorites list here').'";
+	                                        break;
+	                                    case "step10_content": 
+	                                        return "'.sprintf(__('To continue your experience with %s you can get back to the main website by clicking here.'), core::config('general.site_name')).'";
+	                                        break;
+	                                }
+	                            }';	
+	    $this->template->content = $localization_rules;
+	}
 	
 }// End Jslocalization Controller

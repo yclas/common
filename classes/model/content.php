@@ -136,12 +136,14 @@ class Model_Content extends ORM {
         $content = self::get_by_title($seotitle, $type);
         if ($content->loaded())
         {
-            $user = Auth::instance()->get_user();
-
-            //adding extra replaces
-            $replace+= array('[USER.NAME]' =>  $user->name,
-                             '[USER.EMAIL]' =>  $user->email
-                            );
+            if (Auth::instance()->logged_in())
+            {
+                $user = Auth::instance()->get_user();
+                //adding extra replaces
+                $replace+= array('[USER.NAME]' =>  $user->name,
+                                 '[USER.EMAIL]' =>  $user->email
+                                );
+            }
 
             return str_replace(array_keys($replace), array_values($replace), $content->description);
         }

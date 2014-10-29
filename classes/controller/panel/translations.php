@@ -64,6 +64,26 @@ class Controller_Panel_Translations extends Auth_Controller {
             }
             HTTP::redirect(Route::url('oc-panel',array('controller'  => 'translations'))); 
         }
+        
+        //create language
+        if($this->request->post())
+        {
+            $language   = $this->request->post('locale');
+            $folder     = DOCROOT.'languages/'.$language.'/LC_MESSAGES/';
+            
+            // if folder does not exist, try to make it
+            if ( !file_exists($folder) AND ! @mkdir($folder, 0775, true)) { // mkdir not successful ?
+                Alert::set(Alert::ERROR, __('Language folder cannot be created with mkdir. Please correct to be able to create new translation.'));
+                HTTP::redirect(Route::url('oc-panel',array('controller'  => 'translations')));  
+            };
+            
+            // write an empty .po file for $language
+            $out = 'msgid ""'.PHP_EOL;
+            $out .= 'msgstr ""'.PHP_EOL;
+            file_put_contents($folder.'messages.po', $out, LOCK_EX);
+            
+            Alert::set(Alert::SUCCESS, $this->request->param('id').' '.__('Language saved'));
+        }
 
         $this->template->content = View::factory('oc-panel/pages/translations/index',array('languages' => i18n::get_languages(),
                                                                                             'current_language' => core::config('i18n.locale')

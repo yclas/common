@@ -6,7 +6,7 @@
 
     <a class="btn btn-warning pull-right" href="<?=Route::url('oc-panel',array('controller'=>'translations','action'=>'index'))?>?parse=1" >
         <?=__('Scan')?></a>
-    <a class="btn btn-primary pull-right ajax-load" href="http://open-classifieds.com/documentation/translate/"><?=__('New translation')?></a>
+    <a class="btn btn-primary pull-right ajax-load" href="http://open-classifieds.com/documentation/translate/" title="<?=__('New translation')?>"><?=__('New translation')?></a>
 
 </div>
 

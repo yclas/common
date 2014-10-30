@@ -3,7 +3,7 @@
     <h1><?=ucfirst(__($name))?></h1>
     
     <?if ($controller->allowed_crud_action('create')):?>
-    <a class="btn btn-primary pull-right ajax-load" href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'create')) ?>">
+    <a class="btn btn-primary pull-right ajax-load" href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'create')) ?>" title="<?=__('New')?>">
         <i class="glyphicon   glyphicon-pencil"></i>
         <?=__('New')?>
     </a>                

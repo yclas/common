@@ -66,7 +66,7 @@ class Controller_Panel_Translations extends Auth_Controller {
         }
         
         //create language
-        if($this->request->post())
+        if(Core::post('locale'))
         {
             $language   = $this->request->post('locale');
             $folder     = DOCROOT.'languages/'.$language.'/LC_MESSAGES/';
@@ -80,7 +80,7 @@ class Controller_Panel_Translations extends Auth_Controller {
             // write an empty .po file for $language
             $out = 'msgid ""'.PHP_EOL;
             $out .= 'msgstr ""'.PHP_EOL;
-            file_put_contents($folder.'messages.po', $out, LOCK_EX);
+            File::write($folder.'messages.po', $out);
             
             Alert::set(Alert::SUCCESS, $this->request->param('id').' '.__('Language saved'));
         }

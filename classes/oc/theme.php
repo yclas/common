@@ -923,13 +923,7 @@ class OC_Theme {
      * @return FALSE/string url        
      */
     public static function upload_image($image, $favicon = FALSE)
-    {                
-        if(core::config('image.aws_s3_active'))
-        {
-            require_once Kohana::find_file('vendor', 'amazon-s3-php-class/S3','php');
-            $s3 = new S3(core::config('image.aws_access_key'), core::config('image.aws_secret_key'));
-        }
-        
+    {                 
         if ($favicon)
             $allowed_formats = array('ico');
         else
@@ -964,11 +958,8 @@ class OC_Theme {
             $directory  = DOCROOT.'images/';
             if ($file = Upload::save($image, $image['name'], $directory))
             {
-                // put image and thumb to Amazon S3
-                if(core::config('image.aws_s3_active'))
-                {
-                    $s3->putObject($s3->inputFile($directory.$image['name']), core::config('image.aws_s3_bucket'), 'images/'.$image['name'], S3::ACL_PUBLIC_READ);
-                }
+                // put image to Amazon S3
+                Core::S3_upload($directory.$image['name'], 'images/'.$image['name']);
             }
             else 
             {
@@ -977,15 +968,33 @@ class OC_Theme {
             }
         }   
 
-        if (core::config('image.aws_s3_active'))
-        {
-            $protocol = Core::is_HTTPS() ? 'https://' : 'http://';
-            $base = $protocol.core::config('image.aws_s3_domain');
-        }
-        else
+        //try s3, if not normal
+        if ( ($base = Core::S3_domain()) === FALSE )
             $base = URL::base();
 
         return $base.'images/'.$image['name'];
+    }
+
+    /**
+     * get the custom css of the website for this user
+     * @param  string $theme optional if we need to look inside a theme, but by default we only look in default theme
+     * @return mixed        bool=fasle if not found , url if matched
+     */
+    public static function get_custom_css($theme = NULL)
+    {   
+        if ($theme === NULL)
+            $theme = 'default';
+
+        if (Core::config('appearance.custom_css') == TRUE)
+        {
+            //try s3, if not normal
+            if ( ($base = Core::S3_domain()) === FALSE )
+                $base =  self::public_path('css/web-custom.css', $theme); 
+
+            return $base.'?v='.Core::config('appearance.custom_css_version');
+        }
+
+        return FALSE;
     }
 
 }

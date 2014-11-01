@@ -285,4 +285,52 @@ class Controller_Panel_Theme extends Auth_Controller {
         $this->redirect(Route::url('oc-panel',array('controller'=>'theme', 'action'=>'index')));
     }
 
+    /**
+     * custom css for default theme
+     * @return [view] 
+     */
+    public function action_css()
+    {
+        // validation active 
+        //$this->template->scripts['footer'][]= '/js/oc-panel/settings.js';
+        $this->template->title = __('Custom CSS');
+        Breadcrumbs::add(Breadcrumb::factory()->set_title($this->template->title));  
+
+        $css_active  = Core::post('css_active',Core::Config('appearance.custom_css'));
+        $css_content = Core::curl_get_contents(Theme::get_custom_css());
+        if ($css_content===NULL)
+            Alert::set(Alert::ERROR, sprintf(__('We can not read file %s'),Theme::get_custom_css() ));
+
+        // change the CSS
+        if( ($new_css = Core::post('css'))!==NULL )
+        {            
+            //save css file
+            if (File::write(Theme::theme_folder('default').'/css/web-custom.css',$new_css))
+            {
+                Core::S3_upload(Theme::theme_folder('default').'/css/web-custom.css','css/web-custom.css');
+
+                //active or not? switch
+                $css_active = Core::post('css_active');
+                Model_Config::set_value('appearance','custom_css',$css_active);
+
+                //increase version number
+                Model_Config::set_value('appearance','custom_css_version',Core::Config('appearance.custom_css_version')+1);
+
+                $css_content = $new_css;
+
+                Alert::set(Alert::SUCCESS, __('CSS file saved'));
+            }
+            else
+                Alert::set(Alert::ERROR, __('CSS file not saved'));
+            
+        }
+
+        $this->template->content = View::factory('oc-panel/pages/themes/css', array('css_content' => $css_content,
+                                                                                    'css_version' => Core::Config('appearance.custom_css_version'),
+                                                                                    'css_active'  => $css_active
+                                                                                    ));
+    }
+
+
+
 }//end of controller

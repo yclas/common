@@ -432,6 +432,37 @@ class OC_Core {
         return (strpos(URL::base(),'https://')===0) ? TRUE : FALSE;
     }
 
+
+    /**
+     * shortcut to upload files to S3
+     * @param file $file        
+     * @param string $destination
+     */
+    public static function S3_upload($file,$destination)
+    {
+        if(core::config('image.aws_s3_active') AND is_readable($file) )
+        {
+            require_once Kohana::find_file('vendor', 'amazon-s3-php-class/S3','php');
+            $s3 = new S3(core::config('image.aws_access_key'), core::config('image.aws_secret_key'));
+            $s3->putObject($s3->inputFile($file), core::config('image.aws_s3_bucket'), $destination, S3::ACL_PUBLIC_READ);
+        }
+    }
+
+    /**
+     * returns the domain on aws s3
+     */
+    public static function S3_domain()
+    {
+        if ( core::config('image.aws_s3_active') )
+        {
+            $protocol = Core::is_HTTPS() ? 'https://' : 'http://';
+            return $protocol.core::config('image.aws_s3_domain');
+        }
+
+        return FALSE;
+    }
+
+
 } //end core
 
 /**

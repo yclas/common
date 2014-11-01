@@ -305,9 +305,10 @@ class Controller_Panel_Theme extends Auth_Controller {
         if( ($new_css = Core::post('css'))!==NULL )
         {            
             //save css file
-            if (File::write(Theme::theme_folder('default').'/css/web-custom.css',$new_css))
+            $file = Theme::theme_folder('default').'/css/web-custom.css';
+            if (File::write($file,$new_css))
             {
-                Core::S3_upload(Theme::theme_folder('default').'/css/web-custom.css','css/web-custom.css');
+                Core::S3_upload($file,'css/web-custom.css');
 
                 //active or not? switch
                 $css_active = Core::post('css_active');

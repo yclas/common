@@ -436,7 +436,7 @@ class OC_Core {
     /**
      * shortcut to upload files to S3
      * @param file $file        
-     * @param string $destination 
+     * @param string $destination
      */
     public static function S3_upload($file,$destination)
     {

@@ -3,7 +3,7 @@
 
 <div class="page-header">
 	<h1><?=__('Optimize Database')?></h1>
-    <a class="btn btn-primary pull-right ajax-load" href="<?=Route::url('oc-panel',array('controller'=>'tools','action'=>'optimize'))?>?force=1">
+    <a class="btn btn-primary pull-right ajax-load" href="<?=Route::url('oc-panel',array('controller'=>'tools','action'=>'optimize'))?>?force=1" title="<?=__('Optimize')?>">
   <?=__('Optimize')?></a>
 </div>
 

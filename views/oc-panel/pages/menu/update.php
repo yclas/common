@@ -158,7 +158,7 @@
 </div>
 
 <div class="form-actions">
-<a href="<?=Route::url('oc-panel',array('controller'=>'menu'))?>" class="btn btn-default ajax-load"><?=__('Cancel')?></a>
+<a href="<?=Route::url('oc-panel',array('controller'=>'menu'))?>" class="btn btn-default ajax-load" title="<?=__('Cancel')?>"><?=__('Cancel')?></a>
 <button type="submit" class="btn btn-primary"><?=__('Save')?></button>
 </div>
           

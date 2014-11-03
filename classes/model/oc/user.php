@@ -408,7 +408,7 @@ class Model_OC_User extends ORM {
                 $this->create_token();
 
             $ql = Auth::instance()->ql_encode($this->token,Route::url($route,$params,'http'));
-            return Route::url('oc-panel',array('controller' => 'auth', 'action' => 'ql', 'id' =>$ql),'http');
+            return Route::url('oc-panel',array('controller' => 'auth', 'action' => 'ql', 'id' =>$ql));
         }
         return NULL;               
     }
@@ -519,7 +519,7 @@ class Model_OC_User extends ORM {
                 $user->save();
                 //send welcome email
                 $url = $user->ql('oc-panel',array('controller' => 'profile', 
-                                                  'action'     => 'edit'),NULL,TRUE);
+                                                  'action'     => 'edit'),TRUE);
 
                 $user->email('auth-register',array('[USER.PWD]'=>$password,
                                                     '[URL.QL]'=>$url)

@@ -408,7 +408,7 @@ class Model_OC_User extends ORM {
                 $this->create_token();
 
             $ql = Auth::instance()->ql_encode($this->token,Route::url($route,$params,'http'));
-            return Route::url('oc-panel',array('controller' => 'auth', 'action' => 'ql', 'id' =>$ql),'http');
+            return Route::url('oc-panel',array('controller' => 'auth', 'action' => 'ql', 'id' =>$ql));
         }
         return NULL;               
     }

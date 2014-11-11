@@ -449,7 +449,7 @@ class OC_Core {
     }
 
     /**
-     * returns the domain on aws s3
+     * returns the domain on aws s3 or local base if s3 is not active
      */
     public static function S3_domain()
     {
@@ -458,6 +458,8 @@ class OC_Core {
             $protocol = Core::is_HTTPS() ? 'https://' : 'http://';
             return $protocol.core::config('image.aws_s3_domain');
         }
+        else
+            return URL::base();
 
         return FALSE;
     }

@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 
-<h1><?=__('New Forum')?></h1>
+<h1><?=__('Edit Forum')?></h1>
 
 <?= FORM::open(Route::url('oc-panel',array('controller'=>'forum','action'=>'update','id'=>$forum->id_forum)), array('class'=>'form-horizontal', 'enctype'=>'multipart/form-data'))?>
 	<fieldset>
@@ -14,6 +14,7 @@
 	        <?= FORM::label('id_forum_parent', __('Forum parent'), array('class'=>'col-md-3 control-label', 'for'=>'id_forum_parent'))?>
 	        <div class="col-md-5">
 	           	<select name="id_forum_parent" id="id_forum_parent" class="form-control" placeholder="<?=__('Forum parent')?>">
+					<option value="0"><?=__('None')?></option>
 					<?foreach($forum_parents as $id => $name):?>
 						<option value="<?=$id?>" <?=($forum->id_forum_parent == $id)?'selected="selected"':NULL?>><?=$name?></option>
 					<?endforeach?>

@@ -130,7 +130,7 @@ class Controller_Panel_Forum extends Auth_Crud {
      */
     public function action_update()
     {
-        Breadcrumbs::add(Breadcrumb::factory()->set_title(__('Edit new forum')));
+        Breadcrumbs::add(Breadcrumb::factory()->set_title(__('Edit forum')));
 
         $forum = new Model_Forum($this->request->param('id'));
 

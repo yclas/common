@@ -9,7 +9,7 @@ class Controller_Social extends Controller {
             Auth::instance()->login_redirect();
 
 		Social::include_vendor();
-			
+		$user = FALSE;	
 		$config = Social::get();
 		
 		if ($this->request->query('hauth_start') OR $this->request->query('hauth_done'))
@@ -47,40 +47,41 @@ class Controller_Social extends Controller {
 				{
 					//var_dump($adapter->getUserProfile());
                     $user_profile = $adapter->getUserProfile();
-
-
-                    //try to login the user with same provider and identifier
-                    $user = Auth::instance()->social_login($provider_name, $user_profile->identifier);
-                    
-                    if ($user == FALSE)
-                    {
-                        $email = ($user_profile->emailVerified!=NULL)? $user_profile->emailVerified: $user_profile->email;
-                        $name  = ($user_profile->firstName!=NULL)? $user_profile->firstName.' '.$user_profile->lastName: $user_profile->displayName;
-                        //if not email provided 
-                        if (!Valid::email($email))
-                        {
-                            Alert::set(Alert::INFO, __('We need your email address to complete'));
-                            //redirect him to select the email to register
-                            $this->redirect(Route::url('default',array('controller'=>'social',
-                                                                                'action'=>'register',
-                                                                                'id'    =>$provider_name)).'?uid='.$user_profile->identifier.'&name='.$name);
-                        }
-                        else
-                        {
-                            //register the user in DB
-                            Model_User::create_social($email,$name,$provider_name,$user_profile->identifier);
-                            //log him in
-                            Auth::instance()->social_login($provider_name, $user_profile->identifier);
-                        }
-                    }
-                    
-                    Alert::set(Alert::SUCCESS, __('Welcome!'));
 				}
 			}
 			catch( Exception $e )
 			{
 				Alert::set(Alert::ERROR, __('Error: please try again!')." ".$e->getMessage());
+                $this->redirect(Route::url('default'));
 			}
+
+            //try to login the user with same provider and identifier
+            $user = Auth::instance()->social_login($provider_name, $user_profile->identifier);
+
+            //we couldnt login create account
+            if ($user == FALSE)
+            {
+                $email = ($user_profile->emailVerified!=NULL)? $user_profile->emailVerified: $user_profile->email;
+                $name  = ($user_profile->firstName!=NULL)? $user_profile->firstName.' '.$user_profile->lastName: $user_profile->displayName;
+                //if not email provided 
+                if (!Valid::email($email))
+                {
+                    Alert::set(Alert::INFO, __('We need your email address to complete'));
+                    //redirect him to select the email to register
+                    $this->redirect(Route::url('default',array('controller'=>'social',
+                                                                        'action'=>'register',
+                                                                        'id'    =>$provider_name)).'?uid='.$user_profile->identifier.'&name='.$name);
+                }
+                else
+                {
+                    //register the user in DB
+                    Model_User::create_social($email,$name,$provider_name,$user_profile->identifier);
+                    //log him in
+                    Auth::instance()->social_login($provider_name, $user_profile->identifier);
+                }
+            }
+            else                    
+                Alert::set(Alert::SUCCESS, __('Welcome!'));
 
             $this->redirect(Session::instance()->get_once('auth_redirect',Route::url('default')));
 

@@ -94,20 +94,29 @@ class Model_Content extends ORM {
         $seotitle = str_replace('.', '-', $seotitle);
 
         $content = new self();
+        
+        // if visitor or user with ROLE_USER display content with STATUS_ACTIVE
+        if (! Auth::instance()->logged_in() OR 
+            (Auth::instance()->logged_in() AND Auth::instance()->get_user()->id_role == Model_Role::ROLE_USER))
+            $content->where('status','=', 1);
+
         $content = $content->where('seotitle','=', $seotitle)
                  ->where('locale','=', i18n::$locale)
                  ->where('type','=', $type)
-                 ->where('status','=', 1)
                  ->limit(1)->cached()->find();
 
         //was not found try first translation in english
         if (!$content->loaded())
         {
 
+            // if visitor or user with ROLE_USER display content with STATUS_ACTIVE
+            if (! Auth::instance()->logged_in() OR 
+                (Auth::instance()->logged_in() AND Auth::instance()->get_user()->id_role == Model_Role::ROLE_USER))
+                $content->where('status','=', 1);
+                
             $content = $content->where('seotitle','=', $seotitle)
                  ->where('locale','=', i18n::$locale_default)
                  ->where('type','=', $type)
-                 ->where('status','=', 1)
                  ->limit(1)->cached()->find();
         }
         
@@ -115,9 +124,13 @@ class Model_Content extends ORM {
         if (!$content->loaded())
         {
 
+            // if visitor or user with ROLE_USER display content with STATUS_ACTIVE
+            if (! Auth::instance()->logged_in() OR 
+                (Auth::instance()->logged_in() AND Auth::instance()->get_user()->id_role == Model_Role::ROLE_USER))
+                $content->where('status','=', 1);
+                
             $content = $content->where('seotitle','=', $seotitle)
                  ->where('type','=', $type)
-                 ->where('status','=', 1)
                  ->limit(1)->cached()->find();
         }
 

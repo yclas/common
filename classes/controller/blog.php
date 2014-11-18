@@ -73,8 +73,13 @@ class Controller_Blog extends Controller {
     {
         
         $post = new Model_Post();
-        $post->where('status','=',Model_Post::STATUS_ACTIVE)
-            ->where('seotitle','=',$seotitle)
+        
+        // if visitor or user with ROLE_USER display post with STATUS_ACTIVE
+        if (! Auth::instance()->logged_in() OR 
+            (Auth::instance()->logged_in() AND Auth::instance()->get_user()->id_role == Model_Role::ROLE_USER))
+            $post->where('status','=',Model_Post::STATUS_ACTIVE);
+        
+        $post->where('seotitle','=',$seotitle)
             ->where('id_forum','IS',NULL)
             ->cached()->limit(1)->find();
 

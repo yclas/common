@@ -30,8 +30,9 @@ class URL extends Kohana_URL {
          */
         // if ($ascii_only === NULL)
         //     $ascii_only = ( in_array(i18n::$locale, array('hi_IN','ar','ur_PK','ru_RU','bn_BD','ml_IN','ja_JP')) )? FALSE:TRUE;
-                
-        return parent::title(str_replace("'",'-',$title), $separator, mb_detect_encoding($title,'ASCII'));
+        $ascii_only = (mb_detect_encoding($title,'ASCII')!==FALSE)? TRUE:FALSE;
+
+        return parent::title(str_replace("'",'-',$title), $separator,$ascii_only);
     }
 
     /**

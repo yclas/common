@@ -11,7 +11,7 @@
 
     <title><?=Core::config('general.site_name')?> - <?=__('Maintenance')?></title>
 
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
 
   </head>
 

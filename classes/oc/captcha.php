@@ -86,6 +86,15 @@ class OC_Captcha{
 
         if (core::config('advertisement.captcha') == FALSE) // Captchas are disabled
             return TRUE;
+        
+        // verify with recaptcha if enabled
+        if (Core::config('general.recaptcha_active'))
+        {
+            if (self::recaptcha_verify())
+                return TRUE;
+            else
+                return FALSE;   
+        }
 
         if (Session::instance()->get('captcha_'.$name) == strtolower(core::post('captcha'))) 
         {
@@ -122,5 +131,47 @@ class OC_Captcha{
         return self::reload_image().
                 '<img alt="captcha" id="captcha_img_'.$name.'" style="cursor: pointer;" title="Click to refresh"
 				onClick="return reloadImg(\'captcha_img_'.$name.'\');" src="'.captcha::url($name).'">';
+    }
+    
+    /**
+     * generates the captcha code for the form
+     * @return string or boolean
+     */
+    public static function recaptcha_display()
+    {
+        if (Core::config('general.recaptcha_sitekey') == '')
+            return FALSE;
+        
+        $html  = '<script src="https://www.google.com/recaptcha/api.js"></script>'."\n";
+        $html .= sprintf('<div class="g-recaptcha" data-sitekey="%s"></div>', Core::config('general.recaptcha_sitekey'));
+        
+        return $html;
+    }
+
+    /**
+     * verify recaptcha
+     * @return boolean
+     */
+    public static function recaptcha_verify()
+    {
+        if (Core::config('general.recaptcha_secretkey') == '') // reCaptcha secret key not configured
+            return TRUE;
+        
+        $params = array('secret' => Core::config('general.recaptcha_secretkey'),
+                        'response' => Core::post('g-recaptcha-response'),
+                        'remoteip' => '189.242.53.152');
+        
+        foreach($params as $param)
+            $param = urlencode($param);
+        
+        $qs = http_build_query($params);
+        
+        $response = Core::curl_get_contents('https://www.google.com/recaptcha/api/siteverify?'.$qs);
+        $response = json_decode($response, TRUE);
+        
+        if ($response['success'])
+            return TRUE;
+        
+        return FALSE;
     }
 }

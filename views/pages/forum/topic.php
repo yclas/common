@@ -92,9 +92,13 @@
     <?if (core::config('advertisement.captcha') != FALSE):?>
     <div class="form-group">
             <div class="col-md-4">
-                <?=__('Captcha')?>*:<br />
-                <?=captcha::image_tag('new-reply-topic')?><br />
-                <?= FORM::input('captcha', "", array('class' => 'form-control', 'id' => 'captcha', 'required'))?>
+                <?if (Core::config('general.recaptcha_active')):?>
+                    <?=Captcha::recaptcha_display()?>
+                <?else:?>
+                    <?=__('Captcha')?>*:<br />
+                    <?=captcha::image_tag('new-reply-topic')?><br />
+                    <?= FORM::input('captcha', "", array('class' => 'form-control', 'id' => 'captcha', 'required'))?>
+                <?endif?>
             </div>
     </div>
     <?endif?>

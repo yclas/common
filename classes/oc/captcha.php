@@ -159,7 +159,7 @@ class OC_Captcha{
         
         $params = array('secret' => Core::config('general.recaptcha_secretkey'),
                         'response' => Core::post('g-recaptcha-response'),
-                        'remoteip' => '189.242.53.152');
+                        'remoteip' => Request::$client_ip);
         
         foreach($params as $param)
             $param = urlencode($param);

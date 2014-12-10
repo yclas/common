@@ -974,6 +974,38 @@ class OC_Theme {
 
         return $base.'images/'.$image['name'];
     }
+    
+    /**
+     * deletes the given image
+     * @param  $image string
+     * @return FALSE/NULL       
+     */
+    public static function delete_image($image)
+    {                 
+        $root = DOCROOT.'images/'; //root folder
+        
+        if (!is_dir($root)) 
+            return FALSE;
+        
+        else
+        {
+            if (($pos = strpos($image, "images/")) !== FALSE)
+            { 
+                $image_uri = substr($image, $pos+7);
+                
+                //delete image
+                @unlink($root.$image_uri);
+                
+                // delete image from Amazon S3
+                if(core::config('image.aws_s3_active'))
+                    $s3->deleteObject(core::config('image.aws_s3_bucket'), 'images/'.$image_uri);
+                
+                return NULL;
+            }
+            else
+                return FALSE;
+        }
+    }
 
     /**
      * get the custom css of the website for this user

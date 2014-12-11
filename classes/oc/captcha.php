@@ -166,7 +166,7 @@ class OC_Captcha{
         
         $qs = http_build_query($params);
         
-        $response = Core::curl_get_contents('https://www.google.com/recaptcha/api/siteverify?'.$qs);
+        $response = Request::factory('https://www.google.com/recaptcha/api/siteverify?'.$qs)->execute()->body();
         $response = json_decode($response, TRUE);
         
         if ($response['success'])

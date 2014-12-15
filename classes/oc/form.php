@@ -217,7 +217,10 @@ class OC_Form extends Kohana_Form {
             case 'logo':
                 $input = FORM::file($name, $attributes);
                 if (!empty($value))
+				{
                     $input.= HTML::image($value);
+					$input.= Form::button('delete_'.$name, __('Delete'), array('type' => 'submit', 'value' => $value));
+				}
                 break;
             case 'text':
             default:

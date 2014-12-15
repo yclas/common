@@ -11,7 +11,7 @@
     </a>
   <?endif?>
   <?if (array_key_exists('ad', $controllers)) :?>
-    - <a target="_blank" href="<?=Route::url('profile',array('seoname'=>Auth::instance()->get_user()->seoname))?>">
+    - <a target="_blank" href="<?=Route::url('profile',array('seoname'=>$form->object->seoname))?>">
         <?=__('Ads')?>
     </a>
   <?endif?>

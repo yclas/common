@@ -5,21 +5,23 @@
     <p><?=__('Translations files available in the system.')?> <a href="http://open-classifieds.com/2013/08/20/how-to-change-language/" target="_blank"><?=__('Read more')?></a></p>
     <div class="btn-group pull-right">
         <div class="btn-group dropdown">
+            <?if (class_exists('IntlCalendar')) :?>
             <button class="btn btn-primary" data-toggle="dropdown" type="button"><?=__('New translation')?></button>
             <div class="dropdown-menu dropdown-menu-right">
                 <form class="col-sm-12" role="form" method="post" action="<?=Request::current()->url()?>">
                     <div class="form-group">
                         <label class="sr-only" for="locale"><?=__('New translation')?></label>
                         <select class="form-control" id="locale" name="locale">
-                            <?foreach (IntlCalendar::getAvailableLocales() as $locale):?>
-                                <option value="<?=$locale?>"><?=$locale?></option>
-                            <?endforeach?>
+                                <?foreach (IntlCalendar::getAvailableLocales() as $locale):?>
+                                    <option value="<?=$locale?>"><?=$locale?></option>
+                                <?endforeach?>
                         </select>
                         <p class="help-block"><?=__('If your locale is not listed, be sure your hosting has your locale installed.')?></p>
                     </div>
                     <button type="submit" class="btn btn-primary"><?=__('Create')?></button>
                 </form>
             </div>
+            <?endif?>
         </div>
         <a class="btn btn-warning" href="<?=Route::url('oc-panel',array('controller'=>'translations','action'=>'index'))?>?parse=1" >
             <?=__('Scan')?>

@@ -162,7 +162,7 @@ class Controller_Panel_Theme extends Auth_Controller {
      */
     public function action_license()
     {
-        $theme = $this->request->param('id');
+        $theme = $this->request->param('id',Theme::$theme);
 
         // save only changed values
         if(core::request('license'))

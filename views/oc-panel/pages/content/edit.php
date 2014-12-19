@@ -2,6 +2,12 @@
 
 
 <div class="page-header">
+    <?if($cont->type != 'email' AND $cont->status == 0):?>
+        <a class="btn btn-primary pull-right" target="_blank" href="<?=Route::url(($cont->type == 'help') ? 'faq' : 'page', array('seotitle'=>$cont->seotitle))?>" title="<?=__('Preview')?>">
+            <i class="glyphicon glyphicon-eye-open"></i>
+            <?=__('Preview')?>
+        </a>
+    <?endif?>	
     <h1><?=__('Edit')?> <?=Controller_Panel_Content::translate_type($cont->type)?></h1>
 </div>
 

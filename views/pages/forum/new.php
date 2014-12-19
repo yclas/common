@@ -46,9 +46,13 @@
 		<?if (core::config('advertisement.captcha') != FALSE):?>
 		<div class="form-group control-group">
 			<div class="col-md-6 col-md-offset-2 controls">
-				<?=__('Captcha')?>*:<br />
-				<?=captcha::image_tag('new-forum')?><br />
-				<?= FORM::input('captcha', "", array('class' => 'form-control input-xlarge', 'id' => 'captcha', 'required'))?>
+				<?if (Core::config('general.recaptcha_active')):?>
+				    <?=Captcha::recaptcha_display()?>
+				<?else:?>
+				    <?=__('Captcha')?>*:<br />
+				    <?=captcha::image_tag('new-forum')?><br />
+				    <?= FORM::input('captcha', "", array('class' => 'form-control input-xlarge', 'id' => 'captcha', 'required'))?>
+				<?endif?>
 			</div>
 		</div>
 		<?endif?>

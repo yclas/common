@@ -735,7 +735,7 @@ class OC_Theme {
     {
         if (self::get('premium')!=1
                 OR (strtolower(Request::current()->controller())=='theme' AND strtolower(Request::current()->action())=='license')
-                OR !Auth::instance()->logged_in())
+                OR !Auth::instance()->logged_in() OR $_POST)
             return TRUE;
 
         if (self::get('premium')==1 AND (self::get('license_date') < time() OR self::get('license_date')==NULL))
@@ -744,7 +744,7 @@ class OC_Theme {
             {
                 self::$data['license_date'] = time()+7*24*60*60;
                 self::save();
-                return TRUE;
+                HTTP::redirect(URL::current());
             }
             elseif (Auth::instance()->get_user()->id_role == Model_Role::ROLE_ADMIN )
             {
@@ -973,6 +973,38 @@ class OC_Theme {
             $base = URL::base();
 
         return $base.'images/'.$image['name'];
+    }
+    
+    /**
+     * deletes the given image
+     * @param  $image string
+     * @return FALSE/NULL       
+     */
+    public static function delete_image($image)
+    {                 
+        $root = DOCROOT.'images/'; //root folder
+        
+        if (!is_dir($root)) 
+            return FALSE;
+        
+        else
+        {
+            if (($pos = strpos($image, "images/")) !== FALSE)
+            { 
+                $image_uri = substr($image, $pos+7);
+                
+                //delete image
+                @unlink($root.$image_uri);
+                
+                // delete image from Amazon S3
+                if(core::config('image.aws_s3_active'))
+                    $s3->deleteObject(core::config('image.aws_s3_bucket'), 'images/'.$image_uri);
+                
+                return NULL;
+            }
+            else
+                return FALSE;
+        }
     }
 
     /**

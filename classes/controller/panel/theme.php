@@ -46,6 +46,24 @@ class Controller_Panel_Theme extends Auth_Controller {
         // save only changed values
         if($this->request->post())
         {
+            //delete the logo
+            if (Core::post('delete_logo_url'))
+            {
+                $url = Theme::delete_image(Core::post('delete_logo_url'));
+                
+                if ($url!==FALSE)
+                    $data['logo_url'] = $url;
+            }
+            
+            //delete the favicon
+            if (Core::post('delete_favicon_url'))
+            {
+                $url = Theme::delete_image(Core::post('delete_favicon_url'));
+                
+                if ($url!==FALSE)
+                    $data['favicon_url'] = $url;
+            }
+            
             //uploads the logo
             if (isset($_FILES['logo_url']))
             {
@@ -162,7 +180,7 @@ class Controller_Panel_Theme extends Auth_Controller {
      */
     public function action_license()
     {
-        $theme = $this->request->param('id');
+        $theme = $this->request->param('id',Theme::$theme);
 
         // save only changed values
         if(core::request('license'))

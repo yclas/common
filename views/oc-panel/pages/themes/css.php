@@ -12,7 +12,7 @@
     <fieldset>
             
         <div class="form-group">
-            <?= FORM::label('css_active', __('Swith off custom CSS'), array('class'=>'control-label col-sm-3', 'for'=>'css_active'))?>
+            <?= FORM::label('css_active', __('Switch off custom CSS'), array('class'=>'control-label col-sm-3', 'for'=>'css_active'))?>
             <div class="col-sm-4">
                 <div class="onoffswitch">
                     <?= FORM::hidden('css_active', 0);?>
@@ -20,7 +20,7 @@
                     'placeholder' => "", 
                     'class' => 'onoffswitch-checkbox', 
                     'id' => 'css_active', 
-                    'data-original-title'=> __("Swith off custom CSS"),
+                    'data-original-title'=> __("Switch off custom CSS"),
                     'data-trigger'=>"hover",
                     'data-placement'=>"right",
                     'data-toggle'=>"popover",

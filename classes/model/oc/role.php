@@ -14,6 +14,7 @@ class Model_OC_Role extends ORM {
      * user roles
      */
     const ROLE_USER             = 1;
+    const ROLE_TRANSLATOR       = 5;
     const ROLE_MODERATOR        = 7;
     const ROLE_ADMIN            = 10;
     

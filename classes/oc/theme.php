@@ -1020,7 +1020,9 @@ class OC_Theme {
         if (Core::config('appearance.custom_css') == TRUE)
         {
             //try s3, if not normal
-            if ( ($base = Core::S3_domain()) === FALSE )
+            if ( core::config('image.aws_s3_active') )
+                $base = Core::S3_domain().$theme.'/css/web-custom.css';
+            else
                 $base =  self::public_path('css/web-custom.css', $theme); 
 
             return $base.'?v='.Core::config('appearance.custom_css_version');

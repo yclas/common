@@ -28,9 +28,22 @@ class OC_Email {
         require_once Kohana::find_file('vendor', 'php-mailer/phpmailer','php');
 
         $body = Text::nl2br($body);
+
+        //get the unsubscribe link
         
+        $email_encoded = NULL;
+        //is sent to a single user get hash to auto unsubscribe
+        if (!is_array($to))
+        {
+            //encodig the email for extra security
+            $encrypt = new Encrypt(Core::config('auth.hash_key'), MCRYPT_MODE_NOFB, MCRYPT_RIJNDAEL_128);
+            $email_encoded = Base64::fix_to_url($encrypt->encode($to));
+        }
+
+        $unsubscribe_link = Route::url('oc-panel',array('controller'=>'auth','action'=>'unsubscribe','id'=>$email_encoded));
+
         //get the template from the html email boilerplate
-        $body = View::factory('email',array('title'=>$subject,'content'=>$body))->render();
+        $body = View::factory('email',array('title'=>$subject,'content'=>$body,'unsubscribe_link'=>$unsubscribe_link))->render();
 
         //sendign via elasticemail
         if (Core::config('email.elastic_active')==TRUE)

@@ -61,6 +61,9 @@
                        <?=date('Y')?> &copy; <a href="<?=core::config('general.base_url')?>" target ="_blank" title="<?=HTML::chars(core::config('general.site_name'))?>">
                             <?=core::config('general.site_name')?>
                         </a>.
+                        <a href="<?=$unsubscribe_link?>">
+                            <?=__('Unsubscribe')?>
+                        <a>
                     </td>
                 </tr>
                 

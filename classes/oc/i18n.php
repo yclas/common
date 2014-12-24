@@ -234,7 +234,7 @@ class OC_I18n extends Kohana_I18n {
         'CUC' => array(NULL,2,'.',',',0),          //  Cuban Convertible Peso
         'CUP' => array(NULL,2,'.',',',0),          //  Cuban Peso
         'CYP' => array(NULL,2,'.',',',0),          //  Cyprus Pound
-        'CZK' => array('Kc',2,'.',',',1),          //  Czech Koruna
+        'CZK' => array('K&#269;',0,'',' ',1),          //  Czech Koruna
         'DKK' => array(NULL,2,',','.',0),          //  Danish Krone
         'DOP' => array(NULL,2,'.',',',0),          //  Dominican Peso
         'XCD' => array('EC$',2,'.',',',0),          //  East Caribbean Dollar

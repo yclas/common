@@ -20,7 +20,25 @@ class OC_Paymill {
      */
     public static function money_format($amount)
     {
-        return $amount*100;
+        return round($amount,2)*100;
+    }
+
+    /**
+     * generates HTML for apy buton
+     * @param  Model_Order $order 
+     * @return string                 
+     */
+    public static function button(Model_Order $order)
+    {
+        if ( Core::config('payment.paymill_private')!='' AND 
+            Core::config('payment.paymill_public')!='' AND 
+            Theme::get('premium')==1 AND
+            $order->loaded())
+        {
+            return View::factory('pages/paymill/button',array('order'=>$order));
+        }
+
+        return '';
     }
 
     //

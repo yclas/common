@@ -1,4 +1,12 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
+<form class="pull-right" action="<?=Route::URL('blog')?>" method="get">
+    <button class="btn btn-default pull-right" type="submit" value="<?=_('Search')?>"><?=__('Search')?></button>
+    <div class="pull-right">&nbsp;</div>
+    <div class="pull-right">
+        <input type="text" class="form-control" placeholder="<?=('Search')?>" type="search" value="<?=core::get('search')?>" name="search" />
+    </div>
+</form>
+
 <div class="page-header">
     <h1><?=Core::config('general.site_name')?> <?=__('Blog')?></h1>
 </div>

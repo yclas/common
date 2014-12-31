@@ -17,6 +17,10 @@ class Controller_FAQ extends Controller {
         if ($seotitle!==NULL)
             return $this->action_view($seotitle);
 
+        //in case performing a search
+        $search = core::get('search');
+        if ( strlen($search)>=3 )
+            return $this->action_search($search);
 
         //template header
         $this->template->title            = __(' Frequently Asked Questions - FAQ');
@@ -40,7 +44,38 @@ class Controller_FAQ extends Controller {
         $this->template->content = View::factory('pages/faq/listing',array('faqs'=>$faqs,'disqus'=>$disqus));
         
     }
-
+    
+    public function action_search($search = NULL)
+    {
+        //template header
+        $this->template->title            = __(' Frequently Asked Questions - FAQ');
+        $this->template->meta_description = core::config('general.site_name').' '.__('frequently asked questions.');
+    
+        $this->template->styles = array('css/faq.css' => 'screen');
+        $this->template->scripts['footer'] = array('js/faq.js');
+        
+        //FAQ CMS 
+        $faqs =  new Model_Content();
+        $faqs->where('type','=','help')
+             ->where('status','=','1');
+        
+        if ($search!==NULL)
+            $faqs->where_open()
+                 ->where('title','like','%'.$search.'%')->or_where('description','like','%'.$search.'%')
+                 ->where_close();
+        
+        $faqs = $faqs->order_by('order','asc')->find_all();
+    
+        $this->template->bind('content', $content);
+    
+        if (strlen(core::config('general.faq_disqus'))>0 )
+            $disqus = View::factory('pages/disqus',array('disqus'=>core::config('general.faq_disqus')));
+         else 
+            $disqus = '';
+        
+        $this->template->content = View::factory('pages/faq/listing',array('faqs'=>$faqs,'disqus'=>$disqus));
+        
+    }
 
    /**
      *

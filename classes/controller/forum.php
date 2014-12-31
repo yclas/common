@@ -18,6 +18,10 @@ class Controller_Forum extends Controller {
      */
     public function action_index()
     {
+        //in case performing a search
+        if ( strlen($search = core::get('search'))>=3 )
+            return $this->action_search($search);
+
         //template header
         $this->template->title            = __('Forum');
         $this->template->meta_description = core::config('general.site_name').' '.__('community forums.');
@@ -35,6 +39,10 @@ class Controller_Forum extends Controller {
      */
     public function action_list()
     {
+        //in case performing a search
+        if ( strlen($search = core::get('search'))>=3 )
+            return $this->action_search($search);
+
         $this->template->styles              = array('css/forums.css' => 'screen');
         $this->template->scripts['footer'][] = 'js/forums.js';
         $forum = new Model_Forum();
@@ -350,6 +358,48 @@ class Controller_Forum extends Controller {
             return $errors;
 
         }
+    }
+    
+    public function action_search($search = NULL)
+    {
+        //template header
+        $this->template->title            = __('Forum Search');
+    
+        $this->template->styles = array('css/forum.css' => 'screen');
+    
+    
+        $this->template->bind('content', $content);
+    
+        $topics =  new Model_Topic();
+        $topics->where('status','=',Model_Post::STATUS_ACTIVE)
+                ->where('id_forum','IS NOT',NULL)
+                ->where_open()
+                ->where('title','like','%'.$search.'%')->or_where('description','like','%'.$search.'%')
+                ->where_close();
+    
+    
+        $pagination = Pagination::factory(array(
+                    'view'           => 'pagination',
+                    'total_items'    => $topics->count_all(),
+                    'items_per_page' => self::$items_per_page,
+        ))->route_params(array(
+                    'controller' => $this->request->controller(),
+                    'action'     => $this->request->action(),
+        ));
+    
+        $pagination->title($this->template->title);
+    
+        $topics = $topics->order_by('created','desc')
+                        ->limit($pagination->items_per_page)
+                        ->offset($pagination->offset)
+                        ->find_all();
+    
+        $pagination = $pagination->render(); 
+    
+    
+        
+        $this->template->content = View::factory('pages/forum/search',array('topics'=>$topics,'pagination'=>$pagination));
+        
     }
 
 } // End Forum

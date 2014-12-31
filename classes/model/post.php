@@ -37,8 +37,9 @@ class Model_Post extends ORM {
     );
 
     protected $_belongs_to = array(
-        'user'       => array('model'       => 'user','foreign_key' => 'id_user'),
-        'forum'       => array('model'       => 'forum','foreign_key' => 'id_forum'),
+        'user'     => array('model'       => 'user', 'foreign_key' => 'id_user'),
+        'forum'    => array('model'       => 'forum','foreign_key' => 'id_forum'),
+        'parent'   => array('model'       => 'Post', 'foreign_key' => 'id_post_parent'),
     );
 
     public function filters()

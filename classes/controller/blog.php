@@ -25,6 +25,11 @@ class Controller_Blog extends Controller {
 	    $posts = new Model_Post();
         $posts->where('status','=', Model_Post::STATUS_ACTIVE)->where('id_forum','IS',NULL);
 
+        if ( ($search=Core::get('search'))!==NULL AND strlen(Core::get('search'))>=3 )
+        $posts->where_open()
+             ->where('title','like','%'.$search.'%')->or_where('description','like','%'.$search.'%')
+             ->where_close();
+
         $res_count = clone $posts;
         $res_count = $res_count->count_all();
         // check if there are some post

@@ -1,8 +1,4 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
-<div class="pull-right" >
-    <input type="text" class="form-control" id="task-table-filter" data-action="filter" data-filters="#task-table" placeholder="<?=('Search')?>" />
-</div>
-<div class="clearfix"></div>
 <div class="page-header">
     <h1 class="forum-title pull-left"><?=__("Forums")?></h1>
     
@@ -13,6 +9,8 @@
         <a class="btn btn-success pull-right" href="<?=Route::url('forum-new')?>">
     <?endif?>
         <?=__('New Topic')?></a>
+    
+    <?=View::factory('pages/forum/search-form')?>
 <div class="clearfix"></div>
 </div>
 

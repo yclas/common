@@ -13,6 +13,23 @@
 class OC_Bitpay {
 
     /**
+     * generates HTML for apy buton
+     * @param  Model_Order $order 
+     * @return string                 
+     */
+    public static function button(Model_Order $order)
+    {
+        if ( Core::config('payment.bitpay_apikey')!='' AND Theme::get('premium')==1 AND
+            Auth::instance()->logged_in() AND $order->loaded())
+        {           
+
+            return View::factory('pages/bitpay/button',array('order'=>$order));
+        }
+
+        return '';
+    }
+
+    /**
      * from here to down are the functions provided by bitpay I've tried to modify them as little as possible.
      *  I added them as static functions so they can be used in a class and removed the global options, super ugly code...
      *  see https://github.com/bitpay/php-client 

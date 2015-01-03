@@ -129,7 +129,7 @@ class Controller_Panel_Translations extends Auth_Controller {
 //        ksort($en_array_order,SORT_NATURAL); // since PHP 5.4
         natcasesort($en_array_order); // better than natsort() ??
 
-        //watch out there's a limit of 1000 posts....we have 540...
+        //watch out at any standard php installation there's a limit of 1000 posts....edit php.ini max_input_vars = 10000 to amend it.
         if($this->request->post())
         {
             foreach ($en_array_order as $key=>$string) 

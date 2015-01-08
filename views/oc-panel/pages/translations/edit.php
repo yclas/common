@@ -1,9 +1,23 @@
 <div class="page-header">
-    <h1><?=__('Translations')?> <?=$edit_language?><button type="submit" class="btn btn-primary pull-right" id="button-showhide-translated"><i id="icon-showhide-translated" class="glyphicon glyphicon-eye-open"></i> <span><?=__('Hide translated texts')?></span> <span class="hidden"><?=__('Show translated texts')?></span></button></h1>
-    <p><?=__('Here you can modify any text you find in your web.')?><a href="http://open-classifieds.com/2013/08/16/how-to-change-texts/" target="_blank"><?=__('Read more')?></a></p>
+    <h1><?=__('Translations')?> <?=$edit_language?></h1>
+
+    <a  class="btn btn-danger pull-right" href="<?=Request::current()->url()?>?translated=1" title="<?=__('Hide translated texts')?>" >
+        <i class="glyphicon glyphicon-eye-close"></i> 
+    </a>
+
+    <a  class="btn btn-primary pull-right" href="<?=Request::current()->url()?>" title="<?=__('Show translated texts')?>">
+        <i class="glyphicon glyphicon-eye-open"></i> 
+    </a>
+    
+
+    <p>
+    <?=__('Here you can modify any text you find in your web.')?><a href="http://open-classifieds.com/2013/08/16/how-to-change-texts/" target="_blank"><?=__('Read more')?></a>
+    <?=sprintf("Total of %u strings. %u strings already translated", $total_items, $total_items-$cont_untranslated)?>. <span class="error"><?=sprintf("%u strings yet to translate",$cont_untranslated)?>.</span>
+    </p>
+
 </div>
 
-<form enctype="multipart/form-data" class="form form-horizontal" accept-charset="utf-8" method="post" action="<?=Request::current()->url()?>">
+<form enctype="multipart/form-data" class="form form-horizontal" accept-charset="utf-8" method="post" action="<?=str_replace('rel=ajax', '', URL::current())?>">
 
     <table class="table table-bordered">
     <tr>
@@ -20,58 +34,36 @@
             <?endif?>
         </th>
         <th><?=__('Translation')?> <?=$edit_language?></th>
-        <th></th>
     </tr>
     <button type="submit" class="btn btn-primary pull-right" name="translation[submit]"><i class="glyphicon glyphicon-hdd"></i> <?=__('Save')?></button>
 
-    <?$cont = $nb_not_translated = 0;?>
-    <?foreach($strings_en as $key => $value):?>
-    <? if (isset($strings_default[$key])) {
-            $value = $strings_default[$key];
-        }
-        else {
-            $value = '';
-            $nb_not_translated++;
-        }
-        ?>
-        <tr id="tr_<?=$cont?>" class="<?=($value)? 'success': 'error'?>">
-            <td width="5%"><?=$cont?></td>
+    <?foreach($translation_array as $key => $values):?>
+        <?list($original,$translated) = array_values($values);?>
+        <tr id="tr_<?=$key?>" class="<?=(strlen($translated)>0)? 'success': 'error'?>">
+            <td width="5%"><?=$key?></td>
             <td>
-                <textarea id="orig_<?=$cont?>" disabled style="width: 100%"><?=$key?></textarea>
+                <textarea id="orig_<?=$key?>" disabled style="width: 100%"><?=$original?></textarea>
             </td>
             <td width="5%">
-                <button class="btn button-copy" data-orig="orig_<?=$cont?>" data-dest="dest_<?=$cont?>" data-tr="tr_<?=$cont?>" ><i class="glyphicon glyphicon-arrow-right"></i></button>
+                <button class="btn button-copy" data-orig="orig_<?=$key?>" data-dest="dest_<?=$key?>" data-tr="tr_<?=$key?>" ><i class="glyphicon glyphicon-arrow-right"></i></button>
                 <br>
                 <?if (strlen(Core::config('general.translate'))>0):?>
-                    <button class="btn button-translate" data-orig="orig_<?=$cont?>" data-dest="dest_<?=$cont?>" data-tr="tr_<?=$cont?>" ><i class="glyphicon glyphicon-globe"></i></button>
+                    <button class="btn button-translate" data-orig="orig_<?=$key?>" data-dest="dest_<?=$key?>" data-tr="tr_<?=$key?>" ><i class="glyphicon glyphicon-globe"></i></button>
                 <?else:?>
                     <a target="_blank" class="btn" 
-                    href="http://translate.google.com/#en/<?=substr($edit_language,0,2)?>/<?=urlencode($key)?>">
+                    href="http://translate.google.com/#en/<?=substr($edit_language,0,2)?>/<?=urlencode($original)?>">
                     <i class="glyphicon glyphicon-globe"></i></a>
                 <?endif?>
             </td>
             <td>  
-                <textarea id="dest_<?=$cont?>" style="width: 100%" name="translations[<?=$cont?>]"><?=$value?></textarea>
-            </td>
-            <td width="5%">
-                <button type="submit" class="btn btn-primary" name="translation[submit]"><i class="glyphicon glyphicon-hdd"></i></button>
+                <textarea id="dest_<?=$key?>" style="width: 100%" name="translations[<?=$key?>]"><?=$translated?></textarea>
             </td>
         </tr>
-        <?$cont++; //if($cont>10) break;?>
     <?endforeach;?>
 
     </table>
     <button type="submit" class="btn btn-primary pull-right" name="translation[submit]"><i class="glyphicon glyphicon-hdd"></i> <?=__('Save')?></button>
 
-    <?=sprintf("Total of %u strings. %u strings already translated", $cont, $cont-$nb_not_translated)?>. <span class="error"><?=sprintf("%u strings yet to translate",$nb_not_translated)?>.</span>
-
-    <div id="translate-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                </div>
-            </div>
-        </div>
-    </div>
+    <?=$pagination?>
 
 </form>

@@ -57,13 +57,13 @@ class Controller_Forum extends Controller {
             Breadcrumbs::add(Breadcrumb::factory()->set_title($forum->name));
                         
             //count all topics
-            $count = DB::select(array(DB::select(DB::expr('COUNT("id_post")')),'count'))
+            $count = DB::select(array(DB::expr('COUNT("id_post")'),'count'))
                         ->from(array('posts', 'p'))
                         ->where('id_post_parent','IS',NULL)
                         ->where('id_forum','=',$forum->id_forum)
                         ->cached()
                         ->execute();
-              
+                        
             $count = array_keys($count->as_array('count'));
        
 

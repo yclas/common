@@ -38,7 +38,10 @@ class Controller_Panel_OC_Update extends Auth_Controller {
         
         //force update check reload
         if (Core::get('reload')==1 )
+        {
             Core::get_updates(TRUE);
+            Alert::set(Alert::INFO,__('Checked for new versions.'));
+        }
         
         $versions = core::config('versions');
 
@@ -62,19 +65,54 @@ class Controller_Panel_OC_Update extends Auth_Controller {
             $latest_version_update = next($version_nums);
 
 
-            //check if we have latest version of OC and using the previous version then we allow to auto update
-            //if ($latest_version!=core::VERSION AND core::VERSION == $latest_version_update )
-            if ($latest_version!=core::VERSION)
-                Alert::set(Alert::ALERT,__('You are not using latest version, please update.').
-                    '<br/><br/><a class="btn btn-primary update_btn" href="'.Route::url('oc-panel',array('controller'=>'update','action'=>'latest')).'">
-                '.__('Update').'</a>');
-            //elseif ($latest_version!=core::VERSION AND core::VERSION != $latest_version_update )
-                //Alert::set(Alert::ALERT,__('You are using an old version, can not update automatically, please update manually.'));
-
             //pass to view from local versions.php         
-            $this->template->content = View::factory('oc-panel/pages/tools/versions',array('versions'       =>$versions,
-                                                                                           'latest_version' =>key($versions)));
+            $this->template->content = View::factory('oc-panel/pages/update/index',array('versions'       =>$versions,
+                                                                                           'latest_version' =>$latest_version));
         }        
+
+    }
+
+    /**
+     * STEP 0
+     * Confirm you want to update!
+     */
+    public function action_confirm()
+    {
+        //force update check reload so we are sure he has latest version
+        Core::get_updates(TRUE);
+        
+        $versions = core::config('versions');
+
+
+        $this->template->title = __('Updates');
+        Breadcrumbs::add(Breadcrumb::factory()->set_title($this->template->title));
+
+        //version numbers in a key value
+        $version_nums = array();
+        foreach ($versions as $version=>$values)
+            $version_nums[] = $version;
+
+        //latest version available
+        $latest_version = current($version_nums);
+
+        //info from the latest version available
+        $version = $versions[$latest_version];
+
+        //this is the version we allow to update from. Only the one before latest
+        $latest_version_update = (int) str_replace('.', '',next($version_nums));
+
+        //current installation version
+        $current_version = (int) str_replace('.', '',core::VERSION);
+
+        $can_update = FALSE;
+
+        if ($current_version == $latest_version_update)
+            $can_update = TRUE;
+
+        //pass to view from local versions.php         
+        $this->template->content = View::factory('oc-panel/pages/update/confirm',array('latest_version'=>$latest_version,
+                                                                                       'version' =>$version,
+                                                                                       'can_update'=>$can_update));
 
     }
 

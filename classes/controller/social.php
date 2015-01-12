@@ -114,8 +114,7 @@ class Controller_Social extends Controller {
                 Alert::set(Alert::SUCCESS, __('Welcome!'));
 
                 //change the redirect
-                //$this->redirect(Route::url('default'));
-                $this->redirect(Session::instance()->get_once('auth_redirect',Route::url('default')));
+                $this->redirect(Route::url('default'));
             }
             else
             {

@@ -57,6 +57,8 @@ class OC_Email {
 
             if(core::config('email.smtp_active') == TRUE)
             { 
+                require_once Kohana::find_file('vendor', 'php-mailer/smtp','php');
+                
                 $mail->IsSMTP();
 
                 //SMTP HOST config

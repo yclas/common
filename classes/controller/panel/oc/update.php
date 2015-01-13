@@ -86,6 +86,7 @@ class Controller_Panel_OC_Update extends Auth_Controller {
 
         $this->template->title = __('Updates');
         Breadcrumbs::add(Breadcrumb::factory()->set_title($this->template->title));
+        $this->template->scripts['footer'][] = 'js/oc-panel/update.js';
 
         //version numbers in a key value
         $version_nums = array();
@@ -167,7 +168,7 @@ class Controller_Panel_OC_Update extends Auth_Controller {
 
         //delete downloaded file
         unlink($file_name);
-        
+
         //move files in different request so more time
         $this->redirect(Route::url('oc-panel', array('controller'=>'update', 'action'=>'files'))); 
       
@@ -220,7 +221,7 @@ class Controller_Panel_OC_Update extends Auth_Controller {
 
         //deactivate maintenance mode
         Model_Config::set_value('general','maintenance',0);
-
+        
         //update the DB in different request
         $this->redirect(Route::url('oc-panel', array('controller'=>'update', 'action'=>'database'))); 
     }
@@ -232,7 +233,7 @@ class Controller_Panel_OC_Update extends Auth_Controller {
      *  they are actions, just in case you want to launch the update of a specific release like /oc-panel/update/218 for example
      */
     public function action_database()
-    {        
+    {   
         //activate maintenance mode
         Model_Config::set_value('general','maintenance',1);
 
@@ -263,7 +264,7 @@ class Controller_Panel_OC_Update extends Auth_Controller {
 
         //clean cache
         Core::delete_cache();
-
+        
         //TODO maybe a setting that forces the update of the themes?
         $this->redirect(Route::url('oc-panel', array('controller'=>'update', 'action'=>'themes'))); 
     }
@@ -275,7 +276,6 @@ class Controller_Panel_OC_Update extends Auth_Controller {
      */
     public function action_themes()
     {
-        
         $licenses = array();
 
         //getting the licenses unique. to avoid downloading twice
@@ -310,8 +310,7 @@ class Controller_Panel_OC_Update extends Auth_Controller {
         }
         
         //finished the entire update process
-        $this->redirect(Route::url('oc-panel', array('controller'=>'theme', 'action'=>'index'))); 
-                    
+        $this->redirect(Route::url('oc-panel', array('controller'=>'update', 'action'=>'index'))); 
     }
 
     /**

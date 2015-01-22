@@ -93,7 +93,7 @@ class Controller_Panel_Translations extends Auth_Controller {
 
     public function action_edit()
     {
-         
+        $user = Auth::instance()->get_user();
         $language   = $this->request->param('id');
 
         //be sure is correct capital letters
@@ -107,8 +107,6 @@ class Controller_Panel_Translations extends Auth_Controller {
             Alert::set(Alert::ERROR, $language);
             HTTP::redirect(Route::url('oc-panel',array('controller'  => 'translations')));
         }
-        
-
 
         Breadcrumbs::add(Breadcrumb::factory()->set_title(__('Edit Translation')));  
         $this->template->title = __('Edit Translation');     
@@ -184,29 +182,43 @@ class Controller_Panel_Translations extends Auth_Controller {
 
             //let's generate a proper .po file
             $strings = array();
-            $out = '';
+            $out = "";
+            
+            $out = 'msgid ""
+msgstr ""
+"Project-Id-Version: '.Core::VERSION.'\n"
+"POT-Creation-Date: '.Date::unix2mysql().'\n"
+"PO-Revision-Date: '.Date::unix2mysql().'\n"
+"Last-Translator: '.$user->name.' <'.$user->email.'>\n"
+"Language-Team: en\n"
+"Language: '.strtolower(substr($language,0,2)).'\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Open Classifieds '.i18n::$charset.'\n"'.PHP_EOL.PHP_EOL;
+
+
             foreach($translation_array as $key => $values)
             {
                 list($original,$translated) = array_values($values);
-                //only adding translated items
-                if($translated != '')
-                {
-                    $out .= '#: String '.$key.PHP_EOL;
-                    $out .= 'msgid "'.$original.'"'.PHP_EOL;
-                    $out .= 'msgstr "'.$translated.'"'.PHP_EOL;
-                    $out .= PHP_EOL;
-                }
+                $out .= '#: String '.$key.PHP_EOL;
+                $out .= 'msgid "'.$original.'"'.PHP_EOL;
+                $out .= 'msgstr "'.$translated.'"'.PHP_EOL;
+                $out .= PHP_EOL;
             }
+
 
             //write the generated .po to file
             file_put_contents($mo_translation, $out, LOCK_EX);
 
-            $pocreator_translated->strings = $strings;
+            //$pocreator_translated->strings = $strings;
 
             //generate the .mo from the .po file
             phpmo_convert($mo_translation);
 
+            //we redirect after saving so they can see changes
             Alert::set(Alert::SUCCESS, $language.' '.__('Language saved'));
+            $this->redirect(URL::current());
         }
 
         //add filters to search
@@ -232,7 +244,7 @@ class Controller_Panel_Translations extends Auth_Controller {
         $pagination = Pagination::factory(array(
                     'view'           => 'oc-panel/crud/pagination',
                     'total_items'    => $total_items,
-                    'items_per_page' => 50,
+                    'items_per_page' => 100,
         ))->route_params(array(
                     'controller' => $this->request->controller(),
                     'action'     => $this->request->action(),

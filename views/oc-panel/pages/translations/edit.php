@@ -38,17 +38,17 @@
     <button type="submit" class="btn btn-primary pull-right" name="translation[submit]"><i class="glyphicon glyphicon-hdd"></i> <?=__('Save')?></button>
 
     <?foreach($translation_array as $key => $values):?>
-        <?list($original,$translated) = array_values($values);?>
-        <tr id="tr_<?=$key?>" class="<?=(strlen($translated)>0)? 'success': 'error'?>">
-            <td width="5%"><?=$key?></td>
+        <?list($id,$original,$translated) = array_values($values);?>
+        <tr id="tr_<?=$id?>" class="<?=(strlen($translated)>0)? 'success': 'error'?>">
+            <td width="5%"><?=$id?></td>
             <td>
-                <textarea id="orig_<?=$key?>" disabled style="width: 100%"><?=$original?></textarea>
+                <textarea id="orig_<?=$id?>" disabled style="width: 100%"><?=$original?></textarea>
             </td>
             <td width="5%">
-                <button class="btn button-copy" data-orig="orig_<?=$key?>" data-dest="dest_<?=$key?>" data-tr="tr_<?=$key?>" ><i class="glyphicon glyphicon-arrow-right"></i></button>
+                <button class="btn button-copy" data-orig="orig_<?=$id?>" data-dest="dest_<?=$id?>" data-tr="tr_<?=$id?>" ><i class="glyphicon glyphicon-arrow-right"></i></button>
                 <br>
                 <?if (strlen(Core::config('general.translate'))>0):?>
-                    <button class="btn button-translate" data-orig="orig_<?=$key?>" data-dest="dest_<?=$key?>" data-tr="tr_<?=$key?>" ><i class="glyphicon glyphicon-globe"></i></button>
+                    <button class="btn button-translate" data-orig="orig_<?=$id?>" data-dest="dest_<?=$id?>" data-tr="tr_<?=$id?>" ><i class="glyphicon glyphicon-globe"></i></button>
                 <?else:?>
                     <a target="_blank" class="btn" 
                     href="http://translate.google.com/#en/<?=substr($edit_language,0,2)?>/<?=urlencode($original)?>">
@@ -56,7 +56,7 @@
                 <?endif?>
             </td>
             <td>  
-                <textarea id="dest_<?=$key?>" style="width: 100%" name="translations[<?=$key?>]"><?=$translated?></textarea>
+                <textarea id="dest_<?=$id?>" style="width: 100%" name="translations[<?=$id?>]"><?=$translated?></textarea>
             </td>
         </tr>
     <?endforeach;?>

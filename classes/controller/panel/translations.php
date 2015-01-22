@@ -162,8 +162,9 @@ class Controller_Panel_Translations extends Auth_Controller {
                 $translated = '';
             }
 
-            $translation_array[] = array('original' => $origin,
-                                         'translated' => $translated);
+            $translation_array[] = array( 'id' => $i,
+                                          'original' => $origin,
+                                          'translated' => $translated);
 
             $i++;
         }
@@ -185,7 +186,7 @@ class Controller_Panel_Translations extends Auth_Controller {
 
             foreach($translation_array as $key => $values)
             {
-                list($original,$translated) = array_values($values);
+                list($id,$original,$translated) = array_values($values);
                 if ($translated!='')
                 {
                     //only adding translated items
@@ -218,7 +219,7 @@ msgstr ""
 
             foreach($translation_array as $key => $values)
             {
-                list($original,$translated) = array_values($values);
+                list($id,$original,$translated) = array_values($values);
                 //only adding translated items
                 $out .= '#: String '.$key.PHP_EOL;
                 $out .= 'msgid "'.$original.'"'.PHP_EOL;
@@ -243,15 +244,14 @@ msgstr ""
             $translation_array_filtered_aux = array();
             foreach ($array_untranslated as $key=>$value ) 
             {
-                $translation_array_filtered_aux[$value] =  $translation_array_filtered[$value];
+                $translation_array_filtered_aux[] =  $translation_array_filtered[$value];
             }
 
             $translation_array_filtered = $translation_array_filtered_aux;
         }
 
         //how many translated items we have?
-        $total_items = count($translation_array);
-
+        $total_items = count($translation_array_filtered);
 
         //get elements for current page
         $pagination = Pagination::factory(array(
@@ -277,7 +277,7 @@ msgstr ""
         $content->edit_language     = $language;
         $content->translation_array = $trans_array_paginated;
         $content->cont_untranslated = count($array_untranslated);
-        $content->total_items       = $total_items;
+        $content->total_items       = count($translation_array);
         $content->pagination        = $pagination->render();
 
     }

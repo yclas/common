@@ -1,8 +1,8 @@
 <?php
-/**
+/*!
 * HybridAuth
 * http://hybridauth.sourceforge.net | http://github.com/hybridauth/hybridauth
-* (c) 2009-2014, HybridAuth authors | http://hybridauth.sourceforge.net/licenses.html
+* (c) 2009-2012, HybridAuth authors | http://hybridauth.sourceforge.net/licenses.html
 */
 
 /**
@@ -13,12 +13,7 @@
 class Hybrid_Error
 {
 	/**
-	* Store error in session
-	*
-	* @param String $message
-	* @param Number $code
-	* @param String $trace
-	* @param String $previous
+	* store error in session
 	*/
 	public static function setError( $message, $code = NULL, $trace = NULL, $previous = NULL )
 	{
@@ -32,7 +27,7 @@ class Hybrid_Error
 	}
 
 	/**
-	* Clear the last error
+	* clear the last error
 	*/
 	public static function clearError()
 	{ 
@@ -72,7 +67,7 @@ class Hybrid_Error
 	}
 
 	/**
-	* return string detailed error backtrace as string.
+	* return string detailled error backtrace as string.
 	*/
 	public static function getErrorTrace()
 	{ 
@@ -80,7 +75,7 @@ class Hybrid_Error
 	}
 
 	/**
-	* @return string detailed error backtrace as string.
+	* @return string detailled error backtrace as string.
 	*/
 	public static function getErrorPrevious()
 	{ 

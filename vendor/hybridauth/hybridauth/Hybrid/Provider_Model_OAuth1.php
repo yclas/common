@@ -1,15 +1,15 @@
 <?php
-/**
+/*!
 * HybridAuth
 * http://hybridauth.sourceforge.net | http://github.com/hybridauth/hybridauth
-* (c) 2009-2014, HybridAuth authors | http://hybridauth.sourceforge.net/licenses.html 
+* (c) 2009-2012, HybridAuth authors | http://hybridauth.sourceforge.net/licenses.html 
 */
 
 /**
  * To implement an OAuth 1 based service provider, Hybrid_Provider_Model_OAuth1
  * can be used to save the hassle of the authentication flow. 
  * 
- * Each class that inherit from Hybrid_Provider_Model_OAuth1 have to implement
+ * Each class that inherit from Hybrid_Provider_Model_OAuth1 have to implemenent
  * at least 2 methods:
  *   Hybrid_Providers_{provider_name}::initialize()     to setup the provider api end-points urls
  *   Hybrid_Providers_{provider_name}::getUserProfile() to grab the user profile
@@ -19,21 +19,11 @@
  */
 class Hybrid_Provider_Model_OAuth1 extends Hybrid_Provider_Model
 {
-	/**
-	 * request_tokens as received from provider
-	 * @var object
-	 */
-	public $request_tokens_raw = null;
+	public $request_tokens_raw = null; // request_tokens as recived from provider
+	public $access_tokens_raw  = null; // access_tokens as recived from provider
 	
 	/**
-	 * access_tokens as received from provider
-	 * @var object
-	 */
-	public $access_tokens_raw  = null;
-	
-	/**
-	* Try to get the error message from provider api
-	* @param Numeric $code
+	* try to get the error message from provider api
 	*/ 
 	function errorMessageByStatus( $code = null ) { 
 		$http_status_codes = ARRAY(
@@ -108,7 +98,7 @@ class Hybrid_Provider_Model_OAuth1 extends Hybrid_Provider_Model
 	{
 		$tokens = $this->api->requestToken( $this->endpoint ); 
 
-		// request tokens as received from provider
+		// request tokens as recived from provider
 		$this->request_tokens_raw = $tokens;
 		
 		// check the last HTTP status code returned
@@ -144,7 +134,7 @@ class Hybrid_Provider_Model_OAuth1 extends Hybrid_Provider_Model
 		// request an access token
 		$tokens = $this->api->accessToken( $oauth_verifier );
 
-		// access tokens as received from provider
+		// access tokens as recived from provider
 		$this->access_tokens_raw = $tokens;
 
 		// check the last HTTP status code returned
@@ -157,11 +147,11 @@ class Hybrid_Provider_Model_OAuth1 extends Hybrid_Provider_Model
 			throw new Exception( "Authentication failed! {$this->providerId} returned an invalid access token.", 5 );
 		}
 
-		// we no more need to store request tokens
+		// we no more need to store requet tokens
 		$this->deleteToken( "request_token"        );
 		$this->deleteToken( "request_token_secret" );
 
-		// store access_token for later user
+		// sotre access_token for later user
 		$this->token( "access_token"        , $tokens['oauth_token'] );
 		$this->token( "access_token_secret" , $tokens['oauth_token_secret'] ); 
 

@@ -1,8 +1,8 @@
 <?php
-/**
+/*!
 * HybridAuth
 * http://hybridauth.sourceforge.net | http://github.com/hybridauth/hybridauth
-* (c) 2009-2014, HybridAuth authors | http://hybridauth.sourceforge.net/licenses.html 
+* (c) 2009-2012, HybridAuth authors | http://hybridauth.sourceforge.net/licenses.html 
 */
 
 /**
@@ -14,33 +14,18 @@
  */
 class Hybrid_User_Activity
 {
-	/**
-	 * activity id on the provider side, usually given as integer
-	 * @var Numeric/String
-	 */
+	/* activity id on the provider side, usually given as integer */
 	public $id = NULL;
 
-	/**
-	 * activity date of creation
-	 * @var timestamp
-	 */
+	/* activity date of creation */ 
 	public $date = NULL;
 
-	/**
-	 * activity content as a string
-	 * @var String
-	 */
+	/* activity content as a string */ 
 	public $text = NULL;
 
-	/**
-	 * user who created the activity
-	 * @var object
-	 */
+	/* user who created the activity */
 	public $user = NULL;
-	
-	/**
-	 * Constructor
-	 */
+
 	public function __construct()
 	{
 		$this->user = new stdClass();

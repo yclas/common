@@ -1,8 +1,8 @@
 <?php
-/**
+/*!
 * HybridAuth
 * http://hybridauth.sourceforge.net | http://github.com/hybridauth/hybridauth
-* (c) 2009-2014, HybridAuth authors | http://hybridauth.sourceforge.net/licenses.html 
+* (c) 2009-2012, HybridAuth authors | http://hybridauth.sourceforge.net/licenses.html 
 */
 
 /**
@@ -16,135 +16,69 @@
  */
 class Hybrid_User_Profile
 {
-	/**
-         * The Unique user's ID on the connected provider
-         * @var Numeric
-         */
-        public $identifier = NULL;
+	/* The Unique user's ID on the connected provider */
+	public $identifier = NULL;
 
-	/**
-         * User website, blog, web page
-         * @var String
-         */
-        public $webSiteURL = NULL;
+	/* User website, blog, web page */
+	public $webSiteURL = NULL;
 
-	/**
-         * URL link to profile page on the IDp web site
-         * @var String
-         */
-        public $profileURL = NULL;
+	/* URL link to profile page on the IDp web site */
+	public $profileURL = NULL;
 
-	/**
-         * URL link to user photo or avatar
-         * @var String
-         */
-        public $photoURL = NULL;
+	/* URL link to user photo or avatar */
+	public $photoURL = NULL;
 
-	/**
-         * User displayName provided by the IDp or a concatenation of first and last name.
-         * @var String
-         */
-        public $displayName = NULL;
+	/* User dispalyName provided by the IDp or a concatenation of first and last name. */
+	public $displayName = NULL;
 
-	/**
-         * A short about_me
-         * @var String
-         */
-        public $description = NULL;
+	/* A short about_me */
+	public $description = NULL;
 
-	/**
-         * User's first name
-         * @var String
-         */
-        public $firstName = NULL;
+	/* User's first name */
+	public $firstName = NULL;
 
-	/**
-         * User's last name
-         * @var String
-         */
-        public $lastName = NULL;
+	/* User's last name */
+	public $lastName = NULL;
 
-	/**
-         * male or female
-         * @var String
-         */
-        public $gender = NULL;
+	/* male or female */
+	public $gender = NULL;
 
-	/**
-         * Language
-         * @var String
-         */
-        public $language = NULL;
+	/* language */
+	public $language = NULL;
 
-	/**
-         * User age, we don't calculate it. we return it as is if the IDp provide it.
-         * @var Numeric
-         */
-        public $age = NULL;
+	/* User age, we dont calculate it. we return it as is if the IDp provide it. */
+	public $age = NULL;
 
-        /**
-         * User birth Day
-         * @var Numeric
-         */
+	/* User birth Day */
 	public $birthDay = NULL;
 
-        /**
-         * User birth Month
-         * @var Numeric/String
-         */
+	/* User birth Month */
 	public $birthMonth = NULL;
 
-        /**
-         * User birth Year
-         * @var Numeric
-         */
+	/* User birth Year */
 	public $birthYear = NULL;
 
-        /**
-         * User email. Note: not all of IDp grant access to the user email
-         * @var String
-         */
+	/* User email. Note: not all of IDp garant access to the user email */
 	public $email = NULL;
 	
-	/**
-         * Verified user email. Note: not all of IDp grant access to verified user email
-         * @var String
-         */
-        public $emailVerified = NULL;
+	/* Verified user email. Note: not all of IDp garant access to verified user email */
+	public $emailVerified = NULL;
 
-	/**
-         * Phone number
-         * @var String
-         */
-        public $phone = NULL;
+	/* phone number */
+	public $phone = NULL;
 
-	/**
-         * Complete user address
-         * @var String
-         */
-        public $address = NULL;
+	/* complete user address */
+	public $address = NULL;
 
-	/**
-         * User country
-         * @var String
-         */
-        public $country = NULL;
+	/* user country */
+	public $country = NULL;
 
-	/**
-         * Region
-         * @var String
-         */
-        public $region = NULL;
+	/* region */
+	public $region = NULL;
 
-	/**
-         * City
-         * @var String
-         */
-        public $city = NULL;
+	/** city */
+	public $city = NULL;
 
-	/**
-         * Postal code
-         * @var String
-         */
-        public $zip = NULL;
+	/* Postal code  */
+	public $zip = NULL;
 }

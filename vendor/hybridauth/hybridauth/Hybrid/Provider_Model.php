@@ -1,8 +1,8 @@
 <?php
-/**
+/*!
 * HybridAuth
 * http://hybridauth.sourceforge.net | http://github.com/hybridauth/hybridauth
-* (c) 2009-2014, HybridAuth authors | http://hybridauth.sourceforge.net/licenses.html 
+* (c) 2009-2012, HybridAuth authors | http://hybridauth.sourceforge.net/licenses.html 
 */
 
 /**
@@ -21,48 +21,27 @@
  */
 abstract class Hybrid_Provider_Model
 {
-	/**
-	 * IDp ID (or unique name)
-	 * @var Numeric/String
-	 */
+	/* IDp ID (or unique name) */
 	public $providerId = NULL;
 
-	/**
-	 * specific provider adapter config
-	 * @var array
-	 */
+	/* specific provider adapter config */
 	public $config     = NULL;
 
-   	/**
-	 * provider extra parameters
-	 * @var array
-	 */
+   	/* provider extra parameters */
 	public $params     = NULL;
 
-	/**
-	 * Endpoint URL for that provider
-	 * @var String
-	 */
+	/* Endpoint URL for that provider */
 	public $endpoint   = NULL; 
 
-	/**
-	 * Hybrid_User obj, represents the current loggedin user
-	 * @var object
-	 */
+	/* Hybrid_User obj, represents the current loggedin user */
 	public $user       = NULL;
 
-	/**
-	 * the provider api client (optional)
-	 * @var String
-	 */
+	/* the provider api client (optional) */
 	public $api        = NULL; 
 
 	/**
-	 * Common providers adapter constructor
-	 * @param Numeric/String $providerId
-	 * @param Array $config
-	 * @param Array $params
-	 */
+	* common providers adapter constructor
+	*/
 	function __construct( $providerId, $config, $params = NULL )
 	{
 		# init the IDp adapter parameters, get them from the cache if possible
@@ -98,7 +77,7 @@ abstract class Hybrid_Provider_Model
 	* IDp wrappers initializer
 	*
 	* The main job of wrappers initializer is to performs (depend on the IDp api client it self): 
-	*     - include some libs needed by this provider,
+	*     - include some libs nedded by this provider,
 	*     - check IDp key and secret,
 	*     - set some needed parameters (stored in $this->params) by this IDp api client
 	*     - create and setup an instance of the IDp api client on $this->api 
@@ -140,7 +119,7 @@ abstract class Hybrid_Provider_Model
 	*/
 	function getUserProfile()
 	{
-		Hybrid_Logger::error( "HybridAuth do not provide users contacts list for {$this->providerId} yet." );
+		Hybrid_Logger::error( "HybridAuth do not provide users contats list for {$this->providerId} yet." ); 
 		
 		throw new Exception( "Provider does not support this feature.", 8 ); 
 	}
@@ -152,7 +131,7 @@ abstract class Hybrid_Provider_Model
 	*/
 	function getUserContacts() 
 	{
-		Hybrid_Logger::error( "HybridAuth do not provide users contacts list for {$this->providerId} yet." );
+		Hybrid_Logger::error( "HybridAuth do not provide users contats list for {$this->providerId} yet." ); 
 		
 		throw new Exception( "Provider does not support this feature.", 8 ); 
 	}
@@ -172,22 +151,11 @@ abstract class Hybrid_Provider_Model
 	// --------------------------------------------------------------------
 
 	/**
-	* set user status
+	* return the user activity stream  
 	*/ 
 	function setUserStatus( $status )
 	{
 		Hybrid_Logger::error( "HybridAuth do not provide user's activity stream for {$this->providerId} yet." ); 
-		
-		throw new Exception( "Provider does not support this feature.", 8 ); 
-	}
-
-
-	/**
-	* return the user status
-	*/ 
-	function getUserStatus( $statusid )
-	{
-		Hybrid_Logger::error( "HybridAuth do not provide user's status for {$this->providerId} yet." ); 
 		
 		throw new Exception( "Provider does not support this feature.", 8 ); 
 	}
@@ -254,7 +222,7 @@ abstract class Hybrid_Provider_Model
 	// --------------------------------------------------------------------
 
 	/**
-	* clear all existent tokens for this provider
+	* clear all existen tokens for this provider
 	*/ 
 	public function clearTokens()
 	{ 

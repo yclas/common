@@ -257,7 +257,7 @@ msgstr ""
         $pagination = Pagination::factory(array(
                     'view'           => 'oc-panel/crud/pagination',
                     'total_items'    => $total_items,
-                    'items_per_page' => 100,
+                    'items_per_page' => 20,
         ))->route_params(array(
                     'controller' => $this->request->controller(),
                     'action'     => $this->request->action(),

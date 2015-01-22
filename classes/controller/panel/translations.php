@@ -169,7 +169,7 @@ class Controller_Panel_Translations extends Auth_Controller {
         }
 
         //watch out at any standard php installation there's a limit of 1000 posts....edit php.ini max_input_vars = 10000 to amend it.
-        if($this->request->post())
+        if($this->request->post() AND $this->request->post('translations'))
         {
             $translations = $this->request->post('translations');
 
@@ -180,10 +180,29 @@ class Controller_Panel_Translations extends Auth_Controller {
                     $translation_array[$key]['translated'] = $value;
             }
 
-            //let's generate a proper .po file
-            $strings = array();
-            $out = "";
-            
+            //let's generate a proper .po file for the mo converter
+            $out = '';
+
+            foreach($translation_array as $key => $values)
+            {
+                list($original,$translated) = array_values($values);
+                if ($translated!='')
+                {
+                    //only adding translated items
+                    $out .= '#: String '.$key.PHP_EOL;
+                    $out .= 'msgid "'.$original.'"'.PHP_EOL;
+                    $out .= 'msgstr "'.$translated.'"'.PHP_EOL;
+                    $out .= PHP_EOL;
+                }
+            }
+
+            //write the generated .po to file
+            file_put_contents($mo_translation, $out, LOCK_EX);
+
+            //generate the .mo from the .po file
+            phpmo_convert($mo_translation);
+
+            //we regenerate the file again to be poedit friendly
             $out = 'msgid ""
 msgstr ""
 "Project-Id-Version: '.Core::VERSION.'\n"
@@ -193,30 +212,24 @@ msgstr ""
 "Language-Team: en\n"
 "Language: '.strtolower(substr($language,0,2)).'\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset='.i18n::$charset.'\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Open Classifieds '.i18n::$charset.'\n"'.PHP_EOL.PHP_EOL;
-
+"X-Generator: Open Classifieds '.Core::VERSION.'\n"'.PHP_EOL.PHP_EOL;
 
             foreach($translation_array as $key => $values)
             {
                 list($original,$translated) = array_values($values);
+                //only adding translated items
                 $out .= '#: String '.$key.PHP_EOL;
                 $out .= 'msgid "'.$original.'"'.PHP_EOL;
                 $out .= 'msgstr "'.$translated.'"'.PHP_EOL;
                 $out .= PHP_EOL;
             }
 
-
             //write the generated .po to file
             file_put_contents($mo_translation, $out, LOCK_EX);
 
-            //$pocreator_translated->strings = $strings;
 
-            //generate the .mo from the .po file
-            phpmo_convert($mo_translation);
-
-            //we redirect after saving so they can see changes
             Alert::set(Alert::SUCCESS, $language.' '.__('Language saved'));
             $this->redirect(URL::current());
         }

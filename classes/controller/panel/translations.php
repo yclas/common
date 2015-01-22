@@ -135,11 +135,8 @@ class Controller_Panel_Translations extends Auth_Controller {
         //get an array with all the strings
         $en_array_order = $pocreator_en->strings;
 
-        //order the en words with SORT_NATURAL since php 5.4
-        if (defined('SORT_NATURAL'))
-            ksort($en_array_order,SORT_NATURAL);
-        else
-            ksort($en_array_order);
+        //sort alphabetical using locale
+        ksort($en_array_order,SORT_LOCALE_STRING);
         
         //array with translated language may contain missing from EN
         $origin_translation = $pocreator_translated->strings;

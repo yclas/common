@@ -1,6 +1,24 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 class Controller_Jslocalization extends Controller {
+
+    public function action_cookieconsent()
+    {
+        $this->auto_render = FALSE;
+        $this->template = View::factory('js');
+        
+        $localization_rules = "$(document).ready(function(){
+                                  $.cookieBar({message: '".__('We use cookies to track usage and preferences')."',
+                                                acceptButton: true,
+                                                acceptText: '".__('I Uderstand')."',
+                                                effect: 'slide',
+                                                append: true,
+                                                fixed: true,
+                                                bottom: true
+                                            });
+                                });"; 
+        $this->template->content = $localization_rules;
+    }
 		
 	public function action_validate()
 	{

@@ -10,7 +10,7 @@ class Controller_Jslocalization extends Controller {
         $localization_rules = "$(document).ready(function(){
                                   $.cookieBar({message: '".__('We use cookies to track usage and preferences')."',
                                                 acceptButton: true,
-                                                acceptText: '".__('I Uderstand')."',
+                                                acceptText: '".__('I Understand')."',
                                                 effect: 'slide',
                                                 append: true,
                                                 fixed: true,

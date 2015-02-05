@@ -584,4 +584,41 @@ class Model_OC_User extends ORM {
             return '//www.gravatar.com/avatar/'.md5(strtolower(trim($this->email))).'?s=200';
     }
 
+    /**
+     * deletes the image of the user
+     * @return boolean 
+     */
+    public function delete_image()
+    {
+        if ( ! $this->_loaded)
+            throw new Kohana_Exception('Cannot delete :model model because it is not loaded.', array(':model' => $this->_object_name));
+
+        if(core::config('image.aws_s3_active'))
+        {
+            require_once Kohana::find_file('vendor', 'amazon-s3-php-class/S3','php');
+            $s3 = new S3(core::config('image.aws_access_key'), core::config('image.aws_secret_key'));
+        }
+
+        $root = DOCROOT.'images/users/'; //root folder
+        
+        if (!is_dir($root)) 
+            return FALSE;
+        else
+        {   
+            //delete photo
+            @unlink($root.$this->id_user.'.png');
+    
+            // delete photo from Amazon S3
+            if(core::config('image.aws_s3_active'))
+                $s3->deleteObject(core::config('image.aws_s3_bucket'), 'images/users/'.$this->id_user.'.png');
+    
+            // update user info
+            $this->has_image = 0;
+            $this->save();            
+        }
+
+        return TRUE;
+
+    }
+
 } // END Model_User

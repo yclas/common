@@ -5,4 +5,6 @@
     <p><?=__('Selection of nice extras for your installation.')?></p>
 </div>
 
-<?=View::factory('oc-panel/pages/market/listing',array('market'=>$market))?>    
+<div class="row">
+    <?=View::factory('oc-panel/pages/market/listing',array('market'=>$market))?>
+</div>

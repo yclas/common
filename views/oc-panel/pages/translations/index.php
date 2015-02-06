@@ -1,8 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 
 <div class="page-header">
-	<h1><?=__('Translations')?></h1>
-    <p><?=__('Translations files available in the system.')?> <a href="http://open-classifieds.com/2013/08/20/how-to-change-language/" target="_blank"><?=__('Read more')?></a></p>
     <div class="btn-group pull-right">
         <div class="btn-group dropdown">
             <?if (class_exists('IntlCalendar')) :?>
@@ -27,38 +25,44 @@
             <?=__('Scan')?>
         </a>
     </div>
+    <h1><?=__('Translations')?></h1>
+	<p><?=__('Translations files available in the system.')?> <a href="http://open-classifieds.com/2013/08/20/how-to-change-language/" target="_blank"><?=__('Read more')?></a></p>
     <div class="clearfix"></div>
 </div>
 
-<table class="table table-bordered">
-    <tr>
-        <th><?=__('Language')?></th>
-        <th></th>
-        <th></th>
-    </tr>
-<?foreach ($languages as $language):?>
-    <tr class="<?=($language==$current_language)?'success':''?>">
-        <td><?=$language?></td>
-        <td width="5%">
+<div class="panel panel-default">
+    <div class="panel-body">
+        <table class="table table-bordered">
+            <tr>
+                <th><?=__('Language')?></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <?foreach ($languages as $language):?>
+                <tr class="<?=($language==$current_language)?'success':''?>">
+                    <td><?=$language?></td>
+                    <td width="5%">
+                        
+                        <a class="btn btn-warning ajax-load" 
+                            href="<?=Route::url('oc-panel', array('controller'=>'translations','action'=>'edit','id'=>$language))?>" 
+                            rel"tooltip" title="<?=__('Edit')?>">
+                            <i class="glyphicon glyphicon-pencil"></i>
+                        </a>
             
-            <a class="btn btn-warning ajax-load" 
-                href="<?=Route::url('oc-panel', array('controller'=>'translations','action'=>'edit','id'=>$language))?>" 
-                rel"tooltip" title="<?=__('Edit')?>">
-                <i class="glyphicon glyphicon-pencil"></i>
-            </a>
-
-        </td>
-        <td width="10%">
-            <?if ($language!=$current_language):?>
-            <a class="btn btn-default" 
-                href="<?=Route::url('oc-panel', array('controller'=>'translations','action'=>'index','id'=>$language))?>" 
-                rel"tooltip" title="<?=__('Activate')?>">
-                <?=__('Activate')?>
-            </a>
-            <?else:?>
-                <span class="badge badge-info"><?=__('Active')?></span>
-            <?endif?>
-        </td>
-    </tr>
-<?endforeach?>
-</table>
+                    </td>
+                    <td width="10%">
+                        <?if ($language!=$current_language):?>
+                        <a class="btn btn-default" 
+                            href="<?=Route::url('oc-panel', array('controller'=>'translations','action'=>'index','id'=>$language))?>" 
+                            rel"tooltip" title="<?=__('Activate')?>">
+                            <?=__('Activate')?>
+                        </a>
+                        <?else:?>
+                            <span class="badge badge-info"><?=__('Active')?></span>
+                        <?endif?>
+                    </td>
+                </tr>
+            <?endforeach?>
+        </table>
+    </div>
+</div>

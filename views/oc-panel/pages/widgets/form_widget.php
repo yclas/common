@@ -27,7 +27,7 @@
                 <form class="form-horizontal" id="form_widget_<?=$widget->id_name()?>" name="form_widget_<?=$widget->id_name()?>" method="post" action="<?=Route::url('oc-panel',array('controller'=>'widget','action'=>'save'))?>" >
                     
                     <div class="form-group">
-                        <label class="control-label col-sm-4" for="placeholder_form"><?=__('Where do you want the widget displayed?')?></label>
+                        <label class="control-label col-sm-5" for="placeholder_form"><?=__('Where do you want the widget displayed?')?></label>
                         <div class="col-sm-5">
                             <?=FORM::select('placeholder', array_combine(widgets::get_placeholders(TRUE),widgets::get_placeholders(TRUE)),$widget->placeholder)?>
                         </div>

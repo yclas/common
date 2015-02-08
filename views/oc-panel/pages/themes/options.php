@@ -18,17 +18,25 @@
         <?endif?>
 </div>
 
-<div class="well">
-<form action="<?=URL::base()?><?=Request::current()->uri()?>" method="post" class="form-horizontal" enctype="multipart/form-data"> 
-    <fieldset>
-        <?foreach ($options as $field => $attributes):?>
-            <div class="form-group">
-                <?=FORM::form_tag($field, $attributes, (isset($data[$field]))?$data[$field]:NULL)?>
+<div class="row">
+    <div class="col-md-8">
+        <form action="<?=URL::base()?><?=Request::current()->uri()?>" method="post" class="form-horizontal" enctype="multipart/form-data"> 
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <?foreach ($options as $field => $attributes):?>
+                            <div class="form-group">
+                                <?=FORM::form_tag($field, $attributes, (isset($data[$field]))?$data[$field]:NULL)?>
+                            </div>
+                        <?endforeach?>
+                        <div class="form-group">
+                            <div class="col-sm-offset-5 col-sm-7">
+                                <?= FORM::button('submit', __('Update'), array('type'=>'submit', 'class'=>'btn btn-primary'))?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        <?endforeach?>
-		
-			<?= FORM::button('submit', __('Update'), array('type'=>'submit', 'class'=>'btn btn-primary'))?>
-		
-	</fieldset>	
-</form>
-</div><!--end col-md-10-->
+        </form>
+    </div>
+</div>

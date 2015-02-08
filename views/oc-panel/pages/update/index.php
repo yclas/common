@@ -28,33 +28,37 @@
         
 </div>
 
-<table class="table table-striped">
-<tr>
-    <th><?=__('Version')?></th>
-    <th><?=__('Name')?></th>
-    <th><?=__('Release Date')?></th>
-    <th><?=__('Changelog')?></th>
-    <th><?=__('Release Notes')?></th>
-</tr>
-<?foreach ($versions as $version=>$values):?> 
-<tr>
-    <td>
-        <?=$version?>
-        <?=($version==$latest_version)? '<span class="label label-success">'.__('Latest').'</span>':''?>
-        <?=($version==core::VERSION)? '<span class="label label-info">'.__('Current').'</span>':''?>
-    </td>
-    <td>
-        <?=$values['codename']?>    
-    </td>
-    <td>
-        <?=$values['released']?>
-    </td>
-    <td>
-        <a target="_blank" href="<?=$values['changelog']?>"><?=__('Changelog')?> <?=$version?></a>
-    </td>
-    <td>
-        <a target="_blank" href="<?=$values['blog']?>"><?=__('Release Notes')?> <?=$version?></a>
-    </td>
-</tr>
-<?endforeach?>
-</table>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <table class="table table-striped">
+            <tr>
+                <th><?=__('Version')?></th>
+                <th><?=__('Name')?></th>
+                <th><?=__('Release Date')?></th>
+                <th><?=__('Changelog')?></th>
+                <th><?=__('Release Notes')?></th>
+            </tr>
+            <?foreach ($versions as $version=>$values):?> 
+                <tr>
+                    <td>
+                        <?=$version?>
+                        <?=($version==$latest_version)? '<span class="label label-success">'.__('Latest').'</span>':''?>
+                        <?=($version==core::VERSION)? '<span class="label label-info">'.__('Current').'</span>':''?>
+                    </td>
+                    <td>
+                        <?=$values['codename']?>    
+                    </td>
+                    <td>
+                        <?=$values['released']?>
+                    </td>
+                    <td>
+                        <a target="_blank" href="<?=$values['changelog']?>"><?=__('Changelog')?> <?=$version?></a>
+                    </td>
+                    <td>
+                        <a target="_blank" href="<?=$values['blog']?>"><?=__('Release Notes')?> <?=$version?></a>
+                    </td>
+                </tr>
+            <?endforeach?>
+        </table>
+    </div>
+</div>

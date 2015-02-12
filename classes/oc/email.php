@@ -33,11 +33,17 @@ class OC_Email {
         
         $email_encoded = NULL;
         //is sent to a single user get hash to auto unsubscribe
-        if (!is_array($to))
+        if (!is_array($to) OR count($to)==1)
         {
+            //from newsletter sent
+            if (isset($to[0]['email']))
+                $email_encoded = $to[0]['email'];
+            else
+                $email_encoded = $to;
+
             //encodig the email for extra security
             $encrypt = new Encrypt(Core::config('auth.hash_key'), MCRYPT_MODE_NOFB, MCRYPT_RIJNDAEL_128);
-            $email_encoded = Base64::fix_to_url($encrypt->encode($to));
+            $email_encoded = Base64::fix_to_url($encrypt->encode($email_encoded));
         }
 
         $unsubscribe_link = Route::url('oc-panel',array('controller'=>'auth','action'=>'unsubscribe','id'=>$email_encoded));

@@ -36,7 +36,7 @@ class Controller_Social extends Controller {
 	 
 				// try to authenticate with the selected provider
                 if ($provider_name == 'openid')
-                    $params = array( 'openid_identifier' => 'https://me.yahoo.com/');
+                    $params = array( 'openid_identifier' => 'https://openid.stackexchange.com/');
                 else
                     $params = NULL;
 

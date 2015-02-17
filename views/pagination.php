@@ -58,7 +58,7 @@ for ($i = $n7; $i <= $n8; $i++)
 
   <ul class="pagination">
 		<li <?=(!$first_page)?'class="disabled"':''?>>
-			<a title="<?=__('First')?> <?=$page->title()?>" href="<?=HTML::chars($page->url($first_page))?>" rel="first"><i class="glyphicon glyphicon-step-backward"></i></a>
+			<a title="<?=__('First')?> <?=$page->title()?>" href="<?=HTML::chars($page->url($first_page))?>"><i class="glyphicon glyphicon-step-backward"></i></a>
 		</li>
 	
 		<li <?=(!$previous_page)?'class="disabled"':''?>>
@@ -76,7 +76,7 @@ for ($i = $n7; $i <= $n8; $i++)
 		</li>
 
 		<li <?=(!$last_page)?'class="disabled"':''?>>
-			<a title="<?=__('Last')?> <?=$page->title()?>" href="<?=HTML::chars($page->url($last_page)) ?>" rel="last" id="last" data-last="<?=$last_page?>"><i class="glyphicon glyphicon-step-forward"></i></a>
+			<a title="<?=__('Last')?> <?=$page->title()?>" href="<?=HTML::chars($page->url($last_page)) ?>" id="last" data-last="<?=$last_page?>"><i class="glyphicon glyphicon-step-forward"></i></a>
 		</li>
 
   </ul><!-- .pagination -->

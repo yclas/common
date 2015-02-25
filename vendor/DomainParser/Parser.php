@@ -215,7 +215,7 @@ class Parser
                         $matchedTld = $tld;
                         $matchedTldIdn = $IdnaConverter->encode($tld);
 
-                        $matchedDomain = str_replace('.' . $matchedTld, '', $parsedString);
+                        $matchedDomain = substr($parsedString,0,-strlen('.'.$matchedTld));
                         $matchedDomain = rtrim($matchedDomain, '.');
                         $matchedDomain = ltrim($matchedDomain, '.');
 

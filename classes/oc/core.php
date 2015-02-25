@@ -465,6 +465,54 @@ class OC_Core {
     }
 
 
+    public static function csv_to_array($csv,$expected_header=NULL,$convert_object = FALSE, $delimiter = "," , $enclosure = '"')
+    {
+        //open CSV
+        if (file_exists($csv) AND ($handle = fopen($csv, 'r')) !== FALSE) 
+        {
+            $i = 0;
+            $end_array =  array();
+
+            //line by line
+            while(($data = fgetcsv($handle, 0, $delimiter, $enclosure)) !== FALSE)
+            {
+                //check the header
+                if ($i == 0 AND is_array($expected_header))
+                {
+                    if($data != $expected_header)
+                        return FALSE;
+                }
+                //not header 
+                else
+                {
+                    //return as object
+                    if ($convert_object === TRUE)
+                    {
+                        $obj = new stdClass();
+                        foreach ($data as $field => $value) 
+                        {
+                            try {
+                                $obj->$expected_header[$field] = $value;   
+                            } catch (Exception $e) {
+                                //got a field that was not in the header :S
+                                return FALSE;
+                            }
+                        }
+
+                        $end_array[$i] = $obj;
+                    }
+                    else
+                        $end_array[$i] = $data;
+                }
+
+                $i++;
+            }
+            fclose($handle); 
+        }
+
+        return $end_array;
+    }
+
 } //end core
 
 /**

@@ -464,7 +464,15 @@ class OC_Core {
         return FALSE;
     }
 
-
+    /**
+     * CSV file to array
+     * @param  file  $csv             
+     * @param  array  $expected_header 
+     * @param  boolean $convert_object  you want it returned as an object?
+     * @param  string  $delimiter       
+     * @param  string  $enclosure       
+     * @return array                   
+     */
     public static function csv_to_array($csv,$expected_header=NULL,$convert_object = FALSE, $delimiter = "," , $enclosure = '"')
     {
         //open CSV

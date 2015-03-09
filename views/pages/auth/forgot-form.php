@@ -1,5 +1,5 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
-<form class="well form-horizontal"  method="post" action="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'forgot'))?>">         
+<form class="well form-horizontal auth"  method="post" action="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'forgot'))?>">         
           <?=Form::errors()?>
           <div class="form-group">
             <label class="col-sm-2 control-label"><?=__('Email')?></label>

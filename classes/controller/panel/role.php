@@ -12,12 +12,55 @@ class Controller_Panel_Role extends Auth_Crud {
 	 */
 	protected $_orm_model = 'role';
 
+    /**
+     *
+     * Loads a basic list info
+     * @param string $view template to render 
+     */
+    public function action_index($view = NULL)
+    {
+        $this->template->title = __($this->_orm_model);
+        $this->template->scripts['footer'][] = 'js/oc-panel/crud/index.js';
+        
+        $elements = ORM::Factory($this->_orm_model);//->find_all();
+        //do not display admin!
+        $elements = $elements->where('id_role','!=',Model_Role::ROLE_ADMIN);
+        $pagination = Pagination::factory(array(
+                    'view'           => 'oc-panel/crud/pagination',
+                    'total_items'    => $elements->count_all(),
+        //'items_per_page' => 10// @todo from config?,
+        ))->route_params(array(
+                    'controller' => $this->request->controller(),
+                    'action'     => $this->request->action(),
+        ));
+
+        $pagination->title($this->template->title);
+
+        $elements = $elements->limit($pagination->items_per_page)
+        ->offset($pagination->offset)
+        ->find_all();
+
+        $pagination = $pagination->render();
+
+        if ($view === NULL)
+            $view = 'oc-panel/crud/index';
+        
+        $this->render($view, array('elements' => $elements,'pagination'=>$pagination));
+    }
+
 	/**
      * CRUD controller: UPDATE
      */
     public function action_update()
     {
         $id_role = $this->request->param('id');
+
+        //we do not allow modify the admin
+        if ($id_role == Model_Role::ROLE_ADMIN)
+        {
+            Alert::set(Alert::WARNING, __('Admin Role can not be modified!'));
+            $this->redirect(Route::url('oc-panel',array('controller'=>'role')));
+        }
 
         $this->template->title = __('Update').' '.__($this->_orm_model).' '.$id_role;
     

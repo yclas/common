@@ -504,7 +504,8 @@ class Model_OC_User extends ORM {
         //only if didnt exists
         if (!$user->loaded())
         {
-            $password  = Text::random('alnum', 8);
+            if ($password === NULL)
+                $password  = Text::random('alnum', 8);
 
             $user = self::create_user($email,$name,$password);
 

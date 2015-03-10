@@ -294,6 +294,29 @@ class OC_Email {
         // Alternative error checking return
         // return ($result === false) ? 'Curl error: ' . curl_error($ch): $result;
     }
+
+
+    /**
+     * returns an array of administrators and moderators
+     * @return array
+     */
+    public static function get_notification_emails()
+    {
+        $arr = array();
+
+        $users = new Model_User();
+        $users = $users->where('id_role','in',array(Model_Role::ROLE_ADMIN,Model_Role::ROLE_MODERATOR))
+                ->where('status','=',Model_User::STATUS_ACTIVE)
+                ->where('subscriber','=',1)
+                ->cached()->find_all();
+
+        foreach ($users as $user) 
+        {
+            $arr[] = array('name'=>$user->name,'email'=>$user->email);
+        }
+
+        return $arr;
+    }
   
 
 

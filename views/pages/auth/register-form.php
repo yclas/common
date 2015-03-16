@@ -1,5 +1,5 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
-<form class="well form-horizontal"  method="post" action="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'register'))?>">         
+<form class="well form-horizontal register"  method="post" action="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'register'))?>">         
           <?=Form::errors()?>
           
           <div class="form-group">

@@ -733,6 +733,9 @@ class OC_Theme {
 
     public static function checker()
     {
+        if (Kohana::$environment=== Kohana::DEVELOPMENT)
+            return TRUE;
+
         if (self::get('premium')!=1
                 OR (strtolower(Request::current()->controller())=='theme' AND strtolower(Request::current()->action())=='license')
                 OR !Auth::instance()->logged_in() OR $_POST)
@@ -756,6 +759,9 @@ class OC_Theme {
 
     public static function license($l, $current_theme = NULL)
     {
+        if (Kohana::$environment=== Kohana::DEVELOPMENT)
+            return TRUE;
+        
         if ($current_theme === NULL)
             $current_theme = Theme::$theme;
 

@@ -363,6 +363,23 @@ class OC_I18n extends Kohana_I18n {
         return $num . $dec;
     }
     
+    /**
+     * formats measurement system (by defautl metric)
+     * @param  float    $number number
+     * @return string   formated measurement
+     */
+    public static function format_measurement($number)
+    {
+        if (Core::config('i18n.measurement')=="imperial") {
+            $str = Num::round($number*0.621371192, 1). ' mi';
+        }
+        else {
+            $str = Num::round($number, 1).' km';
+        }
+        
+        return $str;
+    }
+    
 }//end i18n
 
 

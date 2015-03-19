@@ -3,6 +3,7 @@
 <?=Form::errors()?>
 <div class="page-header">
     <h1><?=__('Custom CSS')?></h1>
+    <p><a href="http://open-classifieds.com/2015/03/14/how-to-use-custom-css/" target="_blank"><?=__('Read more')?></a></p>
     <p><?=__('Please insert here your custom CSS.')?>. <?=__('Current CSS file')?>  <?=HTML::anchor(Theme::get_custom_css())?> </p>
     
 </div>

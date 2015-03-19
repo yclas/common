@@ -6,6 +6,8 @@
 
 <div class="page-header">
     <h1><?=__('Forums')?></h1>
+    <p><a href="http://open-classifieds.com/2014/05/20/add-forums-section/" target="_blank"><?=__('Read more')?></a></p>
+
     <p><?=__("Change the order of your forums. Keep in mind that more than 2 levels nested probably won´t be displayed in the theme (it is not recommended).")?></p>
 </div>
 

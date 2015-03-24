@@ -1,5 +1,11 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
-<h3><?=$widget->text_title?></h3>
-<p>
+
+<?if ($widget->text_title!=''):?>
+	<div class="panel-heading">
+		<h3 class="panel-title"><?=$widget->text_title?></h3>
+	</div>
+<?endif?>
+
+<div class="panel-body">
 	<?=$widget->text_body?>
-</p>
+</div>

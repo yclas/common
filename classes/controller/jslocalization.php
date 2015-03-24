@@ -77,6 +77,10 @@ class Controller_Jslocalization extends Controller {
 	    $this->auto_render = FALSE;
 	    $this->template = View::factory('js');
 	    
+	    $bstour_basepath = explode('/', 'http://reoc.lo/adasd/asdas/');
+	    $bstour_basepath = array_slice($bstour_basepath, 3);
+	    $bstour_basepath = '/'.implode('/', $bstour_basepath);
+	    
 	    $localization_rules = 'function getTourLocalization(text)
 	                            {
 	                                switch (text)
@@ -118,7 +122,12 @@ class Controller_Jslocalization extends Controller {
 	                                        return "'.sprintf(__('To continue your experience with %s you can get back to the main website by clicking here.'), core::config('general.site_name')).'";
 	                                        break;
 	                                }
-	                            }';	
+	                            }';
+	    $localization_rules .= 'function getTourBasePath()
+	                            {
+	                                return "'.$bstour_basepath.'";
+	                            }
+	                          ';
 	    $this->template->content = $localization_rules;
 	}
 	

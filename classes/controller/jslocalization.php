@@ -77,7 +77,7 @@ class Controller_Jslocalization extends Controller {
 	    $this->auto_render = FALSE;
 	    $this->template = View::factory('js');
 	    
-	    $bstour_basepath = explode('/', 'http://reoc.lo/adasd/asdas/');
+	    $bstour_basepath = explode('/', core::config('general.base_url'));
 	    $bstour_basepath = array_slice($bstour_basepath, 3);
 	    $bstour_basepath = '/'.implode('/', $bstour_basepath);
 	    

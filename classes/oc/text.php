@@ -171,7 +171,17 @@ class OC_Text extends Kohana_Text {
      */
     public static function nl2br($var)
     {
-        return str_replace(array("\\r\\n","\r\\n","r\\n","\r\n", "\n", "\r"), '<br />', nl2br($var));
+        return str_replace(array("\\r\\n","\r\\n","r\\n","\r\n", "\n", "\r"), '<br />', $var);
+    }
+
+    /**
+     *
+     * removes line breaks from text
+     * @param string $var
+     */
+    public static function removenl($var)
+    {
+        return str_replace(array("\\r\\n","\r\\n","r\\n","\r\n", "\n", "\r"), '', $var);
     }
 
 }

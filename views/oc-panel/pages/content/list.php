@@ -32,12 +32,25 @@
                     <th><?=__('Title')?></th>
                     <th><?=__('Seo Title')?></th>
                     <th><?=__('Active')?></th>
-                    <th></th>
+                    <th><?=__('Actions')?></th>
                 </tr>
                 <?foreach ($contents as $content):?>
                     <?if(isset($content->title)):?>
                         <tr id="tr<?=$content->id_content?>">
-                            <td><?=$content->title?></td>
+                            <td>
+                                <p><?=$content->title?></p>
+                                <?if ($type=='page'): ?>
+                                    <p>
+                                        <?if ($content->status==1):?>
+                                            <a title="<?=HTML::chars($content->title)?>" href="<?=Route::url('page', array('seotitle'=>$content->seotitle))?>">
+                                                <?=Route::url('page', array('seotitle'=>$content->seotitle))?>
+                                            </a>
+                                        <?else:?>
+                                            <?=Route::url('page', array('seotitle'=>$content->seotitle))?>
+                                        <?endif?>
+                                    </p>
+                                <?endif?>
+                            </td>
                             <td><?=$content->seotitle?></td>
                             <td><?=($content->status==1)?__('Yes'):__('No')?></td>
                             <td width="5%">

@@ -90,8 +90,8 @@ class OC_Text extends Kohana_Text {
                                  '<img src="$1" alt="$1" />',
                                  '<img src="$2" alt="$1" />',
                                  '<code>$2</code>',
-                                 '<iframe width="100%" height="315" src="https://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>',
-                                 '<iframe width="100%" height="315" src="https://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>',
+                                 '<iframe width="100%" height="315" src="//www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>',
+                                 '<iframe width="100%" height="315" src="//www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>',
                                  '<font face="$1">$2</font>'
         );
 
@@ -171,7 +171,17 @@ class OC_Text extends Kohana_Text {
      */
     public static function nl2br($var)
     {
-        return str_replace(array("\\r\\n","\r\\n","r\\n","\r\n", "\n", "\r"), '<br />', nl2br($var));
+        return str_replace(array("\\r\\n","\r\\n","r\\n","\r\n", "\n", "\r"), '<br />', $var);
+    }
+
+    /**
+     *
+     * removes line breaks from text
+     * @param string $var
+     */
+    public static function removenl($var)
+    {
+        return str_replace(array("\\r\\n","\r\\n","r\\n","\r\n", "\n", "\r"), '', $var);
     }
 
 }

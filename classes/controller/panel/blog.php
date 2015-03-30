@@ -44,7 +44,7 @@ class Controller_Panel_Blog extends Auth_Crud {
         $pagination = $pagination->render();
 
         if ($view === NULL)
-            $view = 'oc-panel/crud/index';
+            $view = 'oc-panel/pages/blog/index';
         
         $this->render($view, array('elements' => $elements,'pagination'=>$pagination));
     }    

@@ -181,18 +181,6 @@ class Controller_Panel_Forum extends Auth_Crud {
         //update the elements related to that ad
         if ($forum->loaded())
         {
-            //update all the siblings this forum has and set the forum parent
-            $query = DB::update('forums')
-                        ->set(array('id_forum_parent' => $forum->id_forum_parent))
-                        ->where('id_forum_parent','=',$forum->id_forum)
-                        ->execute();
-
-            //update all the posts this forum has and set the forum parent
-            $query = DB::update('posts')
-                        ->set(array('id_forum' => $forum->id_forum_parent))
-                        ->where('id_forum','=',$forum->id_forum)
-                        ->execute();
-
             try
             {
                 $forum->delete();

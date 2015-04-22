@@ -316,5 +316,30 @@ class Model_Forum extends ORM {
         return (is_numeric($id_parent))? $id_parent:0;
     }
 
+    /**
+     * Deletes a single record while ignoring relationships.
+     *
+     * @chainable
+     * @throws Kohana_Exception
+     * @return ORM
+     */
+    public function delete()
+    {
+        if ( ! $this->_loaded)
+            throw new Kohana_Exception('Cannot delete :model model because it is not loaded.', array(':model' => $this->_object_name));
+       
+
+        //update all the siblings this forum has and set the forum parent
+        DB::update('forums')
+                        ->set(array('id_forum_parent' => $this->id_forum_parent))
+                        ->where('id_forum_parent','=',$this->id_forum)
+                        ->execute();
+        
+        //delete posts for that forum
+        DB::delete('posts')->where('id_forum', '=',$this->id_forum)->execute();
+        
+        
+        parent::delete();
+    }
 
 } // END Model_Category

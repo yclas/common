@@ -8,7 +8,7 @@
 
 <div class="page-header">
     <h1><?=Controller_Panel_Content::translate_type($type)?></h1>
-    <?if($type == 'page'):?><p><a href="http://open-classifieds.com/2013/08/13/how_to_add_pages/" target="_blank"><?=__('Read more')?></a></p><?endif;?>
+    <?if($type == 'page'):?><p><a href="http://docs.yclas.com/how_to_add_pages/" target="_blank"><?=__('Read more')?></a></p><?endif;?>
 </div>
 
 <?= FORM::open(Route::url('oc-panel',array('controller'=>'content','action'=>'list')), array('method'=>'GET','class'=>'form-horizontal', 'id'=>'locale_form','enctype'=>'multipart/form-data'))?>

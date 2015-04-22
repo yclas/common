@@ -26,7 +26,7 @@
         </a>
     </div>
     <h1><?=__('Translations')?></h1>
-	<p><?=__('Translations files available in the system.')?> <a href="http://open-classifieds.com/2013/08/20/how-to-change-language/" target="_blank"><?=__('Read more')?></a></p>
+	<p><?=__('Translations files available in the system.')?> <a href="http://docs.yclas.com/how-to-change-language/" target="_blank"><?=__('Read more')?></a></p>
     <div class="clearfix"></div>
 </div>
 

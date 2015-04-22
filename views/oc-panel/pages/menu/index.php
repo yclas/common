@@ -2,7 +2,7 @@
 
 <div class="page-header">
     <h1><?=__('Custom menu')?></h1>  
-    <p><a href="http://open-classifieds.com/2014/03/06/modify-top-menu/" target="_blank"><?=__('Read more')?></a></p>
+    <p><a href="http://docs.yclas.com/modify-top-menu/" target="_blank"><?=__('Read more')?></a></p>
 </div>
 
 <div class="row">

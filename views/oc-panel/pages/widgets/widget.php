@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 <div class="page-header">
     <h2><?=__('Available widgets')?></h2>
-    <a href="http://open-classifieds.com/2013/08/26/overview-of-widgets/" target="_blank"><?=__('Read more')?></a>
+    <a href="http://docs.yclas.com/overview-of-widgets/" target="_blank"><?=__('Read more')?></a>
 </div>
 <div class="row">
     <div class="col-md-8">

@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 <div class="page-header">
     <h1><?=__('Social Authentication Settings')?></h1>
-    <a target='_blank' href='http://open-classifieds.com/2013/12/26/how-to-login-using-social-auth-facebook-google-twitter'><?=__('Read more')?></a>
+    <a target='_blank' href='http://docs.yclas.com/how-to-login-using-social-auth-facebook-google-twitter/'><?=__('Read more')?></a>
 </div>
 
 <?if (Theme::get('premium')!=1):?>

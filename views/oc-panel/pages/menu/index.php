@@ -186,25 +186,28 @@
                 <ol class='plholder' id="ol_1" data-id="1">
                     <?if (is_array($menu)):?>
                         <?foreach($menu as $key=>$data):?>
-                            <li data-id="<?=$key?>" id="<?=$key?>"><i class="glyphicon   glyphicon-move"></i> 
-                                <?if($data['icon']!=''):?><i class="<?=$data['icon']?>"></i> <?endif?>
-                                       
-                                <span class="label label-info "><?=$data['title']?></span>
-                                <?=$data['url']?> (<?=$data['target']?>)
-                                <a 
-                                    href="<?=Route::url('oc-panel', array('controller'=> 'menu', 'action'=>'delete','id'=>$key))?>" 
-                                    class="btn btn-xs btn-danger pull-right index-delete index-delete-inline" 
-                                    title="<?=__('Are you sure you want to delete?')?>" 
-                                    data-id="<?=$key?>" 
-                                    data-btnOkLabel="<?=__('Yes, definitely!')?>" 
-                                    data-btnCancelLabel="<?=__('No way!')?>">
-                                    <i class="glyphicon glyphicon-trash"></i>
-                                </a>
-                        
-                                <a class="btn btn-xs btn-primary pull-right ajax-load" title="<?=__('Edit')?>"
-                                    href="<?=Route::url('oc-panel', array('controller'=>'menu','action'=>'update','id'=>$key))?>">
-                                    <?=__('Edit')?>
-                                </a>
+                            <li data-id="<?=$key?>" id="<?=$key?>">
+                                <div class="drag-item">
+                                    <span class="drag-icon"><i class="fa fa-ellipsis-v"></i><i class="fa fa-ellipsis-v"></i></span>
+                                    <div class="drag-name">
+                                        <?if($data['icon']!=''):?><i class="<?=$data['icon']?>"></i><?endif?>
+                                        <span class="label label-info "><?=$data['title']?></span>
+                                        <?=$data['url']?> (<?=$data['target']?>)
+                                    </div>
+                                    <a class="drag-action ajax-load" title="<?=__('Edit')?>"
+                                        href="<?=Route::url('oc-panel', array('controller'=>'menu','action'=>'update','id'=>$key))?>">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                    </a>
+                                    <a 
+                                        href="<?=Route::url('oc-panel', array('controller'=> 'menu', 'action'=>'delete','id'=>$key))?>"
+                                        class="drag-action index-delete" 
+                                        title="<?=__('Are you sure you want to delete?')?>" 
+                                        data-id="<?=$key?>" 
+                                        data-btnOkLabel="<?=__('Yes, definitely!')?>" 
+                                        data-btnCancelLabel="<?=__('No way!')?>">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                    </a>
+                                </div>
                             </li>
                         <?endforeach?>
                     <?endif?>

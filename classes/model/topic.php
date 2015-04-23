@@ -32,4 +32,24 @@ class Model_Topic extends Model_Post {
     {
         return array('created','ip_address');
     }
+
+
+    /**
+     * Deletes a single record while ignoring relationships.
+     *
+     * @chainable
+     * @throws Kohana_Exception
+     * @return ORM
+     */
+    public function delete()
+    {
+        if ( ! $this->_loaded)
+            throw new Kohana_Exception('Cannot delete :model model because it is not loaded.', array(':model' => $this->_object_name));
+       
+        //delete replies for that topic
+        DB::delete('posts')->where('id_post_parent', '=',$this->id_post)->execute();
+        
+        
+        parent::delete();
+    }
 }

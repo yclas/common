@@ -53,6 +53,16 @@
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-9">
                         <?= FORM::button('submit', __('Update'), array('type'=>'submit', 'class'=>'btn btn-success', 'action'=>Route::url('oc-panel',array('controller'=>'topic','action'=>'update', 'id'=>$topic->id_post))))?>
+                        
+                        <a  class="btn btn-danger" 
+                            data-toggle="confirmation"
+                            title="<?=__('Are you sure you want to delete?')?>" 
+                            data-text="<?=__('Are you sure you want to delete?')?>" 
+                            data-btnOkLabel="<?=__('Yes, definitely!')?>" 
+                            data-btnCancelLabel="<?=__('No way!')?>"
+                            href="<?=Route::url('oc-panel',array('controller'=>'topic','action'=>'delete', 'id'=>$topic->id_post))?>">
+                        <i class="glyphicon glyphicon-trash"></i> <?=__('Delete')?></a>
+
                     </div>
                 </div>
             </fieldset>

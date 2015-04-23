@@ -17,7 +17,7 @@ class Controller_Panel_Topic extends Auth_Crud {
      * list of possible actions for the crud, you can modify it to allow access or deny, by default all
      * @var array
      */
-    public $crud_actions = array('update');
+    public $crud_actions = array('update','delete');
 
     /**
      *
@@ -97,37 +97,5 @@ class Controller_Panel_Topic extends Auth_Crud {
 
             HTTP::redirect(Route::url('oc-panel',array('controller'  => 'topic','action'=>'index')));
         }
-    }
-
-    /**
-     * CRUD controller: DELETE
-     */
-    public function action_delete()
-    {
-        $this->auto_render = FALSE;
-
-        $topic = new Model_Forum($this->request->param('id'));
-
-        //update the elements related to that ad
-        if ($topic->loaded())
-        {
-            try
-            {
-                $topic->delete();
-                $this->template->content = 'OK';
-                Alert::set(Alert::SUCCESS, __('Topic deleted'));
-                
-            }
-            catch (Exception $e)
-            {
-                 Alert::set(Alert::ERROR, $e->getMessage());
-            }
-        }
-        else
-             Alert::set(Alert::ERROR, __('Topic not deleted'));
-
-        
-        HTTP::redirect(Route::url('oc-panel',array('controller'  => 'topic','action'=>'index')));  
-
     }
 }

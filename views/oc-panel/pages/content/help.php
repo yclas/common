@@ -29,26 +29,30 @@
             <div class="panel-body">
                 <ol class='plholder' id="ol_1" data-id="1">
                     <?foreach($contents as $content):?>
-                        <li data-id="<?=$content->id_content?>" id="<?=$content->id_content?>"><i class="glyphicon glyphicon-move"></i>
-                            <?=$content->title?>
-                            <?if ($content->status==1) : ?>
-                            <span class="label label-info "><?=__('Active')?></span>
-                            <?endif?>
-                            <a 
-                                href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'delete','id'=>$content->id_content))?>" 
-                                class="btn btn-xs btn-danger pull-right index-delete index-delete-inline" 
-                                title="<?=__('Are you sure you want to delete?')?>" 
-                                data-id="<?=$content->id_content?>" 
-                                data-text="<?=__('All data contained in this field will be deleted.')?>" 
-                                data-btnOkLabel="<?=__('Yes, definitely!')?>" 
-                                data-btnCancelLabel="<?=__('No way!')?>">
-                                <i class="glyphicon glyphicon-trash"></i>
-                            </a>
-                    
-                            <a class="btn btn-xs btn-primary pull-right ajax-load" title="<?=__('Edit')?>"
-                                href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'edit','id'=>$content->id_content))?>">
-                                <?=__('Edit')?>
-                            </a>
+                        <li data-id="<?=$content->id_content?>" id="<?=$content->id_content?>">
+                            <div class="drag-item">
+                                <span class="drag-icon"><i class="fa fa-ellipsis-v"></i><i class="fa fa-ellipsis-v"></i></span>
+                                <div class="drag-name">
+                                    <?=$content->title?>
+                                    <?if ($content->status==1) : ?>
+                                        <span class="label label-info "><?=__('Active')?></span>
+                                    <?endif?>
+                                </div>
+                                <a class="drag-action ajax-load" title="<?=__('Edit')?>"
+                                    href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'edit','id'=>$content->id_content))?>">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </a>
+                                <a 
+                                    href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'delete','id'=>$content->id_content))?>"
+                                    class="drag-action index-delete" 
+                                    title="<?=__('Are you sure you want to delete?')?>" 
+                                    data-id="<?=$content->id_content?>" 
+                                    data-text="<?=__('All data contained will be deleted.')?>" 
+                                    data-btnOkLabel="<?=__('Yes, definitely!')?>" 
+                                    data-btnCancelLabel="<?=__('No way!')?>">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </a>
+                            </div>
                         </li>
                     <?endforeach?>
                 </ol><!--ol_1-->

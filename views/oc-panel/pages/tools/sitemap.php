@@ -2,7 +2,7 @@
 
 <div class="page-header">
 	<h1><?=__('Sitemap')?></h1>
-    <a target='_blank' href='http://docs.yclas.com/sitemap-classifieds-website/'><?=__('Read more')?></a>
+	<a target='_blank' href='http://docs.yclas.com/sitemap-classifieds-website/'><?=__('Read more')?></a>
 </div>
 
 <div class="row">

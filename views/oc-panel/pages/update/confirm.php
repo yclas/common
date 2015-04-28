@@ -11,7 +11,7 @@
 
 
 <div class="alert alert-danger" role="alert">
-<?if ($can_update!==FALSE):?>
+<?if ($can_update==FALSE):?>
     <h4 class="alert-heading"><?=__('Not possible to auto update')?></h4>
     <p>
         <?=__('You have an old version and automatic update is not possible. Please read the release notes and the manual update instructions.')?>

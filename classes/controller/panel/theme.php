@@ -21,6 +21,13 @@ class Controller_Panel_Theme extends Auth_Controller {
      */
     public function action_options()
     {
+        //clear skin and theme cookie
+        if (Core::config('appearance.allow_query_theme')=='1') 
+        {
+            Cookie::set('skin_'.Theme::$theme, '', Core::config('auth.lifetime'));
+            Cookie::set('theme', '', Core::config('auth.lifetime'));
+        }
+        
         $options = NULL;
         $data    = NULL;
 

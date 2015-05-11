@@ -72,3 +72,11 @@
 </div>
 
 <div class="text-center"><?=$pagination?></div>
+
+
+<?if ($controller->allowed_crud_action('export')):?>
+<a class="btn btn-sm btn-success pull-right " href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'export')) ?>" title="<?=__('Export')?>">
+    <i class="glyphicon glyphicon-download"></i>
+    <?=__('Export all')?>
+</a>                
+<?endif?>

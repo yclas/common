@@ -33,14 +33,14 @@ class Auth_Crud extends Auth_Controller
 	 * list of actions for the crud
 	 * @var array
 	 */
-	protected $_crud_actions = array('delete','create','update');
+	protected $_crud_actions = array('delete','create','update','export');
 
 	/**
 	 *
 	 * list of possible actions for the crud, you can modify it to allow access or deny, by default all
 	 * @var array
 	 */
-	public $crud_actions = array('delete','create','update');
+	public $crud_actions = array('delete','create','update','export');
 
 	/**
 	 *
@@ -249,5 +249,39 @@ class Auth_Crud extends Auth_Controller
     
     }
 
+
+
+    /**
+     *
+     * Loads a basic list info
+     * @param string $view template to render 
+     */
+    public function action_export($view = NULL)
+    {   
+        //the name of the file that user will download
+        $file_name = $this->_orm_model.'_export.csv';
+        //name of the TMP file
+        $output_file = tempnam('/tmp', $file_name);
+
+        //instance of the crud
+        $elements = ORM::Factory($this->_orm_model);
+
+        //writting
+        $output = fopen($output_file, 'w');
+        //header of the CSV
+        fputcsv($output, array_keys($elements->table_columns()));
+
+        //getting all the elements
+        $elements = $elements->find_all();
+
+        //each element
+        foreach($elements as $element) 
+            fputcsv($output, $element->as_array());
+        
+        fclose($output);
+
+        //returns the file to the browser as attachement and deletes the TMP file
+        Response::factory()->send_file($output_file,$file_name,array('delete'=>TRUE));
+    }
 
 }

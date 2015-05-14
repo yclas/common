@@ -759,13 +759,11 @@ class OC_Theme {
 
     public static function license($l, $current_theme = NULL)
     {
-        if (Kohana::$environment=== Kohana::DEVELOPMENT)
+        if (Kohana::$environment === Kohana::DEVELOPMENT)
             return TRUE;
         
         if ($current_theme === NULL)
             $current_theme = Theme::$theme;
-
-        $licenses = array();
 
         //getting the licenses unique. to avoid downloading twice
         $themes = core::config('theme');

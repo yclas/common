@@ -645,4 +645,38 @@ class Model_OC_User extends ORM {
 
     }
 
+    /**
+     * gets the api_token and regenerates if needed
+     * @param  boolean $regenerate forces regenerate
+     * @return string              
+     */
+    public function api_token($regenerate = TRUE)
+    {
+        if($this->loaded())
+        {
+            if ($regenerate === TRUE)
+            {
+                //we assure the token is unique
+                do
+                {
+                    $this->api_token = sha1(uniqid(Text::random('alnum', 32), TRUE));
+                }
+                while(ORM::factory('user', array('api_token' => $this->api_token))->limit(1)->loaded() AND $this->api_token!= Core::config('general.api_key'));
+
+                try
+                {
+                    $this->update();
+                }
+                catch(Exception $e)
+                {
+                    throw HTTP_Exception::factory(500,$e->getMessage());
+                }
+            }
+
+            return $this->api_token;
+        }
+
+        return FALSE;
+    }
+
 } // END Model_User

@@ -650,10 +650,14 @@ class Model_OC_User extends ORM {
      * @param  boolean $regenerate forces regenerate
      * @return string              
      */
-    public function api_token($regenerate = TRUE)
+    public function api_token($regenerate = FALSE)
     {
         if($this->loaded())
-        {
+        {   
+            //first time force the token generation
+            if ($this->api_token==NULL)
+                $regenerate = TRUE;
+
             if ($regenerate === TRUE)
             {
                 //we assure the token is unique

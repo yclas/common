@@ -9,12 +9,12 @@ class Api_User extends Api_Controller {
     {
         parent::before();
 
-        $key = Core::request('apikey');
+        $key = Core::request('user_token');
 
         //try authenticate the user
-        if (($this->user = Auth::instance()->api_login($key))==FALSE)
+        if ($key == NULL OR ($this->user = Auth::instance()->api_login($key))==FALSE)
         {
-            $this->_error(__('Wrong Api User Key'),401);
+            $this->_error(__('Wrong Api User Token'),401);
         }
     }
 

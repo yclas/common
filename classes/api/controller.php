@@ -60,10 +60,43 @@ class Api_Controller extends Kohana_Controller {
 
     /**
      * The request's parameters.
-     *
+     * set at _init_params()
      * @var array
      */
     protected $_params;
+
+
+    /**
+     * The request's sort parameters 
+     * ex &sort=-price,date,-status
+     *
+     * 'price'  => 'desc',
+     * 'date'   => 'asc',
+     * 'status' => 'desc'
+     *
+     * set at _init_sort()
+     * @var array
+     */
+    protected $_sort = array();
+
+    /**
+     * The request's return fields
+     * ex &fields=price,date,status
+     * 
+     * set at _init_return_fields()
+     * @var array
+     */
+    protected $_return_fields = array();
+
+
+    /**
+     * Fields we will filter the request
+     * 
+     * see at _init_filter_params()
+     * @var array
+     */
+    protected $_filter_params = array();
+
 
 
     public function __construct($request, $response)
@@ -89,8 +122,12 @@ class Api_Controller extends Kohana_Controller {
             $this->request->set_param('id',$action_requested);
             $action_requested = FALSE;
         }
-            
+        
+        //working with the request    
         $this->_init_params();
+        $this->_init_sort();
+        $this->_init_return_fields();
+        $this->_init_filter_params();
 
         // Get output format from route file extension.
         $this->output_format = $this->request->param('format');
@@ -140,8 +177,10 @@ class Api_Controller extends Kohana_Controller {
      *
      * @param array|object $data
      * @param int $code
+     * @param int $total_ements used to return 
+     * @param string $link header link, for example used in pagination
      */
-    protected function rest_output($data = array(), $code = 200)
+    protected function rest_output($data = array(), $code = 200, $total_elements = NULL,$link = NULL)
     {        
         // Handle an empty and valid response.
         if (empty($data) AND 200 == $code)
@@ -170,9 +209,17 @@ class Api_Controller extends Kohana_Controller {
         // If the format method exists, call and return the output in that format
         if (method_exists($this, $format_method))
         {
+            //display only fields we want to see ;)
+            if ($code==200)
+                $data = $this->_remove_fields($data);
+
             $output_data = $this->$format_method($data);
             $this->response->headers('content-type', File::mime_by_ext($this->output_format));
             $this->response->headers('content-length', (string) strlen($output_data));
+            if (is_numeric($total_elements))
+                $this->response->headers('X-Total-Count', $total_elements);
+            if ($link!==NULL)
+                $this->response->headers('link', $link);
 
             // Support attachment header
             if (isset($this->_params['attachment']) && Valid::regex($this->_params['attachment'], '/^[-\pL\pN_, ]++$/uD'))
@@ -348,6 +395,135 @@ class Api_Controller extends Kohana_Controller {
             default:
                 break;
         }
+    }
+
+    /**
+     * initializes the sort by param see $_sort example &sort=-price,date,-status
+     * @return void
+     */
+    private function _init_sort()
+    {
+        if (isset($this->_params['sort']))
+        {
+            $sort = explode(',',$this->_params['sort']);
+
+            foreach ($sort as $field) 
+            {   
+                //desc order has a - in front of the field
+                if (strpos($field,'-')===0)
+                {
+                    $this->_sort[substr($field,1)] = 'desc'; 
+                }
+                else
+                {
+                   $this->_sort[$field] = 'asc'; 
+                }
+            }
+        }
+    }
+
+    /**
+     * initializes the sort by param see $_sort example &sort=-price,date,-status
+     * @return void
+     */
+    private function _init_filter_params()
+    {
+        //filter results by param, verify field exists and has a value
+        $allowed_operators = array('>','<','!');
+
+        $between_operator  = '__between';
+
+        //params we wont get the values
+        $reserved_params = array('page','iterms_per_page','sort','fields','apikey','user_token','q');
+
+        //each of the parameters on the request, lets see if we can work with them
+        foreach ($this->_params as $field => $value) 
+        {
+            if (!in_array($field,$reserved_params))
+            {
+                //default operator in case none is set
+                $operator = '=';
+
+                //between operator?
+                if (strpos($field,$between_operator)!==FALSE)
+                {
+                    //lets get the comma separated values
+                    $values = explode(',',$value);
+
+                    //needs to have exactly 2, no more no less, if not we do nothing
+                    if (count($values)==2)
+                    {
+                        $field    = str_replace($between_operator,'',$field);
+                        $operator = 'between';
+                        $value    = $values;
+                    }
+                }
+                //lets check for others!
+                else
+                {
+                    //get operator if any
+                    $operator = substr($field,-1);
+
+                    //remove operator from field
+                    if ( in_array($operator,$allowed_operators) )
+                    {
+                        $field = substr($field, 0,-1);
+                        $operator.='=';
+                    }
+                    else//not found leave it as before
+                        $operator = '=';
+                }
+                
+                //adding the field
+                $this->_filter_params[] = array( 'field'    => $field, 
+                                                 'operator' => $operator,
+                                                 'value'    => $value);
+                
+            }
+        }
+
+    }
+
+
+    /**
+     * which fields will be returned by the API. 
+     * We will try to filter in the ORM but also done in rest_output function, jsut in case :)
+     * @return void
+     */
+    private function _init_return_fields()
+    {
+        if (isset($this->_params['fields']) )
+        {
+            $this->_return_fields = explode(',',$this->_params['fields']);
+            if ($this->_return_fields[0]=='')
+                unset($this->_return_fields[0]);
+        }
+    }
+
+    /**
+     * function used before output to leave only those fields we want to render
+     * @param  array $data 
+     * @return array       filtered
+     */
+    private function _remove_fields($data)
+    {
+        if (is_array($data) AND count($this->_return_fields)>0)
+        {
+            foreach ($data as $key => $value) 
+            {
+                //recursive if its array
+                if (is_array($value))
+                {
+                    $data[$key] = $this->_remove_fields($value);
+                }
+                elseif (!in_array($key,$this->_return_fields))
+                {
+                    unset($data[$key]);
+                }
+            }
+        }
+        
+        return $data;
     }
 
     

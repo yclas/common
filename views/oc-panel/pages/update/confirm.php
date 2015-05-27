@@ -48,7 +48,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title"><?=__('Updating, do not close tihs window.')?></h4>
+                    <h4 class="modal-title"><?=__('Updating, do not close this window.')?></h4>
                 </div>
                 <div class="modal-body">
                     <div class="progress progress-striped active">

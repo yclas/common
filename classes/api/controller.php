@@ -428,13 +428,12 @@ class Api_Controller extends Kohana_Controller {
      */
     private function _init_filter_params()
     {
-        //filter results by param, verify field exists and has a value
         $allowed_operators = array('>','<','!');
 
         $between_operator  = '__between';
 
         //params we wont get the values
-        $reserved_params = array('page','iterms_per_page','sort','fields','apikey','user_token','q');
+        $reserved_params = array('page','iterms_per_page','sort','fields','apikey','user_token','q','callback');
 
         //each of the parameters on the request, lets see if we can work with them
         foreach ($this->_params as $field => $value) 

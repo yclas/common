@@ -18,62 +18,63 @@ abstract class OC_Image extends Kohana_Image {
 	*/
 	public function orientate()
 	{
-		$exif = read_exif_data($this->file);
-		
-		$exif_orientation = isset($exif['Orientation'])?$exif['Orientation']:0;
-		
-		$rotate = 0;
-		$flip = FALSE;
-		
-		switch($exif_orientation) { 
-			case 1: 
-				$rotate = 0;
-				$flip = FALSE;
-			break; 
-		
-			case 2: 
-				$rotate = 0;
-				$flip = TRUE;
-			break; 
-		
-			case 3: 
-				$rotate = 180;
-				$flip = FALSE;
-			break; 
+		if (in_array(exif_imagetype($this->file), array(IMAGETYPE_JPEG,IMAGETYPE_TIFF_II,IMAGETYPE_TIFF_MM)))
+		{
+			$exif = exif_read_data($this->file);
 			
-			case 4: 
-				$rotate = 180;
-				$flip = TRUE;
-			break; 
+			$exif_orientation = isset($exif['Orientation'])?$exif['Orientation']:0;
 			
-			case 5: 
-				$rotate = 90;
-				$flip = TRUE;
-			break; 
+			$rotate = 0;
+			$flip = FALSE;
 			
-			case 6: 
-				$rotate = 90;
-				$flip = FALSE;
-			break; 
+			switch($exif_orientation) { 
+				case 1: 
+					$rotate = 0;
+					$flip = FALSE;
+				break; 
 			
-			case 7: 
-				$rotate = 270;
-				$flip = TRUE;
-			break; 
+				case 2: 
+					$rotate = 0;
+					$flip = TRUE;
+				break; 
 			
-			case 8: 
-				$rotate = 270;
-				$flip = FALSE;
-			break; 
+				case 3: 
+					$rotate = 180;
+					$flip = FALSE;
+				break; 
+				
+				case 4: 
+					$rotate = 180;
+					$flip = TRUE;
+				break; 
+				
+				case 5: 
+					$rotate = 90;
+					$flip = TRUE;
+				break; 
+				
+				case 6: 
+					$rotate = 90;
+					$flip = FALSE;
+				break; 
+				
+				case 7: 
+					$rotate = 270;
+					$flip = TRUE;
+				break; 
+				
+				case 8: 
+					$rotate = 270;
+					$flip = FALSE;
+				break; 
+			}
+			
+			if ($flip)
+				$this->flip(Image::HORIZONTAL);
+				
+			if ($rotate > 0)
+				$this->rotate($rotate);
 		}
-		
-		if ($flip)
-			$this->flip(Image::HORIZONTAL);
-			
-		if ($rotate > 0)
-			$this->rotate($rotate);
-		
-		return $this;
 		
 	}
 	

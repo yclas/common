@@ -79,6 +79,7 @@ class Api_Controller extends Kohana_Controller {
      */
     protected $_sort = array();
 
+
     /**
      * The request's return fields
      * ex &fields=price,date,status
@@ -90,13 +91,27 @@ class Api_Controller extends Kohana_Controller {
 
 
     /**
-     * Fields we will filter the request
+     * Fields we will filter the request, to make search and filter results
      * 
      * see at _init_filter_params()
      * @var array
      */
     protected $_filter_params = array();
 
+
+    /**
+     * params we wont get the values
+     * @var array
+     */
+    protected $_reserved_params = array('page','items_per_page','sort','fields','apikey','user_token','q','callback');
+
+    /**
+     * params we will use on post or put, we clean it from $_reserved_params
+     *
+     * see at _init_post_params()
+     * @var array
+     */
+    protected $_post_params = array();
 
 
     public function __construct($request, $response)
@@ -125,6 +140,7 @@ class Api_Controller extends Kohana_Controller {
         
         //working with the request    
         $this->_init_params();
+        $this->_init_post_params();
         $this->_init_sort();
         $this->_init_return_fields();
         $this->_init_filter_params();
@@ -422,6 +438,24 @@ class Api_Controller extends Kohana_Controller {
         }
     }
 
+
+    /**
+     * initializes post params without excluded ones
+     * @return void
+     */
+    private function _init_post_params()
+    {
+       
+        //each of the parameters on the request, lets see if we can work with them
+        foreach ($this->_params as $field => $value) 
+        {
+            //we add only those not reserved
+            if (!in_array($field,$this->_reserved_params))
+                $this->_post_params[$field] = $value;
+        }
+
+    }
+
     /**
      * initializes the sort by param see $_sort example &sort=-price,date,-status
      * @return void
@@ -432,57 +466,49 @@ class Api_Controller extends Kohana_Controller {
 
         $between_operator  = '__between';
 
-        //params we wont get the values
-        $reserved_params = array('page','iterms_per_page','sort','fields','apikey','user_token','q','callback');
-
         //each of the parameters on the request, lets see if we can work with them
-        foreach ($this->_params as $field => $value) 
+        foreach ($this->_post_params as $field => $value) 
         {
-            if (!in_array($field,$reserved_params))
+            //default operator in case none is set
+            $operator = '=';
+
+            //between operator?
+            if (strpos($field,$between_operator)!==FALSE)
             {
-                //default operator in case none is set
-                $operator = '=';
+                //lets get the comma separated values
+                $values = explode(',',$value);
 
-                //between operator?
-                if (strpos($field,$between_operator)!==FALSE)
+                //needs to have exactly 2, no more no less, if not we do nothing
+                if (count($values)==2)
                 {
-                    //lets get the comma separated values
-                    $values = explode(',',$value);
-
-                    //needs to have exactly 2, no more no less, if not we do nothing
-                    if (count($values)==2)
-                    {
-                        $field    = str_replace($between_operator,'',$field);
-                        $operator = 'between';
-                        $value    = $values;
-                    }
+                    $field    = str_replace($between_operator,'',$field);
+                    $operator = 'between';
+                    $value    = $values;
                 }
-                //lets check for others!
-                else
-                {
-                    //get operator if any
-                    $operator = substr($field,-1);
-
-                    //remove operator from field
-                    if ( in_array($operator,$allowed_operators) )
-                    {
-                        $field = substr($field, 0,-1);
-                        $operator.='=';
-                    }
-                    else//not found leave it as before
-                        $operator = '=';
-                }
-                
-                //adding the field
-                $this->_filter_params[] = array( 'field'    => $field, 
-                                                 'operator' => $operator,
-                                                 'value'    => $value);
-                
             }
+            //lets check for others!
+            else
+            {
+                //get operator if any
+                $operator = substr($field,-1);
+
+                //remove operator from field
+                if ( in_array($operator,$allowed_operators) )
+                {
+                    $field = substr($field, 0,-1);
+                    $operator.='=';
+                }
+                else//not found leave it as before
+                    $operator = '=';
+            }
+            
+            //adding the field
+            $this->_filter_params[$field] = array(   'field'    => $field, 
+                                                     'operator' => $operator,
+                                                     'value'    => $value);            
         }
 
     }
-
 
     /**
      * which fields will be returned by the API. 

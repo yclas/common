@@ -76,6 +76,8 @@ abstract class OC_Image extends Kohana_Image {
 				$this->rotate($rotate);
 		}
 		
+		return $this;
+		
 	}
 	
 } // End Image

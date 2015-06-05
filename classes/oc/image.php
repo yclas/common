@@ -18,9 +18,9 @@ abstract class OC_Image extends Kohana_Image {
 	*/
 	public function orientate()
 	{
-		if (in_array(exif_imagetype($this->file), array(IMAGETYPE_JPEG,IMAGETYPE_TIFF_II,IMAGETYPE_TIFF_MM)))
+		if (function_exists('exif_read_data') AND in_array(exif_imagetype($this->file), array(IMAGETYPE_JPEG,IMAGETYPE_TIFF_II,IMAGETYPE_TIFF_MM)))
 		{
-			$exif = exif_read_data($this->file);
+			$exif = @exif_read_data($this->file);
 			
 			$exif_orientation = isset($exif['Orientation'])?$exif['Orientation']:0;
 			
@@ -75,6 +75,9 @@ abstract class OC_Image extends Kohana_Image {
 			if ($rotate > 0)
 				$this->rotate($rotate);
 		}
+
+        //default return the object so we can concatenate
+        return $this;
 		
 		return $this;
 		

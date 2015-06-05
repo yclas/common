@@ -135,7 +135,7 @@ class ORM extends Kohana_ORM {
         foreach ($params as $key => $field) 
         {
             //add to where in case in columns
-            if(in_array($field['field'],(array_keys($this->table_columns()))) AND isset($field['value']) AND !empty($field['value']))
+            if(in_array($field['field'],(array_keys($this->table_columns()))) AND isset($field['value']))
                 $this->where($field['field'],$field['operator'],$field['value']);
 
         }

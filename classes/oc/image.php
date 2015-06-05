@@ -79,8 +79,6 @@ abstract class OC_Image extends Kohana_Image {
         //default return the object so we can concatenate
         return $this;
 		
-		return $this;
-		
 	}
 	
 } // End Image

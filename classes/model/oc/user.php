@@ -65,7 +65,12 @@ class Model_OC_User extends ORM {
         return array(
                         'id_user'       => array(array('numeric')),
                         'name'          => array(array('not_empty'), array('max_length', array(':value', 145)), ),
-                        'email'         => array(array('email'),array('not_empty'), array('max_length', array(':value', 145)), ),
+                        'email'         => array(
+                                                    array('not_empty'),
+                                                    array('email'),
+                                                    array(array($this, 'unique'), array('email', ':value')),
+                                                    array('max_length', array(':value', 145))
+                                        ),
                         'password'      => array(array('not_empty'), array('max_length', array(':value', 64)), ),
                         'status'        => array(array('numeric')),
                         'id_role'       => array(array('numeric')),
@@ -643,6 +648,44 @@ class Model_OC_User extends ORM {
 
         return TRUE;
 
+    }
+
+    /**
+     * gets the api_token and regenerates if needed
+     * @param  boolean $regenerate forces regenerate
+     * @return string              
+     */
+    public function api_token($regenerate = FALSE)
+    {
+        if($this->loaded())
+        {   
+            //first time force the token generation
+            if ($this->api_token==NULL)
+                $regenerate = TRUE;
+
+            if ($regenerate === TRUE)
+            {
+                //we assure the token is unique
+                do
+                {
+                    $this->api_token = sha1(uniqid(Text::random('alnum', 32), TRUE));
+                }
+                while(ORM::factory('user', array('api_token' => $this->api_token))->limit(1)->loaded() AND $this->api_token!= Core::config('general.api_key'));
+
+                try
+                {
+                    $this->update();
+                }
+                catch(Exception $e)
+                {
+                    throw HTTP_Exception::factory(500,$e->getMessage());
+                }
+            }
+
+            return $this->api_token;
+        }
+
+        return FALSE;
     }
 
 } // END Model_User

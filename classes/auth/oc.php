@@ -74,6 +74,33 @@ class Auth_OC extends Kohana_Auth {
 	}
 
 
+    /**
+     * returns a user if email and password matches
+     *
+     * @param   string   email
+     * @param   string   password
+     * @param   boolean  enable autologin
+     * @return  mixed / Model_User
+     */
+    public function email_login($email, $password)
+    {
+        // Load the user
+        $user = new Model_User;
+        $user->where('email', '=', $email)
+            ->where('status','in',array(Model_User::STATUS_ACTIVE,Model_User::STATUS_SPAM))
+            ->limit(1)
+            ->find();
+
+        // If the passwords match, perform a login
+        if ($user->password === $this->hash($password))
+        {
+            return $user;
+        }
+
+        // Login failed
+        return FALSE;
+    }
+
 	/**
 	 * Logs a user in.
 	 *
@@ -84,15 +111,8 @@ class Auth_OC extends Kohana_Auth {
 	 */
 	protected function _login($email, $password, $remember)
 	{
-		// Load the user
-		$user = new Model_User;
-		$user->where('email', '=', $email)
-    		->where('status','in',array(Model_User::STATUS_ACTIVE,Model_User::STATUS_SPAM))
-    		->limit(1)
-    		->find();
-		//echo $user->password;		d($this->hash($password));
 		// If the passwords match, perform a login
-		if ($user->password === $this->hash($password))
+		if ( ($user = $this->email_login($email, $password)) !== FALSE)
 		{
 			// Complete the login with the found data
 			$user->complete_login(($remember)?$this->_config['lifetime']:NULL);
@@ -158,6 +178,32 @@ class Auth_OC extends Kohana_Auth {
 
 		return FALSE;
 	}
+
+
+    /**
+     * Logs a user in, based on the authautologin cookie, or seted param token
+     * @param string $token
+     * @return  mixed
+     */
+    public function api_login($token = NULL)
+    {
+        if ($token!==NULL)
+        {
+            // Load the user from the token
+            $user = new Model_User;
+            $user ->where('api_token', '=', $token)
+            ->where('status','in',array(Model_User::STATUS_ACTIVE,Model_User::STATUS_SPAM))
+            ->limit(1)
+            ->find();
+
+            if ($user->loaded())
+            {
+                return $user;
+            }
+        }
+
+        return FALSE;
+    }
 
 
     /**

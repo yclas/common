@@ -63,10 +63,14 @@ class URL extends Kohana_URL {
 
     /**
      * returns the current url we are visiting with querystring included
-     * @return [type] [description]
+     * @return string
      */
     public static function current()
     {
+        //in case is  CLI
+        if (!isset($_SERVER['QUERY_STRING']) OR defined('SUPPRESS_REQUEST'))
+            return URL::base();
+
         $query_string = (isset($_SERVER['QUERY_STRING']) AND !empty($_SERVER['QUERY_STRING']))? '?'.$_SERVER['QUERY_STRING']:'';
 
         return URL::base().Request::current()->uri().$query_string;

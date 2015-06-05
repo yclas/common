@@ -83,7 +83,10 @@ class OC_Core {
      */
     public static function get($key,$default=NULL)
     {
-    	return (isset($_GET[$key]))?$_GET[$key]:$default;
+        if (Request::current()!==NULL)
+           return (Request::current()->query($key)!=NULL) ? Request::current()->query($key):$default;
+        else
+    	   return (isset($_GET[$key]))?$_GET[$key]:$default;
     }
 
     /**
@@ -94,7 +97,10 @@ class OC_Core {
      */
     public static function post($key,$default=NULL)
     {
-        return (isset($_POST[$key]))?$_POST[$key]:$default;
+        if (Request::current()!==NULL)
+           return (Request::current()->post($key)!=NULL) ? Request::current()->post($key):$default;
+        else
+           return (isset($_POST[$key]))?$_POST[$key]:$default;
     }
 
     /**

@@ -95,4 +95,69 @@ class ORM extends Kohana_ORM {
         return (int) $records;
     }
 
+
+    /**
+     * pagination for result set using return link for headers
+     * @param  array $params        received on the api request
+     * @param  integer $count          total results of the query
+     * @param  route $route_params   the route used in the view
+     * @return string                 link:header / false not done
+     */
+    public function api_pagination($params, $count, $route_params)
+    {
+        //page X
+        if (isset($params['page']) AND is_numeric($params['page']))
+        {
+            $items_per_page = ( isset($params['items_per_page']) AND is_numeric($params['items_per_page']) )?$params['items_per_page']:10;
+
+            $pagination = Pagination::factory(array(
+                    'view'           => 'api-pagination',
+                    'total_items'    => $count,
+                    'items_per_page' => $items_per_page
+            ))->route_params($route_params);
+
+            $this->limit($pagination->items_per_page)->offset($pagination->offset);
+
+            return $pagination->render();
+        }
+
+        return FALSE;
+    }
+
+    /**
+     * filters the ORM using the api params, see Api_Controller -> _init_filter_params
+     * @param  array $params parameters to try filter
+     * @return Model_ORM         
+     */
+    public function api_filter($params)
+    {
+        //filter results by param, verify field exists and has a value
+        foreach ($params as $key => $field) 
+        {
+            //add to where in case in columns
+            if(in_array($field['field'],(array_keys($this->table_columns()))) AND isset($field['value']) AND !empty($field['value']))
+                $this->where($field['field'],$field['operator'],$field['value']);
+
+        }
+
+        return $this;
+    }
+
+    /**
+     * sorts the ORM results using the api params, see Api_Controller -> _init_sort
+     * @param  array $sort
+     * @return Model_ORM         
+     */
+    public function api_sort($sort)
+    {
+        //sorting results by param, verify field exists
+        foreach ($sort as $field => $direction) 
+        {
+            if(in_array($field,(array_keys($this->table_columns()))))
+                $this->order_by($field,$direction);
+        }
+
+        return $this;
+    }
+
 }

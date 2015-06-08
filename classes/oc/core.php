@@ -543,3 +543,13 @@ function d($var)
 {
 	die(var_dump($var));
 }
+
+/**
+ *
+ * Dies and print_r
+ * @param any $var
+ */
+function dr($var)
+{
+    die(print_r($var));
+}

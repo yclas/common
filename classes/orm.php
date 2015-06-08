@@ -98,30 +98,30 @@ class ORM extends Kohana_ORM {
 
     /**
      * pagination for result set using return link for headers
-     * @param  array $params        received on the api request
      * @param  integer $count          total results of the query
+     * @param integer $item_per_page 
      * @param  route $route_params   the route used in the view
      * @return string                 link:header / false not done
      */
-    public function api_pagination($params, $count, $route_params)
+    public function api_pagination($count, $items_per_page, $route_params = NULL)
     {
-        //page X
-        if (isset($params['page']) AND is_numeric($params['page']))
+        if ($route_params === NULL)
         {
-            $items_per_page = ( isset($params['items_per_page']) AND is_numeric($params['items_per_page']) )?$params['items_per_page']:10;
-
-            $pagination = Pagination::factory(array(
-                    'view'           => 'api-pagination',
-                    'total_items'    => $count,
-                    'items_per_page' => $items_per_page
-            ))->route_params($route_params);
-
-            $this->limit($pagination->items_per_page)->offset($pagination->offset);
-
-            return $pagination->render();
+            $route_params =array(
+                                    'controller' => Request::current()->controller(),
+                                    'action'     => Request::current()->action(),
+                        );
         }
 
-        return FALSE;
+        $pagination = Pagination::factory(array(
+                'view'           => 'api-pagination',
+                'total_items'    => $count,
+                'items_per_page' => $items_per_page
+        ))->route_params($route_params);
+
+        $this->limit($pagination->items_per_page)->offset($pagination->offset);
+
+        return $pagination->render();
     }
 
     /**

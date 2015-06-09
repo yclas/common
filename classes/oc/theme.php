@@ -15,6 +15,7 @@ class OC_Theme {
     public static $theme        = 'default';
     public static $parent_theme = NULL; //used for child themes
     public static $skin         = ''; //skin that the theme is using, used in premium themes
+    public static $is_mobile    = FALSE; //used to determinate if $theme is mobile
     private static $views_path  = 'views';
     public  static $scripts     = array();
     public  static $styles      = array();
@@ -388,6 +389,7 @@ class OC_Theme {
             }
         }
 
+        self::$is_mobile = $is_mobile;
 
         return ($is_mobile)?Core::config('appearance.theme_mobile'):FALSE;
     }

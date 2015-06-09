@@ -551,5 +551,5 @@ function d($var)
  */
 function dr($var)
 {
-    die(print_r($var));
+    die('<pre>'.print_r($var,TRUE).'</pre>');
 }

@@ -651,6 +651,85 @@ class Model_OC_User extends ORM {
     }
 
     /**
+     * upload an image to the user
+     * @param  file $image 
+     * @return bool/message        
+     */
+    public function upload_image($image)
+    {
+        if (!$this->loaded())
+            return FALSE;
+
+        if(core::config('image.aws_s3_active'))
+        {
+            require_once Kohana::find_file('vendor', 'amazon-s3-php-class/S3','php');
+            $s3 = new S3(core::config('image.aws_access_key'), core::config('image.aws_secret_key'));
+        }
+                
+        if ( 
+            ! Upload::valid($image) OR
+            ! Upload::not_empty($image) OR
+            ! Upload::type($image, explode(',',core::config('image.allowed_formats'))) OR
+            ! Upload::size($image, core::config('image.max_image_size').'M'))
+        {
+            if ( Upload::not_empty($image) && ! Upload::type($image, explode(',',core::config('image.allowed_formats'))))
+            {
+                return $image['name'].' '.sprintf(__('Is not valid format, please use one of this formats "%s"'),core::config('image.allowed_formats'));
+            } 
+            if( ! Upload::size($image, core::config('image.max_image_size').'M'))
+            {
+                return $image['name'].' '.sprintf(__('Is not of valid size. Size is limited to %s MB per image'),core::config('image.max_image_size'));
+            }
+            return $image['name'].' '.__('Image is not valid. Please try again.');
+        }
+        else
+        {
+            if($image != NULL) // sanity check 
+            {
+                // saving/uploading zip file to dir.
+                $path = 'images/users/'; //root folder
+                $root = DOCROOT.$path; //root folder
+                $image_name = $this->id_user.'.png';
+                $width = core::config('image.width'); // @TODO dynamic !?
+                $height = core::config('image.height');// @TODO dynamic !?
+                $image_quality = core::config('image.quality');
+                
+                // if folder does not exist, try to make it
+                if ( ! file_exists($root) AND ! @mkdir($root, 0775, true)) { // mkdir not successful ?
+                    return __('Image folder is missing and cannot be created with mkdir. Please correct to be able to upload images.');
+                };
+
+                // save file to root folder, file, name, dir
+                if($file = Upload::save($image, $image_name, $root))
+                {
+                    // resize uploaded image 
+                    Image::factory($file)
+                        ->orientate()
+                        ->resize($width, $height, Image::AUTO)
+                        ->save($root.$image_name,$image_quality);
+                    
+                    // put image to Amazon S3
+                    if(core::config('image.aws_s3_active'))
+                        $s3->putObject($s3->inputFile($file), core::config('image.aws_s3_bucket'), $path.$image_name, S3::ACL_PUBLIC_READ);
+                    
+                    // update user info
+                    $this->has_image = 1;
+                    $this->last_modified = Date::unix2mysql();
+                    try {
+                        $this->save();
+                        return TRUE;
+                    } catch (Exception $e) {
+                        return $e->getMessage();
+                    }                       
+                }
+                else
+                    return $image['name'].' '.__('Icon file could not been saved.');
+            }
+            
+        }
+    }
+
+    /**
      * gets the api_token and regenerates if needed
      * @param  boolean $regenerate forces regenerate
      * @return string              

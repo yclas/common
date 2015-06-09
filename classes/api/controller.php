@@ -561,7 +561,7 @@ class Api_Controller extends Kohana_Controller {
      * @param string|Exception $exception
      * @param int $code
      */
-    protected function _error($exception, $code = 0)
+    protected function _error($exception, $code = 500)
     {
         if (is_a($exception, 'Exception'))
         {

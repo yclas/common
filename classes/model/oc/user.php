@@ -643,7 +643,8 @@ class Model_OC_User extends ORM {
     
             // update user info
             $this->has_image = 0;
-            $this->save();            
+            $this->last_modified = Date::unix2mysql();
+            $this->save();
         }
 
         return TRUE;

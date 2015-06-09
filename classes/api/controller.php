@@ -145,6 +145,9 @@ class Api_Controller extends Kohana_Controller {
         $this->_init_return_fields();
         $this->_init_filter_params();
 
+        //how many items per page we use? we set a default       
+        $this->_params['items_per_page'] = (isset($this->_params['items_per_page']) AND is_numeric($this->_params['items_per_page']) )?$this->_params['items_per_page']:10;
+
         // Get output format from route file extension.
         $this->output_format = $this->request->param('format');
 

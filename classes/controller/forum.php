@@ -336,7 +336,8 @@ class Controller_Forum extends Controller {
                             $reply->status   = Model_Post::STATUS_ACTIVE;
                             $reply->ip_address   = ip2long(Request::$client_ip);
                             $reply->save();
-                            unset($_POST['description']);
+                            //set empty since they already replied
+                            Request::current()->post('description','');
                             Alert::set(Alert::SUCCESS, __('Reply added, thanks!'));
                             
                         }

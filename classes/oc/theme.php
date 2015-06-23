@@ -618,8 +618,9 @@ class OC_Theme {
      * @param  string $action
      * @param  string $route
      * @param  string $icon         class name of bootstrap icon to append with nav-link
+     * @param  bool   $ajax         link loaded using ajax
      */
-    public static function admin_link($name,$controller,$action='index',$route='oc-panel', $icon = NULL, $id=NULL)
+    public static function admin_link($name,$controller,$action='index',$route='oc-panel', $icon = NULL, $id=NULL, $ajax = TRUE)
     {
         if (Auth::instance()->get_user()->has_access($controller,$action))
         {
@@ -628,7 +629,8 @@ class OC_Theme {
                             'action'    => $action,
                             'route'     => $route,
                             'icon'      => $icon,
-                            'id'        => $id,);
+                            'id'        => $id,
+                            'ajax'      => $ajax,);
             return View::factory('oc-panel/admin_link',$data);
         }
     }

@@ -149,6 +149,53 @@ class Controller_Panel_User extends Auth_Crud {
 		}
 	
 		return $this->render('oc-panel/pages/user/update', array('form' => $form));
-	}	
+	}
+	
+	public function action_changepass()
+	{
+		// only admins can change password
+		if ($this->request->post() AND $this->user->id_role == Model_Role::ROLE_ADMIN)
+		{
+			$user = new Model_User($this->request->param('id'));
+	
+			if (core::post('password1')==core::post('password2'))
+			{
+				if(!empty(core::post('password1'))){
+	
+					$user->password = core::post('password1');
+					$user->last_modified = Date::unix2mysql();
+	
+					try
+					{
+						$user->save();
+						
+						// email user with new password
+						Email::content($user->email,$user->name,NULL,NULL,'password-changed',array('[USER.PWD]'=>core::post('password1')));
+					}
+					catch (ORM_Validation_Exception $e)
+					{
+						throw HTTP_Exception::factory(500,$e->getMessage());
+					}
+					catch (Exception $e)
+					{
+						throw HTTP_Exception::factory(500,$e->getMessage());
+					}
+	
+					Alert::set(Alert::SUCCESS, __('Password is changed'));
+				}
+				else
+				{
+					Form::set_errors(array(__('Nothing is provided')));
+				}
+			}
+			else
+			{
+				Form::set_errors(array(__('Passwords do not match')));
+			}
+	
+		}
+	
+		$this->redirect(Route::url('oc-panel',array('controller'=>'user', 'action'=>'update', 'id'=>$this->request->param('id'))));
+	}
 
 }

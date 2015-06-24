@@ -28,5 +28,45 @@
                 <?=$form->render()?>
             </div>
         </div>
+        <?if (Auth::instance()->get_user()->id_role == Model_Role::ROLE_ADMIN):?>
+          <div class="panel panel-default">
+              <div class="panel-heading" id="page-edit-profile">
+                  <h3 class="panel-title"><?=__('Change password')?></h3>
+              </div>
+              <div class="panel-body">
+                  <div class="row">
+                      <div class="col-md-8">
+                          <form class="form-horizontal"  method="post" action="<?=Route::url('oc-panel',array('controller'=>'user','action'=>'changepass','id'=>$form->object->id_user))?>">         
+                              <?=Form::errors()?>  
+                                    
+                              <div class="form-group">
+                                  <label class="col-xs-4 control-label"><?=__('New password')?></label>
+                                  <div class="col-sm-8">
+                                  <input class="form-control" type="password" name="password1" placeholder="<?=__('Password')?>">
+                                  </div>
+                              </div>
+                                
+                              <div class="form-group">
+                                  <label class="col-xs-4 control-label"><?=__('Repeat password')?></label>
+                                  <div class="col-sm-8">
+                                  <input class="form-control" type="password" name="password2" placeholder="<?=__('Password')?>">
+                                      <p class="help-block">
+                                            <?=__('Type your password twice to change')?>
+                                      </p>
+                                  </div>
+                              </div>
+                                    
+                              <div class="form-group">
+                                  <div class="col-md-offset-4 col-md-8">
+                                      <button type="submit" class="btn btn-primary"><?=__('Update')?></button>
+                                  </div>
+                              </div>
+                                    
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        <?endif?>
     </div>
 </div>

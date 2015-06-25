@@ -47,7 +47,7 @@ class Pagination extends Kohana_Pagination
      */
     public function url($page = 1)
     {
-        $url = strtolower(parent::url($page));
+        $url = mb_strtolower(parent::url($page));
 
         //removing the parameter rel=ajax just in case
         $url = str_replace(array('&rel=ajax','rel=ajax&','rel=ajax'), '', $url);

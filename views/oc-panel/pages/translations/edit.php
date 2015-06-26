@@ -1,14 +1,20 @@
 <div class="page-header">
 
-    <a  class="btn btn-danger pull-right" href="<?=Request::current()->url()?>?translated=1" title="<?=__('Hide translated texts')?>" >
-        <i class="glyphicon glyphicon-eye-close"></i> 
-    </a>
-    
-    <a  class="btn btn-primary pull-right" href="<?=Request::current()->url()?>" title="<?=__('Show translated texts')?>">
-        <i class="glyphicon glyphicon-eye-open"></i> 
-    </a>
-
     <h1><?=__('Translations')?> <?=$edit_language?></h1>
+
+    <form class="form-inline pull-right" method="post" action="<?=Route::url('oc-panel',array('controller'=>'translations','action'=>'replace','id'=>$edit_language))?>">
+        <div class="form-group">
+            <input type="text" class="form-control input-sm search-query" name="search" placeholder="<?=__('search')?>" value="<?=core::request('search')?>">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control input-sm search-query" name="replace" placeholder="<?=__('replace')?>" value="<?=core::request('replace')?>">
+        </div>
+        <select name="where" id="where" class="form-control disable-chosen" >
+            <option value="original"><?=__('Replace Original')?></option>
+            <option value="translation"><?=__('Replace Translation')?></option>
+        </select>
+        <button type="submit" class="btn btn-primary"><?=__('Replace')?></button>
+    </form>
 
     <p>
     <?=__('Here you can modify any text you find in your web.')?> <a href="http://open-classifieds.com/2013/08/16/how-to-change-texts/" target="_blank"><?=__('Read more')?></a>
@@ -37,7 +43,16 @@
                 </th>
                 <th><?=__('Translation')?> <?=$edit_language?></th>
             </tr>
+
             <button type="submit" class="btn btn-primary pull-right" name="translation[submit]"><i class="glyphicon glyphicon-hdd"></i> <?=__('Save')?></button>
+
+            <a  class="btn btn-danger pull-right" href="<?=Request::current()->url()?>?translated=1" title="<?=__('Hide translated texts')?>" >
+                <i class="glyphicon glyphicon-eye-close"></i> 
+            </a>
+            
+            <a  class="btn btn-primary pull-right" href="<?=Request::current()->url()?>" title="<?=__('Show translated texts')?>">
+                <i class="glyphicon glyphicon-eye-open"></i> 
+            </a>
         
             <?foreach($translation_array as $key => $values):?>
                 <?list($id,$original,$translated) = array_values($values);?>

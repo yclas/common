@@ -93,142 +93,25 @@ class Controller_Panel_Translations extends Auth_Controller {
 
     public function action_edit()
     {
-        $user = Auth::instance()->get_user();
-        $language   = $this->request->param('id');
-
-        //be sure is correct capital letters
-        if (strlen($language)==5)
-            $language = substr($language, 0,3).strtoupper(substr($language, 3,5));
-
-        $mo_translation = DOCROOT.'languages/'.$language.'/LC_MESSAGES/messages.po';
-
-        if(!file_exists($mo_translation))
-        {
-            Alert::set(Alert::ERROR, $language);
-            HTTP::redirect(Route::url('oc-panel',array('controller'  => 'translations')));
-        }
-
         Breadcrumbs::add(Breadcrumb::factory()->set_title(__('Edit Translation')));  
         $this->template->title = __('Edit Translation');     
         $this->template->bind('content', $content);
         $content = View::factory('oc-panel/pages/translations/edit');
-
         $this->template->scripts['footer'][] = 'js/oc-panel/translations.js';
 
-        $base_translation = i18n::get_language_path();
+        $language   = $this->language_fix($this->request->param('id'));
 
-        //pear gettext scripts
-        require_once Kohana::find_file('vendor', 'GT/Gettext','php');
-        require_once Kohana::find_file('vendor', 'GT/Gettext/PO','php');
-        require_once Kohana::find_file('vendor', 'GT/Gettext/MO','php');
-        //.po to .mo script
-        require_once Kohana::find_file('vendor', 'php-mo/php-mo','php');
-
-        //load the .po files
-        //original en translation
-        $pocreator_en = new File_Gettext_PO();
-        $pocreator_en->load($base_translation);
-        //the translation file
-        $pocreator_translated = new File_Gettext_PO();
-        $pocreator_translated->load($mo_translation);
-
-        //get an array with all the strings
-        $en_array_order = $pocreator_en->strings;
-
-        //sort alphabetical using locale
-        ksort($en_array_order,SORT_LOCALE_STRING);
+        //get the translated ad not translated.
+        list($translation_array,$untranslated_array) = $this->get_translation($language);
         
-        //array with translated language may contain missing from EN
-        $origin_translation = $pocreator_translated->strings;
-
-        //lets get the array with translated values and sorted, will include everything even if was not previously saved
-        $translation_array  = array();
-        $array_untranslated = array();//keep track of words not translated stores ID
-        
-        $i = 0;
-        foreach ($en_array_order as $origin => $value) 
-        {
-            //do we have the translation?
-            if (isset($origin_translation[$origin]) AND !empty($origin_translation[$origin])>0)
-            {
-                $translated = $origin_translation[$origin];
-            }
-            else
-            {
-                $array_untranslated[] = $i;
-                $translated = '';
-            }
-
-            $translation_array[] = array( 'id' => $i,
-                                          'original' => $origin,
-                                          'translated' => $translated);
-
-            $i++;
-        }
-
         //watch out at any standard php installation there's a limit of 1000 posts....edit php.ini max_input_vars = 10000 to amend it.
-        if($this->request->post() AND $this->request->post('translations'))
+        if($this->request->post() AND ($data_translated = $this->request->post('translations')) )
         {
-            $translations = $this->request->post('translations');
+            if ($this->save_translation($language,$translation_array,$data_translated))
+                Alert::set(Alert::SUCCESS, $language.' '.__('Language saved'));
+            else
+                Alert::set(Alert::ALERT, $language);
 
-            //changing the translation_array with the posted values
-            foreach($translations as $key => $value)
-            {
-                if (isset($translation_array[$key]['translated']))
-                    $translation_array[$key]['translated'] = $value;
-            }
-
-            //let's generate a proper .po file for the mo converter
-            $out = '';
-
-            foreach($translation_array as $key => $values)
-            {
-                list($id,$original,$translated) = array_values($values);
-                if ($translated!='')
-                {
-                    //only adding translated items
-                    $out .= '#: String '.$key.PHP_EOL;
-                    $out .= 'msgid "'.$original.'"'.PHP_EOL;
-                    $out .= 'msgstr "'.$translated.'"'.PHP_EOL;
-                    $out .= PHP_EOL;
-                }
-            }
-
-            //write the generated .po to file
-            file_put_contents($mo_translation, $out, LOCK_EX);
-
-            //generate the .mo from the .po file
-            phpmo_convert($mo_translation);
-
-            //we regenerate the file again to be poedit friendly
-            $out = 'msgid ""
-msgstr ""
-"Project-Id-Version: '.Core::VERSION.'\n"
-"POT-Creation-Date: '.Date::unix2mysql().'\n"
-"PO-Revision-Date: '.Date::unix2mysql().'\n"
-"Last-Translator: '.$user->name.' <'.$user->email.'>\n"
-"Language-Team: en\n"
-"Language: '.strtolower(substr($language,0,2)).'\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset='.i18n::$charset.'\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Open Classifieds '.Core::VERSION.'\n"'.PHP_EOL.PHP_EOL;
-
-            foreach($translation_array as $key => $values)
-            {
-                list($id,$original,$translated) = array_values($values);
-                //only adding translated items
-                $out .= '#: String '.$key.PHP_EOL;
-                $out .= 'msgid "'.$original.'"'.PHP_EOL;
-                $out .= 'msgstr "'.$translated.'"'.PHP_EOL;
-                $out .= PHP_EOL;
-            }
-
-            //write the generated .po to file
-            file_put_contents($mo_translation, $out, LOCK_EX);
-
-
-            Alert::set(Alert::SUCCESS, $language.' '.__('Language saved'));
             $this->redirect(URL::current());
         }
 
@@ -239,7 +122,7 @@ msgstr ""
         if (core::get('translated')==1)
         {
             $translation_array_filtered_aux = array();
-            foreach ($array_untranslated as $key=>$value ) 
+            foreach ($untranslated_array as $key=>$value ) 
             {
                 $translation_array_filtered_aux[] =  $translation_array_filtered[$value];
             }
@@ -273,12 +156,221 @@ msgstr ""
 
         $content->edit_language     = $language;
         $content->translation_array = $trans_array_paginated;
-        $content->cont_untranslated = count($array_untranslated);
+        $content->cont_untranslated = count($untranslated_array);
         $content->total_items       = count($translation_array);
         $content->pagination        = $pagination->render();
 
     }
 
 
+    public function action_replace()
+    {   
+        $search     = Core::request('search');
+        $replace    = Core::request('replace');
+        $where      = Core::request('where','original');
+    
+        $language   = $this->language_fix($this->request->param('id'));
+
+        //read original mo file to get the full array
+        //read translated mo
+        //get the translated ad not translated.
+        //merge original with translated
+        list($translation_array,$untranslated_array) = $this->get_translation($language);
+
+        //array of new translations
+        $data_translated = array();
+
+        //for each item search
+        foreach ($translation_array as $key => $values) 
+        {
+            //replace if theres a match
+            list($id,$original,$translated) = array_values($values);
+
+            switch ($where) {
+                case 'translation':
+                    //found in the translated
+                    if (strpos($translated,$search)!==FALSE)
+                    {
+                        //add it to the new translations
+                        $data_translated[$id] = str_replace($search,$replace,$translated);
+                    }
+                    break;
+                
+                case 'original':
+                     //found in the original
+                    if (strpos($original,$search)!==FALSE)
+                    {
+                        //add it to the new translations
+                        $data_translated[$id] = str_replace($search,$replace,$original);
+                    }
+                    break;
+            }            
+        }
+
+        if ($this->save_translation($language,$translation_array,$data_translated))
+            Alert::set(Alert::SUCCESS, $language.' '.__('Language saved'));
+        else
+            Alert::set(Alert::ALERT, $language);
+
+        $this->redirect(Route::url('oc-panel',array('controller'  => 'translations','action'=>'edit','id'=>$language)));
+              
+    }
+
+    /**
+     * gets the translation as array form a language
+     * @param  string $language 
+     * @return array           
+     */
+    public function get_translation($language)
+    {
+        $mo_translation = DOCROOT.'languages/'.$language.'/LC_MESSAGES/messages.po';
+
+        if(!file_exists($mo_translation))
+        {
+            Alert::set(Alert::ERROR, $language);
+            $this->redirect(Route::url('oc-panel',array('controller'  => 'translations')));
+        }
+
+        $base_translation = i18n::get_language_path();
+
+        //pear gettext scripts
+        require_once Kohana::find_file('vendor', 'GT/Gettext','php');
+        require_once Kohana::find_file('vendor', 'GT/Gettext/PO','php');
+        require_once Kohana::find_file('vendor', 'GT/Gettext/MO','php');
+
+        //load the .po files
+        //original en translation
+        $pocreator_en = new File_Gettext_PO();
+        $pocreator_en->load($base_translation);
+        //the translation file
+        $pocreator_translated = new File_Gettext_PO();
+        $pocreator_translated->load($mo_translation);
+
+        //get an array with all the strings
+        $en_array_order = $pocreator_en->strings;
+
+        //sort alphabetical using locale
+        ksort($en_array_order,SORT_LOCALE_STRING);
+        
+        //array with translated language may contain missing from EN
+        $origin_translation = $pocreator_translated->strings;
+
+        //lets get the array with translated values and sorted, will include everything even if was not previously saved
+        $translation_array  = array();
+        $untranslated_array = array();//keep track of words not translated stores ID
+        
+        $i = 0;
+        foreach ($en_array_order as $origin => $value) 
+        {
+            //do we have the translation?
+            if (isset($origin_translation[$origin]) AND !empty($origin_translation[$origin])>0)
+            {
+                $translated = $origin_translation[$origin];
+            }
+            else
+            {
+                $untranslated_array[] = $i;
+                $translated = '';
+            }
+
+            $translation_array[] = array( 'id' => $i,
+                                          'original' => $origin,
+                                          'translated' => $translated);
+
+            $i++;
+        }
+
+        return array($translation_array,$untranslated_array);
+    }
+
+
+    /**
+     * saves a translation
+     * @param  string $language          
+     * @param  array $translation_array 
+     * @param  array $data_translated   
+     * @return bool                    
+     */
+    public function save_translation($language,$translation_array, $data_translated)
+    {
+        //.po to .mo script
+        require_once Kohana::find_file('vendor', 'php-mo/php-mo','php');
+
+        $mo_translation = DOCROOT.'languages/'.$language.'/LC_MESSAGES/messages.po';
+
+        if(!file_exists($mo_translation))
+            return FALSE;
+
+        //changing the translation_array with the posted values
+        foreach($data_translated as $key => $value)
+        {
+            if (isset($translation_array[$key]['translated']))
+                $translation_array[$key]['translated'] = $value;
+        }
+
+        //let's generate a proper .po file for the mo converter
+        $out = '';
+
+        foreach($translation_array as $key => $values)
+        {
+            list($id,$original,$translated) = array_values($values);
+            if ($translated!='')
+            {
+                //only adding translated items
+                $out .= '#: String '.$key.PHP_EOL;
+                $out .= 'msgid "'.$original.'"'.PHP_EOL;
+                $out .= 'msgstr "'.$translated.'"'.PHP_EOL;
+                $out .= PHP_EOL;
+            }
+        }
+
+        //write the generated .po to file
+        file_put_contents($mo_translation, $out, LOCK_EX);
+
+        //generate the .mo from the .po file
+        phpmo_convert($mo_translation);
+
+        //we regenerate the file again to be poedit friendly
+        $out = 'msgid ""
+msgstr ""
+"Project-Id-Version: '.Core::VERSION.'\n"
+"POT-Creation-Date: '.Date::unix2mysql().'\n"
+"PO-Revision-Date: '.Date::unix2mysql().'\n"
+"Last-Translator: '.$this->user->name.' <'.$this->user->email.'>\n"
+"Language-Team: en\n"
+"Language: '.strtolower(substr($language,0,2)).'\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset='.i18n::$charset.'\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Open Classifieds '.Core::VERSION.'\n"'.PHP_EOL.PHP_EOL;
+
+        foreach($translation_array as $key => $values)
+        {
+            list($id,$original,$translated) = array_values($values);
+            //only adding translated items
+            $out .= '#: String '.$key.PHP_EOL;
+            $out .= 'msgid "'.$original.'"'.PHP_EOL;
+            $out .= 'msgstr "'.$translated.'"'.PHP_EOL;
+            $out .= PHP_EOL;
+        }
+
+        //write the generated .po to file
+        file_put_contents($mo_translation, $out, LOCK_EX);
+
+        return TRUE;
+    }
+
+    /**
+     * be sure is correct capital letters
+     * @param  string $language 
+     * @return string           
+     */
+    public function language_fix($language)
+    {
+        if (strlen($language)==5)
+        {
+            return  substr($language, 0,3).strtoupper(substr($language, 3,5));
+        }
+    }
 
 }//end of controller

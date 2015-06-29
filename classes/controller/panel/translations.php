@@ -223,7 +223,7 @@ class Controller_Panel_Translations extends Auth_Controller {
      */
     public function get_translation($language)
     {
-        $mo_translation = DOCROOT.'languages/'.$language.'/LC_MESSAGES/messages.po';
+        $mo_translation = i18n::get_language_path($language);
 
         if(!file_exists($mo_translation))
         {
@@ -296,10 +296,8 @@ class Controller_Panel_Translations extends Auth_Controller {
         //.po to .mo script
         require_once Kohana::find_file('vendor', 'php-mo/php-mo','php');
 
-        $mo_translation = DOCROOT.'languages/'.$language.'/LC_MESSAGES/messages.po';
-
-        if(!file_exists($mo_translation))
-            return FALSE;
+        //we save always in the custom file
+        $mo_translation = i18n::get_language_custom_path($language);
 
         //changing the translation_array with the posted values
         foreach($data_translated as $key => $value)
@@ -325,7 +323,8 @@ class Controller_Panel_Translations extends Auth_Controller {
         }
 
         //write the generated .po to file
-        file_put_contents($mo_translation, $out, LOCK_EX);
+        if (File::write($mo_translation,$out)===FALSE)
+            return FALSE;
 
         //generate the .mo from the .po file
         phpmo_convert($mo_translation);

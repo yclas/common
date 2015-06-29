@@ -57,8 +57,13 @@ class OC_I18n extends Kohana_I18n {
         self::$lang    = $locale;//used in i18n kohana
         self::$locale  = $locale;
         self::$charset = $charset;
-        self::$domain  = $domain;
-        
+
+        //use as domain the custom messages for the user
+        if (file_exists($custom_po = self::get_language_custom_path($locale)))
+            self::$domain  = 'custom-messages';
+        else
+            self::$domain  = $domain;
+
         //time zone set in the config
         date_default_timezone_set(Kohana::$config->load('i18n')->timezone);
         
@@ -150,11 +155,30 @@ class OC_I18n extends Kohana_I18n {
 
     /**
      * get the path for the original/base translation path
+     * @param string $language
+     * @return string
+     */
+    public static function get_language_path($language = NULL)
+    {
+        if ($language===NULL)
+            return DOCROOT.'languages/messages.po';
+        else
+        {
+            if (file_exists($custom_po = self::get_language_custom_path($language)))
+                return $custom_po;
+            else
+                return DOCROOT.'languages/'.$language.'/LC_MESSAGES/messages.po';
+        }
+    }
+
+    /**
+     * get the path for the custom translation path
+     * @param string $language
      * @return array
      */
-    public static function get_language_path()
+    public static function get_language_custom_path($language)
     {
-        return DOCROOT.'languages/messages.po';
+        return DOCROOT.'languages/'.$language.'/LC_MESSAGES/custom-messages.po';
     }
 
     /**

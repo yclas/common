@@ -9,7 +9,7 @@
  * @license    GPL v3
  */
 
-class ORM extends Kohana_ORM {
+class OC_ORM extends Kohana_ORM {
 
 	/**
 	 * Name of the database to use

@@ -527,6 +527,34 @@ class OC_Core {
         return $end_array;
     }
 
+    /**
+     * push notiication using GCM
+     * @param  array/string $device_id devices
+     * @param  string $message   
+     * @param  array $data      
+     * @return bool            
+     */
+    public static function push_notification($device_id,$message,$data = NULL)
+    {
+        if (core::config('general.gcm_apikey')!=NULL )
+        {
+            require_once Kohana::find_file('vendor', 'GCMPushMessage','php');
+            $gcpm = new GCMPushMessage(core::config('general.gcm_apikey'));
+            $gcpm->setDevices($device_id);
+
+            try 
+            {
+                return ($gcpm->send($message, $data))?TRUE:FALSE;
+            } 
+            catch (Exception $e) 
+            {
+                return FALSE;
+            }
+        }
+
+        return FALSE;        
+    }
+
 } //end core
 
 /**

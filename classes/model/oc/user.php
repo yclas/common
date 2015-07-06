@@ -768,4 +768,20 @@ class Model_OC_User extends ORM {
         return FALSE;
     }
 
+    /**
+     * sends a push notification to this user if has a device
+     * @param  string $message 
+     * @param  array $data extra info to send   
+     * @return bool          
+     */
+    public function push_notification($message,$data = NULL)
+    {
+        if ($this->loaded() and isset($this->device_id) )
+        {
+            return Core::push_notification($this->device_id,$message,$data);
+        }
+
+        return FALSE;        
+    }
+
 } // END Model_User

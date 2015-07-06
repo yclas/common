@@ -19,9 +19,9 @@
     	</h2>
     	
     	<?=Date::format($post->created, core::config('general.date_format'))?>
-	   		
-	    <p><?=substr($post->description,0, 255);?></p>
-	    
+        
+    	<p><?=Text::limit_chars(strip_tags($post->description), 255, NULL, TRUE)?></p>
+    	
 	    <a title="<?=HTML::chars($post->title)?>" href="<?=Route::url('blog', array('seotitle'=>$post->seotitle))?>"><i class="glyphicon glyphicon-share"></i><?=__('Read more')?></a>
     	<?if ($user !== NULL AND $user!=FALSE AND $user->id_role == Model_Role::ROLE_ADMIN):?>
     		<br />

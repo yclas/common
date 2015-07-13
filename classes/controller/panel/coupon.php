@@ -85,6 +85,118 @@ class Controller_Panel_Coupon extends Auth_Crud {
 
         return $this->render('oc-panel/crud/create', array('form' => $form));
     }
+
+
+    /**
+     * CRUD controller: CREATE
+     */
+    public function action_bulk()
+    {
+
+        $this->template->title = __('Bulk').' '.__($this->_orm_model);
+        
+        $this->template->styles             = array('//cdn.jsdelivr.net/bootstrap.datepicker/0.1/css/datepicker.css' => 'screen');
+        $this->template->scripts['footer']  = array(
+                                                    '//cdn.jsdelivr.net/bootstrap.datepicker/0.1/js/bootstrap-datepicker.js',
+                                                    'js/oc-panel/coupon.js'
+                                                );
+
+        if ($this->request->post())
+        {
+            $id_product             = Core::post('id_product');
+            $discount_amount        = Core::post('discount_amount');
+            $discount_percentage    = Core::post('discount_percentage');
+            $valid_date             = Core::post('valid_date');
+            $number_coupons         = Core::post('number_coupons');
+
+            for ($i=0; $i < $number_coupons; $i++) 
+            { 
+                $c = new Model_Coupon();
+                
+                //get unique coupon name
+                do
+                {
+                    $c->name = strtoupper(Text::random('alnum', 8));
+                }
+                while(ORM::factory('coupon', array('name' => $c->name))->limit(1)->loaded());
+
+                $c->id_product          = $id_product;
+                $c->discount_amount     = $discount_amount;
+                $c->discount_percentage = $discount_percentage;
+                $c->valid_date          = $valid_date;
+                $c->number_coupons      = 1;
+                $c->status              = 1;
+
+                $c->save();
+            }
+
+
+            $this->redirect(Route::get($this->_route_name)->uri(array('controller'=> Request::current()->controller())));
+        }
+
+        return $this->render('oc-panel/pages/coupon/bulk', array('products' => Model_Order::products()));
+    }
+
+
+    public function action_import()
+    {
+        //sending a CSV
+        if($_POST)
+        {
+            foreach($_FILES as $file => $path) 
+            {
+                $csv = $path["tmp_name"];
+              
+                if($file=='csv_file_coupons' AND $csv != FALSE)
+                {
+                    $expected_header = array('name','id_product','discount_amount','discount_percentage','number_coupons','valid_date','status');
+                    
+                    $coupon_array = Core::csv_to_array($csv,$expected_header);
+
+                    if ($coupon_array===FALSE)
+                    {
+                        Alert::set(Alert::ERROR, __('Something went wrong, please check format of the file! Remove single quotes or strange characters, in case you have any.'));
+                    }
+                    else
+                    {
+                        foreach ($coupon_array as $coupon)
+                        {
+                            $c = new Model_Coupon();
+                            $c->name                = $coupon[0];
+                            $c->id_product          = (is_numeric($coupon[1]))?$coupon[1]:NULL;
+                            $c->discount_amount     = (is_numeric($coupon[2]))?$coupon[2]:NULL;
+                            $c->discount_percentage = (is_numeric($coupon[3]))?$coupon[3]:NULL;
+                            $c->number_coupons      = $coupon[4];
+                            $c->valid_date          = $coupon[5];
+                            $c->status              = $coupon[6];
+
+                            try {
+                                $c->save();
+                            } 
+                            catch (ORM_Validation_Exception $e)
+                            {
+                                $errors = '';
+                                $e = $e->errors('coupon');
+
+                                foreach ($e as $f => $err) 
+                                    $errors.=$err.' - ';
+
+                                Alert::set(Alert::ERROR, sprintf(__('Coupon %s not imported, errors: %s'),$c->name,$errors));
+                            }
+                            catch (Exception $e) {
+                                Alert::set(Alert::ERROR, sprintf(__('Coupon %s not imported'),$c->name));
+                            }
+                        }
+                        
+                        Alert::set(Alert::SUCCESS, __('Coupons successfully imported.'));
+                    }
+                }
+            }
+        } 
+
+        $this->redirect(Route::get($this->_route_name)->uri(array('controller'=> Request::current()->controller())));
+
+    }
     
     /**
      * CRUD controller: UPDATE

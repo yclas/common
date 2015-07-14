@@ -21,7 +21,7 @@ class Controller_Panel_Coupon extends Auth_Crud {
     public function action_index($view = NULL)
     {
         $this->template->title = __('Coupons');
-        $this->template->scripts['footer'][] = 'js/oc-panel/crud/coupon.js';
+        $this->template->scripts['footer'][] = 'js/oc-panel/coupon.js';
         
         $elements = new Model_Coupon();
         

@@ -31,9 +31,13 @@
 			<table class="table table-striped table-bordered">
 				<thead>
 					<tr>
-						<?foreach($fields as $field):?>
-							<th><?=ucfirst((method_exists($orm = ORM::Factory($name), 'formo') ? Arr::path($orm->formo(), $field.'.label', __($field)) : __($field)))?></th>
-						<?endforeach?>
+
+                        <th><?=__('Name')?></th>
+                        <th><?=__('Product')?></th>
+                        <th><?=__('Discount')?></th>
+                        <th><?=__('Number Coupons')?></th>
+                        <th><?=__('Valid until')?></th>
+                        <th><?=__('Created')?></th>
 						<?if ($controller->allowed_crud_action('delete') OR $controller->allowed_crud_action('update')):?>
 						<th><?=__('Actions') ?></th>
 						<?endif?>
@@ -42,9 +46,23 @@
 				<tbody>
 					<?foreach($elements as $element):?>
 						<tr id="tr<?=$element->pk()?>">
-							<?foreach($fields as $field):?>
-								<td><?=HTML::chars($element->$field)?></td>
-							<?endforeach?>
+                            <td><?=$element->name?></td>
+                            <td>
+                                <?if (isset($element->produt)):?>
+                                    <?=$element->product->title?>
+                                <?elseif(method_exists('Model_Order','product_desc')):?>
+                                    <?=Model_Order::product_desc($element->id_product)?>
+                                <?else:?>
+                                    <?=$element->id_product?>
+                                <?endif?>
+                            </td>
+                            <td>
+                                <?=($element->discount_amount==0)?round($element->discount_percentage,0).'%':i18n::money_format($element->discount_amount)?>
+                            </td>
+                            <td><?=$element->number_coupons?></td>
+                            <td><?=Date::format($element->valid_date, core::config('general.date_format'))?></td>
+                            <td><?=Date::format($element->created, core::config('general.date_format'))?></td>
+
 							<?if ($controller->allowed_crud_action('delete') OR $controller->allowed_crud_action('update')):?>
 							<td width="80" style="width:80px;">
 								<?if ($controller->allowed_crud_action('update')):?>

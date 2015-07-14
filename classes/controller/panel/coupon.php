@@ -5,7 +5,7 @@ class Controller_Panel_Coupon extends Auth_Crud {
 	/**
 	 * @var $_index_fields ORM fields shown in index
 	 */
-	protected $_index_fields = array('name','number_coupons','discount_amount','discount_percentage','valid_date','created');
+	protected $_index_fields = array('name','id_product','number_coupons','discount_amount','discount_percentage','valid_date','created');
 
 	/**
 	 * @var $_orm_model ORM model name
@@ -64,26 +64,42 @@ class Controller_Panel_Coupon extends Auth_Crud {
                                                     'js/oc-panel/coupon.js'
                                                 );
 
-        $form = new FormOrm($this->_orm_model);
 
         if ($this->request->post())
-        {
-            if ( $success = $form->submit() )
-            {
-                $form->save_object();
-                Alert::set(Alert::SUCCESS, __('Item created').'. '.__('Please to see the changes delete the cache')
-                    .'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1" title="'.__('Delete All').'">'
-                    .__('Delete All').'</a>');
+        {   
 
-                $this->redirect(Route::get($this->_route_name)->uri(array('controller'=> Request::current()->controller())));
-            }
-            else 
+            $c = new Model_Coupon();
+            
+            $c->name                = Core::post('name');
+            $c->id_product          = Core::post('id_product');
+            $c->discount_amount     = Core::post('discount_amount');
+            $c->discount_percentage = Core::post('discount_percentage');
+            $c->valid_date          = Core::post('valid_date');
+            $c->number_coupons      = Core::post('number_coupons');
+            $c->status              = 1;
+
+            try {
+                $c->save();
+                Alert::set(Alert::SUCCESS, sprintf(__('Coupon %s created'),$c->name));
+            } 
+            catch (ORM_Validation_Exception $e)
             {
-                Alert::set(Alert::ERROR, __('Check form for errors'));
+                $errors = '';
+                $e = $e->errors('coupon');
+
+                foreach ($e as $f => $err) 
+                    $errors.=$err.' - ';
+
+                Alert::set(Alert::ERROR, sprintf(__('Coupon %s not created, errors: %s'),$c->name,$errors));
             }
+            catch (Exception $e) {
+                Alert::set(Alert::ERROR, sprintf(__('Coupon %s not created'),$c->name));
+            }
+
+            $this->redirect(Route::get($this->_route_name)->uri(array('controller'=> Request::current()->controller())));
         }
 
-        return $this->render('oc-panel/crud/create', array('form' => $form));
+        return $this->render('oc-panel/pages/coupon/create', array('products' => $this->get_products()));
     }
 
 
@@ -126,7 +142,6 @@ class Controller_Panel_Coupon extends Auth_Crud {
                 $c->valid_date          = $valid_date;
                 $c->number_coupons      = 1;
                 $c->status              = 1;
-
                 $c->save();
             }
 
@@ -134,9 +149,8 @@ class Controller_Panel_Coupon extends Auth_Crud {
             $this->redirect(Route::get($this->_route_name)->uri(array('controller'=> Request::current()->controller())));
         }
 
-        return $this->render('oc-panel/pages/coupon/bulk', array('products' => Model_Order::products()));
+        return $this->render('oc-panel/pages/coupon/bulk', array('products' => $this->get_products()));
     }
-
 
     public function action_import()
     {
@@ -211,25 +225,64 @@ class Controller_Panel_Coupon extends Auth_Crud {
                                                     'js/oc-panel/coupon.js'
                                                 );
 
-        $form = new FormOrm($this->_orm_model,$this->request->param('id'));
+        $coupon = new Model_Coupon($this->request->param('id'));
 
         if ($this->request->post())
         {
-            if ( $success = $form->submit() )
+            $coupon->id_product          = Core::post('id_product');
+            $coupon->discount_amount     = Core::post('discount_amount');
+            $coupon->discount_percentage = Core::post('discount_percentage');
+            $coupon->valid_date          = Core::post('valid_date');
+            $coupon->number_coupons      = Core::post('number_coupons');
+            $coupon->status              = Core::post('status');
+
+            try {
+                $coupon->save();
+                Alert::set(Alert::SUCCESS, sprintf(__('Coupon %s updated'),$coupon->name));
+            } 
+            catch (ORM_Validation_Exception $e)
             {
-                $form->save_object();
-                Alert::set(Alert::SUCCESS, __('Item updated').'. '.__('Please to see the changes delete the cache')
-                    .'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1" title="'.__('Delete All').'">'
-                    .__('Delete All').'</a>');
-                $this->redirect(Route::get($this->_route_name)->uri(array('controller'=> Request::current()->controller())));
+                $errors = '';
+                $e = $e->errors('coupon');
+
+                foreach ($e as $f => $err) 
+                    $errors.=$err.' - ';
+
+                Alert::set(Alert::ERROR, sprintf(__('Coupon %s not updated, errors: %s'),$coupon->name,$errors));
             }
-            else
-            {
-                Alert::set(Alert::ERROR, __('Check form for errors'));
+            catch (Exception $e) {
+                Alert::set(Alert::ERROR, sprintf(__('Coupon %s not updated'),$coupon->name));
             }
+
+            $this->redirect(Route::url('oc-panel', array('controller'=> 'coupon', 'action'=>'update','id'=>$coupon->id_coupon)));
         }
 
-        return $this->render('oc-panel/crud/update', array('form' => $form));
+        return $this->render('oc-panel/pages/coupon/update', array('coupon' => $coupon,'products' => $this->get_products()));
     }
 
+    /**
+     * returns products to use in views in selects
+     * @return array 
+     */
+    public function get_products()
+    {
+        //for OC
+        if(method_exists('Model_Order','products'))
+        {
+            //product without ad sell
+            $products =Model_Order::products();
+            unset($products[4]);
+        }
+        //for oe
+        elseif(class_exists('Model_Product'))
+        {   
+            $products = array();
+            $ps = new Model_Product();
+            $ps = $ps->find_all();
+            foreach ($ps as $p) 
+                $products[$p->id_product] = $p->title;
+        }
+
+        return $products;
+    }
 }

@@ -27,7 +27,7 @@
                 <div class="form-group ">
                     <div class="col-sm-12">
                         <label for="discount_amount" class="control-label"><?=__('Discount Amount')?></label>      
-                        <input type="text" id="discount_amount" name="discount_amount" value="" />                         
+                        <input type="text" id="discount_amount" name="discount_amount" value="" placeholder="<?=html_entity_decode(i18n::money_format(1))?>" />                         
                     </div>
                 </div>
                 <div class="form-group hidden">

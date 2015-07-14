@@ -218,6 +218,7 @@ class Controller_Panel_Theme extends Auth_Controller {
 
         Breadcrumbs::add(Breadcrumb::factory()->set_title(__('Theme License')));  
         $this->template->title = __('Theme License');     
+        $this->template->scripts['footer'][] = 'js/oc-panel/license.js';
 
         $this->template->content = View::factory('oc-panel/pages/themes/license', array('theme' => Theme::$theme));
     }

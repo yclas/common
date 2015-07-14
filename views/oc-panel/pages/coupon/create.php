@@ -6,7 +6,11 @@
 	<div class="col-md-6">
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<form action="<?=Route::url('oc-panel', array('controller'=> 'coupon', 'action'=>'create')) ?>" method="post" accept-charset="utf-8" class="form form-horizontal" enctype="multipart/form-data">   
+                <div class="btn-group btn-group-justified">
+                    <a href="#" class="btn btn-default btn-fixed active"><?=__('Fixed Discount')?></a>
+                    <a href="#" class="btn btn-default btn-percentage"><?=__('Percentage Discount')?></a>
+                </div>
+                <form action="<?=Route::url('oc-panel', array('controller'=> 'coupon', 'action'=>'create')) ?>" method="post" accept-charset="utf-8" class="form form-horizontal" enctype="multipart/form-data">   
                 
                 <div class="form-group ">
                     <div class="col-sm-12">
@@ -28,17 +32,16 @@
                     </div>
                 </div>
 
-                <?=__('Only fill discount amount or percentage, not both at same time')?>
                 <div class="form-group ">
                     <div class="col-sm-12">
                         <label for="discount_amount" class="control-label"><?=__('Discount Amount')?></label>      
                         <input type="text" id="discount_amount" name="discount_amount" value="" />                         
                     </div>
                 </div>
-                <div class="form-group ">
+                <div class="form-group hidden">
                     <div class="col-sm-12">
                         <label for="discount_percentage" class="control-label"><?=__('Discount Percentage')?></label>      
-                        <input type="text" id="discount_percentage" name="discount_percentage" value="" />                         
+                        <input type="text" id="discount_percentage" name="discount_percentage" value="" />
                     </div>
                 </div>
 

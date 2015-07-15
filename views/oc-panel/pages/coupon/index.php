@@ -51,7 +51,7 @@
                                 <?if (isset($element->produt)):?>
                                     <?=$element->product->title?>
                                 <?elseif(method_exists('Model_Order','product_desc')):?>
-                                    <?=Model_Order::product_desc($element->id_product)?>
+                                    <?=(($product_desc = Model_Order::product_desc($element->id_product)) == '') ? __('Any') : $product_desc?>
                                 <?else:?>
                                     <?=$element->id_product?>
                                 <?endif?>

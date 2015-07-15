@@ -51,7 +51,15 @@
                     <div class="form-group">
                         <input type="text" name="license" id="license" placeholder="<?=__('license')?>" class="form-control"/>
                     </div>
-                        <?= FORM::button('submit', __('Download'), array('type'=>'submit', 'class'=>'btn btn-primary', 'action'=>Route::url('oc-panel',array('controller'=>'theme','action'=>'download'))))?>
+                    <button 
+                        type="button" 
+                        class="btn btn-primary submit" 
+                        title="<?=__('Are you sure?')?>" 
+                        data-text="<?=sprintf(__('License will be activated in %s domain.'), parse_url(URL::base(), PHP_URL_HOST))?>"
+                        data-btnOkLabel="<?=__('Yes, definitely!')?>" 
+                        data-btnCancelLabel="<?=__('No way!')?>">
+                        <?=__('Download')?>
+                    </button>
                 
                 <?= FORM::close()?>
                 

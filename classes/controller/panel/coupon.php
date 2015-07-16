@@ -2,15 +2,15 @@
 
 class Controller_Panel_Coupon extends Auth_Crud {
 
-	/**
-	 * @var $_index_fields ORM fields shown in index
-	 */
-	protected $_index_fields = array('name','id_product','number_coupons','discount_amount','discount_percentage','valid_date','created');
+    /**
+     * @var $_index_fields ORM fields shown in index
+     */
+    protected $_index_fields = array('name','id_product','number_coupons','discount_amount','discount_percentage','valid_date','created');
 
-	/**
-	 * @var $_orm_model ORM model name
-	 */
-	protected $_orm_model = 'coupon';
+    /**
+     * @var $_orm_model ORM model name
+     */
+    protected $_orm_model = 'coupon';
 
 
     /**
@@ -234,7 +234,7 @@ class Controller_Panel_Coupon extends Auth_Crud {
             $coupon->discount_percentage = Core::post('discount_percentage');
             $coupon->valid_date          = Core::post('valid_date');
             $coupon->number_coupons      = Core::post('number_coupons');
-            $coupon->status              = Core::post('status');
+            $coupon->status              = (Core::post('status')=='on')?1:0;
 
             try {
                 $coupon->save();

@@ -34,7 +34,7 @@
                 <div class="form-group hidden">
                     <div class="col-sm-12">
                         <label for="discount_percentage" class="control-label"><?=__('Discount Percentage')?></label>      
-                        <input type="text" id="discount_percentage" name="discount_percentage" value="<?=$coupon->discount_percentage?>" />
+                        <input type="text" id="discount_percentage" name="discount_percentage" value="<?=$coupon->discount_percentage?>" />                         
                     </div>
                 </div>
 
@@ -51,6 +51,16 @@
                         <input type="text" id="number_coupons" name="number_coupons" value="<?=$coupon->number_coupons?>" />                           
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <label class="checkbox col-xs-offset-1">
+                          <input type="checkbox" name="status" <?=($coupon->status==TRUE)?'checked':''?>> 
+                           <?=__('Enabled')?>
+                        </label>
+                    </div>
+                </div>
+
                     
                 <div class="form-actions">
                     <button type="submit" name="submit" class="btn btn-primary"><?=__('Submit')?></button>

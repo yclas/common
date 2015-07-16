@@ -34,10 +34,10 @@ class Model_OC_Coupon extends ORM {
                                                         array('numeric'),
                                                         array('range',array(':value',0,10000000000)),
                                                     ),
-                    'discount_amount'        => array(  array('numeric'),
+                    'discount_amount'        => array(  array('price'),
                                                         array('range',array(':value',0,10000000000)),
                                                     ),
-                    'discount_percentage'    => array(  array('numeric'),
+                    'discount_percentage'    => array(  array('price'),
                                                         array('range',array(':value',0,100)),
                                                     ),
                     'notes'                   => array(
@@ -90,7 +90,16 @@ class Model_OC_Coupon extends ORM {
         if ($coupon->loaded())
         {
             $coupon->number_coupons--;
-            $coupon->save();
+            try {
+                $coupon->save();
+            } 
+            catch (ORM_Validation_Exception $e)
+            {
+                throw HTTP_Exception::factory(500,$e->getMessage());
+            }
+            catch (Exception $e) {
+                throw HTTP_Exception::factory(500,$e->getMessage());
+            }
             Session::instance()->set('coupon','');
         }
     }

@@ -24,6 +24,7 @@
 </form>
 <div class="page-header">
 	<h1><?=ucfirst(__($name))?></h1>
+	<p><a href="http://docs.yclas.com/how-to-use-coupon-system/" target="_blank"><?=__('Read more')?></a></p>
 </div>
 <div class="panel panel-default">
 	<div class="panel-body">

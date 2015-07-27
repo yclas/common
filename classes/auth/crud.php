@@ -61,9 +61,9 @@ class Auth_Crud extends Auth_Controller
 				
 		//url used in the breadcrumb
 		$url_bread = Route::url('oc-panel',array('controller'  => $this->request->controller()));
-		Breadcrumbs::add(Breadcrumb::factory()->set_title(ucfirst(__($this->_orm_model)))->set_url($url_bread));
+		Breadcrumbs::add(Breadcrumb::factory()->set_title(mb_ucfirst(__($this->_orm_model)))->set_url($url_bread));
 		//action
-		Breadcrumbs::add(Breadcrumb::factory()->set_title(ucfirst(__($this->request->action()))));
+		Breadcrumbs::add(Breadcrumb::factory()->set_title(mb_ucfirst(__($this->request->action()))));
 	}
 
 

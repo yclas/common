@@ -330,7 +330,7 @@ class Controller_Forum extends Controller {
                             $reply->id_user  =  $user->id_user;
                             $reply->id_forum = $forum->id_forum;
                             $reply->id_post_parent = $topic->id_post;
-                            $reply->title    = substr(core::post('description'),0,145);
+                            $reply->title    = mb_substr(core::post('description'),0,145);
                             $reply->seotitle = $reply->gen_seotitle($reply->title);
                             $reply->description    = Text::banned_words(core::post('description'));
                             $reply->status   = Model_Post::STATUS_ACTIVE;

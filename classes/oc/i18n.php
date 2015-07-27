@@ -419,3 +419,15 @@ if ( !function_exists('money_format') )
         return number_format($number, 2); 
     } 
 }
+
+
+/**
+ * mb_ucfirst doesnt exists...so lets create it ;)
+ */
+if(!function_exists('mb_ucfirst')) 
+{
+    function mb_ucfirst($str, $enc = NULL) 
+    {
+        return mb_strtoupper(mb_substr($str, 0, 1)).mb_substr($str, 1, mb_strlen($str)); 
+    }
+}

@@ -8,7 +8,7 @@
 <?endif?>
 
 <div class="page-header">
-    <h1><?=ucfirst(__($name))?></h1>
+    <h1><?=mb_ucfirst(__($name))?></h1>
 </div>
 
 <div class="page-header">
@@ -24,7 +24,7 @@
             <thead>
                 <tr>
                     <?foreach($fields as $field):?>
-                        <th><?=ucfirst((method_exists($orm = ORM::Factory($name), 'formo') ? Arr::path($orm->formo(), $field.'.label', __($field)) : __($field)))?></th>
+                        <th><?=mb_ucfirst((method_exists($orm = ORM::Factory($name), 'formo') ? Arr::path($orm->formo(), $field.'.label', __($field)) : __($field)))?></th>
                     <?endforeach?>
                     <?if ($controller->allowed_crud_action('delete') OR $controller->allowed_crud_action('update')):?>
                     <th><?=__('Actions') ?></th>

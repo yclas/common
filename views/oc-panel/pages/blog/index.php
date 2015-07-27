@@ -7,7 +7,7 @@
 	</a>				
 	<?endif?>
 
-	<h1><?=ucfirst(__($name))?></h1>
+	<h1><?=mb_ucfirst(__($name))?></h1>
 	<?if($name == 'role'):?><p><a href="http://docs.yclas.com/roles-work-classified-ads-script/" target="_blank"><?=__('Read more')?></a></p><?endif;?>
 </div>
 

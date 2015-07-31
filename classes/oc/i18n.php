@@ -403,6 +403,115 @@ class OC_I18n extends Kohana_I18n {
         
         return $str;
     }
+
+    /**
+     * get country code using IP
+     * @param  string $ip 
+     * @return string     
+     */
+    public static function ip_country_code($ip = NULL)
+    {
+        $country_code = NULL;
+
+        //if got the country via cloudflare and not trying to get another country...
+        if (!empty($_SERVER["HTTP_CF_IPCOUNTRY"]) AND $ip === NULL) 
+        {
+            $country_code = $_SERVER["HTTP_CF_IPCOUNTRY"];
+        } 
+        else
+        {
+            if ($ip === NULL)
+                $ip = Request::$client_ip;
+
+            $country_info = self::ip_details($ip);
+
+            if ($country_info != FALSE)
+                $country_code = $country_info['country_code'];
+        }
+
+        return $country_code;
+    }
+
+    /**
+     * get ip geo information using apis from 3rd parties
+     * @param  string $ip 
+     * @return array     
+     */
+    public static function ip_details($ip = NULL) 
+    {
+        if ($ip === NULL)
+            $ip = Request::$client_ip;
+
+        if (Kohana::$environment === Kohana::DEVELOPMENT)
+            $ip = '8.8.8.8';
+
+        //list of providers to return IP information for free
+        $providers = array( 'ipinfo' => array('url'          => "http://ipinfo.io/{$ip}/json",
+                                              'country_code' => 'country',
+                                              'country'      => 'country',
+                                              'city'         => 'city',
+                                              'region'       => 'region',
+                                              'postal_code'  => 'postal',
+                                              'lat'          => 'loc', //"loc": "37.3860,-122.0838",
+                                              'lon'          => 'loc'), 
+
+                            'ip-api' => array('url'          => "http://ip-api.com/json/{$ip}",
+                                              'country_code' => 'countryCode',
+                                              'country'      => 'country',
+                                              'city'         => 'city',
+                                              'region'       => 'regionName',
+                                              'postal_code'  => 'zip',
+                                              'lat'          => 'lat',
+                                              'lon'          => 'lon'), 
+
+                            'telize' => array('url'          => "http://www.telize.com/geoip/{$ip}",
+                                              'country_code' => 'country_code',
+                                              'country'      => 'country',
+                                              'city'         => 'city',
+                                              'region'       => 'region',
+                                              'postal_code'  => 'postal_code',
+                                              'lat'          => 'latitude',
+                                              'lon'          => 'longitude'), 
+                            
+                            );
+        
+        //get 1 provider randomly
+        $provider = array_rand($providers);
+        $provider = $providers[$provider];
+
+        //get the info
+        $result = Core::curl_get_contents($provider['url']);
+        if ($result==FALSE)
+            return FALSE;
+
+        $result = json_decode($result,TRUE);
+
+        //get lat and long in case are in the same ipinfo
+        if ($provider['lat'] == $provider['lon'])
+        {
+            $coords = explode(',',$result[$provider['lat']]);
+            //die(var_dump($coords));
+            $lat = (float) $coords[0];
+            $lon = (float) $coords[1];
+        }
+        //normal
+        else
+        {
+            $lat = $result[$provider['lat']];
+            $lon = $result[$provider['lon']];
+        }
+        
+        //echo $provider['url'];
+        //return details
+        $details = array( 'country_code' => $result[$provider['country_code']],
+                          'country'      => $result[$provider['country']],
+                          'city'         => $result[$provider['city']],
+                          'region'       => $result[$provider['region']],
+                          'postal_code'  => $result[$provider['postal_code']],
+                          'lat'          => $lat,
+                          'lon'          => $lon);
+        return $details;
+    }
     
 }//end i18n
 

@@ -124,6 +124,12 @@ class Controller_Panel_Coupon extends Auth_Crud {
             $discount_percentage    = Core::post('discount_percentage');
             $valid_date             = Core::post('valid_date');
             $number_coupons         = Core::post('number_coupons');
+            
+            if ($number_coupons > 10000)
+            {
+                Alert::set(Alert::ERROR, __('limited to 10.000 at a time'));
+                $this->redirect(Route::url('oc-panel',array('controller'=>'coupon','action'=>'bulk')));
+            }
 
             for ($i=0; $i < $number_coupons; $i++) 
             { 
@@ -163,9 +169,21 @@ class Controller_Panel_Coupon extends Auth_Crud {
               
                 if($file=='csv_file_coupons' AND $csv != FALSE)
                 {
+                    if ($path['size'] > 1048576)
+                    {
+                        Alert::set(Alert::ERROR, __('1 MB file'));
+                        $this->redirect(Route::url('oc-panel',array('controller'=>'coupon','action'=>'index')));
+                    }
+
                     $expected_header = array('name','id_product','discount_amount','discount_percentage','number_coupons','valid_date','status');
                     
                     $coupon_array = Core::csv_to_array($csv,$expected_header);
+
+                    if (count($coupon_array) > 10000)
+                    {
+                        Alert::set(Alert::ERROR, __('limited to 10.000 at a time'));
+                        $this->redirect(Route::url('oc-panel',array('controller'=>'coupon','action'=>'index')));
+                    }
 
                     if ($coupon_array===FALSE)
                     {

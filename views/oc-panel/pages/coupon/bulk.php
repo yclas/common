@@ -46,7 +46,7 @@
 
                 <div class="form-group ">
                     <div class="col-sm-12">
-                        <label for="number_coupons" class="control-label"><?=__('Number of unique coupons to generate')?></label>        
+                        <label for="number_coupons" class="control-label"><?=__('Number of unique coupons to generate')?>, <?=__('limited to 10.000 at a time')?></label>       
                         <input type="text" id="number_coupons" name="number_coupons" value="" />                           
                     </div>
                 </div>

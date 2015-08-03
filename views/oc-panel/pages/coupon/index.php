@@ -109,7 +109,7 @@
             </div>
             <div class="panel-body">
                 <p>
-                    <?=__('Please use the correct CSV format')?>
+                    <?=__('Please use the correct CSV format')?>, <?=__('limited to 10.000 at a time')?>, <?=__('1 MB file')?>.
                     <br>
                     <?=__('Coupons')?>: <a href="https://mega.nz/#!V1RSSIoS!QBD0IlfKqcAuswEv18SXQ1vkbp4eUeCxpIH5sXQVskY"><?=__('download example')?>.</a>
                 </p>
@@ -119,7 +119,7 @@
                         <label for=""><?=__('import coupons')?></label>
                         <input type="file" name="csv_file_coupons" id="csv_file_coupons" class="form-control"/>
                     </div>
-                        <?= FORM::button('submit', __('Upload'), array('type'=>'submit', 'class'=>'btn btn-primary', 'action'=>Route::url('oc-panel',array('controller'=>'coupon','action'=>'import'))))?>
+                        <?= FORM::button('submit', __('Upload'), array('type'=>'submit','id'=>'csv_upload', 'class'=>'btn btn-primary', 'action'=>Route::url('oc-panel',array('controller'=>'coupon','action'=>'import'))))?>
                 <?= FORM::close()?>
             </div>
         </div>

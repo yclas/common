@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 <div class="page-header">
-	<h1><?=__('Update')?> <?=mb_ucfirst($role->name)?></h1>
+	<h1><?=__('Update')?> <?=Text::ucfirst($role->name)?></h1>
 </div>
 
 <form action="<?=Route::url('oc-panel',array('controller'=>'role','action'=>'update','id'=>$role->id_role))?>" method="post" accept-charset="utf-8" class="form form-horizontal" >  

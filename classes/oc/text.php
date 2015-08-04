@@ -184,4 +184,13 @@ class OC_Text extends Kohana_Text {
         return str_replace(array("\\r\\n","\r\\n","r\\n","\r\n", "\n", "\r"), '', $var);
     }
 
+    /**
+     * mb_ucfirst doesnt exists...so lets create it ;)
+     */
+    public static function ucfirst($str, $enc = NULL) 
+    {
+        return mb_strtoupper(mb_substr($str, 0, 1)).mb_substr($str, 1, mb_strlen($str)); 
+    }
+
+
 }

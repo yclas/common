@@ -23,7 +23,7 @@
   	<button type="submit" class="btn"><?=__('Search')?></button>
 </form>
 <div class="page-header">
-	<h1><?=mb_ucfirst(__($name))?></h1>
+	<h1><?=Text::ucfirst(__($name))?></h1>
 	<p><a href="http://docs.yclas.com/how-to-use-coupon-system/" target="_blank"><?=__('Read more')?></a></p>
 </div>
 <div class="panel panel-default">

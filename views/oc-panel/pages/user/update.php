@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 <div class="page-header" id="crud-<?=__($name)?>">
-	<h1><?=__('Update')?> <?=mb_ucfirst(__($name))?></h1>
+	<h1><?=__('Update')?> <?=Text::ucfirst(__($name))?></h1>
     <?$controllers = Model_Access::list_controllers()?>
     <a target="_blank" href="<?=Route::url('oc-panel',array('controller'=>'order','action'=>'index'))?>?email=<?=$form->object->email?>">
       <?=__('Orders')?>

@@ -3,14 +3,14 @@
     <?=Form::errors()?>
     <div class="form-group">
         <label class="col-sm-2 control-label"><?=__('Email')?></label>
-        <div class="col-md-5 col-sm-6 col-xs-6">
+        <div class="col-md-5 col-sm-6">
             <input class="form-control" type="text" name="email" placeholder="<?=__('Email')?>">
         </div>
     </div>
      
     <div class="form-group">
         <label class="col-sm-2 control-label"><?=__('Password')?></label>
-        <div class="col-md-5 col-sm-6 col-xs-6">
+        <div class="col-md-5 col-sm-6">
             <input class="form-control" type="password" name="password" placeholder="<?=__('Password')?>">
             <p class="help-block">
           		<small><a data-toggle="modal" data-dismiss="modal" href="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'forgot'))?>#forgot-modal">

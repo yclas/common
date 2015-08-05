@@ -3,7 +3,7 @@
           <?=Form::errors()?>
           <div class="form-group">
             <label class="col-sm-2 control-label"><?=__('Email')?></label>
-            <div class="col-md-5 col-sm-6 col-xs-6">
+            <div class="col-md-5 col-sm-6">
               <input class="form-control" type="text" name="email" placeholder="<?=__('Email')?>">
             </div>
           </div>

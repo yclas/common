@@ -24,15 +24,22 @@ class URL extends Kohana_URL {
      */
     public static function title($title, $separator = '-', $ascii_only = NULL)
     {
+        //replaced ' for - since the original function will not remove this good
+        $title = str_replace("'",'-',$title);
+
+        //convert the ascii characters, why not? ;), unless forced
+        if ($ascii_only === NULL)
+            $title = UTF8::transliterate_to_ascii($title);
+
+        return parent::title($title, $separator,$ascii_only);
+
         /**
          * this hack is to add tohse languages that are not in ascii, so we add them to the array
          * @var boolean
          */
         // if ($ascii_only === NULL)
         //     $ascii_only = ( in_array(i18n::$locale, array('hi_IN','ar','ur_PK','ru_RU','bn_BD','ml_IN','ja_JP')) )? FALSE:TRUE;
-        $ascii_only = (mb_detect_encoding($title,'ASCII')!==FALSE)? TRUE:FALSE;
-
-        return parent::title(str_replace("'",'-',$title), $separator,$ascii_only);
+        //$ascii_only = (mb_detect_encoding($title,'ASCII')!==FALSE)? TRUE:FALSE;
     }
 
     /**

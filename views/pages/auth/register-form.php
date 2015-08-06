@@ -4,28 +4,28 @@
           
           <div class="form-group">
             <label class="col-sm-2 control-label"><?=__('Name')?></label>
-            <div class="col-md-5 col-sm-6 col-xs-6">
+            <div class="col-md-5 col-sm-6">
               <input class="form-control" type="text" name="name" value="<?=Request::current()->post('name')?>" placeholder="<?=__('Name')?>">
             </div>
           </div>
           
           <div class="form-group">
             <label class="col-sm-2 control-label"><?=__('Email')?></label>
-            <div class="col-md-5 col-sm-6 col-xs-6">
+            <div class="col-md-5 col-sm-6">
               <input class="form-control" type="text" name="email" value="<?=Request::current()->post('email')?>" placeholder="<?=__('Email')?>">
             </div>
           </div>
      
           <div class="form-group">
             <label class="col-sm-2 control-label"><?=__('New password')?></label>
-            <div class="col-md-5 col-sm-6 col-xs-6">
+            <div class="col-md-5 col-sm-6">
             <input class="form-control" type="password" name="password1" placeholder="<?=__('Password')?>">
             </div>
           </div>
           
           <div class="form-group">
             <label class="col-sm-2 control-label"><?=__('Repeat password')?></label>
-            <div class="col-md-5 col-sm-6 col-xs-6">
+            <div class="col-md-5 col-sm-6">
             <input class="form-control" type="password" name="password2" placeholder="<?=__('Password')?>">
               <p class="help-block">
               		<?=__('Type your password twice')?>

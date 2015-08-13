@@ -8,5 +8,5 @@
 
 <div class="panel-body">
     <div id="tlkio" data-channel="<?=$widget->channel?>" data-theme="<?=Core::config('general.base_url').'themes/default/css/widget-chat.css'?>" style="width:100%;height:<?=$widget->height?>px;"></div>
-    <script async src="http://tlk.io/embed.js" type="text/javascript"></script>
+    <script async src="//tlk.io/embed.js" type="text/javascript"></script>
 </div>

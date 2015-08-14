@@ -308,12 +308,12 @@ class Date extends Kohana_Date {
         if ($timestamp <= $local_timestamp)
         {
             // This is in the past
-            return $span.__(' ago');
+            return sprintf(__('%s ago'), $span);
         }
         else
         {
             // This in the future
-            return __('in ').$span;
+            return sprintf(__('in %s'), $span);
         }
     }
    

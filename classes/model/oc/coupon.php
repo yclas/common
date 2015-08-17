@@ -85,7 +85,7 @@ class Model_OC_Coupon extends ORM {
     public static function sale(Model_Coupon $coupon = NULL)
     {
         if ($coupon===NULL)
-            $coupon = self::current();
+            $coupon = Model_Coupon::current();
 
         if ($coupon->loaded())
         {
@@ -113,10 +113,10 @@ class Model_OC_Coupon extends ORM {
     public static function current()
     {
         //we don't have so let's retrieve
-        if (self::$_current === NULL)
-            self::$_current = self::get_coupon();
+        if (Model_Coupon::$_current === NULL)
+            Model_Coupon::$_current = Model_Coupon::get_coupon();
 
-        return self::$_current;
+        return Model_Coupon::$_current;
     }
 
 
@@ -126,7 +126,7 @@ class Model_OC_Coupon extends ORM {
      */
     public static function get_coupon()
     {
-        $coupon = new self();
+        $coupon = new Model_Coupon();
 
         /**
          * Deletes a coupon in use
@@ -139,7 +139,7 @@ class Model_OC_Coupon extends ORM {
         //selected coupon Paypal custom field, or coupon via get/post or session
         elseif(core::post('custom') != NULL OR core::request('coupon') != NULL OR Session::instance()->get('coupon')!='' )
         {
-            $slug_coupon   = new self();
+            $slug_coupon   = new Model_Coupon();
             $coupon = $slug_coupon->where('name', '=', core::post('custom',core::request('coupon',Session::instance()->get('coupon'))) )
                     ->where('number_coupons','>',0)
                     ->where('valid_date','>',Date::unix2mysql())
@@ -172,7 +172,7 @@ class Model_OC_Coupon extends ORM {
      */
     public static function available()
     {
-        $coupon   = new self();
+        $coupon   = new Model_Coupon();
         $coupon = $coupon
                     ->where('number_coupons','>',0)
                     ->where('valid_date','>',Date::unix2mysql())

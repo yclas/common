@@ -279,10 +279,8 @@ abstract class Widget{
                         $wid = json_decode($confp->config_value);
                         if (is_array($wid))
                         {
-                            $key = array_search($this->widget_name, $wid);
-                            if ($key!==FALSE)
-                                unset($wid[$key]);
-                            $confp->config_value = json_encode($wid);
+                            $wid = array_diff($wid, array($this->widget_name));
+                            $confp->config_value = json_encode(array_values($wid));
                             $confp->save();
                         }
                         

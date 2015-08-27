@@ -43,13 +43,6 @@ foreach ($market as $item):?>
                 <a class="btn btn-primary oe_button" data-toggle="modal" data-target="#marketModal" href="<?=$item['url_buy']?>">
                     <i class="glyphicon  glyphicon-shopping-cart"></i>  <?=__('Buy Now')?>
                 </a>
-                <?if (strtolower($item['type'])=='themes' AND $item['title']!='Pack of themes'):?>
-                <a class="btn btn-warning" href="http://<?=Core::DOMAIN?>/hosting/">
-                    <i class="glyphicon  glyphicon-shopping-cart"></i>  Hosted $3.49/M
-                </a>
-                <?endif?>
-                
-                
             </p>
         </div>
     </div>

@@ -394,7 +394,7 @@ class OC_I18n extends Kohana_I18n {
      */
     public static function format_measurement($number)
     {
-        if (Core::config('i18n.measurement')=="imperial") {
+        if (Core::config('general.measurement')=="imperial") {
             $str = Num::round($number*0.621371192, 1). ' mi';
         }
         else {

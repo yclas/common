@@ -53,40 +53,36 @@ class Controller_Panel_Theme extends Auth_Controller {
         // save only changed values
         if($this->request->post())
         {
-            //delete the logo
-            if (Core::post('delete_logo_url'))
+           
+            //delete image
+            foreach ($_POST as $key => $value) 
             {
-                $url = Theme::delete_image(Core::post('delete_logo_url'));
-                
-                if ($url!==FALSE)
-                    $data['logo_url'] = $url;
+                if (strpos($key,'delete_')!==FALSE)
+                {
+                    if ($options[$keyname = str_replace('delete_','',$key)]['display'] == 'logo')
+                    {
+                        $url = Theme::delete_image(Core::post($key));
+                    
+                        if ($url!==FALSE)
+                            $data[$keyname] = $url;
+                    }
+                }
             }
             
-            //delete the favicon
-            if (Core::post('delete_favicon_url'))
+            //for each file option upload
+            foreach ($_FILES as $key=>$values) 
             {
-                $url = Theme::delete_image(Core::post('delete_favicon_url'));
-                
-                if ($url!==FALSE)
-                    $data['favicon_url'] = $url;
-            }
-            
-            //uploads the logo
-            if (isset($_FILES['logo_url']))
-            {
-                $url = Theme::upload_image($_FILES['logo_url']);
-
-                if ($url!==FALSE)
-                    $data['logo_url'] = $url;
-            }
-            
-            //uploads the favicon
-            if (isset($_FILES['favicon_url']))
-            {
-                $url = Theme::upload_image($_FILES['favicon_url'], TRUE);
-            
-                if ($url!==FALSE)
-                    $data['favicon_url'] = $url;
+                if ($options[$key]['display'] == 'logo')
+                {
+                    $url = Theme::upload_image($_FILES[$key], ($key=='favicon_url')?TRUE:FALSE);
+                    //succesfully uploaded
+                    if ($url!==FALSE)
+                    {
+                        $data[$key] = $url;
+                        //get rid of previous image if any
+                        Theme::delete_image(Theme::get($key));
+                    }
+                }
             }
 
             //for each option read the post and store it

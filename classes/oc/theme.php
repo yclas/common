@@ -1002,7 +1002,8 @@ class OC_Theme {
                 $image_uri = substr($image, $pos+7);
                 
                 //delete image
-                @unlink($root.$image_uri);
+                if (file_exists($root.$image_uri))
+                    @unlink($root.$image_uri);
                 
                 // delete image from Amazon S3
                 if(core::config('image.aws_s3_active'))

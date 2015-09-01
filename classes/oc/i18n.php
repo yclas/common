@@ -76,7 +76,7 @@ class OC_I18n extends Kohana_I18n {
          * and force using gettext
          */
         if(defined('LC_ALL'))
-            $locale_res = setlocale(LC_ALL, self::$locale);
+            $locale_res = setlocale(LC_ALL, self::$locale.'.'.self::$charset);
         else
             $locale_res = FALSE;
 
@@ -97,7 +97,7 @@ class OC_I18n extends Kohana_I18n {
              */
             require Kohana::find_file('vendor', 'php-gettext/gettext','inc'); 
             
-            T_setlocale(LC_ALL, self::$locale);
+            T_setlocale(LC_ALL, self::$locale.'.'.self::$charset);
             T_bindtextdomain(self::$domain,DOCROOT.'languages');
             T_bind_textdomain_codeset(self::$domain, self::$charset);
             T_textdomain(self::$domain);

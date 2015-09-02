@@ -227,8 +227,7 @@ class Controller_Panel_Theme extends Auth_Controller {
     public function action_install_theme()
     {
         $zip_theme = $_FILES['theme_file']; //file post
-        
-        if (!Upload::type($zip_theme, array('zip'))) //check if it si of a right type
+        if ($zip_theme['name']=='' OR !Upload::type($zip_theme, array('zip'))) //check if it si of a right type
         {
             Alert::set(Alert::ALERT, $zip_theme['name'].' '.__('Is not valid format, please use ZIP format'));
             $this->redirect(Route::url('oc-panel',array('controller'=>'theme', 'action'=>'index')));

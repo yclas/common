@@ -260,7 +260,7 @@ class Controller_Panel_Theme extends Auth_Controller {
                 //check license from the zip name
                 //$license = substr($zip_theme['name'],0, -4);
 
-                Alert::set(Alert::SUCCESS, $zip_theme['name'].' '.__('You have succesfully installed the theme!'));
+                Alert::set(Alert::SUCCESS, $zip_theme['name'].' '.__('You have successfully installed the theme!'));
                 $this->redirect(Route::url('oc-panel',array('controller'=>'theme', 'action'=>'index')));
             }
             

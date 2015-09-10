@@ -101,7 +101,7 @@ class Controller_Jslocalization extends Controller {
 	                                        return "'.__('Customize your website look and feel by choosing one of the many available themes and changing theme options.').'";
 	                                        break;
 	                                    case "step5_content": 
-	                                        return "'.__('When there is something you want to know type your question here or check the full list of our <a href=\'http://open-classifieds.com/support/\'>guides and faqs</a>.').'";
+	                                        return "'.__('When there is something you want to know type your question here or check the full list of our <a href=\'http://docs.yclas.com/\'>guides and faqs</a>.').'";
 	                                        break;
 	                                    case "step6_title": 
 	                                        return "'.__('Hey!').'";

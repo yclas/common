@@ -8,9 +8,9 @@
 
 /**
  * Hybrid_Providers_Facebook provider adapter based on OAuth2 protocol
- * 
+ *
  * Hybrid_Providers_Facebook use the Facebook PHP SDK created by Facebook
- * 
+ *
  * http://hybridauth.sourceforge.net/userguide/IDProvider_info_Facebook.html
  */
 class Hybrid_Providers_Facebook extends Hybrid_Provider_Model {
@@ -19,19 +19,18 @@ class Hybrid_Providers_Facebook extends Hybrid_Provider_Model {
 	 * default permissions, and a lot of them. You can change them from the configuration by setting the scope to what you want/need
 	 * {@inheritdoc}
 	 */
-	public $scope = "email, user_about_me, user_hometown, user_website, read_stream, publish_actions, read_custom_friendlists";
+	public $scope = "email, user_about_me, user_birthday, user_hometown, user_location, user_website, read_stream, publish_actions, read_custom_friendlists";
 
 	/**
 	 * Provider API client
-	 * @var Facebook 
+	 * @var Facebook
 	 */
 	public $api;
 
 	/**
 	 * {@inheritdoc}
 	 */
-	function initialize() 
-	{
+	function initialize() {
 		if (!$this->config["keys"]["id"] || !$this->config["keys"]["secret"]) {
 			throw new Exception("Your application id and secret are required in order to connect to {$this->providerId}.", 4);
 		}
@@ -92,7 +91,7 @@ class Hybrid_Providers_Facebook extends Hybrid_Provider_Model {
 			Hybrid_Auth::storage()->set('fb_auth_nonce', $parameters['auth_nonce']);
 		}
 
-		// get the login url 
+		// get the login url
 		$url = $this->api->getLoginUrl($parameters);
 
 		// redirect to facebook
@@ -137,7 +136,7 @@ class Hybrid_Providers_Facebook extends Hybrid_Provider_Model {
 			}
 		}
 
-		// try to get the UID of the connected user from fb, should be > 0 
+		// try to get the UID of the connected user from fb, should be > 0
 		if (!$this->api->getUser()) {
 			throw new Exception("Authentication failed! {$this->providerId} returned an invalid user id.", 5);
 		}
@@ -145,7 +144,7 @@ class Hybrid_Providers_Facebook extends Hybrid_Provider_Model {
 		// set user as logged in
 		$this->setUserConnected();
 
-		// store facebook access token 
+		// store facebook access token
 		$this->token("access_token", $this->api->getAccessToken());
 	}
 
@@ -163,7 +162,13 @@ class Hybrid_Providers_Facebook extends Hybrid_Provider_Model {
 	function getUserProfile() {
 		// request user profile from fb api
 		try {
-			$data = $this->api->api('/me');
+            $fields = array(
+                'id', 'name', 'first_name', 'last_name', 'link', 'website',
+                'gender', 'locale', 'about', 'email', 'hometown', 'location',
+								'birthday'
+            );
+
+			$data = $this->api->api('/me?fields=' . implode(',', $fields));
 		} catch (FacebookApiException $e) {
 			throw new Exception("User profile request failed! {$this->providerId} returned an error: $e", 6);
 		}
@@ -188,7 +193,7 @@ class Hybrid_Providers_Facebook extends Hybrid_Provider_Model {
 		$this->user->profile->description = (array_key_exists('about', $data)) ? $data['about'] : "";
 		$this->user->profile->email = (array_key_exists('email', $data)) ? $data['email'] : "";
 		$this->user->profile->emailVerified = (array_key_exists('email', $data)) ? $data['email'] : "";
-		$this->user->profile->region = (array_key_exists("hometown", $data) && array_key_exists("name", $data['hometown'])) ? $data['hometown']["name"] : "";
+		$this->user->profile->region = (array_key_exists("location", $data) && array_key_exists("name", $data['location'])) ? $data['location']["name"] : "";
 
 		if (!empty($this->user->profile->region)) {
 			$regionArr = explode(',', $this->user->profile->region);

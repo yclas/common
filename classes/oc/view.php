@@ -55,7 +55,7 @@ class OC_View extends Kohana_View{
      */
     public static function fragment_name($name)
     {
-        return 'fragment_'.$name.'_'.i18n::lang().'_'.Theme::$theme.'_'.URL::title(Request::current()->uri());
+        return 'fragment_'.$name.'_'.i18n::lang().'_'.Theme::$theme.'_'.URL::title(URL::current());
     }
 
 

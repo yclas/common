@@ -1,5 +1,3 @@
-<?php defined('SYSPATH') or die('No direct script access.');?>
-
 <div class="page-header">
     <h1><?=$topic->title?></h1>
     <span class="label label-info"><?=$topic->user->name?> <?=Date::fuzzy_span(Date::mysql2unix($topic->created))?></span>
@@ -18,7 +16,17 @@
             <img src="<?=$topic->user->get_profile_image()?>" width="120" height="120" alt="<?=HTML::chars($topic->user->name)?>">
             <div class="caption">
                 <p>
-                    <?=$topic->user->name?><br>
+                    <?
+                    try {
+                    ?>
+                        <a href="<?=Route::url('profile', array('seoname'=>$topic->user->seoname)) ?>">
+                        <?=$topic->user->name?>
+                        </a>
+                    <?    
+                    } catch (Exception $e) {
+                        echo $topic->user->name;
+                    }?>
+                    <br>
                     <?=Date::fuzzy_span(Date::mysql2unix($topic->created))?><br>
                     <?=$topic->created?>
                 </p>
@@ -46,7 +54,17 @@
             <img src="<?=$reply->user->get_profile_image()?>" width="120" height="120" alt="<?=HTML::chars($reply->user->name)?>">
             <div class="caption">
                 <p>
-                    <?=$reply->user->name?><br>
+                    <?
+                    try {
+                    ?>
+                        <a href="<?=Route::url('profile', array('seoname'=>$topic->user->seoname)) ?>">
+                        <?=$topic->user->name?>
+                        </a>
+                    <?    
+                    } catch (Exception $e) {
+                        echo $topic->user->name;
+                    }?>
+                    <br>
                     <?=Date::fuzzy_span(Date::mysql2unix($reply->created))?><br>
                     <?=$reply->created?>
                 </p>

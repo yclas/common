@@ -57,12 +57,12 @@
                     <?
                     try {
                     ?>
-                        <a href="<?=Route::url('profile', array('seoname'=>$topic->user->seoname)) ?>">
-                        <?=$topic->user->name?>
+                        <a href="<?=Route::url('profile', array('seoname'=>$reply->user->seoname)) ?>">
+                        <?=$reply->user->name?>
                         </a>
                     <?    
                     } catch (Exception $e) {
-                        echo $topic->user->name;
+                        echo $reply->user->name;
                     }?>
                     <br>
                     <?=Date::fuzzy_span(Date::mysql2unix($reply->created))?><br>

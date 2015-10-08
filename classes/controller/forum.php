@@ -6,6 +6,9 @@ class Controller_Forum extends Controller {
 
     public function __construct($request, $response)
     {
+        if (core::config('general.forums') != 1)
+            $this->redirect(Route::url('default'));
+        
         parent::__construct($request, $response);
         Breadcrumbs::add(Breadcrumb::factory()->set_title(__('Home'))->set_url(Route::url('default')));
         Breadcrumbs::add(Breadcrumb::factory()->set_title(__('Forums'))->set_url(Route::url('forum-home')));

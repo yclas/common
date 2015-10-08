@@ -4,6 +4,9 @@ class Controller_Blog extends Controller {
 
     public function __construct($request, $response)
     {
+        if (core::config('general.blog') != 1)
+            $this->redirect(Route::url('default'));
+
         parent::__construct($request, $response);
         Breadcrumbs::add(Breadcrumb::factory()->set_title(__('Home'))->set_url(Route::url('default')));
         Breadcrumbs::add(Breadcrumb::factory()->set_title(__('Blog'))->set_url(Route::url('blog')));

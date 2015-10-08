@@ -4,6 +4,9 @@ class Controller_FAQ extends Controller {
 
     public function __construct($request, $response)
     {
+        if (core::config('general.faq') != 1)
+            $this->redirect(Route::url('default'));
+        
         parent::__construct($request, $response);
         Breadcrumbs::add(Breadcrumb::factory()->set_title(__('Home'))->set_url(Route::url('default')));
         Breadcrumbs::add(Breadcrumb::factory()->set_title(__('FAQ'))->set_url(Route::url('faq')));

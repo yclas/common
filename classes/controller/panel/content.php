@@ -234,7 +234,7 @@ class Controller_Panel_Content extends Auth_Controller {
 
         
         if (Model_Content::copy($from_locale,$to_locale,$type))
-            Alert::set(Alert::SUCCESS, sprintf(__('%s copied from %s to %s'),$type,$from_locale,$to_locale));
+            Alert::set(Alert::SUCCESS, sprintf(__('Missing %s copied from %s to %s'),$type,$from_locale,$to_locale));
         else
             Alert::set(Alert::INFO, sprintf(__('We can not copy the %s since the locale %s already has existing %s'),$type, $to_locale, $type));
     

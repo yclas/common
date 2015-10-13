@@ -53,7 +53,7 @@ class Model_Content extends ORM {
         {
             $cat = new self;
             //find a user same seotitle
-            $s = $cat->where('seotitle', '=', $seotitle)->limit(1)->find();
+            $s = $cat->where('seotitle', '=', $seotitle)->where('locale', '=', $this->locale)->limit(1)->find();
 
             //found, increment the last digit of the seotitle
             if ($s->loaded())
@@ -244,31 +244,51 @@ class Model_Content extends ORM {
     public static function copy($from_locale,$to_locale,$type)
     {
         //get the contents for type locale
-        $contents = Model_Content::get_contents($type,$to_locale);
+        $contents = self::get_contents($type,$from_locale);
+        
+        $i = 0;
 
-        //only if theres no existent content
-        if (count($contents)==0)
-        {
-            $prefix = Database::instance()->table_prefix();
+        foreach ($contents as $content) {
 
-            $query = "INSERT INTO ".$prefix."content (locale,`order`,title,seotitle,description,from_email,type,status)
-                        SELECT '".$to_locale."',`order`,title,seotitle,description,from_email,type,status
-                        FROM ".$prefix."content
-                        WHERE type='".$type."' AND locale='".$from_locale."'";
-            try
-            {
-                DB::query(Database::DELETE,$query)->execute();
-            }
-            catch (Exception $e) 
-            {
-                Alert::set(Alert::ERROR, $e->getMessage());
-            }
-
-            return TRUE;
+            $to_locale_content = new self();
             
+            $to_locale_content = $to_locale_content->where('seotitle','=', $content->seotitle)
+                ->where('locale','=', $to_locale)
+                ->where('type','=', $type)
+                ->limit(1)->cached()->find();
+
+            if ( ! $to_locale_content->loaded())
+            {
+                $to_locale_content = new self();
+                $to_locale_content->locale      = $to_locale;
+                $to_locale_content->order       = $content->order;
+                $to_locale_content->title       = $content->title;
+                $to_locale_content->seotitle    = $content->seotitle;
+                $to_locale_content->description = $content->description;
+                $to_locale_content->from_email  = $content->from_email;
+                $to_locale_content->created     = $content->created;
+                $to_locale_content->type        = $content->type;
+                $to_locale_content->status      = $content->status;
+
+                try 
+                {
+                    $to_locale_content->save();
+                    $i++;
+                } 
+                catch (Exception $e) 
+                {
+                    Alert::set(Alert::ERROR, $e->getMessage());
+                }
+            }
         }
 
+        Core::delete_cache();
+
+        if ($i > 0)
+            return TRUE;
+
         return FALSE;
+
     }
 
     protected $_table_columns =  

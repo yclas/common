@@ -77,10 +77,9 @@
                     <?endif?>
                 <?endforeach?>
             </table>
-        <?else:?>
-            <a class="btn btn-warning btn-lg pull-right" href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'copy'))?>?to_locale=<?=$locale?>&type=<?=$type?>"  >
-                <?=sprintf(__('Create all new %s from original'),$type)?>
-            </a>
         <?endif?>
+        <a class="btn btn-warning btn-lg pull-right" href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'copy'))?>?to_locale=<?=$locale?>&type=<?=$type?>"  >
+            <?=sprintf(__('Create missing %s from original'),$type)?>
+        </a>
     </div>
 </div>

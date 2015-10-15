@@ -370,6 +370,8 @@ msgstr ""
         {
             return  substr($language, 0,3).strtoupper(substr($language, 3,5));
         }
+
+        return $language;
     }
 
 }//end of controller

@@ -65,7 +65,7 @@ class GCMPushMessage {
 		$fields = array(
 			'registration_ids'  => $this->devices,
 			'data'              => array( "message" => $message ),
-            'notification'      => array( "message" => $message ), 
+            'notification'      => array( "title"   => core::config('general.site_name'),"message" => $message,"body" => $message ),
 		);
 		
 		if(is_array($data)){

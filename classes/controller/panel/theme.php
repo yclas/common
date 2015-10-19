@@ -48,7 +48,9 @@ class Controller_Panel_Theme extends Auth_Controller {
         // validation active 
         //$this->template->scripts['footer'][]= '/js/oc-panel/settings.js';
         Breadcrumbs::add(Breadcrumb::factory()->set_title(__('Theme Options')));     
-        $this->template->title = __('Theme Options');  
+        $this->template->title = __('Theme Options');
+
+        $this->template->scripts['footer'][] = 'js/jscolor/jscolor.js';
 
         // save only changed values
         if($this->request->post())

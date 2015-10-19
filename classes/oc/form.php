@@ -222,6 +222,10 @@ class OC_Form extends Kohana_Form {
 					$input.= Form::button('delete_'.$name, __('Delete'), array('type' => 'submit', 'value' => $value));
 				}
                 break;
+            case 'color':
+            	$attributes['class'] = 'color {hash:true, required:false}';
+                $input = FORM::input($name, $value, $attributes);
+                break;
             case 'text':
             default:
                 $input = FORM::input($name, $value, $attributes);

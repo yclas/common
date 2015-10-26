@@ -54,41 +54,54 @@ class Chart {
 			$options['stroke']               = 'rgba(220,220,220,1)';
 			$options['point']                = 'rgba(220,220,220,1)';
 			$options['pointStroke']          = '#fff';
-		}	
-		
-		//getting the columns for the data
-		$columns = array();
-
-		foreach ($data as $j => $d)
-		{
-			$i = 0;
-			foreach ($d as $k => $v)
-			{
-				if ($i == 0)
-				{
-					$chart_data['labels'][] = $v;
-				}
-				else
-				{
-					if ( ! isset($array_data_labels) OR ! in_array($k, $array_data_labels))
-				        $array_data_labels[] = $k;
-
-					$array_values[($i-1)][] = $v;
-				}
-
-				$i++;
-			}
 		}
 
-		foreach ($array_values as $key => $value)
+		if ( ! in_array($chart_type, array('Pie', 'Doughnut')))
 		{
-			if (isset($colors[$key]))
-				$chart_data['datasets'][$key] = $colors[$key];
-			else
-				$chart_data['datasets'][$key] = self::$default_colors[0];
+			foreach ($data as $j => $d)
+			{
+				$i = 0;
+				foreach ($d as $k => $v)
+				{
+					if ($i == 0)
+					{
+						$chart_data['labels'][] = $v;
+					}
+					else
+					{
+						if ( ! isset($array_data_labels) OR ! in_array($k, $array_data_labels))
+					        $array_data_labels[] = $k;
 
-			$chart_data['datasets'][$key]['data'] = $value;
-			$chart_data['datasets'][$key]['label'] = $array_data_labels[$key];
+						$array_values[($i-1)][] = $v;
+					}
+
+					$i++;
+				}
+			}
+
+			foreach ($array_values as $key => $value)
+			{
+				if (isset($colors[$key]))
+					$chart_data['datasets'][$key] = $colors[$key];
+				else
+					$chart_data['datasets'][$key] = self::$default_colors[0];
+
+				$chart_data['datasets'][$key]['data'] = $value;
+				$chart_data['datasets'][$key]['label'] = $array_data_labels[$key];
+			}
+		}
+		else
+		{
+			foreach ($data as $key => $value)
+			{
+				if (isset($colors[$key]))
+					$chart_data[$key] = $colors[$key];
+				else
+					$chart_data[$key] = self::$default_colors[0];
+
+				$chart_data[$key]['value'] = $value['value'];
+				$chart_data[$key]['label'] = $value['label'];
+			}
 		}
 
 		//name for the div where the chart appears

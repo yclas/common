@@ -23,7 +23,7 @@
                                 type="button" 
                                 class="btn btn-primary submit" 
                                 title="<?=__('Are you sure?')?>" 
-                                data-text="<?=sprintf(__('License will be activated in %s domain.'), parse_url(URL::base(), PHP_URL_HOST))?>"
+                                data-text="<?=sprintf(__('License will be activated in %s domain. Once activated, your license cannot be changed to another domain.'), parse_url(URL::base(), PHP_URL_HOST))?>"
                                 data-btnOkLabel="<?=__('Yes, definitely!')?>" 
                                 data-btnCancelLabel="<?=__('No way!')?>">
                                 <?=__('Check')?>

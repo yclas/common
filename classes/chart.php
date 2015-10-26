@@ -8,49 +8,36 @@
  * @author     Chema <chema@open-classifieds.com>
  * @copyright  (c) 2009-2013 Open Classifieds Team
  * @license    GPL v3
- * @see 		http://code.google.com/apis/chart/
- * @see			http://code.google.com/apis/ajax/playground/?type=visualization
+ * @see 	   http://www.chartjs.org/docs
  */
 
-class Chart{
+class Chart {
 	
 	/**
-	 * 
-	 * Used to know if we already used the google js api somewhere so we don't call it twice
-	 * @var boolean
-	 */
-	private static $included_lib = FALSE;
-	
-	
-	/**
-	 * 
-	 * get the JS library that we need to generate charts
-	 * @param  boolean $force forces the inclusion
-	 * @return string
-	 */
-	public static function include_library($force = FALSE)
-	{
-		if (self::$included_lib == FALSE OR $force==TRUE)
-		{
-			self::$included_lib = TRUE;
-			return HTML::script(((Core::is_HTTPS()) ? 'https:' : 'http:').'//www.google.com/jsapi').PHP_EOL;
-		}
-		
-		return FALSE;
-	}
-	
+     * @var array Default colors
+     */
+	private static $default_colors = array(
+		array('fill' => 'rgba(54, 190, 112, 0.2)', 'stroke' => '#36BE70', 'point' => '#36BE70', 'pointStroke' => '#36BE70'),
+		array('fill' => 'rgba(112, 76, 161, 0.2)', 'stroke' => '#704CA1', 'point' => '#704CA1', 'pointStroke' => '#704CA1'),
+		array('fill' => 'rgba(72, 183, 203, 0.2)', 'stroke' => '#48B7CB', 'point' => '#48B7CB', 'pointStroke' => '#48B7CB'),
+		array('fill' => 'rgba(238, 197, 106, 0.2)', 'stroke' => '#EEC56A', 'point' => '#EEC56A', 'pointStroke' => '#EEC56A'),
+		array('fill' => 'rgba(223, 97, 114, 0.2)', 'stroke' => '#DF6172', 'point' => '#DF6172', 'pointStroke' => '#DF6172')
+	);
+
 	/**
 	 * 
 	 * generates a google chart, with the given information
 	 * @param string $chart_type
 	 * @param array  $data
 	 * @param array  $options
+	 * @param array  $colors
+	 * @param array  $attributes
 	 * @return mixed boolean|string 
 	 */
-	public static function corechart($chart_type='ColumnChart',$data,$options = NULL, $events = NULL)
+	public static function corechart($chart_type='Bar', $data, $options = NULL, $colors, $attributes = NULL)
 	{
 		//list of availables charts
-		$corecharts = array('ColumnChart','AreaChart','LineChart','BarChart','BubbleChart','PieChart','GeoChart','Gauge');
+		$corecharts = array('Bar','Line','Radar','PolarArea','Pie','Doughnut');
 			
 		if (!in_array($chart_type, $corecharts) OR !is_array($data))
 			return FALSE;
@@ -59,95 +46,71 @@ class Chart{
 			return FALSE;
 	
 		//Defaults in case options are not set
-		if ($options==NULL)
+		if ($options == NULL)
 		{
-			$options['title']  = 'Title here';
-			$options['height'] = 600;
-			$options['width']  = 600;
+			$options['height']               = 600;
+			$options['width']                = 600;
+			$options['fill']                 = 'rgba(220,220,220,0.2)';
+			$options['stroke']               = 'rgba(220,220,220,1)';
+			$options['point']                = 'rgba(220,220,220,1)';
+			$options['pointStroke']          = '#fff';
 		}	
 		
 		//getting the columns for the data
 		$columns = array();
-		foreach(reset($data) as $k=>$v)
-		{
-			$columns[$k] = (is_numeric($v))?'number':'string';
-		}
-	
-		//name for the div where the chart appears
-		$chart_div = $chart_type.'_'.md5(uniqid(mt_rand(), false));
-		
-		//Start chart JS generation
-		$ret = '';
-		$ret.=self::include_library();
-		$ret.='<script type="text/javascript">'.PHP_EOL;
-		
-		//depending on the chart type load different vars
-		switch($chart_type)
-		{
-			case 'GeoChart':
-				$ret.='google.load("visualization", "1", {packages:["geochart"], callback : drawMarkersMap});'.PHP_EOL;
-				$ret.='function drawMarkersMap() {'.PHP_EOL;
-				break;
-			case 'Gauge':
-				$ret.='google.load("visualization", "1", {packages:["gauge"], callback : drawChart});'.PHP_EOL;
-				$ret.='function drawChart() {'.PHP_EOL;
-				break;
-			default:
-				$ret.='google.load("visualization", "1", {packages:["corechart"], callback : drawChart});'.PHP_EOL;
-				$ret.='function drawChart() {'.PHP_EOL;
-		}	
 
-		$ret.='var data = new google.visualization.DataTable();'.PHP_EOL;
-		//chart columns
-		foreach ($columns as $k=>$v)
-		{
-			$ret.="data.addColumn('".$v."', '".$k."');".PHP_EOL;
-		}
-		
-		//adding data to the chart
-		$ret.="data.addRows([";
 		foreach ($data as $j => $d)
 		{
-    		$ret.='[';
-	    	foreach ($d as $k=>$v)
-	    	{
-	    		$ret.= (is_numeric($v))? $v.',':"'".$v."',";	    		          		
-	    	}
-	    	$ret = substr ( $ret , 0, -1 );
-	    	$ret.='],';
-		}
-		$ret = substr ( $ret , 0, -1 );
-		$ret.=']);'.PHP_EOL;
-
-		//adding the options		        
-		$ret.='var options = {';
-		$i=1;
-       	foreach ($options as $k=>$v)
-       	{
-       		$ret.= $k.': ';
-       		$ret.= (strpos($v,'{')!==FALSE OR is_numeric($k))? $v:'\''.$v.'\'';
-
-       		if($i < count($options))
-       		{
-       			$ret.= ',';
-       		}
-       		$i++;
-       	}       		
-		$ret.='};'.PHP_EOL;
-		
-		//draw the chart	
-		$ret.='var chart = new google.visualization.'.$chart_type.'(document.getElementById(\''.$chart_div.'\'));'.PHP_EOL;
-		$ret.='chart.draw(data, options);'.PHP_EOL;
-		if(isset($events))
-		{
-			foreach($events as $name => $function)
+			$i = 0;
+			foreach ($d as $k => $v)
 			{
-				$ret.='google.visualization.events.addListener(chart, \''.$name.'\', '.$function.');';
+				if ($i == 0)
+				{
+					$chart_data['labels'][] = $v;
+				}
+				else
+				{
+					if ( ! isset($array_data_labels) OR ! in_array($k, $array_data_labels))
+				        $array_data_labels[] = $k;
+
+					$array_values[($i-1)][] = $v;
+				}
+
+				$i++;
 			}
 		}
-		$ret.='}</script>'.PHP_EOL.'<div id="'.$chart_div.'"></div>'.PHP_EOL;
+
+		foreach ($array_values as $key => $value)
+		{
+			if (isset($colors[$key]))
+				$chart_data['datasets'][$key] = $colors[$key];
+			else
+				$chart_data['datasets'][$key] = self::$default_colors[0];
+
+			$chart_data['datasets'][$key]['data'] = $value;
+			$chart_data['datasets'][$key]['label'] = $array_data_labels[$key];
+		}
+
+		//name for the div where the chart appears
+		$chart_div        = $chart_type.'_'.md5(uniqid(mt_rand(), false));
+
+		$chart_width      = $options['width'] ? ' width="' . $options['width'] . '"' : NULL;
+		$chart_height     = $options['height'] ? ' height="' . $options['height'] . '"' : NULL;
+		$chart_data       = ' data-data=\'' . json_encode($chart_data) . '\'';
+		$chart_options    = isset($options['options']) ? ' data-options=\'' . json_encode($options['options']) . '\'' : NULL;
+		$chart_attributes = NULL;
+
+		if ($attributes)
+		{
+			foreach ($attributes as $attribute => $value)
+			{
+	            $chart_attributes .= ' ' . $attribute . '="' . $value . '"';
+	        }
+	    }
+
+		$canvas = '<canvas id="' . $chart_div . '" data-chartjs="' . $chart_type . '"' . $chart_width . $chart_height . $chart_attributes . $chart_data . $chart_options . '></canvas>';
 		
-		return $ret;
+		return $canvas;
 	}
 			
 	/**
@@ -155,73 +118,107 @@ class Chart{
 	 * Wrappers for self::corechart
 	 *
 	 * usage example common for all of them:
-	 * <?=Chart::pie($products,array('title'=>'Productos','width'=>700,'height'=>600))?>
+	 * <?=Chart::pie($products, array('title'=>'Productos','width'=>700,'height'=>600))?>
 	 *
 	 * @param  array $data
 	 * @param  array $options
+	 * @param  array $colors
+	 * @param  array $attributes
 	 * @return mixed boolean|string 
 	 */
 	
-	//http://code.google.com/apis/chart/interactive/docs/gallery/piechart.html
-	public static function pie($data,$options = NULL,$is3D=TRUE)
+	public static function pie ($data, $options = NULL, $colors = NULL, $attributes = NULL)
 	{
-		if ($is3D==TRUE)
+		if ($colors == NULL)
+			$colors = self::$default_colors;
+
+		foreach ($colors as $k => $color)
 		{
-			$options+=array('is3D'=>'true');
+			$chart_colors[$k]['color']     = $color['fill'];
+			$chart_colors[$k]['highlight'] = $color['stroke'];
+		}
+
+		return self::corechart('Pie', $data, $options, $chart_colors, $attributes);
+	}	
+	
+	public static function line ($data, $options = NULL, $colors = NULL, $attributes = NULL)
+	{
+		if ($colors == NULL)
+			$colors = self::$default_colors;
+
+		foreach ($colors as $k => $color)
+		{
+			$chart_colors[$k]['fillColor']            = $color['fill'];
+			$chart_colors[$k]['strokeColor']          = $color['stroke'];
+			$chart_colors[$k]['pointColor']           = $color['point'];
+			$chart_colors[$k]['pointStrokeColor']     = $color['pointStroke'];
+			$chart_colors[$k]['pointHighlightFill']   = $color['point'];
+			$chart_colors[$k]['pointHighlightStroke'] = $color['pointStroke'];
 		}
 		
-		return self::corechart('PieChart',$data,$options);
-	}	
-	
-	//http://code.google.com/apis/chart/interactive/docs/gallery/columnchart.html
-	public static function column($data,$options = NULL)
-	{
-		return self::corechart('ColumnChart',$data,$options);
+		return self::corechart('Line', $data, $options, $chart_colors, $attributes);
 	}
 	
-	//http://code.google.com/apis/chart/interactive/docs/gallery/areachart.html
-	public static function area($data,$options = NULL)
+	public static function bar ($data, $options = NULL, $colors = NULL, $attributes = NULL)
 	{
-		return self::corechart('AreaChart',$data,$options);
+		if ($colors == NULL)
+			$colors = self::$default_colors;
+
+		foreach ($colors as $k => $color)
+		{
+			$chart_colors[$k]['fillColor']       = $color['fill'];
+			$chart_colors[$k]['strokeColor']     = $color['stroke'];
+			$chart_colors[$k]['highlightFill']   = $color['fill'];
+			$chart_colors[$k]['highlightStroke'] = $color['stroke'];
+		}
+
+		return self::corechart('Bar', $data, $options, $chart_colors, $attributes);
 	}
 	
-	//http://code.google.com/apis/chart/interactive/docs/gallery/linechart.html
-	public static function line($data,$options = NULL, $events = NULL)
+	public static function radar ($data, $options = NULL, $colors = NULL, $attributes = NULL)
 	{
-		return self::corechart('LineChart',$data,$options, $events);
+		if ($colors == NULL)
+			$colors = self::$default_colors;
+
+		foreach ($colors as $k => $color)
+		{
+			$chart_colors[$k]['fillColor']            = $color['fill'];
+			$chart_colors[$k]['strokeColor']          = $color['stroke'];
+			$chart_colors[$k]['pointColor']           = $color['point'];
+			$chart_colors[$k]['pointStrokeColor']     = $color['pointStroke'];
+			$chart_colors[$k]['pointHighlightFill']   = $color['point'];
+			$chart_colors[$k]['pointHighlightStroke'] = $color['pointStroke'];
+		}
+
+		return self::corechart('Radar', $data, $options, $chart_colors, $attributes);
 	}
-	
-	//http://code.google.com/apis/chart/interactive/docs/gallery/barchart.html
-	public static function bar($data,$options = NULL)
+
+	public static function polar ($data, $options = NULL, $colors = NULL, $attributes = NULL)
 	{
-		return self::corechart('BarChart',$data,$options);
+		if ($colors == NULL)
+			$colors = self::$default_colors;
+
+		foreach ($colors as $k => $color)
+		{
+			$chart_colors[$k]['color']     = $color['fill'];
+			$chart_colors[$k]['highlight'] = $color['stroke'];
+		}
+
+		return self::corechart('PolarArea', $data, $options, $chart_colors, $attributes);
 	}
-	
-	//http://code.google.com/apis/chart/interactive/docs/gallery/bubblechart.html
-	public static function bubble($data,$options = NULL)
+
+	public static function doughnut ($data, $options = NULL, $colors = NULL, $attributes = NULL)
 	{
-		return self::corechart('BubbleChart',$data,$options);
-	}
-	
-	//http://code.google.com/apis/chart/interactive/docs/gallery/geochart.html
-	public static function geomarkers($data,$options = NULL,$region='ES')
-	{
-		$options+=array('region'	  => $region,
-						'displayMode' => 'markers',
-						'colorAxis'   => "{colors: ['green', 'blue']}");
-		
-		return self::corechart('GeoChart',$data,$options);
-	}	
-	
-	//http://code.google.com/apis/chart/interactive/docs/gallery/gauge.html
-	public static function gauge($data,$options = NULL)
-	{
-		$options+=array('redFrom'	=>90, 
-						'redTo'		=>100,
-	          			'yellowFrom'=>75,
-						'yellowTo'	=>90,
-						'minorTicks'=>5);
-		return self::corechart('Gauge',$data,$options);
+		if ($colors == NULL)
+			$colors = self::$default_colors;
+
+		foreach ($colors as $k => $color)
+		{
+			$chart_colors[$k]['color']     = $color['fill'];
+			$chart_colors[$k]['highlight'] = $color['stroke'];
+		}
+
+		return self::corechart('Doughnut', $data, $options, $chart_colors, $attributes);
 	}
 	
 }

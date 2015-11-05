@@ -22,6 +22,18 @@ class OC_StripeKO {
         return round($amount,2)*100;
     }
 
+    /**
+     *   NOTE This will  never be exactly since stripe has variable pricing
+     */
+    public static function calculate_fee($amount)
+    {   
+        //variables
+        $fee            = 2.9;
+        $fee_trans      = 0.3;//USD
+
+        //initial exchange fee + stripe fee
+        return ($fee * $amount / 100) + $fee_trans;
+    }
     
     /**
      * generates HTML for apy buton

@@ -1,56 +1,19 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Panel_User extends Auth_Crud {
+class Controller_Panel_User extends Auth_CrudAjax {
 
-    
-	
 	/**
 	* @var $_index_fields ORM fields shown in index
 	*/
 	protected $_index_fields = array('name','email','logins');
+
+    protected $_search_fields = array('name','email','logins');
 	
 	/**
 	 * @var $_orm_model ORM model name
 	 */
 	protected $_orm_model = 'user';
 	
-
-	/**
-	 *
-	 * Loads a basic list info
-	 * @param string $view template to render 
-	 */
-	public function action_index($view = NULL)
-	{
-		$this->template->title = __($this->_orm_model);
-		
-		$this->template->scripts['footer'][] = 'js/oc-panel/crud/index.js';
-		
-		$users = new Model_User();
-		
-		// filter users by search value
-		if($q = $this->request->query('search'))
-			$users->where('email', 'like', '%'.$q.'%')->or_where('name', 'like', '%'.$q.'%');
-			
-		$pagination = Pagination::factory(array(
-					'view'           => 'oc-panel/crud/pagination',
-					'total_items' 	 => $users->count_all(),
-		//'items_per_page' => 10// @todo from config?,
-		))->route_params(array(
-					'controller' => $this->request->controller(),
-					'action' 	 => $this->request->action(),
-		));
-	
-		$pagination->title($this->template->title);
-	
-		$users = $users->limit($pagination->items_per_page)
-		->offset($pagination->offset)
-		->find_all();
-	
-		$pagination = $pagination->render();
-			
-		$this->render('oc-panel/crud/index', array('elements' => $users,'pagination'=>$pagination));
-	}
 
 	/**
 	 * CRUD controller: CREATE

@@ -14,7 +14,7 @@ class Auth_Crud extends Auth_Controller
 {
 
 	/**
-	 * @var $_index_fields ORM fields shown in index
+	 * @var $_index_fields ORM fields shown in index, in case not specified will show all
 	 */
 	protected $_index_fields = array();
 
@@ -58,6 +58,16 @@ class Auth_Crud extends Auth_Controller
 														'action'      => 'index'));
 			$this->redirect($url);
 		}
+
+        $element = ORM::Factory($this->_orm_model);
+
+        //in case we did not specify what to show
+        if (empty($this->_index_fields))
+            $this->_index_fields = array_keys($element->list_columns());
+
+        //we need the PK always to work on the grid...
+        if (!array_search($element->primary_key(),$this->_index_fields))
+            array_unshift($this->_index_fields, $element->primary_key());
 				
 		//url used in the breadcrumb
 		$url_bread = Route::url('oc-panel',array('controller'  => $this->request->controller()));
@@ -205,7 +215,7 @@ class Auth_Crud extends Auth_Controller
 		if (empty($this->_index_fields))
 		{
 			$element = ORM::Factory($this->_orm_model);
-			$this->_index_fields[] = $element->primary_key();
+			$this->_index_fields = array_keys($element->list_columns());
 		}
 			
 		$data = array('fields' => $this->_index_fields, 'name' => $this->_orm_model, 'route' => $this->_route_name,'controller'=>$this) + $data;

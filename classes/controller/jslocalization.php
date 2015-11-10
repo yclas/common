@@ -19,6 +19,21 @@ class Controller_Jslocalization extends Controller {
                                 });"; 
         $this->template->content = $localization_rules;
     }
+
+    public function action_adi()
+    {
+        $this->auto_render = FALSE;
+        $this->template = View::factory('js');
+        
+        $ret = '$(function(){
+					$.adi({
+						theme: "dark",
+						title: "'.__('Adblock detected!').'",
+						content: "'.__('We noticed that you may have an Ad Blocker turned on. Please be aware that our site is best experienced with Ad Blockers turned off.').'"
+					});
+				});';
+        $this->template->content = $ret;
+    }
 		
 	public function action_validate()
 	{

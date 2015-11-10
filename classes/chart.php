@@ -5,8 +5,8 @@
  *
  * @package    OC
  * @category   Chart
- * @author     Chema <chema@open-classifieds.com>
- * @copyright  (c) 2009-2013 Open Classifieds Team
+ * @author     Oliver <oliver@open-classifieds.com>
+ * @copyright  (c) 2009-2015 Open Classifieds Team
  * @license    GPL v3
  * @see 	   http://www.chartjs.org/docs
  */

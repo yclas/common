@@ -10,7 +10,9 @@
     <?=__('New Topic')?></a>
     
     <?=View::factory('pages/forum/search-form')?>
+
     <div class="clearfix"></div><br>
+    <p><?=$forum->description?></p>
 </div>
 
 <table class="table table-hover" id="task-table">

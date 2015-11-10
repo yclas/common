@@ -1,25 +1,18 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
-<div class="page-header">   
-    <?if ($controller->allowed_crud_action('create')):?>
-    <a class="btn btn-primary pull-right ajax-load" href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'create')) ?>" title="<?=__('New')?>">
-        <i class="glyphicon glyphicon-pencil"></i>
-        <?=__('New')?>
-    </a>                
-    <?endif?>
+<div class="page-header">	
+	<?if ($controller->allowed_crud_action('create')):?>
+	<a class="btn btn-primary pull-right ajax-load" href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'create')) ?>" title="<?=__('New')?>">
+		<i class="glyphicon glyphicon-pencil"></i>
+		<?=__('New')?>
+	</a>				
+	<?endif?>
 
-    <h1><?=Text::ucfirst(__($name))?></h1>
-</div>
-
-<div class="page-header">
-    <p><?=__('Set up your cron at your hosting / cPanel, every 5 minutes')?> (*/5 * * * *)</p>
-    <input type="text" value="/usr/bin/php -f <?=DOCROOT?>oc/common/modules/cron/cron.php" />
-    <p><?=__('Or')?></p>
-    <input type="text" value="wget -O <?=Route::url('default', array('controller'=>'cron','action'=>'run','id'=>'now'))?>" />
+	<h1><?=Text::ucfirst(__($name))?></h1>
 </div>
 
 <div class="panel panel-default">
-    <div class="panel-body">
-        <div class="table-responsive">
+	<div class="panel-body">
+		<div class="table-responsive">
             <table id="grid-data-api" class="table table-condensed table-hover table-striped" >
                 <thead>
                     <tr>
@@ -30,8 +23,8 @@
                     </tr>
                 </thead>
             </table>
-        </div>
-    </div>
+		</div>
+	</div>
 </div>
 
 <?if ($controller->allowed_crud_action('export')):?>

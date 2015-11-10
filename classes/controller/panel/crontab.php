@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Panel_Crontab extends Auth_Crud {
+class Controller_Panel_Crontab extends Auth_CrudAjax {
 
 	/**
 	 * @var $_index_fields ORM fields shown in index
@@ -20,7 +20,5 @@ class Controller_Panel_Crontab extends Auth_Crud {
     public function action_index($view = NULL)
     {
         parent::action_index('oc-panel/pages/cron/index');
-    }
-
-	
+    }	
 }

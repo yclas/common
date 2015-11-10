@@ -13,7 +13,7 @@ class HTTP_Exception_404 extends Kohana_HTTP_Exception_404 {
     public function get_response()
     {
         $url = Route::get('error')->uri(array('action'  => 404,
-                                              'message' => rawurlencode($this->getMessage())));
+                                              'message' => Base64::encode_to_url($this->getMessage())));
 
         $body = Request::factory($url)->execute();
 

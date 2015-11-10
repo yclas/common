@@ -394,6 +394,27 @@ class Auth_OC extends Kohana_Auth {
             }
             else if ($this->auto_login($token)!==FALSE)
             {
+                //reset failed attempts if he used a correct QL.
+                $user = Auth::instance()->get_user();
+                if ($user->failed_attempts > 0)
+                {
+                    $user->failed_attempts  = 0;
+                    $user->last_failed      = NULL;
+                    try 
+                    {
+                        // Save the user
+                        $user->update();
+                    }
+                    catch (ORM_Validation_Exception $e)
+                    {
+                        throw HTTP_Exception::factory(500,$e->getMessage());
+                    }
+                    catch(Exception $e)
+                    {
+                        throw HTTP_Exception::factory(500,$e->getMessage());
+                    }
+                }
+
                 return $url;//loged in!!!
             }
 		}

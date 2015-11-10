@@ -24,6 +24,41 @@ class OC_Paymill {
     }
 
     /**
+     *   NOTE This will  never be exactly since stripe has variable pricing
+     */
+    public static function calculate_fee($amount)
+    {   
+        //variables
+        $fee            = 2.95;
+        $fee_trans      = 0.28;//USD
+
+        //initial exchange fee + stripe fee
+        return ($fee * $amount / 100) + $fee_trans;
+    }
+
+    /**
+     * hack for paymill, requires the jquery to be loaded in the header...sucks...
+     * @return void                 
+     */
+    public static function jquery()
+    {
+        if ( Core::config('payment.paymill_private')!='' AND 
+            Core::config('payment.paymill_public')!='' AND 
+            Theme::get('premium')==1)
+        {
+            foreach (Theme::$scripts['footer'] as $key=>$js)
+            {
+                if (strpos($js,'jquery.min.js')>0 OR strpos($js,'jquery-1.10.2.js')>0 OR strpos($js,'jquery-1.10.2.min.js')>0)
+                {
+                    unset(Theme::$scripts['footer'][$key]);
+                    Theme::$scripts['header'][] = $js;
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
      * generates HTML for apy buton
      * @param  Model_Order $order 
      * @return string                 

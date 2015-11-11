@@ -3,9 +3,9 @@ var grid = $("#grid-data-api").bootgrid({
     url: "<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'ajax'))?>",
     rowCount: [10,25,50,100],
     searchSettings: {
-        delay: 200,
+        delay: 500,
         characters: 3
-    },
+    },    
     formatters: {
         "commands": function(column, row)
         {

@@ -890,7 +890,7 @@ class OC_Theme {
      */
     public static function get($name, $default = NULL)
     {
-        return (array_key_exists($name, self::$data)) ? self::$data[$name] : $default;
+        return (is_array(self::$data) AND array_key_exists($name, self::$data)) ? self::$data[$name] : $default;
     }
 
     /**

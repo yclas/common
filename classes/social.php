@@ -25,6 +25,24 @@ class Social {
         return (isset($providers['providers']))?$providers['providers']:array();
     }
 
+    public static function enabled_providers()
+    {
+        $providers         = self::get();
+        $enabled_providers = array();
+
+        if (isset($providers['providers']))
+        {
+            foreach ($providers['providers'] as $k => $provider) {
+                if ($provider['enabled'])
+                {
+                    $enabled_providers[$k] = $providers['providers'][$k];
+                }
+            }
+        }
+
+        return $enabled_providers;
+    }
+
     public static function include_vendor()
     {
         require_once Kohana::find_file('vendor', 'hybridauth/hybridauth/Hybrid/Auth','php');

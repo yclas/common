@@ -27,10 +27,10 @@ class Auth_CrudAjax extends Auth_Crud
 	public function action_index($view = NULL)
 	{
 		$this->template->title = __($this->_orm_model);
-		$this->template->scripts['footer'][] = 'https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.js';
-        $this->template->scripts['footer'][] = 'https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.fa.min.js';
+        $this->template->scripts['footer'][] = 'js/jquery.bootgrid.min.js';
+        $this->template->scripts['footer'][] = 'js/query.bootgrid.fa.min.js';
         $this->template->scripts['footer'][] = Route::url($this->_route_name, array('controller'=> Request::current()->controller(), 'action'=>'bootgrid'));
-        $this->template->styles = array('https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.css' => 'screen');
+        $this->template->styles = array('css/jquery.bootgrid.min.css' => 'screen');
 		
 		$elements = ORM::Factory($this->_orm_model);//->find_all();
 
@@ -119,7 +119,7 @@ class Auth_CrudAjax extends Auth_Crud
         $this->template = View::factory('js');
         $data = array(  'element'   => $element,
                         'route'     => $this->_route_name,
-                        'controller'=> $this);
+                        'controller'=> $this);  
         $this->template->content = View::factory('oc-panel/crud/bootgrid',$data)->render();
     }
 

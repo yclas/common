@@ -7,7 +7,7 @@ class Controller_Panel_User extends Auth_CrudAjax {
 	*/
 	protected $_index_fields = array('name','email','logins');
 
-    protected $_search_fields = array('name','email','logins');
+    protected $_search_fields = array('name','email');
 	
 	/**
 	 * @var $_orm_model ORM model name

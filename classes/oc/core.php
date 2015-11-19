@@ -505,8 +505,10 @@ class OC_Core {
                         $obj = new stdClass();
                         foreach ($data as $field => $value) 
                         {
-                            try {
-                                $obj->$expected_header[$field] = $value;   
+                            try 
+                            {
+                                $expected_header_field = $expected_header[$field];
+                                $obj->$expected_header_field = $value;   
                             } catch (Exception $e) {
                                 //got a field that was not in the header :S
                                 return FALSE;

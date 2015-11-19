@@ -42,7 +42,7 @@ class File_Gettext_PO extends File_Gettext
      * @access  public
      * @return  object      File_Gettext_PO
      */
-    function File_Gettext_PO($file = '')
+    function __construct($file = '')
     {
         $this->file = $file;
     }

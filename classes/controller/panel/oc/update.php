@@ -251,7 +251,7 @@ class Controller_Panel_OC_Update extends Auth_Controller {
             //we only execute those that are newer or same
             if ($version >= $from_version)
             {
-                call_user_method('action_'.$version, $this);
+                call_user_func(array($this, (string)'action_'.$version));
                 Alert::set(Alert::INFO, __('Updated to ').$version);
             }    
 

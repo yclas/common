@@ -84,8 +84,8 @@ class Controller_Panel_Cmsimages extends Auth_Controller {
             $path = 'images/cms/';
             $root = DOCROOT.$path; //root folder
             $image_name = URL::title(pathinfo($image['name'], PATHINFO_FILENAME));
-            $image_name = $image_name.'.'.Date::mysql2unix('now');
-            $image_name = $image_name.'.'.pathinfo($image['name'], PATHINFO_EXTENSION);
+            $image_name = Text::limit_chars(URL::title(pathinfo($image['name'], PATHINFO_FILENAME)), 200);
+            $image_name = time().'.'.$image_name;
                 
             // if folder does not exist, try to make it
             if ( ! file_exists($root) AND ! @mkdir($root, 0775, true)) { // mkdir not successful ?

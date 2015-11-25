@@ -85,7 +85,7 @@
                                 <div class="accordion-heading">
                                 <div class="radio">
                                     <label>
-                                    <input type="radio" class="default_links" id="radio_home"  name="home" data-url="" data-icon="glyphicon-home glyphicon" value="home">    
+                                    <input type="radio" class="default_links" id="radio_home"  name="home" data-url="" data-icon="glyphicon-home glyphicon" value="<?=__('Home')?>">    
                                         <a class="btn btn-primary btn-xs" type="button"  >                    
                                              <?=__('Home')?>
                                         </a>
@@ -93,15 +93,23 @@
                                 </div>
                                 <div class="radio">
                                     <label>
-                                    <input type="radio" class="default_links" id="radio_listing" name="listing" data-url="all" data-icon="glyphicon glyphicon-list" value="listing">
+                                    <input type="radio" class="default_links" id="radio_listing" name="listing" data-url="all" data-icon="glyphicon glyphicon-list" value="<?=__('Listing')?>">
                                         <a class="btn btn-primary btn-xs" type="button"  >                    
-                                             <?=__('listing')?>
+                                             <?=__('Listing')?>
                                         </a>
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                    <input type="radio" class="default_links" id="radio_search" name="search" data-url="search.html" data-icon="glyphicon glyphicon-search" value="search">
+                                    <input type="radio" class="default_links" id="radio_listing" name="profiles" data-url="user" data-icon="fa fa-users" value="<?=__('Profiles')?>">
+                                        <a class="btn btn-primary btn-xs" type="button"  >                    
+                                             <?=__('Profiles')?>
+                                        </a>
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                    <input type="radio" class="default_links" id="radio_search" name="search" data-url="<?=URL::title(__('search'))?>.html" data-icon="glyphicon glyphicon-search" value="search">
                                         <a class="btn btn-primary btn-xs" type="button"  >                    
                                              <?=__('Search')?>
                                         </a>
@@ -109,9 +117,9 @@
                                 </div>
                                 <div class="radio">
                                     <label>
-                                    <input type="radio" class="default_links" id="radio_contact" name="contact" data-url="contact.html" data-icon="glyphicon glyphicon-envelope" value="contact">
+                                    <input type="radio" class="default_links" id="radio_contact" name="contact" data-url="<?=URL::title(__('contact'))?>.html" data-icon="glyphicon glyphicon-envelope" value="contact">
                                         <a class="btn btn-primary btn-xs" type="button"  >                    
-                                             <?=__('contact')?>
+                                             <?=__('Contact')?>
                                         </a>
                                     </label>
                                 </div>

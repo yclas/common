@@ -1,58 +1,30 @@
 <?php 
 
-class Controller_Panel_Role extends Auth_Crud {
-
-	/**
-	 * @var $_index_fields ORM fields shown in index
-	 */
-	protected $_index_fields = array('id_role','name');
-
-	/**
-	 * @var $_orm_model ORM model name
-	 */
-	protected $_orm_model = 'role';
+class Controller_Panel_Role extends Auth_CrudAjax {
 
     /**
-     *
-     * list of possible actions for the crud, you can modify it to allow access or deny, by default all
-     * @var array
+     * @var $_index_fields ORM fields shown in index
      */
-    public $crud_actions = array('update');
-    
+    protected $_index_fields = array('id_role','name');
+
     /**
-     *
-     * Loads a basic list info
-     * @param string $view template to render 
+     * @var $_orm_model ORM model name
      */
-    public function action_index($view = NULL)
+    protected $_orm_model = 'role';
+
+    protected $_search_fields = array('name');
+
+    function __construct(Request $request, Response $response)
     {
-        $this->template->title = __($this->_orm_model);
-        $this->template->scripts['footer'][] = 'js/oc-panel/crud/index.js';
-        
-        $elements = ORM::Factory($this->_orm_model);//->find_all();
-        //do not display admin!
-        $elements = $elements->where('id_role','!=',Model_Role::ROLE_ADMIN);
-        $pagination = Pagination::factory(array(
-                    'view'           => 'oc-panel/crud/pagination',
-                    'total_items'    => $elements->count_all(),
-        //'items_per_page' => 10// @todo from config?,
-        ))->route_params(array(
-                    'controller' => $this->request->controller(),
-                    'action'     => $this->request->action(),
-        ));
+        parent::__construct($request, $response);
+        $this->_buttons_actions = array(
+                                        array( 'url'   => Route::url('oc-panel', array('controller'=>'user')).'?filter__id_role=' ,
+                                                'title' => 'users',
+                                                'class' => 'btn btn-xs btn-default',
+                                                'icon'  => 'fa fa-users'
+                                                ),
 
-        $pagination->title($this->template->title);
-
-        $elements = $elements->limit($pagination->items_per_page)
-        ->offset($pagination->offset)
-        ->find_all();
-
-        $pagination = $pagination->render();
-
-        if ($view === NULL)
-            $view = 'oc-panel/crud/index';
-        
-        $this->render($view, array('elements' => $elements,'pagination'=>$pagination));
+                                        );
     }
 
 	/**

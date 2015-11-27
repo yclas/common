@@ -43,7 +43,7 @@
 			</div>
 		</div>
 		
-		<?if (core::config('advertisement.captcha') != FALSE):?>
+		<?if (core::config('advertisement.captcha') != FALSE OR core::config('general.captcha') != FALSE):?>
 		<div class="form-group control-group">
 			<div class="col-md-6 col-md-offset-2 controls">
 				<?if (Core::config('general.recaptcha_active')):?>

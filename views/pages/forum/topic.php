@@ -107,7 +107,7 @@
         </div>
     </div>
 
-    <?if (core::config('advertisement.captcha') != FALSE):?>
+    <?if (core::config('advertisement.captcha') != FALSE OR core::config('general.captcha') != FALSE):?>
     <div class="form-group">
             <div class="col-md-4">
                 <?if (Core::config('general.recaptcha_active')):?>

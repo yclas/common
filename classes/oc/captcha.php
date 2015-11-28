@@ -84,7 +84,12 @@ class OC_Captcha{
         //d(Session::instance()->get('captcha_'.$name));
         //d(Session::instance()->get('captcha_'.$name) == strtolower(core::post('captcha')));
 
-        if (core::config('advertisement.captcha') == FALSE AND core::config('general.captcha') == FALSE) // Captchas are disabled
+        //for OC
+        if (core::config('advertisement.captcha') != NULL AND core::config('advertisement.captcha') == FALSE) // Captcha disabled on OC
+            return TRUE;
+
+        //for OE
+        if (core::config('general.captcha') != NULL AND core::config('general.captcha') == FALSE) // Captchas disabled on OE
             return TRUE;
         
         // verify with recaptcha if enabled

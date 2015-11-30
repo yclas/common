@@ -233,4 +233,61 @@ class Controller_Panel_User extends Auth_CrudAjax {
         
     }
 
+    /**
+     *
+     * Loads a basic list info
+     * @param string $view template to render 
+     */
+    public function action_export($view = NULL)
+    {   
+        if (class_exists('Model_Ad'))
+        {
+            //the name of the file that user will download
+            $file_name = $this->_orm_model.'_export.csv';
+            //name of the TMP file
+            $output_file = tempnam('/tmp', $file_name);
+
+            //instance of the crud
+            $users = ORM::Factory($this->_orm_model);
+
+            //writting
+            $output = fopen($output_file, 'w');
+
+            //header of the csv
+            $header = array('id_user','name','seoname','email','description','num_ads',
+                            'image','last_login','last_modified','created','ipaddress','status');
+            foreach (Model_UserField::get_all(FALSE) as $key=>$value)
+                $header[] = $key;
+
+            //header of the CSV
+            fputcsv($output, $header);
+
+            //getting all the users
+            $users = $users->find_all();
+
+            //each element
+            foreach($users as $user) 
+                fputcsv($output, array( 'id_user'   => $user->id_user,
+                                        'name'      => $user->name,
+                                        'seoname'   => $user->seoname,
+                                        'email'     => $user->email,
+                                        'description'   => $user->description,
+                                        'num_ads'       => $user->ads->count_all(),
+                                        'image'     => $user->get_profile_image(),
+                                        'last_login'    => $user->last_login,
+                                        'last_modified' => $user->last_modified,
+                                        'created'   => $user->created,
+                                        'ipaddress' => long2ip($user->last_ip),
+                                        'status'    => $user->status,
+                                       )+$user->custom_columns(FALSE,FALSE));
+            
+            fclose($output);
+
+            //returns the file to the browser as attachement and deletes the TMP file
+            Response::factory()->send_file($output_file,$file_name,array('delete'=>TRUE));
+        }
+        else
+            return parent::export();
+    }
+
 }

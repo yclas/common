@@ -64,7 +64,7 @@ class Controller_Social extends Controller {
                 $email = ($user_profile->emailVerified!=NULL)? $user_profile->emailVerified: $user_profile->email;
                 $name  = ($user_profile->firstName!=NULL)? $user_profile->firstName.' '.$user_profile->lastName: $user_profile->displayName;
                 //if not email provided 
-                if (!Valid::email($email))
+                if (!Valid::email($email,TRUE))
                 {
                     Alert::set(Alert::INFO, __('We need your email address to complete'));
                     //redirect him to select the email to register

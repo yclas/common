@@ -8,7 +8,7 @@
 	<?endif?>
 
 	<h1><?=Text::ucfirst(__($name))?></h1>
-	<?if($name == 'role'):?><p><a href="http://docs.yclas.com/roles-work-classified-ads-script/" target="_blank"><?=__('Read more')?></a></p><?endif;?>
+	<?if($name == 'role'):?><p><a href="https://docs.yclas.com/roles-work-classified-ads-script/" target="_blank"><?=__('Read more')?></a></p><?endif;?>
 </div>
 
 <?if($name == "user") :?>

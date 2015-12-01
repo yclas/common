@@ -4,7 +4,7 @@
 
 <div id="page-themes" class="page-header">
 	<h1><?=__('Themes')?></h1>
-    <p><?=__('You can change the look and feel of your website here.')?><a href="http://docs.yclas.com/how-to-change-theme/" target="_blank"><?=__('Read more')?></a></p>
+    <p><?=__('You can change the look and feel of your website here.')?><a href="https://docs.yclas.com/how-to-change-theme/" target="_blank"><?=__('Read more')?></a></p>
 </div>
 
 <div class="row">

@@ -2,23 +2,17 @@
 
 class Controller_Panel_Crontab extends Auth_CrudAjax {
 
-	/**
-	 * @var $_index_fields ORM fields shown in index
-	 */
-	protected $_index_fields = array('name','period','callback','date_finished','date_next','active');
+    protected $_orm_model = 'crontab';
 
-	/**
-	 * @var $_orm_model ORM model name
-	 */
-	protected $_orm_model = 'crontab';
 
-    /**
-     *
-     * Loads a basic list info
-     * @param string $view template to render 
-     */
-    public function action_index($view = NULL)
-    {
-        parent::action_index('oc-panel/pages/cron/index');
-    }	
+    protected $_index_fields = array('name','period','callback','date_finished','date_next','running','active');
+
+    protected $_search_fields = array('name','period','callback');
+
+    protected $_filter_fields = array(  'running'       => array(0,1), 
+                                        'active'        => array(0,1) ,
+                                        );
+
+    protected $_extra_info_view = 'oc-panel/pages/cron/index';
+
 }

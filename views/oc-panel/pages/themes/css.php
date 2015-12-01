@@ -3,7 +3,7 @@
 <?=Form::errors()?>
 <div class="page-header">
     <h1><?=__('Custom CSS')?></h1>
-    <p><a href="http://docs.yclas.com/how-to-use-custom-css/" target="_blank"><?=__('Read more')?></a></p>
+    <p><a href="https://docs.yclas.com/how-to-use-custom-css/" target="_blank"><?=__('Read more')?></a></p>
     <p><?=__('Please insert here your custom CSS.')?>. <?=__('Current CSS file')?>  <?=HTML::anchor(Theme::get_custom_css())?> </p>
     
 </div>

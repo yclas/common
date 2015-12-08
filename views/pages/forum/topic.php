@@ -112,6 +112,7 @@
             <div class="col-md-4">
                 <?if (Core::config('general.recaptcha_active')):?>
                     <?=Captcha::recaptcha_display()?>
+                    <div id="recaptcha1"></div>
                 <?else:?>
                     <?=__('Captcha')?>*:<br />
                     <?=captcha::image_tag('new-reply-topic')?><br />

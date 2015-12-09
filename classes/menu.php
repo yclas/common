@@ -89,8 +89,12 @@ class Menu {
         $new_menus =  array();
 
         //using order they send us
-        foreach ($order as $key) 
-            $new_menus[$key] = $menus[$key];
+        foreach ($order as $key)
+        {
+            if (isset($menus[$key]))
+                $new_menus[$key] = $menus[$key];
+        } 
+            
        
         return self::save($new_menus);
     }

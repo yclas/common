@@ -374,12 +374,12 @@ class OC_Core {
         return curl_exec($ch); 
     } 
 
-     /**
+    /**
      * Akismet spam check. Invokes akismet class to get response is spam.
      * @param name
      * @param email
      * @param comment
-     * @return bool
+     * @return bool true is not spam false is spam
      */
     public static function akismet($name,$email,$comment)
     {
@@ -387,11 +387,20 @@ class OC_Core {
 
         if (core::config('general.akismet_key')!='')
         {
+            //d(func_get_args());
             $akismet = new Akismet(core::config('general.base_url') ,core::config('general.akismet_key'));
             $akismet->setCommentAuthor($name);
             $akismet->setCommentAuthorEmail($email);
             $akismet->setCommentContent($comment);
-            return $akismet->isCommentSpam();
+
+            try 
+            {
+                return $akismet->isCommentSpam();
+            } 
+            catch (Exception $e) 
+            {
+                return FALSE;
+            }
         }
         else //we return is not spam since we do not have the api :(
             return FALSE;

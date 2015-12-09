@@ -12,7 +12,15 @@
           <div class="form-group">
             <label class="col-sm-2 control-label"><?=__('Email')?></label>
             <div class="col-md-5 col-sm-6">
-              <input class="form-control" type="text" name="email" value="<?=Request::current()->post('email')?>" placeholder="<?=__('Email')?>">
+              <input
+                class="form-control" 
+                type="text" 
+                name="email" 
+                value="<?=Request::current()->post('email')?>" 
+                placeholder="<?=__('Email')?>" 
+                data-domain='<?=(core::config('general.email_domains') != '') ? json_encode(explode(',', core::config('general.email_domains'))) : ''?>' 
+                data-error="<?=__('Email must contain a valid email domain')?>"
+              >
             </div>
           </div>
      

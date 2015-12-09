@@ -13,6 +13,13 @@
 class OC_Captcha{
 
     /**
+     * Used to know if we already used the google recaptcha api somewhere so we don't call it twice
+     * 
+     * @var boolean
+     */
+    private static $included_recaptcha_lib = FALSE;
+
+    /**
 	 * generates the image for the captcha
 	 * @param string $name, used in the session
 	 * @param int $width
@@ -148,11 +155,28 @@ class OC_Captcha{
     {
         if (Core::config('general.recaptcha_sitekey') == '')
             return FALSE;
-        
-        $html  = '<script src="https://www.google.com/recaptcha/api.js"></script>'."\n";
-        $html .= sprintf('<div class="g-recaptcha" data-sitekey="%s"></div>', Core::config('general.recaptcha_sitekey'));
-        
-        return $html;
+
+        if (self::$included_recaptcha_lib === FALSE)
+        {
+            $html  = '<script src="https://www.google.com/recaptcha/api.js?onload=recaptchaCallBack&render=explicit" async defer></script>'."\n";
+            $html .= '<script>'."\n";
+            $html .= 'var recaptcha1; var recaptcha2;
+                      var recaptchaCallBack = function() {
+                          if (document.getElementById("recaptcha1") !== null) {
+                              recaptcha1 = grecaptcha.render("recaptcha1", {"sitekey" : "'.Core::config('general.recaptcha_sitekey').'"});
+                          }
+                          if (document.getElementById("recaptcha2") !== null) {
+                              recaptcha2 = grecaptcha.render("recaptcha2", {"sitekey" : "'.Core::config('general.recaptcha_sitekey').'", "size" : "compact"});
+                          }
+                      };'."\n";
+            $html .= '</script>'."\n";
+
+            self::$included_recaptcha_lib = TRUE;
+
+            return $html;
+        }
+
+        return FALSE;
     }
 
     /**

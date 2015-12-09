@@ -48,6 +48,7 @@
 			<div class="col-md-6 col-md-offset-2 controls">
 				<?if (Core::config('general.recaptcha_active')):?>
 				    <?=Captcha::recaptcha_display()?>
+				    <div id="recaptcha1"></div>
 				<?else:?>
 				    <?=__('Captcha')?>*:<br />
 				    <?=captcha::image_tag('new-forum')?><br />

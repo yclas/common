@@ -109,4 +109,28 @@ class Valid extends Kohana_Valid{
 
         return $result;
     }
+
+    /**
+     * Checks whether a string has banned words.
+     * 
+     * @param  string  $str    input string
+     * @return boolean
+     */
+    public static function no_banned_words($str)
+    {
+        if (core::config('advertisement.banned_words') != NULL AND core::config('advertisement.banned_words') != '')
+        {
+            $banned_words = explode(',', core::config('advertisement.banned_words'));
+            $banned_words = array_map('trim', $banned_words);
+            
+            // with provided array of baned words find words in string
+            foreach ($banned_words as $word)
+            {
+                if (strpos($str, $word) !== FALSE)
+                    return FALSE;
+            }
+        }
+        
+        return TRUE;
+    }
 }

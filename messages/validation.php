@@ -25,5 +25,6 @@ return array(
 	'range'         => __(':field must be within the range of :param2 to :param3'),
 	'regex'         => __(':field does not match the required format'),
 	'url'           => __(':field must be a url'),
+	'no_banned_words' => __(':field must not contain banned words'),
 
 );

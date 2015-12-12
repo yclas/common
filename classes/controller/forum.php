@@ -168,6 +168,10 @@ class Controller_Forum extends Controller {
                                                     ->rule('title', 'min_length', array(':value', 5))
                                                     ->rule('id_forum', 'numeric');
 
+                    // Optional banned words validation
+                    if (core::config('advertisement.validate_banned_words'))
+                        $validation = $validation->rule('title', 'no_banned_words');
+                
                     if ($validation->check())
                     {
                         $topic = new Model_Post();

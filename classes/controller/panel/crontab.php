@@ -15,4 +15,14 @@ class Controller_Panel_Crontab extends Auth_CrudAjax {
 
     protected $_extra_info_view = 'oc-panel/pages/cron/index';
 
+
+    public function action_status()
+    {
+        $status = (bool) $this->request->param('id');
+
+        Model_Config::set_value('general','cron',$status);
+        Alert::set(Alert::SUCCESS, __('General Configuration updated'));
+        $this->redirect(Route::url('oc-panel',array('controller'=>'crontab')));
+    }
+
 }

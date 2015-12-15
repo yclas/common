@@ -62,6 +62,10 @@ class OC_Core {
         //getting the selected theme, and loading options
         Theme::initialize();
 
+        //run crontab
+        if (core::config('general.cron')==TRUE)
+            Cron::run();
+
 	}
 
 

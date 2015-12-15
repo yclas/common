@@ -16,16 +16,13 @@
             <img src="<?=$topic->user->get_profile_image()?>" width="120" height="120" alt="<?=HTML::chars($topic->user->name)?>">
             <div class="caption">
                 <p>
-                    <?
-                    try {
-                    ?>
+                    <?if (in_array('profile', Route::all())) :?>
                         <a href="<?=Route::url('profile', array('seoname'=>$topic->user->seoname)) ?>">
-                        <?=$topic->user->name?>
+                            <?=$topic->user->name?>
                         </a>
-                    <?    
-                    } catch (Exception $e) {
-                        echo $topic->user->name;
-                    }?>
+                    <?else :?>
+                        <?=$topic->user->name?>
+                    <?endif?>
                     <br>
                     <?=Date::fuzzy_span(Date::mysql2unix($topic->created))?><br>
                     <?=$topic->created?>

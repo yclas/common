@@ -42,7 +42,13 @@
             <?endif?>
         <?endif?>
         <p><?=Text::bb2html($topic->description,TRUE)?></p>
-        <a  class="btn btn-primary" href="#reply_form"><?=__('Reply')?></a>
+        <?if (Auth::instance()->logged_in()):?>
+            <a  class="btn btn-primary" href="#reply_form"><?=__('Reply')?></a>
+        <?else:?>
+            <a class="btn btn-primary" data-toggle="modal" data-dismiss="modal" href="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'login'))?>#login-modal">
+                <?=__('Reply')?>
+            </a>
+        <?endif?>
     </div>
 <div class="clearfix"></div>
 <div class="page-header"></div>

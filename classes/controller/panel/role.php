@@ -14,6 +14,8 @@ class Controller_Panel_Role extends Auth_CrudAjax {
 
     protected $_search_fields = array('name');
 
+    public $crud_actions = array('update','create');
+
     function __construct(Request $request, Response $response)
     {
         parent::__construct($request, $response);

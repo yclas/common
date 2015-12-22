@@ -46,8 +46,8 @@
                 ?>
 
                 <td><a title="<?=HTML::chars($topic->title)?>" href="<?=Route::url('forum-topic', array('forum'=>$forum->seoname,'seotitle'=>$topic->seotitle))?><?=$page?>"><?=mb_strtoupper($topic->title);?></a></td>
-                <td width="10%"><span class="label label-info pull-right"><?=Date::format($topic->created)?></span></td>
-                <td width="15%"><span class="label label-warning pull-right"><?=Date::format($topic->last_message)?></span></td>
+                <td width="10%"><span class="label label-info pull-right"><?=Date::format($topic->created, core::config('general.date_format'))?></span></td>
+                <td width="15%"><span class="label label-warning pull-right"><?=Date::format($topic->last_message, core::config('general.date_format'))?></span></td>
                 <td width="5%"><span class="label label-success pull-right"><?=$replies?></span></td>
                 <?if (Auth::instance()->logged_in()):?>
                     <?if(Auth::instance()->get_user()->id_role==Model_Role::ROLE_ADMIN):?>

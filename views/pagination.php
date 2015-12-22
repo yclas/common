@@ -56,27 +56,48 @@ for ($i = $n7; $i <= $n8; $i++)
 
 ?>
 
-  <ul class="pagination">
-		<li <?=(!$first_page)?'class="disabled"':''?>>
-			<a title="<?=__('First')?> <?=$page->title()?>" href="<?=HTML::chars($page->url($first_page))?>"><i class="glyphicon glyphicon-step-backward"></i></a>
-		</li>
-	
-		<li <?=(!$previous_page)?'class="disabled"':''?>>
-			<a title="<?=__('Previous')?> <?=$page->title()?>" href="<?=HTML::chars($page->url($previous_page))?>" rel="prev" id="prev"><i class="glyphicon glyphicon-backward"></i></a>
-		</li>
+<ul class="pagination hidden-xs">
+    <li <?=(!$first_page)?'class="disabled"':''?>>
+        <a title="<?=__('First')?> <?=$page->title()?>" href="<?=HTML::chars($page->url($first_page))?>"><i class="glyphicon glyphicon-step-backward"></i></a>
+    </li>
+    
+    <li <?=(!$previous_page)?'class="disabled"':''?>>
+        <a title="<?=__('Previous')?> <?=$page->title()?>" href="<?=HTML::chars($page->url($previous_page))?>" rel="prev" id="prev"><i class="glyphicon glyphicon-backward"></i></a>
+    </li>
 
-        <?php foreach ($links as $number => $content): ?>
-            <li <?=($number == $current_page)?'class="active"':''?>>
-                <a title="<?=__('Page')?> <?=$number?> <?=$page->title()?>" href="<?=HTML::chars($page->url($number)) ?>"><?=$content?></a>
-            </li>
-        <?php endforeach ?>
+    <?php foreach ($links as $number => $content): ?>
+        <li <?=($number == $current_page)?'class="active"':''?>>
+            <a title="<?=__('Page')?> <?=$number?> <?=$page->title()?>" href="<?=HTML::chars($page->url($number)) ?>"><?=$content?></a>
+        </li>
+    <?php endforeach ?>
 
-		<li <?=(!$next_page)?'class="disabled"':''?>>
-			<a title="<?=__('Next')?> <?=$page->title()?>" href="<?=HTML::chars($page->url($next_page)) ?>" rel="next" id="next"><i class="glyphicon glyphicon-forward"></i></a>
-		</li>
+    <li <?=(!$next_page)?'class="disabled"':''?>>
+        <a title="<?=__('Next')?> <?=$page->title()?>" href="<?=HTML::chars($page->url($next_page)) ?>" rel="next" id="next"><i class="glyphicon glyphicon-forward"></i></a>
+    </li>
 
-		<li <?=(!$last_page)?'class="disabled"':''?>>
-			<a title="<?=__('Last')?> <?=$page->title()?>" href="<?=HTML::chars($page->url($last_page)) ?>" id="last" data-last="<?=$last_page?>"><i class="glyphicon glyphicon-step-forward"></i></a>
-		</li>
+    <li <?=(!$last_page)?'class="disabled"':''?>>
+        <a title="<?=__('Last')?> <?=$page->title()?>" href="<?=HTML::chars($page->url($last_page)) ?>" id="last" data-last="<?=$last_page?>"><i class="glyphicon glyphicon-step-forward"></i></a>
+    </li>
+</ul>
+<!-- .pagination -->
 
-  </ul><!-- .pagination -->
+<div class="text-center">
+    <ul class="pagination visible-xs-inline-block">
+        <li <?=(!$first_page)?'class="disabled"':''?>>
+            <a title="<?=__('First')?> <?=$page->title()?>" href="<?=HTML::chars($page->url($first_page))?>"><i class="glyphicon glyphicon-step-backward"></i></a>
+        </li>
+        
+        <li <?=(!$previous_page)?'class="disabled"':''?>>
+            <a title="<?=__('Previous')?> <?=$page->title()?>" href="<?=HTML::chars($page->url($previous_page))?>" rel="prev" id="prev"><i class="glyphicon glyphicon-backward"></i></a>
+        </li>
+
+        <li <?=(!$next_page)?'class="disabled"':''?>>
+            <a title="<?=__('Next')?> <?=$page->title()?>" href="<?=HTML::chars($page->url($next_page)) ?>" rel="next" id="next"><i class="glyphicon glyphicon-forward"></i></a>
+        </li>
+
+        <li <?=(!$last_page)?'class="disabled"':''?>>
+            <a title="<?=__('Last')?> <?=$page->title()?>" href="<?=HTML::chars($page->url($last_page)) ?>" id="last" data-last="<?=$last_page?>"><i class="glyphicon glyphicon-step-forward"></i></a>
+        </li>
+    </ul>
+</div>
+<!-- mobile .pagination -->

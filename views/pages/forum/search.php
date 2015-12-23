@@ -32,7 +32,7 @@
                 <tr class="success">
                     <td><a title="<?=HTML::chars($title)?>" href="<?=Route::url('forum-topic', array('forum'=>$topic->forum->seoname,'seotitle'=>$seotitle))?>"><?=mb_strtoupper($topic->title);?></a></td>
                     <td width="10%"><a title="<?=HTML::chars($topic->forum->name)?>" href="<?=Route::url('forum-list', array('forum'=>$topic->forum->seoname))?>"><?=$topic->forum->name?></a></td>
-                    <td width="10%"><span class="label label-info pull-right"><?=Date::format($topic->created)?></span></td>
+                    <td width="10%"><span class="label label-info pull-right"><?=Date::format($topic->created, core::config('general.date_format'))?></span></td>
                     <?if (Auth::instance()->logged_in()):?>
                         <?if(Auth::instance()->get_user()->id_role==Model_Role::ROLE_ADMIN):?>
                             <td width="10%">

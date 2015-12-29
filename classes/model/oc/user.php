@@ -382,9 +382,10 @@ class Model_OC_User extends ORM {
 
         if($user->loaded())
         {
-
-            if($user->id_role != Model_Role::ROLE_ADMIN AND 
-                $user->id_role != Model_Role::ROLE_MODERATOR)
+            if( !in_array($user->id_role, array(Model_Role::ROLE_ADMIN, 
+                                                Model_Role::ROLE_MODERATOR, 
+                                                Model_Role::ROLE_TRANSLATOR)) 
+                )
             {
                 $user->status = self::STATUS_SPAM;
 
@@ -392,7 +393,7 @@ class Model_OC_User extends ORM {
                     $user->save();
                     Alert::set(Alert::ALERT, $user->email.' '.__('has been disable for posting, due to recent spam content!'));
                 } catch (Exception $e) {
-                    
+                    Kohana::$log->add(Log::ERROR, 'Error: ' . $e->getMessage());
                 }
             }
         }

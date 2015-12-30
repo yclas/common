@@ -29,34 +29,29 @@ class OC_Core {
 	 */
 	public static function initialize()
 	{	
+        //enables friendly url
+        Kohana::$index_file = FALSE;
 
-		/**
-		 * Load all the configs from DB
-		 */
+        //temporary cookie salt in case of exception
+        Cookie::$salt = 'cookie_oc_temp';
+
 		//Change the default cache system, based on your config /config/cache.php
 		Cache::$default = Core::config('cache.default');
 
+        //loading configs from table config
 		//is not loaded yet in Kohana::$config
 		Kohana::$config->attach(new ConfigDB(), FALSE);
 
 		//overwrite default Kohana init configs.
 		Kohana::$base_url = Core::config('general.base_url');
 
-		//enables friendly url @todo from config
-		Kohana::$index_file = FALSE;
 		//cookie salt for the app
 		Cookie::$salt = Core::config('auth.cookie_salt');
-		/* if (empty(Cookie::$salt)) {
-			// @TODO missing cookie salt : add warning message
-		} */
 
-		// -- i18n Configuration and initialization -----------------------------------------
+		// i18n Configuration and initialization 
 		I18n::initialize(Core::config('i18n.locale'),Core::config('i18n.charset'));
 
 		//Loading the OC Routes
-		// if (($init_routes = Kohana::find_file('config','routes')))
-		// 	require_once $init_routes[0];//returns array of files but we need only 1 file
-        //faster loading
         require_once APPPATH.'config/routes.php';
 
         //getting the selected theme, and loading options

@@ -73,31 +73,25 @@ class OC_Email {
 
                 //SMTP HOST config
                 if (core::config('email.smtp_host')!="")
-                {
                     $mail->Host       = core::config('email.smtp_host');              // sets custom SMTP server
-                }
+                
 
                 //SMTP PORT config
                 if (core::config('email.smtp_port')!="")
-                {
                     $mail->Port       = core::config('email.smtp_port');              // set a custom SMTP port
-                }
+                
 
                 //SMTP AUTH config
-
                 if (core::config('email.smtp_auth') == TRUE)
                 {
                     $mail->SMTPAuth   = TRUE;                                                  // enable SMTP authentication
                     $mail->Username   = core::config('email.smtp_user');              // SMTP username
-                    $mail->Password   = core::config('email.smtp_pass');              // SMTP password
-                   
-
-                    if (core::config('email.smtp_ssl') == TRUE)
-                    {
-                        $mail->SMTPSecure = "ssl";                  // sets the prefix to the server
-                    }
-                        
+                    $mail->Password   = core::config('email.smtp_pass');              // SMTP password                        
                 }
+
+                // sets the prefix to the server
+                $mail->SMTPSecure = core::config('email.smtp_secure');                  
+                    
             }
 
             $mail->From       = core::config('email.notify_email');

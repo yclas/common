@@ -822,10 +822,11 @@ class OC_Theme {
                     return FALSE;
 
                 $theme_name = (substr($zip->getNameIndex(0), 0,-1));
+                File::delete(DOCROOT.'themes/'.$theme_name);
                 $zip->extractTo(DOCROOT.'themes/');
                 $zip->close();
-                unlink($fname);
-
+                File::delete($fname);
+                Alert::set(Alert::SUCCESS, $theme_name.' Updated');
                 return $theme_name;
             }
         }

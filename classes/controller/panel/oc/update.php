@@ -296,11 +296,18 @@ class Controller_Panel_OC_Update extends Auth_Controller {
             //activate maintenance mode
             Model_Config::set_value('general','maintenance',1);
 
+            //store the theme he is using now
+            $current_theme = Core::config('appearance.theme');
+
+            //activate default theme
+            Model_Config::set_value('appearance','theme','default');
+            
             //for each unique license then download!
             foreach ($licenses as $license) 
                 Theme::download($license); 
             
-            Alert::set(Alert::SUCCESS, __('Themes Updated'));
+            //activate original theme
+            Model_Config::set_value('appearance','theme',$current_theme);
 
             //deactivate maintenance mode
             Model_Config::set_value('general','maintenance',0);

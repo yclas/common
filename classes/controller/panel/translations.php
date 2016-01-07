@@ -129,6 +129,18 @@ class Controller_Panel_Translations extends Auth_Controller {
 
             $translation_array_filtered = $translation_array_filtered_aux;
         }
+        elseif (core::get('search')!==NULL)
+        {
+            $translation_array_filtered_aux = array();
+            foreach ($translation_array as $key=>$value ) 
+            {
+                if (strpos($value['original'],core::get('search'))!==FALSE OR 
+                    strpos($value['translated'],core::get('search'))!==FALSE )
+                        $translation_array_filtered_aux[] =  $value;
+            }
+
+            $translation_array_filtered = $translation_array_filtered_aux;
+        }
 
         //how many translated items we have?
         $total_items = count($translation_array_filtered);

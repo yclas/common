@@ -38,7 +38,7 @@
                 </a>
             <?endif?>
         <?endif?>
-        <p><?=Text::bb2html($topic->description,TRUE)?></p>
+        <div class="text-description"><?=Text::bb2html($topic->description,TRUE)?></div>
         <?if (Auth::instance()->logged_in()):?>
             <a  class="btn btn-primary" href="#reply_form"><?=__('Reply')?></a>
         <?else:?>
@@ -82,7 +82,7 @@
             </a>
         <?endif?>
     <?endif?>
-        <p><?=Text::bb2html($reply->description,TRUE)?></p>
+        <div class="text-description"><?=Text::bb2html($reply->description,TRUE)?></div>
         <a  class="btn btn-xs btn-primary" href="#reply_form"><?=__('Reply')?></a>
     </div>
 

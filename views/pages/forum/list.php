@@ -12,7 +12,7 @@
     <?=View::factory('pages/forum/search-form')?>
 
     <div class="clearfix"></div><br>
-    <p><?=$forum->description?></p>
+    <div class="text-description"><?=$forum->description?></div>
 </div>
 
 <table class="table table-hover" id="task-table">

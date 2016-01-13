@@ -4,6 +4,6 @@
     <h1><?=$page->title?></h1>
 </div>
 
-<div>
+<div class="text-description">
 	<?=Text::bb2html($page->description,TRUE,FALSE)?>
 </div><!-- /well -->

@@ -13,7 +13,7 @@
 
 <br/>
 
-<div>
+<div class="text-description">
     <?=$post->description?>
 </div>  
 

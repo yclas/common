@@ -9,7 +9,7 @@
 				<h1><?=$content->title?></h1>
 			</div>
 			<div class="modal-body">
-				<p><?=Text::bb2html($content->description,TRUE,FALSE)?></p>
+				<div class="text-description"><?=Text::bb2html($content->description,TRUE,FALSE)?></div>
 			</div>
 			<div class="modal-footer">
 				<a name="decline_terms" class="btn btn-default" onclick='location.href="http://www.google.com"' ><?=__('No')?></a>

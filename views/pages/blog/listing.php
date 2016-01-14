@@ -20,7 +20,7 @@
     	
     	<?=Date::format($post->created, core::config('general.date_format'))?>
         
-    	<p><?=Text::truncate_html($post->description, 255, NULL)?></p>
+    	<div class="text-description blog-description"><?=Text::truncate_html($post->description, 255, NULL)?></div>
     	
 	    <a title="<?=HTML::chars($post->title)?>" href="<?=Route::url('blog', array('seotitle'=>$post->seotitle))?>"><i class="glyphicon glyphicon-share"></i><?=__('Read more')?></a>
     	<?if ($user !== NULL AND $user!=FALSE AND $user->id_role == Model_Role::ROLE_ADMIN):?>

@@ -124,8 +124,11 @@ class Model_OC_Coupon extends ORM {
      * get the coupon from the query or from the sesion or the post in paypal
      * @return Model_Coupon or null if not found
      */
-    public static function get_coupon()
+    public static function get_coupon($coupon_name = NULL)
     {
+        if ($coupon_name===NULL)
+            $coupon_name = core::post('custom',core::request('coupon',Session::instance()->get('coupon')));
+
         $coupon = new Model_Coupon();
 
         /**
@@ -137,10 +140,10 @@ class Model_OC_Coupon extends ORM {
             Alert::set(Alert::INFO, __('Coupon deleted.'));
         }
         //selected coupon Paypal custom field, or coupon via get/post or session
-        elseif(core::post('custom') != NULL OR core::request('coupon') != NULL OR Session::instance()->get('coupon')!='' )
+        elseif( $coupon_name!==NULL AND !empty($coupon_name) )
         {
             $slug_coupon   = new Model_Coupon();
-            $coupon = $slug_coupon->where('name', '=', core::post('custom',core::request('coupon',Session::instance()->get('coupon'))) )
+            $coupon = $slug_coupon->where('name', '=', $coupon_name )
                     ->where('number_coupons','>',0)
                     ->where('valid_date','>',Date::unix2mysql())
                     ->where('status','=',1)

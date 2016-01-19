@@ -26,4 +26,5 @@ class Model_Crontab extends Cron {
     {
         return array('date_created');
     }
+
 }

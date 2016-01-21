@@ -290,4 +290,14 @@ class Controller_Panel_User extends Auth_CrudAjax {
             return parent::export();
     }
 
+    public function action_delete()
+    {
+        if ($this->request->param('id') == $this->user->id_user)
+        {
+            Alert::set(Alert::INFO, __('You can not delete your user'));
+            HTTP::redirect(Route::url('oc-panel', array('controller'=>$this->request->controller())));
+        }
+        else
+            return parent::delete();
+    }
 }

@@ -298,6 +298,6 @@ class Controller_Panel_User extends Auth_CrudAjax {
             HTTP::redirect(Route::url('oc-panel', array('controller'=>$this->request->controller())));
         }
         else
-            return parent::delete();
+            return parent::action_delete();
     }
 }

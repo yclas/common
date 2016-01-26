@@ -489,11 +489,12 @@ class OC_Core {
      */
     public static function csv_to_array($csv,$expected_header=NULL,$convert_object = FALSE, $delimiter = "," , $enclosure = '"')
     {
+        $end_array =  array();
+        
         //open CSV
         if (file_exists($csv) AND ($handle = fopen($csv, 'r')) !== FALSE) 
         {
             $i = 0;
-            $end_array =  array();
 
             //line by line
             while(($data = fgetcsv($handle, 0, $delimiter, $enclosure)) !== FALSE)

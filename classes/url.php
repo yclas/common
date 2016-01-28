@@ -24,9 +24,14 @@ class URL extends Kohana_URL {
      */
     public static function title($title, $separator = '-', $ascii_only = NULL)
     {
-        $res = self::slugify($title,$separator);
+        //default operations with string no matter the encoding
+        $title = mb_strtolower(trim($title));
+        $title = str_replace(array("'",'/',' ','&','+','_'),$separator,$title);
 
-        //in case empty return because the usage of CJK characters....
+        //using the slugify function to get rid and replace special chars
+        $res = self::slugify($title,$separator);
+   
+        //in case sludigy returns empty because the usage of CJK characters....somewhere in the title
         return (strlen($res)==0 AND strlen($title)>0) ? $title:$res;
 
         //used to work but some issues

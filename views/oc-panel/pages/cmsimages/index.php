@@ -1,6 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 <div class="page-header">	
 	<h1><?=__('CMS Images')?></h1>
+	<p><a href="http://docs.yclas.com/how-to-manage-uploaded-images/" target="_blank"><?=__('Read more')?></a></p>
 </div>
 
 <div class="panel panel-default">

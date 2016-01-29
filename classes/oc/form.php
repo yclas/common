@@ -145,7 +145,7 @@ class OC_Form extends Kohana_Form {
     public static function redirect($url = NULL)
     {        
         if ($url == NULL)
-            $url = Core::post('auth_redirect',URL::current());
+            $url = Core::request('auth_redirect',URL::current());
         
         if (Request::current()->controller()=='auth')
             $url = Request::current()->referrer();

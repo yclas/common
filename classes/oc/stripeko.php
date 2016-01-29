@@ -23,6 +23,21 @@ class OC_StripeKO {
     }
 
     /**
+     * how much the site owner earn?
+     * @param  integer $amount 
+     * @return integer
+     */
+    public static function application_fee($amount)
+    {   
+        //percentage we take
+        $fee  = Core::config('payment.stripe_appfee');
+
+        //initial exchange fee + stripe fee
+        return ($fee * $amount / 100);
+    }
+
+
+    /**
      *   NOTE This will  never be exactly since stripe has variable pricing
      */
     public static function calculate_fee($amount)
@@ -42,9 +57,27 @@ class OC_StripeKO {
      */
     public static function button(Model_Order $order)
     {
-        if ( Core::config('payment.stripe_private')!='' AND Core::config('payment.stripe_public')!='' AND Theme::get('premium')==1)
+        if (Core::config('payment.stripe_connect')==TRUE AND Core::config('payment.stripe_private')!='' AND Core::config('payment.stripe_public')!='' AND Theme::get('premium')==1)
         {
             return View::factory('pages/stripe/button',array('order'=>$order));
+        }
+
+        return '';
+    }
+
+
+    /**
+     * generates HTML for apy buton
+     * @param  Model_Order $order 
+     * @return string                 
+     */
+    public static function button_connect(Model_Order $order)
+    {
+        if ( Core::config('payment.stripe_private')!='' AND Core::config('payment.stripe_public')!='' AND Theme::get('premium')==1)
+        {
+            if ($order->ad->price != NULL AND $order->ad->price > 0 AND 
+                (core::config('payment.stock')==0 OR ($order->ad->stock > 0 AND core::config('payment.stock')==1)))
+                return View::factory('pages/stripe/button_connect',array('order'=>$order));
         }
 
         return '';

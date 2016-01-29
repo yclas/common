@@ -57,7 +57,7 @@ class OC_StripeKO {
      */
     public static function button(Model_Order $order)
     {
-        if (Core::config('payment.stripe_connect')==TRUE AND Core::config('payment.stripe_private')!='' AND Core::config('payment.stripe_public')!='' AND Theme::get('premium')==1)
+        if (Core::config('payment.stripe_private')!='' AND Core::config('payment.stripe_public')!='' AND Theme::get('premium')==1)
         {
             return View::factory('pages/stripe/button',array('order'=>$order));
         }
@@ -73,7 +73,7 @@ class OC_StripeKO {
      */
     public static function button_connect(Model_Order $order)
     {
-        if ( Core::config('payment.stripe_private')!='' AND Core::config('payment.stripe_public')!='' AND Theme::get('premium')==1)
+        if ( Core::config('payment.stripe_connect')==TRUE AND Core::config('payment.stripe_private')!='' AND Core::config('payment.stripe_public')!='' AND Theme::get('premium')==1)
         {
             if ($order->ad->price != NULL AND $order->ad->price > 0 AND 
                 (core::config('payment.stock')==0 OR ($order->ad->stock > 0 AND core::config('payment.stock')==1)))

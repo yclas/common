@@ -105,8 +105,10 @@ class Controller_Panel_Translations extends Auth_Controller {
         list($translation_array,$untranslated_array) = $this->get_translation($language);
         
         //watch out at any standard php installation there's a limit of 1000 posts....edit php.ini max_input_vars = 10000 to amend it.
-        if($this->request->post() AND ($data_translated = $this->request->post('translations')) )
+        if($this->request->post() AND is_array(Core::post('translations')) )
         {
+            $data_translated = Core::post('translations');
+
             if ($this->save_translation($language,$translation_array,$data_translated))
                 Alert::set(Alert::SUCCESS, $language.' '.__('Language saved'));
             else

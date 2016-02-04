@@ -8,6 +8,11 @@
     <?endif?>
 
     <h1><?=Text::ucfirst(__($name))?></h1>
+    <?if($name == 'product'):?><p><a href="http://docs.open-eshop.com/add-product/" target="_blank"><?=__('Read more')?></a></p><?endif;?>
+    <?if($name == 'license'):?><p><a href="http://docs.open-eshop.com/manage-licenses/" target="_blank"><?=__('Read more')?></a></p><?endif;?>
+    <?if($name == 'user'):?><p><a href="http://docs.yclas.com/manage-users/" target="_blank"><?=__('Read more')?></a></p><?endif;?>
+    <?if($name == 'role'):?><p><a href="https://docs.yclas.com/roles-work-classified-ads-script/" target="_blank"><?=__('Read more')?></a></p><?endif;?>
+    <?if($name == 'crontab'):?><p><a href="http://docs.yclas.com/how-to-set-crons/" target="_blank"><?=__('Read more')?></a></p><?endif;?>
     <?=$extra_info_view?>
 </div>
 

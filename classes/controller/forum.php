@@ -184,7 +184,14 @@ class Controller_Forum extends Controller {
                         $topic->ip_address   = ip2long(Request::$client_ip);
                         $topic->save();
 
-                        $this->redirect(Route::url('forum-topic',array('forum'=>$topic->forum->seoname,'seotitle'=>$topic->seotitle)));
+                        $forum_url = Route::url('forum-topic',array('forum'=>$topic->forum->seoname,'seotitle'=>$topic->seotitle));
+
+                        if( core::config('email.new_ad_notify') == TRUE OR core::config('email.new_sale_notify')==TRUE )
+                        {
+                            Email::content(core::config('email.notify_email'), '', NULL, NULL, 'new-forum-answer', array('[FORUM.LINK]' => $forum_url));
+                        }
+
+                        $this->redirect($forum_url);
                     }
                     else
                     {
@@ -347,6 +354,8 @@ class Controller_Forum extends Controller {
                             Request::current()->post('description','');
                             Alert::set(Alert::SUCCESS, __('Reply added, thanks!'));
                             
+                            //notification to the participants
+                            $topic->notify_repliers();
                         }
                         else
                         {

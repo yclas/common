@@ -143,6 +143,51 @@ class Model_Post extends ORM {
         return FALSE;
     }
     
+    /**
+     * return replies of the topic for notification purposes
+     * @return array list of emails to send a notification of new response
+     */
+    public function get_repliers()
+    {
+        $user = Auth::instance()->get_user();
+        
+        $repliers   = array();
+        $id_users   = array();
+
+        //adding the owner of the topic to the replies, in case not his answer
+        if ($user->id_user != $this->id_user)
+        {
+            $repliers[] = array('name' => $this->user->name, 'email' => $this->user->email);
+            $id_users[] = $this->id_user;
+        }
+        
+        //get all repliers
+        $replies = $this->replies->find_all();
+        foreach($replies as $reply)
+        {
+            //not duplicated and not the user that replied
+            if( ! in_array($reply->id_user, $id_users) AND $reply->id_user!=$user->id_user)
+            {
+                $repliers[] = array('name' => $reply->user->name, 'email' => $reply->user->email);
+                $id_users[] = $reply->id_user;
+            }
+        }
+
+        return $repliers;
+    }
+
+    /**
+     * send notification of new answer to the repliers of a topic
+     */
+    public function notify_repliers()
+    {
+        $data = array(
+            '[FORUM.LINK]' => Route::url('forum-topic',array('forum'=>$this->forum->seoname,'seotitle'=>$this->seotitle))
+            );
+
+        Email::content($this->get_repliers(), '', NULL, NULL, 'new-forum-answer', $data);
+    }
+
     protected $_table_columns =  
 array (
   'id_post' => 

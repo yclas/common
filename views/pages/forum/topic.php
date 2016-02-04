@@ -38,7 +38,7 @@
                 </a>
             <?endif?>
         <?endif?>
-        <p><?=Text::bb2html($topic->description,TRUE)?></p>
+        <div class="text-description"><?=Text::bb2html($topic->description,TRUE)?></div>
         <?if (Auth::instance()->logged_in()):?>
             <a  class="btn btn-primary" href="#reply_form"><?=__('Reply')?></a>
         <?else:?>
@@ -57,16 +57,13 @@
             <img src="<?=$reply->user->get_profile_image()?>" width="120" height="120" alt="<?=HTML::chars($reply->user->name)?>">
             <div class="caption">
                 <p>
-                    <?
-                    try {
-                    ?>
+                    <?if (in_array('profile', Route::all())) :?>
                         <a href="<?=Route::url('profile', array('seoname'=>$reply->user->seoname)) ?>">
-                        <?=$reply->user->name?>
+                            <?=$reply->user->name?>
                         </a>
-                    <?    
-                    } catch (Exception $e) {
-                        echo $reply->user->name;
-                    }?>
+                    <?else :?>
+                        <?=$reply->user->name?>
+                    <?endif?>
                     <br>
                     <?=Date::fuzzy_span(Date::mysql2unix($reply->created))?><br>
                     <?=$reply->created?>
@@ -82,7 +79,7 @@
             </a>
         <?endif?>
     <?endif?>
-        <p><?=Text::bb2html($reply->description,TRUE)?></p>
+        <div class="text-description"><?=Text::bb2html($reply->description,TRUE)?></div>
         <a  class="btn btn-xs btn-primary" href="#reply_form"><?=__('Reply')?></a>
     </div>
 

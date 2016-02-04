@@ -4,7 +4,7 @@
     <h1><?=$faq->title?></h1>
 </div>
 
-<div>
+<div class="text-description">
 	<?=Text::bb2html($faq->description,TRUE,FALSE)?>
 </div><!-- /well -->
 

@@ -57,16 +57,13 @@
             <img src="<?=$reply->user->get_profile_image()?>" width="120" height="120" alt="<?=HTML::chars($reply->user->name)?>">
             <div class="caption">
                 <p>
-                    <?
-                    try {
-                    ?>
+                    <?if (in_array('profile', Route::all())) :?>
                         <a href="<?=Route::url('profile', array('seoname'=>$reply->user->seoname)) ?>">
-                        <?=$reply->user->name?>
+                            <?=$reply->user->name?>
                         </a>
-                    <?    
-                    } catch (Exception $e) {
-                        echo $reply->user->name;
-                    }?>
+                    <?else :?>
+                        <?=$reply->user->name?>
+                    <?endif?>
                     <br>
                     <?=Date::fuzzy_span(Date::mysql2unix($reply->created))?><br>
                     <?=$reply->created?>

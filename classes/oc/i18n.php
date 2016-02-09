@@ -39,19 +39,22 @@ class OC_I18n extends Kohana_I18n {
         /**
          * setting the statics so later we can access them from anywhere
          */
-        
+
         //we allow to choose lang from the url
         if (Core::config('i18n.allow_query_language')==1)
         {
+            $locales = self::get_languages();
+            
             if(Core::get('language')!==NULL)
-            {
                 $locale  = Core::get('language');
-            }
             elseif (Cookie::get('user_language')!==NULL)
-            {
                 $locale = Cookie::get('user_language');
-            }
-            Cookie::set('user_language',$locale, Core::config('auth.lifetime'));
+
+            //does the locale exists?
+            if (array_key_exists($locale,self::get_languages()) )
+                Cookie::set('user_language',$locale, Core::config('auth.lifetime'));
+            else
+                $locale = self::$locale_default;
         }
      
         self::$lang    = $locale;//used in i18n kohana

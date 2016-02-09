@@ -22,8 +22,7 @@ class Controller_Panel_Translations extends Auth_Controller {
         $this->template->title = __('Translations');
 
         //scan project files and generate .po
-        $parse = $this->request->query('parse');
-        if($parse)
+        if( core::get('parse')!==NULL )
         {
             //scan script
             require_once Kohana::find_file('vendor', 'POTCreator/POTCreator','php');
@@ -40,29 +39,17 @@ class Controller_Panel_Translations extends Auth_Controller {
         }
 
         //change default site language
-        if($this->request->param('id'))
+        if( ($locale=$this->request->param('id'))!=NULL AND array_key_exists($locale,i18n::get_languages()))
         {
-         //save language
-            $locale = new Model_Config();
+            //save language
+            Model_Config::set_value('i18n','locale',$locale);
 
-            $locale->where('group_name','=','i18n')
-                    ->where('config_key','=','locale')
-                    ->limit(1)->find();
+            //change the cookie if not he will not see the changes
+            if (Core::config('i18n.allow_query_language')==1)
+                Cookie::set('user_language',$locale, Core::config('auth.lifetime'));
 
-            if (!$locale->loaded())
-            {
-                $locale->group_name = 'i18n';
-                $locale->config_key = 'locale';
-            }
-
-            $locale->config_value = $this->request->param('id');
-            try {
-                $locale->save();
-                Alert::set(Alert::SUCCESS,__('Translations regenarated'));
-            } catch (Exception $e) {
-                throw HTTP_Exception::factory(500,$e->getMessage());
-            }
-            HTTP::redirect(Route::url('oc-panel',array('controller'  => 'translations'))); 
+            Alert::set(Alert::SUCCESS,__('Language').' '. $locale);
+            HTTP::redirect(Route::url('oc-panel',array('controller'  => 'translations')));
         }
         
         //create language

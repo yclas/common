@@ -611,7 +611,7 @@ class Model_OC_User extends ORM {
                         .(($this->last_modified) ? '?v='.Date::mysql2unix($this->last_modified) : NULL);
         }
         else
-            return '//www.gravatar.com/avatar/'.md5(strtolower(trim($this->email))).'?s=200';
+            return '//www.gravatar.com/avatar/'.md5(strtolower(trim($this->email))).'?s=250';
     }
 
     /**

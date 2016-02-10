@@ -566,6 +566,76 @@ class OC_Core {
         return FALSE;        
     }
 
+    /**
+     * resize images with imagefly or CDN 
+     * @param  string $image  image URI
+     * @param  integer $width  
+     * @param  integer $height 
+     * @param  integer $mode   mode
+     * @return string         URI
+     */
+    public static function imagefly($image,$width=NULL,$height=NULL,$mode='crop')
+    {
+        //usage of WP CDN, if they use AWS also!
+        if ( (Theme::get('cdn_files') == TRUE OR Core::config('image.aws_s3_active') == TRUE)  
+            AND Valid::url($image) == TRUE
+            AND Kohana::$environment!== Kohana::DEVELOPMENT)
+        {
+            $protocol = Core::is_HTTPS() ? 'https://' : 'http://';
+
+            $image = str_replace($protocol, '', $image);
+
+            //for images we use the cached CDN of wp - getting the numbers to calculate the photon domain
+            $num_images = preg_replace('/\D/', '',$image);
+            $photon_domain = (is_numeric($num_images))?$num_images%3:1;
+
+            if ($mode = 'crop' AND is_numeric($width) AND is_numeric($height) )
+                $params = 'resize='.$width.','.$height;
+            elseif (is_numeric($width) AND $height===NULL )
+                $params = 'w='.$width;
+            elseif ($width==NULL AND is_numeric($height) )
+                $params = 'h='.$height;
+
+            //add = or & param to url
+            $params = ((strpos($image, '?')>0)?'&':'?').$params;
+
+            return $protocol.'i'.$photon_domain.'.wp.com/'.$image.$params;
+        }
+        //local resize
+        else
+        {
+            $image_path = NULL;
+
+            //remove HTTP
+            if (Valid::url($image))
+            {
+                $image_path = str_replace(Core::S3_domain(), '', $image);
+                if (($pos = strpos($image_path, '?'))>0)
+                    $image_path = substr($image_path, 0, $pos);
+            }
+
+            if (file_exists($image_path))
+            {
+                if (is_numeric($width) AND is_numeric($height) )
+                    $params = 'w'.$width.'-h'.$height;
+                elseif (is_numeric($width) AND $height===NULL )
+                    $params = 'w'.$width;
+                elseif ($width==NULL AND is_numeric($height) )
+                    $params = 'h'.$height;
+
+                if ($mode = 'crop')
+                    $params.='-c';
+
+                return Route::url('imagefly',  array('params'=>$params,'imagepath'=>$image_path));
+            }
+            
+        }
+
+        return $image;
+            
+    }
+
+
 } //end core
 
 /**

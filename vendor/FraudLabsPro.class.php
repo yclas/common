@@ -39,7 +39,7 @@ class FraudLabsPro {
             'currency'          => 'currency',
             'department'        => 'department',
             'paymentMode'       => 'payment_mode',
-            'sessionId'         => 'session_id'
+            'flpChecksum'       => 'flp_checksum'
         );
 
         $queries = array(

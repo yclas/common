@@ -24,28 +24,11 @@ class URL extends Kohana_URL {
      */
     public static function title($title, $separator = '-', $ascii_only = NULL)
     {
-        //default operations with string no matter the encoding
-        $title = mb_strtolower(trim($title));
-        $title = str_replace(array("'",'/',' ','&','+','_'),$separator,$title);
-
         //using the slugify function to get rid and replace special chars
         $res = self::slugify($title,$separator);
    
         //in case sludigy returns empty because the usage of CJK characters....somewhere in the title
-        return (strlen($res)==0 AND strlen($title)>0) ? $title:$res;
-
-        //used to work but some issues
-        /*
-        //replaced ' for - since the original function will not remove this good
-        $title = str_replace("'",'-',$title);
-
-        //convert the ascii characters, why not? ;), unless forced
-        if ($ascii_only === NULL)
-            $title = UTF8::transliterate_to_ascii($title);
-
-        return parent::title($title, $separator,$ascii_only);
-        */
-      
+        return (strlen($res)==0 AND strlen($title)>0) ? self::cjk_slugify($title):$res;      
     }
 
     /**
@@ -216,4 +199,40 @@ class URL extends Kohana_URL {
         return trim($cleaned, $separator);
     }
 
+    /**
+     * Slugify for CJK characters. removes emojis and unwanted chars from texts
+     * @param  string $text 
+     * @return string
+     * @see http://stackoverflow.com/a/12824140/514629
+     */
+    public static function cjk_slugify($text) 
+    {
+        $clean_text = '';
+
+        // default operations with string no matter the encoding
+        $clean_text = mb_strtolower(trim($text));
+        $clean_text = str_replace(array("'",'/',' ','&','+','_','.'),'-',$clean_text);
+
+        // Match Emoticons
+        $regexEmoticons = '/[\x{1F600}-\x{1F64F}]/u';
+        $clean_text = preg_replace($regexEmoticons, '', $clean_text);
+
+        // Match Miscellaneous Symbols and Pictographs
+        $regexSymbols = '/[\x{1F300}-\x{1F5FF}]/u';
+        $clean_text = preg_replace($regexSymbols, '', $clean_text);
+
+        // Match Transport And Map Symbols
+        $regexTransport = '/[\x{1F680}-\x{1F6FF}]/u';
+        $clean_text = preg_replace($regexTransport, '', $clean_text);
+
+        // Match Miscellaneous Symbols
+        $regexMisc = '/[\x{2600}-\x{26FF}]/u';
+        $clean_text = preg_replace($regexMisc, '', $clean_text);
+
+        // Match Dingbats
+        $regexDingbats = '/[\x{2700}-\x{27BF}]/u';
+        $clean_text = preg_replace($regexDingbats, '', $clean_text);
+
+        return $clean_text;
+    }
 } // End url

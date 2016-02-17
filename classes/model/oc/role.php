@@ -45,6 +45,21 @@ class Model_OC_Role extends ORM {
         return array('date_created');
     }
 
+    /**
+     * Rule definitions for validation
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return array('id_role'      => array(array('numeric')),
+                    'name'          => array(   array(array($this, 'unique'), array('name', ':value')),
+                                                array('not_empty'),
+                                                array('max_length', array(':value', 45)), 
+                                            ),
+                    );
+    }
+
     protected $_table_columns =  
     array (
       'id_role' => 

@@ -171,8 +171,10 @@ class Controller_Panel_User extends Auth_CrudAjax {
 			{
 				if(!empty(core::post('password1'))){
 	
-					$user->password = core::post('password1');
-					$user->last_modified = Date::unix2mysql();
+					$user->password        = core::post('password1');
+					$user->last_modified   = Date::unix2mysql();
+                    $user->failed_attempts = 0;
+                    $user->last_failed     = NULL;
 	
 					try
 					{

@@ -211,7 +211,8 @@ class URL extends Kohana_URL {
 
         // default operations with string no matter the encoding
         $clean_text = mb_strtolower(trim($text));
-        $clean_text = str_replace(array("'",'/',' ','&','+','_','.','=','、'),'-',$clean_text);
+        $clean_text = str_replace(array("'",'/',' ','&','+','_','.','=','、','。','！','「','『','』','」'),'-',$clean_text);
+
 
         // Match Emoticons
         $regexEmoticons = '/[\x{1F600}-\x{1F64F}]/u';

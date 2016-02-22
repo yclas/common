@@ -25,12 +25,14 @@ class OC_StripeKO {
     /**
      * how much the site owner earn?
      * @param  integer $amount 
+     * @param  integer $fee 
      * @return integer
      */
-    public static function application_fee($amount)
+    public static function application_fee($amount, $fee = NULL)
     {   
-        //percentage we take
-        $fee  = Core::config('payment.stripe_appfee');
+        //percentage we take, in case not passed take default
+        if ($fee === NULL)
+            $fee  = Core::config('payment.stripe_appfee');
 
         //initial exchange fee + stripe fee
         return ($fee * $amount / 100);

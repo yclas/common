@@ -146,7 +146,7 @@ class Controller_Forum extends Controller {
 			else
 			{
 				Alert::set(Alert::INFO, __('New Topic is not available as a feature.'));
-				$this->redirect('default');
+				$this->redirect(Route::url('default'));
 			}
         }
 

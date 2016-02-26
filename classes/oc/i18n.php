@@ -503,7 +503,7 @@ class OC_I18n extends Kohana_I18n {
         'PEN' => array(NULL,2,'.',',',0),          //  Peru, Nuevo Sol
         'UYU' => array(NULL,2,',','.',0),          //  Peso Uruguayo
         'PHP' => array(NULL,2,'.',',',0),          //  Philippine Peso
-        'PLN' => array(NULL,2,'.',' ',0),          //  Poland, Zloty
+        'PLN' => array(" zł",2,'.',' ',1),          //  Poland, Zloty
         'GBP' => array('&pound;',2,'.',',',0),          //  Pound Sterling
         'OMR' => array(NULL,3,'.',',',0),          //  Rial Omani
         'RON' => array(NULL,2,',','.',0),          //  Romania, New Leu

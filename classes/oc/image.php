@@ -146,8 +146,11 @@ abstract class OC_Image extends Kohana_Image {
             $total++;
         }
 
-        return ($count / $total) >= $threshold;
+		if ($total > 0)
+            return ($count / $total) >= $threshold;
 
+        return FALSE;
+        
     }
 	
 } // End Image

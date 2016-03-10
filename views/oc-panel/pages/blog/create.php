@@ -21,7 +21,7 @@
             <div class="form-group">
                 <?= FORM::label($form['description']['id'], __('Description'), array('class'=>'control-label col-md-2', 'for'=>$form['description']['id']))?>
                 <div class="col-sm-9">
-                    <?= FORM::textarea($form['description']['name'], __('Description'), array('class'=>'form-control','id' => $form['description']['id'],'data-editor'=>'html'))?>
+                    <?= FORM::textarea($form['description']['name'], '', array('class'=>'form-control','id' => $form['description']['id'],'data-editor'=>'html', 'placeholder'=>__('Description')))?>
                 </div>
             </div>
             <div class="form-group">

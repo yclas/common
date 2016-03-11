@@ -75,6 +75,85 @@ class OC_Core {
     }
 
     /**
+     * Shortcut to get the URL of a CSS and JS resource
+     * Use config settings to retrieve local or CDN file + HTTPS CDNs
+     * 
+     * @param string $resource_name = ['a'|'b']
+     * @return array
+     */
+    public static function get_external_resource($resource_name,$bootswatchtheme=NULL)
+    {
+        static $b_use_cdn; if ( ! isset($b_use_cdn)) $b_use_cdn = Core::config('general.cdn_for_css_js') == '1';
+        static $cdn_protocol; if ( $b_use_cdn AND ! isset($cdn_protocol)) $cdn_protocol = Core::config('general.cdn_use_https') == '1' ? 'https:':'http:';
+        static $arr_resources; if ( ! isset($arr_resources)) $arr_resources = array(
+            'bootstrap' => array(
+                'css'=>($b_use_cdn?($cdn_protocol.'//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/'):'css/').'bootstrap.min.css',
+                'js' =>($b_use_cdn?($cdn_protocol.'//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/'):'js/').'bootstrap.min.js',
+            ),
+            'bootswatch' => array(
+                'css'=>($b_use_cdn?($cdn_protocol.'//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/'):'css/bootswatch/').($bootswatchtheme?:'cerulean').'/bootstrap.min.css',
+            ),
+            'jquery' => array(
+                'js' =>($b_use_cdn?($cdn_protocol.'//code.jquery.com/'):'js/').'jquery-1.11.1.min.js',
+            ),
+            'prettyphoto'=> array(
+                'css'=>($b_use_cdn?($cdn_protocol.'//cdn.jsdelivr.net/prettyphoto/3.1.5/css/'):'css/').'prettyPhoto.css',
+                'js' =>($b_use_cdn?($cdn_protocol.'//cdn.jsdelivr.net/prettyphoto/3.1.5/js/'):'js/').'jquery.prettyPhoto.js',
+            ),
+            'jquery.sceditor'=> array(
+                'css'=>($b_use_cdn?($cdn_protocol.'//cdn.jsdelivr.net/sceditor/1.4.3/themes/default.min.css'):'css/jquery.sceditor.min.css'),
+                'js' =>($b_use_cdn?($cdn_protocol.'//cdn.jsdelivr.net/sceditor/1.4.3/jquery.sceditor.min.js'):'js/jquery.sceditor.min.js?v=144'),
+            ),
+            'summernote'=> array(
+                'css'=>($b_use_cdn?($cdn_protocol.'//cdnjs.cloudflare.com/ajax/libs/summernote/0.5.2/'):'css/').'summernote.css', // @TOFIX @FIXME for BS3: summernote-bs3.css instead ?,
+                'js' =>($b_use_cdn?($cdn_protocol.'//cdnjs.cloudflare.com/ajax/libs/summernote/0.5.2/'):'js/').'summernote.min.js',
+            ),
+            'chosen'=> array(
+                'css'=>($b_use_cdn?($cdn_protocol.'//cdn.jsdelivr.net/chosen/1.1.0/'):'css/').'chosen.min.css',
+                'js' =>($b_use_cdn?($cdn_protocol.'//cdn.jsdelivr.net/chosen/1.1.0/'):'js/').'chosen.jquery.min.js',
+            ),
+            'bootstrap.datepicker' => array(
+                'css'=>($b_use_cdn?($cdn_protocol.'//cdn.jsdelivr.net/bootstrap.datepicker/0.1/css/'):'css/').'datepicker.css',
+                'js' =>($b_use_cdn?($cdn_protocol.'//cdn.jsdelivr.net/bootstrap.datepicker/0.1/js/'):'js/').'bootstrap-datepicker.js',
+            ),
+            'bootstrap.tagsinput' => array(
+                'css'=>($b_use_cdn?($cdn_protocol.'//cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/'):'css/').'bootstrap-tagsinput.css',
+                'js' =>($b_use_cdn?($cdn_protocol.'//cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/'):'js/').'bootstrap-tagsinput.min.js',
+            ),
+            'bootstrap.rtl' => array(
+                'css'=>($b_use_cdn?($cdn_protocol.'//cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.2.0-rc2/css/'):'css/').'bootstrap-rtl.min.css',
+            ),
+            'jquery.validate' => array(
+                'js' =>($b_use_cdn?($cdn_protocol.'//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.12.0/'):'js/').'jquery.validate.min.js',
+            ),
+            'jquery.cookie' => array(
+                'js' =>($b_use_cdn?($cdn_protocol.'//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/'):'js/').'jquery.cookie.min.js',
+            ),
+            'jquery.fileupload' => array(
+                'css'=>($b_use_cdn?($cdn_protocol.'//cdn.jsdelivr.net/jquery.fileupload/9.5.2/css/'):'css/').'jquery.fileupload.css',
+                'js' =>($b_use_cdn?($cdn_protocol.'//cdn.jsdelivr.net/jquery.fileupload/9.5.2/js/'):'js/').'jquery.fileupload.js',
+                'js.ui'=>($b_use_cdn?($cdn_protocol.'//cdn.jsdelivr.net/jquery.fileupload/9.5.2/js/vendor/'):'js/').'jquery.ui.widget.js',
+                'js.iframe'=>($b_use_cdn?($cdn_protocol.'//cdn.jsdelivr.net/jquery.fileupload/9.5.2/js/'):'js/').'jquery.iframe-transport.js',
+            ),
+            'fonts.awesome' => array(
+                'css'=>($b_use_cdn?($cdn_protocol.'//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/'):'css/').'font-awesome.min.css',
+            ),
+            'sorttable' => array(
+                'js'=>($b_use_cdn?($cdn_protocol.'//cdn.jsdelivr.net/sorttable/2/'):'js/').'sorttable.min.js',
+            ),
+            '.sorttable' => array(
+                'js'=>($b_use_cdn?($cdn_protocol.'//cdn.jsdelivr.net/sorttable/2/'):'js/').'sorttable.min.js',
+                //'js'=>'js/jquery-sortable-min.js',
+            ),
+        );
+        $resource_name = strtolower($resource_name);
+        if (array_key_exists($resource_name, $arr_resources))
+            return $arr_resources[$resource_name];
+        else
+            return array('css'=>NULL,'js'=>NULL);
+    }
+
+    /**
      * shortcut for the query method $_GET
      * @param  [type] $key     [description]
      * @param  [type] $default [description]

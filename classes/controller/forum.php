@@ -320,8 +320,8 @@ class Controller_Forum extends Controller {
         //if loged in add styles and check for post
         if (Auth::instance()->logged_in())
         {
-            $this->template->styles              = array('css/jquery.sceditor.min.css' => 'screen');
-            $this->template->scripts['footer']   = array('js/jquery.sceditor.min.js?v=144','js/jquery.sceditor.bbcode.min.js','js/forum-new.js');
+            $this->template->styles              = array('css/jquery.sceditor.default.theme.min.css' => 'screen');
+            $this->template->scripts['footer']   = array('js/jquery.sceditor.bbcode.min.js','js/forum-new.js');
 
             $errors = NULL;
             if($this->request->post()) //message submition  

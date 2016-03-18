@@ -608,6 +608,26 @@ class OC_I18n extends Kohana_I18n {
     }
 
     /**
+     * get ISO 4217 international currency code
+     * @return string    international currency code
+     */
+    public static function get_intl_currency_symbol()
+    {
+        $number_format = core::config('general.number_format');
+
+        if (in_array($number_format, array_keys(self::$currencies)))
+        {
+            // return since it's a ISO 4217 currency codes
+            return $number_format;
+        }
+        else
+        {
+            list( , , $intl_currency_symbol) = array_values(localeconv());
+            return $intl_currency_symbol;
+        }
+    }
+
+    /**
      * get country code using IP
      * @param  string $ip 
      * @return string     

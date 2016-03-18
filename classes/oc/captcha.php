@@ -192,15 +192,10 @@ class OC_Captcha{
                         'response' => Core::post('g-recaptcha-response'),
                         'remoteip' => Request::$client_ip);
         
-        foreach($params as $param)
-            $param = urlencode($param);
+        $response = Request::factory('https://www.google.com/recaptcha/api/siteverify')->method(Request::POST)->post($params)->execute()->body();
+        $response = json_decode($response);
         
-        $qs = http_build_query($params);
-        
-        $response = Request::factory('https://www.google.com/recaptcha/api/siteverify?'.$qs)->execute()->body();
-        $response = json_decode($response, TRUE);
-        
-        if ($response['success'])
+        if ($response->success)
             return TRUE;
         
         return FALSE;

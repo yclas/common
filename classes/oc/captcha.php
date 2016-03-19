@@ -160,13 +160,19 @@ class OC_Captcha{
         {
             $html  = '<script src="https://www.google.com/recaptcha/api.js?onload=recaptchaCallBack&render=explicit" async defer></script>'."\n";
             $html .= '<script>'."\n";
-            $html .= 'var recaptcha1; var recaptcha2;
+            $html .= 'var recaptcha1; var recaptcha2; var recaptcha3; var recaptcha4;
                       var recaptchaCallBack = function() {
                           if (document.getElementById("recaptcha1") !== null) {
                               recaptcha1 = grecaptcha.render("recaptcha1", {"sitekey" : "'.Core::config('general.recaptcha_sitekey').'"});
                           }
                           if (document.getElementById("recaptcha2") !== null) {
                               recaptcha2 = grecaptcha.render("recaptcha2", {"sitekey" : "'.Core::config('general.recaptcha_sitekey').'", "size" : "compact"});
+                          }
+                          if (document.getElementById("recaptcha3") !== null) {
+                              recaptcha3 = grecaptcha.render("recaptcha3", {"sitekey" : "'.Core::config('general.recaptcha_sitekey').'"});
+                          }
+                          if (document.getElementById("recaptcha4") !== null) {
+                              recaptcha4 = grecaptcha.render("recaptcha4", {"sitekey" : "'.Core::config('general.recaptcha_sitekey').'"});
                           }
                       };'."\n";
             $html .= '</script>'."\n";

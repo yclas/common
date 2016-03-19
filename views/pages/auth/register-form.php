@@ -40,6 +40,23 @@
               </p>
             </div>
           </div>
+          <div class="form-group">
+            <?if (Core::config('advertisement.captcha')):?>
+              <?if (Core::config('general.recaptcha_active')):?>
+                <div class="col-sm-2"></div>
+                <div class="col-md-5 col-sm-6">
+                  <?=Captcha::recaptcha_display()?> 
+                  <div id="<?=isset($recaptcha_placeholder) ? $recaptcha_placeholder : 'recaptcha3'?>"></div>
+                </div>
+              <?else:?>
+                <label class="col-sm-2 control-label"><?=__('Captcha')?>*:</label>
+                <div class="col-md-5 col-sm-6">
+                  <span id="helpBlock" class="help-block"><?=captcha::image_tag('register')?></span>
+                  <?= FORM::input('captcha', "", array('class' => 'form-control', 'id' => 'captcha', 'required', 'data-error' => __('Captcha is not correct')))?>
+                </div>
+              <?endif?>
+            <?endif?>
+          </div>
             <div class="page-header"></div> 
             <div class="col-sm-offset-2">
               	<a class="btn btn-default"  data-dismiss="modal" data-toggle="modal"  href="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'login'))?>#login-modal">

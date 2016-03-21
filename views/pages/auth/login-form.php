@@ -26,9 +26,11 @@
     </div>
     <div class="page-header"></div>     
     <div class="col-sm-offset-2">
-      	<a class="btn btn-default" data-toggle="modal" data-dismiss="modal" href="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'register'))?>#register-modal">
-        	<?=__('Register')?>
-        </a>
+        <?if (Core::config('general.private_site')!=1):?>
+            <a class="btn btn-default" data-toggle="modal" data-dismiss="modal" href="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'register'))?>#register-modal">
+                <?=__('Register')?>
+            </a>
+        <?endif?>
         <button type="submit" class="btn btn-primary">
         	<i class="glyphicon glyphicon-user glyphicon"></i><?=__('Login')?>
         </button>

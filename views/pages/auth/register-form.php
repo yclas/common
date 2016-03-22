@@ -41,7 +41,7 @@
             </div>
           </div>
           <div class="form-group">
-            <?if (Core::config('advertisement.captcha')):?>
+            <?if (core::config('advertisement.captcha') != FALSE OR core::config('general.captcha') != FALSE):?>
               <?if (Core::config('general.recaptcha_active')):?>
                 <div class="col-sm-2"></div>
                 <div class="col-md-5 col-sm-6">

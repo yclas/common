@@ -785,4 +785,21 @@ class Model_OC_User extends ORM {
         return FALSE;        
     }
 
+    /**
+     * get a google_authenticator QR code to be scanned-
+     * @return string
+     */
+    public function google_authenticator_qr()
+    {
+        if ($this->google_authenticator!='')
+        {
+            require Kohana::find_file('vendor', 'GoogleAuthenticator');
+
+            $ga = new PHPGangsta_GoogleAuthenticator();
+            return $ga->getQRCodeGoogleUrl(core::config('general.site_name'), $this->google_authenticator);
+        }
+
+        return FALSE;
+    }
+
 } // END Model_User

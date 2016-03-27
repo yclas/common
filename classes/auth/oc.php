@@ -252,7 +252,8 @@ class Auth_OC extends Kohana_Auth {
 	{
 		// Set by force_login()
 		$this->_session->delete('auth_forced');
-
+        Cookie::delete('google_authenticator');
+        
 		if ($token = Cookie::get('authautologin'))
 		{
 			// Delete the autologin cookie to prevent re-login

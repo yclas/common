@@ -26,12 +26,12 @@
     </div>
     <div class="page-header"></div>     
     <div class="col-sm-offset-2">
+        <button type="submit" class="btn btn-primary">
+            <i class="glyphicon glyphicon-user glyphicon"></i> <?=__('Login')?>
+        </button>
       	<a class="btn btn-default" data-toggle="modal" data-dismiss="modal" href="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'register'))?>#register-modal">
         	<?=__('Register')?>
         </a>
-        <button type="submit" class="btn btn-primary">
-        	<i class="glyphicon glyphicon-user glyphicon"></i><?=__('Login')?>
-        </button>
     </div>
     <?=Form::redirect()?>
     <?=Form::CSRF('login')?>

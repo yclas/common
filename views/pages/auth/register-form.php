@@ -59,11 +59,11 @@
           </div>
             <div class="page-header"></div> 
             <div class="col-sm-offset-2">
+            <button type="submit" class="btn btn-primary"><?=__('Register')?></button>
               	<a class="btn btn-default"  data-dismiss="modal" data-toggle="modal"  href="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'login'))?>#login-modal">
     				<i class="glyphicon glyphicon-user"></i> 
     				<?=__('Login')?>
     			</a>
-            <button type="submit" class="btn btn-primary"><?=__('Register')?></button>
             </div>
           <?=Form::redirect()?>
           <?=Form::CSRF('register')?>

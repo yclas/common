@@ -12,6 +12,12 @@
     <title><?=Core::config('general.site_name')?> - <?=__('Private Site')?></title>
 
     <link href="//cdn.jsdelivr.net/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.jsdelivr.net/bootstrap.image-gallery/3.1.0/css/bootstrap-image-gallery.min.css" rel="stylesheet">
+    <link href="//cdn.jsdelivr.net/blueimp-gallery/2.14.0/css/blueimp-gallery.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/blueimp-gallery/2.14.0/js/jquery.blueimp-gallery.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.image-gallery/3.1.0/js/bootstrap-image-gallery.min.js"></script>
 
   </head>
 
@@ -55,12 +61,21 @@
     <div class="container">
 
       <div class="jumbotron">
-        
+        <?if(core::config('general.private_site_page') != ''):?>
+      <?$content = Model_Content::get_by_title(core::config('general.private_site_page'))?>
+      <div class="page-header">
+        <h1><?=$content->title?></h1>
+      </div>
+      <div class="text-description"><?=$content->description?></div>
+      <br>
+    <?else:?>
+      <div class="page-header">
         <h1><?=Core::config('general.site_name')?></h1>
-        <h2><?=__('Private site!!!')?></h2>
+        <h2><?=__('This is a private website, you need to login to see the content!')?></h2>
+      </div>
+    <?endif?>
         
       </div>
-
       <form class="well form-horizontal auth" method="post" action="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'login'))?>">         
         <?=Form::errors()?>
         <div class="form-group">
@@ -86,12 +101,27 @@
             <button type="submit" class="btn btn-primary">
                 <i class="glyphicon glyphicon-user glyphicon"></i> <?=__('Login')?>
             </button>
+            <a data-toggle="modal" data-dismiss="modal" class="btn btn-info" href="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'request'))?>#request-modal">
+                <?=__('Request Access')?>
+              </a>
         </div>
         <?=Form::CSRF('login')?>
     </form>         
 
 
     </div> 
-
+    <div id="request-modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal" >&times;</a>
+                    <h3><?=__('Request Access')?></h3>
+                </div>
+                <div class="modal-body">
+                    <?=View::factory('pages/auth/request-form')?>
+                </div>
+            </div>
+        </div>
+    </div>
   </body>
 </html>

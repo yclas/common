@@ -56,17 +56,40 @@
 
       <div class="jumbotron">
         
-        
-
         <h1><?=Core::config('general.site_name')?></h1>
         <h2><?=__('Private site!!!')?></h2>
-
         
       </div>
-      <a class="btn btn-default btn-sm" title="<?=__('Login')?>" href="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'login'))?>">
-                <i class="glyphicon glyphicon-user"></i> 
-                <?=__('Login')?>
-            </a>    
+
+      <form class="well form-horizontal auth" method="post" action="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'login'))?>">         
+        <?=Form::errors()?>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><?=__('Email')?></label>
+            <div class="col-md-5 col-sm-6">
+                <input class="form-control" type="text" name="email" placeholder="<?=__('Email')?>">
+            </div>
+        </div>
+         
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><?=__('Password')?></label>
+            <div class="col-md-5 col-sm-6">
+                <input class="form-control" type="password" name="password" placeholder="<?=__('Password')?>">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="remember" checked="checked"><?=__('Remember me')?>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="page-header"></div>     
+        <div class="col-sm-offset-2">
+            <button type="submit" class="btn btn-primary">
+                <i class="glyphicon glyphicon-user glyphicon"></i> <?=__('Login')?>
+            </button>
+        </div>
+        <?=Form::CSRF('login')?>
+    </form>         
+
 
     </div> 
 

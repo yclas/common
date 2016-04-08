@@ -1,13 +1,12 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 
 <?=Form::errors()?>
-<div class="page-header">
-    <h1><?=__('Theme License')?> <?=(Request::current()->param('id')!==NULL)?Request::current()->param('id'):Theme::$theme?></h1>
+<h1 class="page-header page-title"><?=__('Theme License')?> <?=(Request::current()->param('id')!==NULL)?Request::current()->param('id'):Theme::$theme?></h1>
+<hr>
     <p><?=__('Please insert here the license for your theme.')?></p>
-</div>
 
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <form action="<?=URL::base()?><?=Request::current()->uri()?>" method="post"> 
             <div class="panel panel-default">
                 <div class="panel-body">

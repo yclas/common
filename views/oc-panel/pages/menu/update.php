@@ -1,8 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 
-<div class="page-header">
-	<h1><?=__('Edit Menu')?> <?=$menu_data['title']?></h1>
-</div>
+<h1 class="page-header page-title"><?=__('Edit Menu')?> <?=$menu_data['title']?></h1>
+<hr>
 
 <div class="row">
     <div class="col-md-8">

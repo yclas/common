@@ -1,18 +1,15 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 
 <a class="btn btn-primary pull-right ajax-load" href="<?=Route::url('oc-panel',array('controller'=>'forum','action'=>'create'))?>" title="<?=__('New forum')?>">
-    <?=__('New forum')?>
+    <i class="fa fa-plus-circle"></i>&nbsp; <?=__('New')?>
 </a>
 
-<div class="page-header">
-    <h1><?=__('Forums')?></h1>
-    <p><a href="http://open-classifieds.com/2014/05/20/add-forums-section/" target="_blank"><?=__('Read more')?></a></p>
-
-    <p><?=__("Change the order of your forums. Keep in mind that more than 2 levels nested probably won´t be displayed in the theme (it is not recommended).")?></p>
-</div>
+<h1 class="page-header page-title"><?=__('Forums')?></h1>
+<hr>
+<p><?=__("Change the order of your forums. Keep in mind that more than 2 levels nested probably won´t be displayed in the theme (it is not recommended).")?> <a href="http://open-classifieds.com/2014/05/20/add-forums-section/" target="_blank"><?=__('Read more')?></a></p>
 
 <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-body">
                 <ol class='plholder' id="ol_1" data-id="0">

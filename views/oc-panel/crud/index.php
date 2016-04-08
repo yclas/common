@@ -1,15 +1,15 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
-<div class="page-header">	
+
 	<?if ($controller->allowed_crud_action('create')):?>
 	<a class="btn btn-primary pull-right ajax-load" href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'create')) ?>" title="<?=__('New')?>">
-		<i class="glyphicon glyphicon-pencil"></i>
-		<?=__('New')?>
+	<i class="fa fa-plus-circle"></i>&nbsp; <?=__('New')?>
 	</a>				
 	<?endif?>
 
-	<h1><?=Text::ucfirst(__($name))?></h1>
+<h1 class="page-header page-title"><?=Text::ucfirst(__($name))?></h1>
+<hr>
 	<?if($name == 'role'):?><p><a href="https://docs.yclas.com/roles-work-classified-ads-script/" target="_blank"><?=__('Read more')?></a></p><?endif;?>
-</div>
+
 
 <?if($name == "user") :?>
 	<form class="form-horizontal" role="form" method="get" action="<?=URL::current();?>">

@@ -20,7 +20,7 @@
         </div>
         <?endif?>
     </div>
-    <a class="btn btn-warning" href="<?=Route::url('oc-panel',array('controller'=>'translations','action'=>'index'))?>?parse=1" >
+    <a class="btn btn-info" href="<?=Route::url('oc-panel',array('controller'=>'translations','action'=>'index'))?>?parse=1" >
         <?=__('Scan')?>
     </a>
 </div>

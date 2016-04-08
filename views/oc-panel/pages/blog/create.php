@@ -1,8 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
-
-<div class="page-header" id="crud-<?=__($name)?>">
-    <h1><?=__('Create Blog Post')?></h1>
-</div>
+<h1 class="page-header page-title"><?=__('Create Blog Post')?></h1>
+<hr>
 <?//var_dump($form)?>
 
 <div class="panel panel-default">

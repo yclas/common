@@ -1,14 +1,12 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
-
-<div class="page-header" id="crud-<?=__($name)?>">
     <?if($form['status']['value']==0):?>
         <a class="btn btn-primary pull-right" target="_blank" href="<?=Route::url('blog', array('seotitle'=>$form['seotitle']['value']))?>" title="<?=__('Preview')?>">
             <i class="glyphicon glyphicon-eye-open"></i> 
             <?=__('Preview')?>
         </a>
 	<?endif?>
-    <h1><?=__('Edit Blog Post')?></h1>
-</div>
+<h1 class="page-header page-title" id="crud-<?=__($name)?>"><?=__('Edit Blog Post')?></h1>
+<hr>
 <?//var_dump($form)?>
 
 <div class="panel panel-default">

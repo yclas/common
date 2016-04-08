@@ -1,8 +1,19 @@
-<div class="page-header">
+<h1 class="page-header page-title"><?=__('Translations')?> <?=$edit_language?></h1>
+<hr>
 
-    <h1><?=__('Translations')?> <?=$edit_language?></h1>
+<p>
+<?=__('Here you can modify any text you find in your web.')?> <a href="http://open-classifieds.com/2013/08/16/how-to-change-texts/" target="_blank"><?=__('Read more')?></a><br>
+<?=sprintf("Total of %u strings. %u strings already translated", $total_items, $total_items-$cont_untranslated)?>. <span class="error"><?=sprintf("%u strings yet to translate",$cont_untranslated)?>.</span>
+</p>
 
-    <form class="form-inline pull-right" method="post" action="<?=Route::url('oc-panel',array('controller'=>'translations','action'=>'replace','id'=>$edit_language))?>">
+<form class="form-inline" method="get" action="<?=Route::url('oc-panel',array('controller'=>'translations','action'=>'edit','id'=>$edit_language))?>">
+    <div class="form-group">
+        <input type="text" class="form-control input-sm search-query" name="search" placeholder="<?=__('search')?>" value="<?=core::request('search')?>">
+    </div>
+    <button type="submit" class="btn btn-primary"><?=__('Search')?></button>
+</form>
+
+<form class="form-inline" method="post" action="<?=Route::url('oc-panel',array('controller'=>'translations','action'=>'replace','id'=>$edit_language))?>">
         <div class="form-group">
             <input type="text" class="form-control input-sm search-query" name="search" placeholder="<?=__('search')?>" value="<?=core::request('search')?>">
         </div>
@@ -13,22 +24,8 @@
             <option value="original"><?=__('Replace Original')?></option>
             <option value="translation"><?=__('Replace Translation')?></option>
         </select>
-        <button type="submit" class="btn btn-primary"><?=__('Replace')?></button>
-    </form>
-
-    <form class="form-inline pull-right" method="get" action="<?=Route::url('oc-panel',array('controller'=>'translations','action'=>'edit','id'=>$edit_language))?>">
-        <div class="form-group">
-            <input type="text" class="form-control input-sm search-query" name="search" placeholder="<?=__('search')?>" value="<?=core::request('search')?>">
-        </div>
-        <button type="submit" class="btn btn-primary"><?=__('Search')?></button>
-    </form>
-
-    <p>
-    <?=__('Here you can modify any text you find in your web.')?> <a href="http://open-classifieds.com/2013/08/16/how-to-change-texts/" target="_blank"><?=__('Read more')?></a>
-    <?=sprintf("Total of %u strings. %u strings already translated", $total_items, $total_items-$cont_untranslated)?>. <span class="error"><?=sprintf("%u strings yet to translate",$cont_untranslated)?>.</span>
-    </p>
-
-</div>
+    <button type="submit" class="btn btn-warning"><?=__('Replace')?></button>
+</form>
 
 <div class="panel panel-default">
     <div class="panel-body">

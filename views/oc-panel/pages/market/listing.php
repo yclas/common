@@ -4,7 +4,7 @@
 <?$i=0;
 foreach ($market as $item):?>
     <?if ($i%3==0):?><div class="clearfix"></div><?endif?>
-    <div class="col-md-4 col-sm-4">
+    <div class="col-md-4 col-sm-4 theme">
     <div class="thumbnail <?if ( $item['price_offer']>0 AND strtotime($item['offer_valid'])>time()):?>alert-success<?endif?>" >
 
         <?if (empty($item['url_screenshot'])===FALSE):?>
@@ -51,7 +51,7 @@ foreach ($market as $item):?>
     endforeach?>
 <?endif?>
 
-    <div class="col-md-4 col-sm-4">
+    <div class="col-md-4 col-sm-4 theme">
     <div class="thumbnail" >
 
         <img  class="thumb_market" src="http://open-classifieds.com/files/market/custom.png">

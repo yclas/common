@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 	<a class="btn btn-primary pull-right" href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'create')) ?>">
-		<i class="glyphicon glyphicon-pencil"></i>
+		<i class="fa fa-plus-circle"></i>&nbsp;
 		<?=__('New')?>
 	</a>		
     <a class="btn btn-success pull-right" href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'bulk')) ?>">
@@ -22,10 +22,9 @@
   	</div>
   	<button type="submit" class="btn"><?=__('Search')?></button>
 </form>
-<div class="page-header">
-	<h1><?=Text::ucfirst(__($name))?></h1>
+<h1 class="page-header page-title"><?=Text::ucfirst(__($name))?></h1>
+    <hr>
 	<p><a href="https://docs.yclas.com/how-to-use-coupon-system/" target="_blank"><?=__('Read more')?></a></p>
-</div>
 <div class="panel panel-default">
 	<div class="panel-body">
 		<div class="table-responsive">

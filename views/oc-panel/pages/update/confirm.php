@@ -1,15 +1,12 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 
-<div class="page-header">
 
-    <h1><?=__('Update')?> <?=$latest_version?></h1>
+<h1 class="page-header page-title"><?=__('Update')?> <?=$latest_version?></h1>
+<hr>
     <p>
         <?=__('Your installation version is')?> <span class="label label-info"><?=core::VERSION?></span>
     </p>
     
-</div>
-
-
 <div class="alert alert-danger" role="alert">
 <?if ($can_update==FALSE):?>
     <h4 class="alert-heading"><?=__('Not possible to auto update')?></h4>

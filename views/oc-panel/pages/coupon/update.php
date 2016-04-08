@@ -1,9 +1,8 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
-<div class="page-header" id="crud">
-    <h1><?=__('Update coupon')?> <?=$coupon->name?></h1>
-</div>
+<h1 class="page-header" id="crud"><?=__('Update coupon')?> <?=$coupon->name?></h1>
+<hr>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="btn-group btn-group-justified">

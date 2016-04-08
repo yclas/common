@@ -2,12 +2,11 @@
 
 <a class="btn btn-primary pull-right ajax-load" 
     href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'create')).'?type='.$type ?>" 
-    rel="tooltip" title="<?=__('New')?>">
-    <?=__('New')?>
+    rel="tooltip" title="<?=__('New')?>"><i class="fa fa-plus-circle"></i>&nbsp; <?=__('New')?>
 </a>
-<div class="page-header">
-    <h1><?=Controller_Panel_Content::translate_type($type)?></h1>
-</div>
+
+<h1  class="page-header page-title"><?=Controller_Panel_Content::translate_type($type)?></h1>
+<hr>
 
 <?= FORM::open(Route::url('oc-panel',array('controller'=>'content','action'=>'list')), array('method'=>'GET','class'=>'form-horizontal', 'id'=>'locale_form','enctype'=>'multipart/form-data'))?>
     <div class="form-group">

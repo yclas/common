@@ -1,8 +1,8 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 
-<div class="page-header">
-    <h1><?=__('Update Topic')?></h1>
-</div>
+
+<h1 class="page-header page-title"><?=__('Update Topic')?></h1>
+<hr>
 
 <div class="panel panel-default">
     <div class="panel-body">

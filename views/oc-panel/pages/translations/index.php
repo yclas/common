@@ -1,68 +1,78 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 
-<div class="page-header">
-    <div class="btn-group pull-right">
-        <div class="btn-group dropdown">
-            <?if (class_exists('IntlCalendar')) :?>
-            <button class="btn btn-primary" data-toggle="dropdown" type="button"><?=__('New translation')?></button>
-            <div class="dropdown-menu dropdown-menu-right">
-                <form class="col-sm-12" role="form" method="post" action="<?=Request::current()->url()?>">
-                    <div class="form-group">
-                        <label class="sr-only" for="locale"><?=__('New translation')?></label>
-                        <select class="form-control" id="locale" name="locale">
-                                <?foreach (IntlCalendar::getAvailableLocales() as $locale):?>
-                                    <option value="<?=$locale?>"><?=$locale?></option>
-                                <?endforeach?>
-                        </select>
-                        <p class="help-block"><?=__('If your locale is not listed, be sure your hosting has your locale installed.')?></p>
-                    </div>
-                    <button type="submit" class="btn btn-primary"><?=__('Create')?></button>
-                </form>
-            </div>
-            <?endif?>
+<div class="btn-group pull-right">
+    <div class="btn-group dropdown">
+        <?if (class_exists('IntlCalendar')) :?>
+        <button class="btn btn-primary" data-toggle="dropdown" type="button"><?=__('New translation')?></button>
+        <div class="dropdown-menu dropdown-menu-right">
+            <form class="col-sm-12" role="form" method="post" action="<?=Request::current()->url()?>">
+                <div class="form-group">
+                    <label class="sr-only" for="locale"><?=__('New translation')?></label>
+                    <select class="form-control" id="locale" name="locale">
+                        <?foreach (IntlCalendar::getAvailableLocales() as $locale):?>
+                            <option value="<?=$locale?>"><?=$locale?></option>
+                        <?endforeach?>
+                    </select>
+                    <p class="help-block"><?=__('If your locale is not listed, be sure your hosting has your locale installed.')?></p>
+                </div>
+                <button type="submit" class="btn btn-primary"><?=__('Create')?></button>
+            </form>
         </div>
-        <a class="btn btn-warning" href="<?=Route::url('oc-panel',array('controller'=>'translations','action'=>'index'))?>?parse=1" >
-            <?=__('Scan')?>
-        </a>
+        <?endif?>
     </div>
-    <h1><?=__('Translations')?></h1>
-	<p><?=__('Translations files available in the system.')?> <a href="https://docs.yclas.com/how-to-change-language/" target="_blank"><?=__('Read more')?></a></p>
-    <div class="clearfix"></div>
+    <a class="btn btn-warning" href="<?=Route::url('oc-panel',array('controller'=>'translations','action'=>'index'))?>?parse=1" >
+        <?=__('Scan')?>
+    </a>
 </div>
 
+<h1 class="page-header page-title">
+    <?=__('Translations')?> 
+    <a target="_blank" href="http://docs.yclas.com/how-to-change-language/">
+        <i class="fa fa-question-circle"></i>
+    </a>
+</h1>
+<hr>
+
+<p>
+    <?=__('Translations files available in the system.')?>
+</p>
+
 <div class="panel panel-default">
-    <div class="panel-body">
-        <table class="table table-bordered">
+    <table class="table">
+        <thead>
             <tr>
                 <th><?=__('Language')?></th>
-                <th></th>
-                <th></th>
+                <th style="width: 10%"></th>
             </tr>
+        </thead>
+        <tbody>
             <?foreach ($languages as $language):?>
                 <tr class="<?=($language==$current_language)?'success':''?>">
                     <td><?=$language?></td>
-                    <td width="5%">
-                        
-                        <a class="btn btn-warning ajax-load" 
-                            href="<?=Route::url('oc-panel', array('controller'=>'translations','action'=>'edit','id'=>$language))?>" 
-                            rel"tooltip" title="<?=__('Edit')?>">
-                            <i class="glyphicon glyphicon-pencil"></i>
-                        </a>
-            
-                    </td>
-                    <td width="10%">
-                        <?if ($language!=$current_language):?>
-                        <a class="btn btn-default" 
-                            href="<?=Route::url('oc-panel', array('controller'=>'translations','action'=>'index','id'=>$language))?>" 
-                            rel"tooltip" title="<?=__('Activate')?>">
-                            <?=__('Activate')?>
-                        </a>
-                        <?else:?>
-                            <span class="badge badge-info"><?=__('Active')?></span>
-                        <?endif?>
+                    <td class="nowrap">    
+                        <ul class="list-inline">
+                            <li>
+                                <a class="btn btn-warning ajax-load" 
+                                    href="<?=Route::url('oc-panel', array('controller'=>'translations','action'=>'edit','id'=>$language))?>" 
+                                    rel"tooltip" title="<?=__('Edit')?>">
+                                    <i class="glyphicon glyphicon-pencil"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <?if ($language!=$current_language):?>
+                                    <a class="btn btn-default" 
+                                        href="<?=Route::url('oc-panel', array('controller'=>'translations','action'=>'index','id'=>$language))?>" 
+                                        rel"tooltip" title="<?=__('Activate')?>">
+                                        <?=__('Activate')?>
+                                    </a>
+                                <?else:?>
+                                    <span class="label label-info"><?=__('Active')?></span>
+                                <?endif?>
+                            </li>
+                        </ul>
                     </td>
                 </tr>
             <?endforeach?>
-        </table>
-    </div>
+        </tbody>
+    </table>
 </div>

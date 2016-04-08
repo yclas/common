@@ -1,13 +1,19 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 
 <?if (!$widget->loaded):?>
-<div class="well col-md-3 widget-boxes">
-    <b><?=$widget->title?></b>
-    <p><?=$widget->description?></p>
-    <button  class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal_<?=$widget->id_name()?>" type="button">
-            <?=__('Create')?>
-    </button>
-</div> 
+    <div class="col-md-4 widget-boxes">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <b><?=$widget->title?></b>
+            </div>
+            <div class="panel-body">
+                <p><?=$widget->description?></p>
+                <button  class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal_<?=$widget->id_name()?>" type="button">
+                        <?=__('Create')?>
+                </button>
+            </div>
+        </div>
+    </div> 
 <?else:?>
     <li class="liholder" id="<?=$widget->id_name()?>"><i class="glyphicon glyphicon-move"></i>  <?=$widget->title()?> <span class="muted"><?=$widget->title?></span>
         <button class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-target="#modal_<?=$widget->id_name()?>" type="button"><?=__('Edit')?></button>
@@ -19,18 +25,15 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3><?=$widget->title?></h3>
-                <p><?=$widget->description?></p>
+                <h4 class="modal-title"><?=$widget->title?></h4>
             </div>
-
             <div class="modal-body">
-                <form class="form-horizontal" id="form_widget_<?=$widget->id_name()?>" name="form_widget_<?=$widget->id_name()?>" method="post" action="<?=Route::url('oc-panel',array('controller'=>'widget','action'=>'save'))?>" >
+                <h5><?=$widget->description?></h5>
+                <form id="form_widget_<?=$widget->id_name()?>" name="form_widget_<?=$widget->id_name()?>" method="post" action="<?=Route::url('oc-panel',array('controller'=>'widget','action'=>'save'))?>" >
                     
                     <div class="form-group">
-                        <label class="control-label col-sm-5" for="placeholder_form"><?=__('Where do you want the widget displayed?')?></label>
-                        <div class="col-sm-5">
-                            <?=FORM::select('placeholder', array_combine(widgets::get_placeholders(TRUE),widgets::get_placeholders(TRUE)),$widget->placeholder)?>
-                        </div>
+                        <label class="control-label" for="placeholder_form"><?=__('Where do you want the widget displayed?')?></label>
+                        <?=FORM::select('placeholder', array_combine(widgets::get_placeholders(TRUE),widgets::get_placeholders(TRUE)),$widget->placeholder)?>
                     </div>
 
             		<?foreach ($tags as $tag):?>

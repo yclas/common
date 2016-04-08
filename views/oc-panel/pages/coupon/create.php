@@ -1,15 +1,20 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
-<div class="page-header" id="crud">
-	<h1><?=__('Create coupon')?></h1>
-</div>
+
+<h1 class="page-header page-title">
+    <?=__('Create coupon')?>
+</h1>
+
+<hr>
+
 <div class="row">
-	<div class="col-md-6">
+	<div class="col-md-12">
 		<div class="panel panel-default">
 			<div class="panel-body">
                 <div class="btn-group btn-group-justified">
                     <a href="#" class="btn btn-default btn-fixed active"><?=__('Fixed Discount')?></a>
                     <a href="#" class="btn btn-default btn-percentage"><?=__('Percentage Discount')?></a>
                 </div>
+                <hr>
                 <form action="<?=Route::url('oc-panel', array('controller'=> 'coupon', 'action'=>'create')) ?>" method="post" accept-charset="utf-8" class="form form-horizontal" enctype="multipart/form-data">   
                 
                 <div class="form-group ">
@@ -59,6 +64,7 @@
                     </div>
                 </div>
                     
+                <hr>
                 <div class="form-actions">
                     <button type="submit" name="submit" class="btn btn-primary"><?=__('Submit')?></button>
                 </div>

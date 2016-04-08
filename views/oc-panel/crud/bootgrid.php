@@ -18,7 +18,7 @@ var grid = $("#grid-data-api").bootgrid({
             {?><a href=\"<?=$button['url']?>"+ row.<?=$element->primary_key()?> +"\" class=\"<?=$button['class']?>\" data-row-id=\"" + row.<?=$element->primary_key()?> + "\" title=\"<?=$button['title']?>\" ><span class=\"<?=$button['icon']?>\"></span></a><?
             }
             ?>"
-            return edit_button+dele_button+extra_button;    
+            return '<div class="btn-group" role="group">'+edit_button+dele_button+extra_button+'</div>';    
         }
     }
 })
@@ -96,7 +96,7 @@ $( '#form-ajax-load').submit(function( event ) {
                                 }).done(function(data) {
                                     if ( history.replaceState ) history.pushState( {}, document.title, pageurl );
                                     form.css('cursor','');
-                                    $("#content").html(data);
+                                    $("#page-wrapper").html(data);
                                     init_panel();});
 
     return false;  

@@ -24,58 +24,54 @@
 <?endif?>
 
 <div class="panel panel-default">
-	<div class="panel-body">
-		<div class="table-responsive">
-			<table class="table table-striped table-bordered">
-				<thead>
-					<th><?=__('Title')?></th>
-					<th><?=__('Created')?></th>
-					<th><?=__('Active')?></th>
-					<th></th>
-				</thead>
-				<tbody>
-					<?foreach ($elements as $content):?>
-						<?if(isset($content->title)):?>
-							<tr id="tr<?=$content->id_post?>">
-								<td>
-									<p><?=$content->title?></p>
-									<p>
-										<?if ($content->status==1):?>
-											<a title="<?=HTML::chars($content->title)?>" href="<?=Route::url('blog', array('seotitle'=>$content->seotitle))?>">
-												<?=Route::url('blog', array('seotitle'=>$content->seotitle))?>
-											</a>
-										<?else:?>
+		<table class="table table-striped">
+			<thead>
+				<th><?=__('Title')?></th>
+				<th><?=__('Created')?></th>
+				<th><?=__('Active')?></th>
+				<th></th>
+			</thead>
+			<tbody>
+				<?foreach ($elements as $content):?>
+					<?if(isset($content->title)):?>
+						<tr id="tr<?=$content->id_post?>">
+							<td>
+								<p><?=$content->title?></p>
+								<p>
+									<?if ($content->status==1):?>
+										<a title="<?=HTML::chars($content->title)?>" href="<?=Route::url('blog', array('seotitle'=>$content->seotitle))?>">
 											<?=Route::url('blog', array('seotitle'=>$content->seotitle))?>
-										<?endif?>
-									</p>
-								</td>
-								<td><?=$content->created?></td>
-								<td><?=($content->status==1)?__('Yes'):__('No')?></td>
-								<td width="5%">
+										</a>
+									<?else:?>
+										<?=Route::url('blog', array('seotitle'=>$content->seotitle))?>
+									<?endif?>
+								</p>
+							</td>
+							<td><?=$content->created?></td>
+							<td><?=($content->status==1)?__('Yes'):__('No')?></td>
+							<td width="5%" class="nowrap">
 									
-									<a class="btn btn-primary ajax-load" 
-										href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'update','id'=>$content->pk()))?>" 
-										rel="tooltip" title="<?=__('Edit')?>">
-										<i class="glyphicon   glyphicon-edit"></i>
-									</a>
-									<a 
-										href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'delete','id'=>$content->pk()))?>" 
-										class="btn btn-danger index-delete" 
-										title="<?=__('Are you sure you want to delete?')?>" 
-										data-id="tr<?=$content->id_post?>" 
-										data-btnOkLabel="<?=__('Yes, definitely!')?>" 
-										data-btnCancelLabel="<?=__('No way!')?>">
-										<i class="glyphicon glyphicon-trash"></i>
-									</a>
+								<a class="btn btn-primary ajax-load" 
+									href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'update','id'=>$content->pk()))?>" 
+									rel="tooltip" title="<?=__('Edit')?>">
+									<i class="glyphicon   glyphicon-edit"></i>
+								</a>
+								<a 
+									href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'delete','id'=>$content->pk()))?>" 
+									class="btn btn-danger index-delete" 
+									title="<?=__('Are you sure you want to delete?')?>" 
+									data-id="tr<?=$content->id_post?>" 
+									data-btnOkLabel="<?=__('Yes, definitely!')?>" 
+									data-btnCancelLabel="<?=__('No way!')?>">
+									<i class="glyphicon glyphicon-trash"></i>
+								</a>
 									
-								</td>
-							</tr>
-						<?endif?>
-					<?endforeach?>
-				</tbody>
-			</table>
-		</div>
-	</div>
+							</td>
+						</tr>
+					<?endif?>
+				<?endforeach?>
+			</tbody>
+		</table>
 </div>
 
 <div class="text-center"><?=$pagination?></div>

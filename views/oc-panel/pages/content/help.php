@@ -24,7 +24,7 @@
 
 <?if (count($contents)>0):?>
 <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-body">
                 <ol class='plholder' id="ol_1" data-id="1">

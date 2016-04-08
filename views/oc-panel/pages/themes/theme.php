@@ -2,83 +2,73 @@
 
 <?=Form::errors()?>
 
-<div id="page-themes" class="page-header">
-	<h1><?=__('Themes')?></h1>
-    <p><?=__('You can change the look and feel of your website here.')?><a href="https://docs.yclas.com/how-to-change-theme/" target="_blank"><?=__('Read more')?></a></p>
-</div>
+<ul class="list-inline pull-right">
+    <li>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#install-theme">
+            <i class="fa fa-download"></i> <?=__('Install theme')?>
+        </button>
+    </li>
+</ul>
+
+<h1 class="page-header page-title">
+    <?=__('Themes')?>
+    <a target="_blank" href="https://docs.yclas.com/how-to-change-theme/">
+        <i class="fa fa-question-circle"></i>
+    </a>
+</h1>
+
+<hr>
+
+<p><?=__('You can change the look and feel of your website here.')?></p>
 
 <div class="row">
-    <div class="col-md-7 col-sm-12 col-xs-12">
+    <div class="col-xs-12">
         <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title"><?=__('Current Theme')?></div>
+            </div>
             <div class="panel-body">
-                <?if ($scr = Theme::get_theme_screenshot(Theme::$theme))?>
-                        <img class="media-object pull-left" width="150px" height="100px" src="<?=$scr?>">
-                        <div class="clearfix"></div>
-                <div class="media-body">
-                    <h4 class="media-heading"><?=$selected['Name']?></h4>
-                    <p>
-                        <span class="label label-info"><?=__('Current Theme')?></span>
-                        <?if (Theme::has_options()):?>
-                        <a class="btn btn-xs btn-primary ajax-load" title="<?=__('Theme Options')?>" 
-                            href="<?=Route::url('oc-panel',array('controller'=>'theme','action'=>'options'))?>">
-                            <i class="glyphicon  glyphicon-wrench glyphicon"></i> </a>
+                <div class="media">
+                    <?if ($scr = Theme::get_theme_screenshot(Theme::$theme))?>
+                    <div class="media-left">
+                        <img class="media-object" style="max-width:150px;" src="<?=$scr?>">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <?=$selected['Name']?>
+                            <?if (Theme::has_options()):?>
+                                <a class="btn btn-xs btn-primary ajax-load" title="<?=__('Theme Options')?>" 
+                                    href="<?=Route::url('oc-panel',array('controller'=>'theme','action'=>'options'))?>">
+                                    <i class="fa fa-wrench"></i> <?=__('Theme Options')?>
+                                </a>
+                            <?endif?>
+                        </h4>
+                        <p><?=$selected['Description']?></p>
+                        <?if(Core::config('appearance.theme_mobile')!=''):?>
+                            <p>
+                                <?=__('Using mobile theme')?> <code><?=Core::config('appearance.theme_mobile')?></code>
+                                <a class="btn btn-xs btn-warning" title="<?=__('Disable')?>" 
+                                    href="<?=Route::url('oc-panel',array('controller'=>'theme','action'=>'mobile','id'=>'disable'))?>">
+                                    <i class="fa fa-minus"></i> <?=__('Disable')?>
+                                </a>
+                                <a class="btn btn-xs btn-primary" title="<?=__('Options')?>" 
+                                    href="<?=Route::url('oc-panel',array('controller'=>'theme','action'=>'options','id'=>Core::config('appearance.theme_mobile')))?>">
+                                    <i class="fa fa-wrench"></i> <?=__('Options')?>
+                                </a>
+                            </p>
                         <?endif?>
-                    </p>
-                    <p><?=$selected['Description']?></p>
-                    <?if(Core::config('appearance.theme_mobile')!=''):?>
-                        <p>
-                            <?=__('Using mobile theme')?> <code><?=Core::config('appearance.theme_mobile')?></code>
-                            <a class="btn btn-xs btn-warning" title="<?=__('Disable')?>" 
-                                href="<?=Route::url('oc-panel',array('controller'=>'theme','action'=>'mobile','id'=>'disable'))?>">
-                                <i class="glyphicon   glyphicon-remove"></i>
-                            </a>
-                            <a class="btn btn-xs btn-primary" title="<?=__('Options')?>" 
-                                href="<?=Route::url('oc-panel',array('controller'=>'theme','action'=>'options','id'=>Core::config('appearance.theme_mobile')))?>">
-                            <i class="glyphicon  glyphicon-wrench glyphicon"></i></a>
-                        </p>
-                    <?endif?>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-5 col-sm-12 col-xs-12">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <span class="label label-info"><?=__('Install theme')?></span>
-                <?= FORM::open(Route::url('oc-panel',array('controller'=>'theme','action'=>'download')), array('class'=>'form-inline'))?>
-                    <p><?=__('Install theme from license.')?></p>
-                
-                    <div class="form-group">
-                        <input type="text" name="license" id="license" placeholder="<?=__('license')?>" class="form-control"/>
-                    </div>
-                    <button 
-                        type="button" 
-                        class="btn btn-primary submit" 
-                        title="<?=__('Are you sure?')?>" 
-                        data-text="<?=sprintf(__('License will be activated in %s domain. Once activated, your license cannot be changed to another domain.'), parse_url(URL::base(), PHP_URL_HOST))?>"
-                        data-btnOkLabel="<?=__('Yes, definitely!')?>" 
-                        data-btnCancelLabel="<?=__('No way!')?>">
-                        <?=__('Download')?>
-                    </button>
-                
-                <?= FORM::close()?>
-                
-                <?= FORM::open(Route::url('oc-panel',array('controller'=>'theme','action'=>'install_theme')), array('class'=>'form-inline', 'enctype'=>'multipart/form-data'))?>
-                
-                    <p><?=__('To install new theme choose zip file.')?></p>
-                    <div class="form-group">
-                        <input type="file" name="theme_file" id="theme_file" class="form-control" />
-                    </div>
-                        <?= FORM::button('submit', __('Upload'), array('type'=>'submit', 'class'=>'btn btn-primary', 'action'=>Route::url('oc-panel',array('controller'=>'theme','action'=>'install_theme'))))?>
-                <?= FORM::close()?>
-            </div>
-        </div>
-    </div>
 </div>
 
-<div class="page-header">
-    <h1><?=__('Available Themes')?></h1>
-</div>
+<h2 class="page-header page-title">
+    <?=__('Available Themes')?>
+</h2>
+
+<hr>
 
 <? if (count($themes)>1):?>
     <div class="row">
@@ -87,22 +77,23 @@
             <?if(Theme::$theme!==$theme):?>
             <?if ($i%3==0):?><div class="clearfix"></div><?endif?>
             <div class="col-md-4 col-sm-4 col-xs-12">
-                <div class="thumbnail ">
-                    <?if ($scr = Theme::get_theme_screenshot($theme)):?>
-                        <img class="img-rounded img-responsive" src="<?=$scr?>">
-                    <?endif?>
-                    
-        
-                    <div class="caption">
-                        <h3><?=$info['Name']?></h3>
-                        <p><?=$info['Description']?></p>
-                        <p><?=$info['License']?> v<?=$info['Version']?></p>
-                        <p>
-                            <a class="btn btn-primary" href="<?=Route::url('oc-panel',array('controller'=>'theme','action'=>'index','id'=>$theme))?>"><?=__('Activate')?></a>
-                            <?if (Core::config('appearance.allow_query_theme')=='1'):?>
-                            <a class="btn btn-default" target="_blank" href="<?=Route::url('default')?>?theme=<?=$theme?>"><?=__('Preview')?></a> 
-                            <?endif?>   
-                        </p>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <?if ($scr = Theme::get_theme_screenshot($theme)):?>
+                            <img class="img-rounded img-responsive" src="<?=$scr?>">
+                        <?endif?>
+                        
+                        <div class="caption">
+                            <h3><?=$info['Name']?></h3>
+                            <p><?=$info['Description']?></p>
+                            <p><?=$info['License']?> v<?=$info['Version']?></p>
+                            <p>
+                                <a class="btn btn-primary btn-block" href="<?=Route::url('oc-panel',array('controller'=>'theme','action'=>'index','id'=>$theme))?>"><?=__('Activate')?></a>
+                                <?if (Core::config('appearance.allow_query_theme')=='1'):?>
+                                <a class="btn btn-default btn-block" target="_blank" href="<?=Route::url('default')?>?theme=<?=$theme?>"><?=__('Preview')?></a> 
+                                <?endif?>   
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -112,43 +103,46 @@
     </div>
 <?endif?>
 
-<div class="clearfix"></div>
 <?
 $a_m_themes = count($mobile_themes);
 if(Core::config('appearance.theme_mobile')!='')
     $a_m_themes--;
 
 if ($a_m_themes>0):?>
-<h2><?=__('Available Mobile Themes')?></h2>
 
+    <h2 class="page-header page-title">
+        <?=__('Available Mobile Themes')?>
+    </h2>
 
-<?$i=0;
-foreach ($mobile_themes as $theme=>$info):?>
-    <?if(Core::config('appearance.theme_mobile')!==$theme):?>
-    <?if ($i%3==0):?></ul><div class="row"><ul class="thumbnails"><?endif?>
-    <div class="col-md-4">
-    <div class="thumbnail">
+    <hr>
 
-        <?if ($scr = Theme::get_theme_screenshot($theme)):?>
-            <img width="300px" height="200px" src="<?=$scr?>">
-        <?endif?>
+    <div class="row">
+        <?$i=0; foreach ($mobile_themes as $theme=>$info):?>
+            <?if(Core::config('appearance.theme_mobile')!==$theme):?>
+                <?if ($i%3==0):?><div class="clearfix"></div><?endif?>
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <?if ($scr = Theme::get_theme_screenshot($theme)):?>
+                                <img class="img-rounded img-responsive" src="<?=$scr?>">
+                            <?endif?>
 
-        <div class="caption">
-            <h3><?=$info['Name']?></h3>
-            <p><?=$info['Description']?></p>
-            <p><?=$info['License']?> v<?=$info['Version']?></p>
-            <p>
-                <a class="btn btn-primary" href="<?=Route::url('oc-panel',array('controller'=>'theme','action'=>'index','id'=>$theme))?>"><?=__('Activate')?></a>
-                <a class="btn btn-default" target="_blank" href="<?=Route::url('default')?>?theme=<?=$theme?>"><?=__('Preview')?></a>    
-            </p>
-        </div>
+                            <div class="caption">
+                                <h3><?=$info['Name']?></h3>
+                                <p><?=$info['Description']?></p>
+                                <p><?=$info['License']?> v<?=$info['Version']?></p>
+                                <p>
+                                    <a class="btn btn-primary" href="<?=Route::url('oc-panel',array('controller'=>'theme','action'=>'index','id'=>$theme))?>"><?=__('Activate')?></a>
+                                    <a class="btn btn-default" target="_blank" href="<?=Route::url('default')?>?theme=<?=$theme?>"><?=__('Preview')?></a>    
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?$i++;endif?>
+        <?endforeach?>
     </div>
-    </div>
-    <?$i++;
-    endif?>
-<?endforeach?>
 <?endif?>
-<div class="clearfix"></div>
 
 <?if (count($market)>0):?>
 <h2><?=__('Themes Market')?></h2>
@@ -157,3 +151,41 @@ foreach ($mobile_themes as $theme=>$info):?>
 
 <?=View::factory('oc-panel/pages/market/listing',array('market'=>$market))?>    
 <?endif?>
+
+<div class="modal fade" id="install-theme" tabindex="-1" role="dialog" aria-labelledby="installTheme" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times-circle"></i></button>
+                <h4 id="installTheme" class="modal-title"><?=__('Install theme')?></h4>
+            </div>
+            <div class="modal-body">
+                <?=FORM::open(Route::url('oc-panel',array('controller'=>'theme','action'=>'download')))?>
+                    <div class="form-group">
+                        <?=FORM::label('license', __('Install theme from license.'), array('class'=>'control-label', 'for'=>'license' ))?> 
+                        <input type="text" name="license" id="license" placeholder="<?=__('license')?>" class="form-control"/>
+                    </div>
+                    <button 
+                        type="button" 
+                        class="btn btn-primary submit" 
+                        title="<?=__('Are you sure?')?>" 
+                        data-text="<?=sprintf(__('License will be activated in %s domain.'), parse_url(URL::base(), PHP_URL_HOST))?>"
+                        data-btnOkLabel="<?=__('Yes, definitely!')?>" 
+                        data-btnCancelLabel="<?=__('No way!')?>">
+                        <?=__('Download')?>
+                    </button>
+                <?=FORM::close()?>
+                
+                <hr>
+
+                <?=FORM::open(Route::url('oc-panel',array('controller'=>'theme','action'=>'install_theme')), array('enctype'=>'multipart/form-data'))?>
+                    <div class="form-group">
+                        <?=FORM::label('theme_file', __('To install new theme choose zip file.'), array('class'=>'control-label', 'for'=>'theme_file' ))?> 
+                        <input type="file" name="theme_file" id="theme_file" class="form-control" />
+                    </div>
+                    <?=FORM::button('submit', __('Upload'), array('type'=>'submit', 'class'=>'btn btn-primary', 'action'=>Route::url('oc-panel',array('controller'=>'theme','action'=>'install_theme'))))?>
+                <?=FORM::close()?>
+            </div>
+        </div>
+    </div>
+</div>

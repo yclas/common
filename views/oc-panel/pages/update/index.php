@@ -1,19 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 
-<div class="page-header">
-
-    <a class="btn btn-primary pull-right ajax-load" href="<?=Route::url('oc-panel',array('controller'=>'update','action'=>'index'))?>?reload=1" title="<?=__('Check for updates')?>">
-        <span class="glyphicon  glyphicon-refresh"></span> <?=__('Check for updates')?>
-    </a>
-    <h1><?=__('Updates')?></h1>
-    <p>
-        <?=__('Your installation version is')?> <span class="label label-info"><?=core::VERSION?></span>
-    </p>
-    <p><?=__('Your Hash Key for this installation is')?> 
-         <span class="label label-info"><?=core::config('auth.hash_key')?></span>
-    </p>
-
-    <?if ($latest_version!=core::VERSION):?>
+<?if ($latest_version!=core::VERSION):?>
     <div class="alert alert-warning" role="alert">
         <h4 class="alert-heading"><?=__('Update')?></h4>
         <p>
@@ -21,23 +8,42 @@
         </p>
 
         <a class="btn btn-warning ajax-load" href="<?=Route::url('oc-panel',array('controller'=>'update','action'=>'confirm'))?>" title="<?=__('Update')?>">
-        <span class="glyphicon  glyphicon-refresh"></span> <?=__('Update')?>
+            <span class="glyphicon  glyphicon-refresh"></span> <?=__('Update')?>
         </a>
     </div>
-    <?endif?>
-        
-</div>
+<?endif?>
+
+<ul class="list-inline pull-right">
+    <li>
+        <a class="btn btn-primary ajax-load" href="<?=Route::url('oc-panel',array('controller'=>'update','action'=>'index'))?>?reload=1" title="<?=__('Check for updates')?>">
+            <span class="glyphicon  glyphicon-refresh"></span> <?=__('Check for updates')?>
+        </a>
+    </li>
+</ul>
+
+<h1 class="page-header page-title"><?=__('Updates')?></h1>
+
+<hr>
+
+<p>
+    <?=__('Your installation version is')?> <span class="label label-info"><?=core::VERSION?></span>
+</p>
+<p>
+    <?=__('Your Hash Key for this installation is')?> <span class="label label-info"><?=core::config('auth.hash_key')?></span>
+</p>
 
 <div class="panel panel-default">
-    <div class="panel-body">
-        <table class="table table-striped">
+    <table class="table table-striped table-condensed">
+        <thead>
             <tr>
-                <th><?=__('Version')?></th>
-                <th><?=__('Name')?></th>
-                <th><?=__('Release Date')?></th>
-                <th><?=__('Changelog')?></th>
-                <th><?=__('Release Notes')?></th>
+                <th class="sorting_disabled"><?=__('Version')?></th>
+                <th class="sorting_disabled"><?=__('Name')?></th>
+                <th class="sorting_disabled"><?=__('Release Date')?></th>
+                <th class="sorting_disabled"><?=__('Changelog')?></th>
+                <th class="sorting_disabled"><?=__('Release Notes')?></th>
             </tr>
+        </thead>
+        <tbody>
             <?foreach ($versions as $version=>$values):?> 
                 <tr>
                     <td>
@@ -52,13 +58,13 @@
                         <?=$values['released']?>
                     </td>
                     <td>
-                        <a target="_blank" href="<?=$values['changelog']?>"><?=__('Changelog')?> <?=$version?></a>
+                        <a target="_blank" href="<?=$values['changelog']?>"><?=__('Changelog')?></a>
                     </td>
                     <td>
-                        <a target="_blank" href="<?=$values['blog']?>"><?=__('Release Notes')?> <?=$version?></a>
+                        <a target="_blank" href="<?=$values['blog']?>"><?=__('Release Notes')?></a>
                     </td>
                 </tr>
             <?endforeach?>
-        </table>
-    </div>
+        </tbody>
+    </table>
 </div>

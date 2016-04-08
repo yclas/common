@@ -59,6 +59,8 @@ class Controller_Panel_Content extends Auth_Controller {
     public function action_list($type = NULL)
     {
         $this->template->scripts['footer'][] = 'js/oc-panel/crud/index.js';
+        $this->template->scripts['footer'][] = 'js/jquery.toolbar.js';
+        $this->template->scripts['footer'][] = 'js/oc-panel/moderation.js';
 
         if ($type===NULL)
             $type = core::get('type');

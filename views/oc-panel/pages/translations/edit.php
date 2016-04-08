@@ -13,7 +13,7 @@
             <option value="original"><?=__('Replace Original')?></option>
             <option value="translation"><?=__('Replace Translation')?></option>
         </select>
-        <button type="submit" class="btn btn-warning"><?=__('Replace')?></button>
+        <button type="submit" class="btn btn-primary"><?=__('Replace')?></button>
     </form>
 
     <form class="form-inline pull-right" method="get" action="<?=Route::url('oc-panel',array('controller'=>'translations','action'=>'edit','id'=>$edit_language))?>">

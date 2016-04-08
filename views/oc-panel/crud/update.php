@@ -3,7 +3,7 @@
 	<h1><?=__('Update')?> <?=Text::ucfirst(__($name))?></h1>
 </div>
 <div class="row">
-	<div class="col-md-6">
+	<div class="col-md-12">
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<?=$form->render()?>

@@ -19,14 +19,14 @@
 			<tbody>
 				<?foreach ($images as $key => $image):?>
 					<tr id="tr<?=$key?>">
-						<td width="5%">
+						<td class="nowrap">
 							<div style="max-width:200px;">
 								<a class="thumbnail" href="<?=$image['url']?>" target="_blank"><img src="<?=$image['url']?>"></a>
 							</div>
 						</td>
 						<td><?=$image['name']?></td>
 						<td><?=$image['url']?></td>
-						<td width="5%">
+						<td class="nowrap">
 							<a 
 								href="<?=Route::url('oc-panel', array('controller'=> Request::current()->controller(), 'action'=>'delete'))?>?name=<?=$image['name']?>" 
 								class="btn btn-danger index-delete" 

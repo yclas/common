@@ -73,8 +73,8 @@ class Controller_Panel_Blog extends Auth_Crud {
                 $form->object->description = Kohana::$_POST_ORIG['formorm']['description'];
                 $form->save_object();
                 Alert::set(Alert::SUCCESS, __('Blog post created').'. '.__('Please to see the changes delete the cache')
-                    .'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1" title="'.__('Delete All').'">'
-                    .__('Delete All').'</a>');
+                    .'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1" title="'.__('Delete cache').'">'
+                    .__('Delete cache').'</a>');
             
                 $this->redirect(Route::get($this->_route_name)->uri(array('controller'=> Request::current()->controller())));
             }
@@ -111,8 +111,8 @@ class Controller_Panel_Blog extends Auth_Crud {
               
                 $form->save_object();
                 Alert::set(Alert::SUCCESS, __('Blog post updated').'. '.__('Please to see the changes delete the cache')
-                    .'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1" title="'.__('Delete All').'">'
-                    .__('Delete All').'</a>');
+                    .'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1" title="'.__('Delete cache').'">'
+                    .__('Delete cache').'</a>');
                 $this->redirect(Route::get($this->_route_name)->uri(array('controller'=> Request::current()->controller())));
             }
             else

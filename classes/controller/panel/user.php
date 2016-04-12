@@ -91,8 +91,8 @@ class Controller_Panel_User extends Auth_CrudAjax {
 						$form->object->seoname = $user->gen_seo_title($form->object->name);
 						$form->save_object();
 						Alert::set(Alert::SUCCESS, __('Item created').'. '.__('Please to see the changes delete the cache')
-							.'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1" title="'.__('Delete All').'">'
-							.__('Delete All').'</a>');
+							.'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1" title="'.__('Delete cache').'">'
+							.__('Delete cache').'</a>');
 			
 						$this->redirect(Route::get($this->_route_name)->uri(array('controller'=> Request::current()->controller())));
 					}
@@ -141,8 +141,8 @@ class Controller_Panel_User extends Auth_CrudAjax {
 					{
 						$form->save_object();
 						Alert::set(Alert::SUCCESS, __('Item updated').'. '.__('Please to see the changes delete the cache')
-							.'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1" title="'.__('Delete All').'">'
-							.__('Delete All').'</a>');
+							.'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1" title="'.__('Delete cache').'">'
+							.__('Delete cache').'</a>');
 						$this->redirect(Route::get($this->_route_name)->uri(array('controller'=> Request::current()->controller())));
 					}
 				}

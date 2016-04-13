@@ -37,6 +37,47 @@ class Controller_Jslocalization extends Controller {
                 });';
         $this->template->content = $ret;
     }
+
+    public function action_select2()
+    {
+        $ret = '(function() {
+                    if (jQuery && jQuery.fn && jQuery.fn.select2 && jQuery.fn.select2.amd) var e = jQuery.fn.select2.amd;
+                    return e.define("select2/i18n/es", [], function() {
+                        return {
+                            errorLoading: function() {
+                                return "'.__('The results could not be loaded.').'"
+                            },
+                            inputTooLong: function(e) {
+                                var t = e.input.length - e.maximum,
+                                    n = "'.__('Please delete').' " + t + " '.__('character').'";
+                                return t != 1 && (n += "s"), n
+                            },
+                            inputTooShort: function(e) {
+                                var t = e.minimum - e.input.length,
+                                    n = "'.__('Please enter').' " + t + " '.__('or more characters').'";
+                                return n
+                            },
+                            loadingMore: function() {
+                                return "'.__('Loading more result...').'"
+                            },
+                            maximumSelected: function(e) {
+                                var t = "'.__('You can only select').' " + e.maximum + " '.__('item').'";
+                                return e.maximum != 1 && (t += "s"), t
+                            },
+                            noResults: function() {
+                                return "'.__('No results found').'"
+                            },
+                            searching: function() {
+                                return "'.__('Searching...').'"
+                            }
+                        }
+                    }), {
+                        define: e.define,
+                        require: e.require
+                    }
+                })();';
+        $this->template->content = $ret;
+    }
         
     public function action_validate()
     {

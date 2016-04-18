@@ -6,6 +6,7 @@
         <i class="fa fa-question-circle"></i>
     </a>
 </h1>
+<hr>
 
 <div class="panel panel-default">
 	<div class="table-responsive">

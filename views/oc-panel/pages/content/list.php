@@ -5,7 +5,7 @@
         <a class="btn btn-primary" 
             href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'create')).'?type='.$type ?>" 
             rel="tooltip" title="<?=__('New')?>">
-            <?=__('New')?>
+            <i class="fa fa-plus-circle"></i>&nbsp; <?=__('New')?>
         </a>
     </li>
 </ul>

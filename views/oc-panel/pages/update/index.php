@@ -37,10 +37,10 @@
         <thead>
             <tr>
                 <th class="sorting_disabled"><?=__('Version')?></th>
-                <th class="sorting_disabled"><?=__('Name')?></th>
-                <th class="sorting_disabled"><?=__('Release Date')?></th>
-                <th class="sorting_disabled"><?=__('Changelog')?></th>
-                <th class="sorting_disabled"><?=__('Release Notes')?></th>
+                <th class="sorting_disabled update_releasename"><?=__('Name')?></th>
+                <th class="sorting_disabled update_releasedate"><?=__('Release Date')?></th>
+                <th class="sorting_disabled update_changelog"><?=__('Changelog')?></th>
+                <th class="sorting_disabled update_releasenotes"><?=__('Release Notes')?></th>
             </tr>
         </thead>
         <tbody>
@@ -51,16 +51,16 @@
                         <?=($version==$latest_version)? '<span class="label label-success">'.__('Latest').'</span>':''?>
                         <?=($version==core::VERSION)? '<span class="label label-info">'.__('Current').'</span>':''?>
                     </td>
-                    <td>
+                    <td class="update_releasename">
                         <?=$values['codename']?>    
                     </td>
-                    <td>
+                    <td class="update_releasedate">
                         <?=$values['released']?>
                     </td>
-                    <td>
+                    <td class="update_changelog">
                         <a target="_blank" href="<?=$values['changelog']?>"><?=__('Changelog')?></a>
                     </td>
-                    <td>
+                    <td class="update_releasenotes">
                         <a target="_blank" href="<?=$values['blog']?>"><?=__('Release Notes')?></a>
                     </td>
                 </tr>

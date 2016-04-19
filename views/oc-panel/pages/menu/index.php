@@ -3,7 +3,7 @@
 <ul class="list-inline pull-right">
     <li>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-menu-item">
-            <i class="fa fa-plus-circle"></i> <?=__('Create Menu Item')?>
+            <i class="fa fa-plus-circle"></i>&nbsp; <?=__('Create Menu Item')?>
         </button>
     </li>
 </ul>

@@ -11,8 +11,7 @@
     </li>
     <li>
         <a class="btn btn-success" href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'bulk')) ?>">
-            <i class="glyphicon glyphicon-list-alt"></i>
-            <?=__('Bulk')?>
+            <i class="glyphicon glyphicon-list-alt"></i>&nbsp; <?=__('Bulk')?>
         </a>
     </li>
     <li>
@@ -54,7 +53,7 @@
                     <th><?=__('Discount')?></th>
                     <th><?=__('Number Coupons')?></th>
                     <th><?=__('Valid until')?></th>
-                    <th><?=__('Created')?></th>
+                    <th class="coupon_created_label"><?=__('Created')?></th>
 					<?if ($controller->allowed_crud_action('delete') OR $controller->allowed_crud_action('update')):?>
 						<th><?=__('Actions') ?></th>
 					<?endif?>
@@ -78,7 +77,7 @@
                         </td>
                         <td><?=$element->number_coupons?></td>
                         <td><?=Date::format($element->valid_date, core::config('general.date_format'))?></td>
-                        <td><?=Date::format($element->created, core::config('general.date_format'))?></td>
+                        <td class="coupon_created"><?=Date::format($element->created, core::config('general.date_format'))?></td>
 
 						<?if ($controller->allowed_crud_action('delete') OR $controller->allowed_crud_action('update')):?>
 						<td class="nowrap">
@@ -109,7 +108,7 @@
         <?if ($controller->allowed_crud_action('export')):?>
             <a class="btn btn-success" href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'export')) ?>" title="<?=__('Export')?>">
                 <i class="glyphicon glyphicon-download"></i>
-                <?=__('Export all')?>
+                &nbsp;<?=__('Export all')?>
             </a>
         <?endif?>
     </div>

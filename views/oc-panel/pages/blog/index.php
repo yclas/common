@@ -26,7 +26,7 @@
 		<table class="table table-striped">
 			<thead>
 				<th><?=__('Title')?></th>
-				<th><?=__('Created')?></th>
+				<th class="blog_created_label"><?=__('Created')?></th>
 				<th><?=__('Active')?></th>
 				<th></th>
 			</thead>
@@ -46,7 +46,7 @@
 									<?endif?>
 								</p>
 							</td>
-							<td><?=$content->created?></td>
+							<td class="blog_created"><?=$content->created?></td>
 							<td><?=($content->status==1)?__('Yes'):__('No')?></td>
 							<td width="5%" class="nowrap">
 									

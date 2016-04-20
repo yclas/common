@@ -38,8 +38,8 @@
             <thead>
                 <tr>
                     <th><?=__('Title')?></th>
-                    <th><?=__('Seo Title')?></th>
-                    <th><?=__('Active')?></th>
+                    <th class="page_seotitle_label"><?=__('Seo Title')?></th>
+                    <th class="page_active_label_mobile"><?=__('Active')?></th>
                     <th><?=__('Actions')?></th>
                 </tr>
             </thead>
@@ -61,8 +61,8 @@
                                     </p>
                                 <?endif?>
                             </td>
-                            <td><?=$content->seotitle?></td>
-                            <td><?=($content->status==1)?__('Yes'):__('No')?></td>
+                            <td class="page_seotitle"><?=$content->seotitle?></td>
+                            <td class="page_active_mobile"><?=($content->status==1)?__('Yes'):__('No')?></td>
                             <td width="5%" class="nowrap">
                                 
                                 <a class="btn btn-primary ajax-load" 

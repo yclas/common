@@ -10,13 +10,20 @@
         </form>
     </li>
     <li>
-        <a class="btn btn-success" href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'bulk')) ?>">
-            <i class="glyphicon glyphicon-list-alt"></i>&nbsp; <?=__('Bulk')?>
-        </a>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#import-tool">
+            <i class="fa fa-upload"></i>&nbsp; <?=__('Import')?>
+        </button>
     </li>
     <li>
-        <a class="btn btn-primary ajax-load" href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'create'))?>">
-            <i class="fa fa-plus-circle"></i>&nbsp; <?=__('New')?>
+        <a class="btn btn-primary" href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'bulk')) ?>">
+            <i class="glyphicon glyphicon-list-alt"></i>
+            <?=__('Bulk')?>
+        </a>  
+    </li>
+    <li>
+        <a class="btn btn-primary" href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'create')) ?>">
+            <i class="glyphicon glyphicon-pencil"></i>
+            <?=__('New')?>
         </a>
     </li>
 </ul>
@@ -44,24 +51,24 @@
 <?endif?>
 
 <div class="panel panel-default">
-	<div class="table-responsive">
-		<table class="table table-striped">
-			<thead>
-				<tr>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
                     <th><?=__('Name')?></th>
                     <th><?=__('Product')?></th>
                     <th><?=__('Discount')?></th>
                     <th><?=__('Number Coupons')?></th>
                     <th><?=__('Valid until')?></th>
                     <th class="coupon_created_label"><?=__('Created')?></th>
-					<?if ($controller->allowed_crud_action('delete') OR $controller->allowed_crud_action('update')):?>
-						<th><?=__('Actions') ?></th>
-					<?endif?>
-				</tr>
-			</thead>
-			<tbody>
-				<?foreach($elements as $element):?>
-					<tr id="tr<?=$element->pk()?>">
+                    <?if ($controller->allowed_crud_action('delete') OR $controller->allowed_crud_action('update')):?>
+                        <th><?=__('Actions') ?></th>
+                    <?endif?>
+                </tr>
+            </thead>
+            <tbody>
+                <?foreach($elements as $element):?>
+                    <tr id="tr<?=$element->pk()?>">
                         <td><?=$element->name?></td>
                         <td>
                             <?if (isset($element->produt)):?>
@@ -79,65 +86,69 @@
                         <td><?=Date::format($element->valid_date, core::config('general.date_format'))?></td>
                         <td class="coupon_created"><?=Date::format($element->created, core::config('general.date_format'))?></td>
 
-						<?if ($controller->allowed_crud_action('delete') OR $controller->allowed_crud_action('update')):?>
-						<td class="nowrap">
-							<?if ($controller->allowed_crud_action('update')):?>
-								<a title="<?=__('Edit')?>" class="btn btn-primary" href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'update','id'=>$element->pk()))?>">
-									<i class="glyphicon glyphicon-edit"></i>
-								</a>
-							<?endif?>
-							<?if ($controller->allowed_crud_action('delete')):?>
-								<a 
-									href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'delete','id'=>$element->pk()))?>" 
-									class="btn btn-danger index-delete" 
-									data-title="<?=__('Are you sure you want to delete?')?>" 
-									data-id="tr<?=$element->pk()?>" 
-									data-btnOkLabel="<?=__('Yes, definitely!')?>" 
-									data-btnCancelLabel="<?=__('No way!')?>">
-									<i class="glyphicon glyphicon-trash"></i>
-								</a>
-							<?endif?>
-						</td>
-						<?endif?>
-					</tr>
-				<?endforeach?>
-			</tbody>
-		</table>
-	</div>
+                        <?if ($controller->allowed_crud_action('delete') OR $controller->allowed_crud_action('update')):?>
+                            <td class="nowrap">
+                                <div class="btn-group">
+                                    <?if ($controller->allowed_crud_action('update')):?>
+                                        <a title="<?=__('Edit')?>" class="btn btn-primary" href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'update','id'=>$element->pk()))?>">
+                                           <i class="glyphicon glyphicon-edit"></i>
+                                        </a>
+                                    <?endif?>
+                                    <?if ($controller->allowed_crud_action('delete')):?>
+                                        <a 
+                                            href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'delete','id'=>$element->pk()))?>" 
+                                            class="btn btn-danger index-delete" 
+                                            data-title="<?=__('Are you sure you want to delete?')?>" 
+                                            data-id="tr<?=$element->pk()?>" 
+                                            data-btnOkLabel="<?=__('Yes, definitely!')?>" 
+                                            data-btnCancelLabel="<?=__('No way!')?>">
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                        </a>
+                                    <?endif?>
+                                </div>
+                            </td>
+                        <?endif?>
+                    </tr>
+                <?endforeach?>
+            </tbody>
+        </table>
+    </div>
     <div class="panel-footer text-right">
         <?if ($controller->allowed_crud_action('export')):?>
             <a class="btn btn-success" href="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'export')) ?>" title="<?=__('Export')?>">
-                <i class="glyphicon glyphicon-download"></i>
+                <i class="fa fa-download"></i>
                 &nbsp;<?=__('Export all')?>
-            </a>
+            </a>                
         <?endif?>
     </div>
 </div>
 
 <div class="text-center"><?=$pagination?></div>
 
-
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><?=__('Upload CSV file')?></h3>
-            </div>
-            <div class="panel-body">
-                <p>
-                    <?=__('Please use the correct CSV format')?>, <?=__('limited to 10.000 at a time')?>, <?=__('1 MB file')?>.
-                    <br>
-                    <?=__('Coupons')?>: <a href="https://mega.nz/#!V1RSSIoS!QBD0IlfKqcAuswEv18SXQ1vkbp4eUeCxpIH5sXQVskY"><?=__('download example')?>.</a>
-                </p>
-                <hr>
-                <?= FORM::open(Route::url('oc-panel',array('controller'=>'coupon','action'=>'import')), array('class'=>'', 'enctype'=>'multipart/form-data'))?>
+<div class="modal fade" id="import-tool" tabindex="-1" role="dialog" aria-labelledby="importCoupons" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <?=FORM::open(Route::url('oc-panel',array('controller'=>'coupon','action'=>'import')), array('class'=>'', 'enctype'=>'multipart/form-data'))?>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times-circle"></i></button>
+                    <h4 id="importCoupons" class="modal-title"><?=__('Upload CSV file')?></h4>
+                </div>
+                <div class="modal-body">
                     <div class="form-group">
                         <label for=""><?=__('import coupons')?></label>
                         <input type="file" name="csv_file_coupons" id="csv_file_coupons" class="form-control"/>
+                        <p class="help-block">
+                            <?=__('Please use the correct CSV format')?>, <?=__('limited to 10.000 at a time')?>, <?=__('1 MB file')?>.
+                            <br>
+                            <?=__('Coupons')?>: <a href="https://mega.nz/#!V1RSSIoS!QBD0IlfKqcAuswEv18SXQ1vkbp4eUeCxpIH5sXQVskY"><?=__('download example')?>.</a>
+                        </p>
                     </div>
-                        <?= FORM::button('submit', __('Upload'), array('type'=>'submit','id'=>'csv_upload', 'class'=>'btn btn-primary', 'action'=>Route::url('oc-panel',array('controller'=>'coupon','action'=>'import'))))?>
-                <?= FORM::close()?>
-            </div>
+                </div>
+                <div class="modal-footer text-right">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?=__('Cancel')?></button>
+                    <?=FORM::button('submit', __('Upload'), array('type'=>'submit','id'=>'csv_upload', 'class'=>'btn btn-primary', 'action'=>Route::url('oc-panel',array('controller'=>'coupon','action'=>'import'))))?>
+                </div>
+            <?=FORM::close()?>
         </div>
     </div>
 </div>

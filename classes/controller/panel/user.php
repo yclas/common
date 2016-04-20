@@ -28,14 +28,14 @@ class Controller_Panel_User extends Auth_CrudAjax {
         parent::__construct($request, $response);
         $this->_buttons_actions = array(
                                         array( 'url'   => Route::url('oc-panel', array('controller'=>'order')).'?filter__id_user=' ,
-                                                'title' => 'orders',
-                                                'class' => 'btn btn-xs btn-default',
-                                                'icon'  => 'fa fa-credit-card'
+                                                'title' => __('Orders'),
+                                                'class' => '',
+                                                'icon'  => 'fa fa-fw fa-credit-card'
                                                 ),
                                         array( 'url'   => Route::url('oc-panel', array('controller'=>'user', 'action'=>'spam')).'/' ,
-                                                'title' => 'spam',
-                                                'class' => 'btn btn-xs btn-warning',
-                                                'icon'  => 'glyphicon glyphicon-fire'
+                                                'title' => __('Spam'),
+                                                'class' => '',
+                                                'icon'  => 'fa fa-fw fa-fire'
                                                 ),
                                         );
 
@@ -43,9 +43,9 @@ class Controller_Panel_User extends Auth_CrudAjax {
         if (class_exists('Model_Ad'))
         {
             array_unshift($this->_buttons_actions,   array( 'url'   => Route::url('oc-panel', array('controller'=>'ad')).'?filter__id_user=' ,
-                                                            'title' => 'ads',
-                                                            'class' => 'btn btn-xs btn-success',
-                                                            'icon'  => 'fa fa-th'
+                                                            'title' => __('Ads'),
+                                                            'class' => '',
+                                                            'icon'  => 'fa fa-fw fa-th'
                                                             ));
         }
 
@@ -53,9 +53,9 @@ class Controller_Panel_User extends Auth_CrudAjax {
         if (class_exists('Model_Ticket'))
         {
             array_unshift($this->_buttons_actions,   array( 'url'   => Route::url('oc-panel', array('controller'=>'support', 'action'=>'index')).'?filter__id_user=' ,
-                                                            'title' => 'support',
-                                                            'class' => 'btn btn-xs btn-info',
-                                                            'icon'  => 'fa fa-comment'
+                                                            'title' => __('Support'),
+                                                            'class' => '',
+                                                            'icon'  => 'fa fa-fw fa-comment'
                                                             ));
         }
     }
@@ -91,8 +91,8 @@ class Controller_Panel_User extends Auth_CrudAjax {
 						$form->object->seoname = $user->gen_seo_title($form->object->name);
 						$form->save_object();
 						Alert::set(Alert::SUCCESS, __('Item created').'. '.__('Please to see the changes delete the cache')
-							.'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1" title="'.__('Delete cache').'">'
-							.__('Delete cache').'</a>');
+							.'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1" title="'.__('Delete All').'">'
+							.__('Delete All').'</a>');
 			
 						$this->redirect(Route::get($this->_route_name)->uri(array('controller'=> Request::current()->controller())));
 					}
@@ -141,8 +141,8 @@ class Controller_Panel_User extends Auth_CrudAjax {
 					{
 						$form->save_object();
 						Alert::set(Alert::SUCCESS, __('Item updated').'. '.__('Please to see the changes delete the cache')
-							.'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1" title="'.__('Delete cache').'">'
-							.__('Delete cache').'</a>');
+							.'<br><a class="btn btn-primary btn-mini ajax-load" href="'.Route::url('oc-panel',array('controller'=>'tools','action'=>'cache')).'?force=1" title="'.__('Delete All').'">'
+							.__('Delete All').'</a>');
 						$this->redirect(Route::get($this->_route_name)->uri(array('controller'=> Request::current()->controller())));
 					}
 				}

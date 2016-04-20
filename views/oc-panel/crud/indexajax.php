@@ -96,7 +96,7 @@
 
 <div class="panel panel-default">
     <div class="table-responsive">
-        <table id="grid-data-api" class="table table-striped table-condensed" >
+        <table id="grid-data-api" class="table table-striped" >
             <thead>
                 <tr>
                     <?foreach($fields as $field):?>

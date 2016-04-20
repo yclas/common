@@ -147,7 +147,7 @@ class Auth_CrudAjax extends Auth_Crud
     {
         $this->template->title = __($this->_orm_model);
 
-        $this->template->scripts['footer'][] = '//cdn.jsdelivr.net/bootstrap.datepicker/0.1/js/bootstrap-datepicker.js';
+        $this->template->scripts['footer'][] = 'js/bootstrap-datepicker.js';
         $this->template->scripts['footer'][] = Route::url($this->_route_name, array('controller'=> Request::current()->controller(), 'action'=>'bootgrid'));
         $this->template->styles = array('css/jquery.bootgrid.min.css' => 'screen','//cdn.jsdelivr.net/bootstrap.datepicker/0.1/css/datepicker.css' => 'screen');
         

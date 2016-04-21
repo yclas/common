@@ -21,9 +21,9 @@ class Controller_Panel_Role extends Auth_CrudAjax {
         parent::__construct($request, $response);
         $this->_buttons_actions = array(
                                         array( 'url'   => Route::url('oc-panel', array('controller'=>'user')).'?filter__id_role=' ,
-                                                'title' => 'users',
-                                                'class' => 'btn btn-xs btn-default',
-                                                'icon'  => 'fa fa-users'
+                                                'title' => __('Users'),
+                                                'class' => '',
+                                                'icon'  => 'fa fa-fw fa-users'
                                                 ),
 
                                         );

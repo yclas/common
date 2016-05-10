@@ -8,7 +8,7 @@
  * @copyright  (c) 2008-2009 Kohana Team
  * @license    http://kohanaphp.com/license
  */
-class Database_MySQLi_Result extends Kohana_Database_MySQLi_Result {
+class OC_Database_MySQLi_Result extends Kohana_Database_MySQLi_Result {
 
     /**
      * fixed function mysqli_fetch_object PHP 5.6.21 and PHP 7.0.6

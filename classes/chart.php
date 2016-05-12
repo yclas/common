@@ -121,7 +121,7 @@ class Chart {
 	        }
 	    }
 
-		$canvas = '<canvas id="' . $chart_div . '" data-chartjs="' . $chart_type . '"' . $chart_width . $chart_height . $chart_attributes . $chart_data . $chart_options . '></canvas>';
+		$canvas = '<canvas id="' . $chart_div . '" data-chartjs="' . strtolower($chart_type) . '"' . $chart_width . $chart_height . $chart_attributes . $chart_data . $chart_options . '></canvas>';
 		
 		return $canvas;
 	}
@@ -161,12 +161,15 @@ class Chart {
 
 		foreach ($colors as $k => $color)
 		{
-			$chart_colors[$k]['fillColor']            = $color['fill'];
-			$chart_colors[$k]['strokeColor']          = $color['stroke'];
-			$chart_colors[$k]['pointColor']           = $color['point'];
-			$chart_colors[$k]['pointStrokeColor']     = $color['pointStroke'];
-			$chart_colors[$k]['pointHighlightFill']   = $color['point'];
-			$chart_colors[$k]['pointHighlightStroke'] = $color['pointStroke'];
+			$chart_colors[$k]['backgroundColor']           = $color['fill'];
+			$chart_colors[$k]['borderColor']               = $color['stroke'];
+			$chart_colors[$k]['pointBackgroundColor']      = $color['point'];
+			$chart_colors[$k]['pointBorderColor']          = $color['pointStroke'];
+			$chart_colors[$k]['pointHoverBackgroundColor'] = $color['point'];
+			$chart_colors[$k]['pointHoverBorderColor']     = $color['pointStroke'];
+			$chart_colors[$k]['lineTension']               = '.25';
+			$chart_colors[$k]['borderWidth']               = '2';
+			$chart_colors[$k]['pointRadius']               = '0';
 		}
 		
 		return self::corechart('Line', $data, $options, $chart_colors, $attributes);

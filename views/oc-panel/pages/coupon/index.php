@@ -60,7 +60,7 @@
                     <th><?=__('Discount')?></th>
                     <th><?=__('Number Coupons')?></th>
                     <th><?=__('Valid until')?></th>
-                    <th class="coupon_created_label"><?=__('Created')?></th>
+                    <th class="hidden-sm hidden-xs"><?=__('Created')?></th>
                     <?if ($controller->allowed_crud_action('delete') OR $controller->allowed_crud_action('update')):?>
                         <th><?=__('Actions') ?></th>
                     <?endif?>
@@ -84,7 +84,7 @@
                         </td>
                         <td><?=$element->number_coupons?></td>
                         <td><?=Date::format($element->valid_date, core::config('general.date_format'))?></td>
-                        <td class="coupon_created"><?=Date::format($element->created, core::config('general.date_format'))?></td>
+                        <td class="hidden-sm hidden-xs"><?=Date::format($element->created, core::config('general.date_format'))?></td>
 
                         <?if ($controller->allowed_crud_action('delete') OR $controller->allowed_crud_action('update')):?>
                             <td class="nowrap">

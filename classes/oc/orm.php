@@ -36,9 +36,12 @@ class OC_ORM extends Kohana_ORM {
      */
     public function verify_loaded()
     {
+        // Flag as loaded, valid and get primary key value
         if ($this->_loaded == FALSE AND isset($this->_object[$this->_primary_key]))
-            // Flag as loaded and valid
+        {
             $this->_loaded = $this->_valid = TRUE;
+            $this->_primary_key_value = $this->_object[$this->_primary_key];
+        }    
     }
 
 

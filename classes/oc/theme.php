@@ -981,6 +981,11 @@ class OC_Theme {
         if ( ($base = Core::S3_domain()) === FALSE )
             $base = URL::base();
 
+        //if s3 absolute url
+        if ( core::config('image.aws_s3_active') )
+            return $base.'images/'.$image['name'];
+
+        //relative url
         $base = parse_url($base);
 
         return $base['path'].'images/'.$image['name'];

@@ -981,7 +981,9 @@ class OC_Theme {
         if ( ($base = Core::S3_domain()) === FALSE )
             $base = URL::base();
 
-        return $base.'images/'.$image['name'];
+        $base = parse_url($base);
+
+        return $base['path'].'images/'.$image['name'];
     }
     
     /**

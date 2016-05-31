@@ -95,12 +95,18 @@ class Chart {
 			foreach ($data as $key => $value)
 			{
 				if (isset($colors[$key]))
-					$chart_data[$key] = $colors[$key];
+				{
+					$chart_data['datasets'][0]['backgroundColor'][$key]      = $colors[$key]['backgroundColor'];
+					$chart_data['datasets'][0]['hoverBackgroundColor'][$key] = $colors[$key]['hoverBackgroundColor'];
+				}
 				else
-					$chart_data[$key] = self::$default_colors[0];
+				{
+					$chart_data['datasets'][0]['backgroundColor'][$key]      = self::$default_colors[0]['fill'];
+					$chart_data['datasets'][0]['hoverBackgroundColor'][$key] = self::$default_colors[0]['stroke'];
+				}
 
-				$chart_data[$key]['value'] = $value['value'];
-				$chart_data[$key]['label'] = $value['label'];
+				$chart_data['datasets'][0]['data'][$key] = $value['value'];
+				$chart_data['labels'][$key] = $value['label'];
 			}
 		}
 
@@ -230,8 +236,8 @@ class Chart {
 
 		foreach ($colors as $k => $color)
 		{
-			$chart_colors[$k]['color']     = $color['fill'];
-			$chart_colors[$k]['highlight'] = $color['stroke'];
+			$chart_colors[$k]['backgroundColor']      = $color['fill'];
+			$chart_colors[$k]['hoverBackgroundColor'] = $color['stroke'];
 		}
 
 		return self::corechart('Doughnut', $data, $options, $chart_colors, $attributes);

@@ -70,6 +70,7 @@ class OC_Email {
                 require_once Kohana::find_file('vendor', 'php-mailer/smtp','php');
                 
                 $mail->IsSMTP();
+                $mail->Timeout = 5;
 
                 //SMTP HOST config
                 if (core::config('email.smtp_host')!="")

@@ -19,6 +19,8 @@
         <small><a href="https://docs.yclas.com/manage-users/" target="_blank"><i class="fa fa-question-circle"></i></a></small>
     <?elseif($name == 'role'):?>
         <small><a href="https://docs.yclas.com/roles-work-classified-ads-script/" target="_blank"><i class="fa fa-question-circle"></i></a></small>
+    <?elseif($name == 'order'):?>
+        <small><a href="https://docs.yclas.com/how-to-manage-orders/" target="_blank"><i class="fa fa-question-circle"></i></a></small>
     <?elseif($name == 'crontab'):?>
         <small><a href="https://docs.yclas.com/how-to-set-crons/" target="_blank"><i class="fa fa-question-circle"></i></a></small>
     <?elseif($name == 'plan'):?>

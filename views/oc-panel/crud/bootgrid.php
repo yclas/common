@@ -14,7 +14,7 @@ var grid = $("#grid-data-api").bootgrid({
             edit_button = "<?if ($controller->allowed_crud_action('update')):?><a href=\"<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'update'))?>/"+ row.<?=$element->primary_key()?> +"\" class=\"btn btn-primary ajax-load command-edit\" data-row-id=\"" + row.<?=$element->primary_key()?> + "\"><span class=\"fa fa-pencil\"></span></a><?endif?>";
             dele_button = "<?if ($controller->allowed_crud_action('delete')):?><a href=\"<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'delete'))?>/"+ row.<?=$element->primary_key()?> +"\" class=\"btn btn-danger command-delete\" data-row-id=\"" + row.<?=$element->primary_key()?> + "\" title=\"<?=__('Are you sure you want to delete?')?>\" data-btnOkLabel=\"<?=__('Yes, definitely!')?>\" data-btnCancelLabel=\"<?=__('No way!')?>\"><span class=\"fa fa-trash-o\"></span></a><?endif?>";
             extra_button = "<?if (count($buttons) > 0):?><div class=\"btn-group\"><button type=\"button\" class=\"btn btn-default dropdown-toggle extra-commands\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"><i class=\"fa fa-cog\"></i></button><ul class=\"dropdown-menu dropdown-menu-right\"><?
-            foreach($buttons as $button):?><li><a href=\"<?=$button['url']?>"+ row.<?=$element->primary_key()?> +"\" class=\"<?=$button['class']?>\" data-row-id=\"" + row.<?=$element->primary_key()?> + "\" title=\"<?=$button['title']?>\" ><i class=\"<?=$button['icon']?>\"></i> <?=$button['title']?></a></li><?endforeach?></ul></div><?endif?>";
+            foreach($buttons as $button):?><li><a href=\"<?=$button['url']?>"+ row.<?=$element->primary_key()?> +"\" class=\"<?=$button['class']?>\" data-row-id=\"" + row.<?=$element->primary_key()?> + "\" title=\"<?=$button['title']?>\" <?=isset($button['attrs']) ? addslashes(HTML::attributes($button['attrs'])) : NULL?>><i class=\"<?=$button['icon']?>\"></i> <?=$button['title']?></a></li><?endforeach?></ul></div><?endif?>";
             return '<div class="btn-group" style="display: flex;">'+edit_button+dele_button+extra_button+'</div>';    
         }
     }
@@ -22,7 +22,7 @@ var grid = $("#grid-data-api").bootgrid({
 .on("loaded.rs.jquery.bootgrid", function()
 {
     /* Executes after data is loaded and rendered */
-    grid.find(".command-delete").on("click", function(event)
+    grid.find(".command-delete, [data-toggle='confirmation']").on("click", function(event)
     {
         var href = $(this).attr('href');
         var title = $(this).attr('title');

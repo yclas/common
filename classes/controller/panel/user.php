@@ -35,7 +35,10 @@ class Controller_Panel_User extends Auth_CrudAjax {
                                         array( 'url'   => Route::url('oc-panel', array('controller'=>'user', 'action'=>'spam')).'/' ,
                                                 'title' => __('Spam'),
                                                 'class' => '',
-                                                'icon'  => 'fa fa-fw fa-fire'
+                                                'icon'  => 'fa fa-fw fa-fire',
+                                                'attrs'  => array(  'data-toggle' => 'confirmation',
+                                                                    'data-btnOkLabel' => __('Yes, definitely!'),
+                                                                    'data-btnCancelLabel' => __('No way!'))
                                                 ),
                                         );
 

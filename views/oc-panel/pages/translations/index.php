@@ -38,7 +38,7 @@
 </p>
 
 <div class="panel panel-default">
-    <table class="table">
+    <table class="table" id="translations-table">
         <thead>
             <tr>
                 <th><?=__('Language')?></th>

@@ -10,7 +10,7 @@
     </li>
 </ul>
 
-<h1 class="page-header page-title">
+<h1 class="page-header page-title" id="page-themes">
     <?=__('Themes')?>
     <a target="_blank" href="https://docs.yclas.com/how-to-change-theme/">
         <i class="fa fa-question-circle"></i>

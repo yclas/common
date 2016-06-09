@@ -24,6 +24,16 @@ class OC_Securepay {
     }
 
     /**
+     * returns formated id_order
+     * @param  integer $id_order 
+     * @return string           
+     */
+    public static function id_order($id_order)
+    {
+        return 'MM-'.$id_order;
+    }
+
+    /**
      * get the url for the form
      * @return string 
      */
@@ -43,7 +53,7 @@ class OC_Securepay {
         //SHA1 ABC0010|txnpassword|0|ORDER_ID|5320|201106141010
         $fingerprint  = Core::config('payment.securepay_merchant').'|'
                             .Core::config('payment.securepay_password').'|0|'
-                            .$order->id_order.'|'
+                            .Securepay::id_order($order->id_order).'|'
                             .Securepay::money_format($order->amount).'|'
                             .$timestamp;
         return sha1($fingerprint);
@@ -61,7 +71,7 @@ class OC_Securepay {
         //ABC0010|mytxnpasswd|MyReference|1000|201105231545|1
         $fingerprint  = Core::config('payment.securepay_merchant').'|'
                             .Core::config('payment.securepay_password').'|'
-                            .$order->id_order.'|'
+                            .Securepay::id_order($order->id_order).'|'
                             .Securepay::money_format($order->amount).'|'
                             .$timestamp.'|'
                             .$result_code;

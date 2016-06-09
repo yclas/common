@@ -13,8 +13,10 @@
 <h1 class="page-header page-title">
     <?=Controller_Panel_Content::translate_type($type)?>
     <?if($type == 'page'):?>
-        <a href="http://docs.yclas.com/how_to_add_pages/" target="_blank"><i class="fa fa-question-circle"></i></a>
-    <?endif?>
+        <a href="https://docs.yclas.com/how_to_add_pages/" target="_blank"><i class="fa fa-question-circle"></i></a>
+    <?elseif($type == 'email'):?>
+        <a href="https://docs.yclas.com/automatic-emails-sent-to-users/" target="_blank"><i class="fa fa-question-circle"></i></a>
+    <?endif?>>
 </h1>
 
 <hr>

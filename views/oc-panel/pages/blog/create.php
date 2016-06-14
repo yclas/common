@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
                 <div class="checkbox check-success">
-                    <input type="checkbox" name="status" id="status">
+                    <?=FORM::checkbox($form['status']['name'], 1, (bool) $form['status']['value'], ['id' => 'status'])?>
                     <label for="status"><?=__('Active')?></label>
                 </div>
             </div>

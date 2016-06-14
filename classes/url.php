@@ -67,9 +67,14 @@ class URL extends Kohana_URL {
         if (!isset($_SERVER['QUERY_STRING']) OR defined('SUPPRESS_REQUEST'))
             return URL::base();
 
-        $query_string = (isset($_SERVER['QUERY_STRING']) AND !empty($_SERVER['QUERY_STRING']))? '?'.$_SERVER['QUERY_STRING']:'';
-
-        return URL::base().Request::current()->uri().$query_string;
+        try {
+            //default case using KO functions
+            $query_string = (isset($_SERVER['QUERY_STRING']) AND !empty($_SERVER['QUERY_STRING']))? '?'.$_SERVER['QUERY_STRING']:'';
+            return URL::base().Request::current()->uri().$query_string;
+        } catch (Exception $e) {
+            //in case theres no request
+            return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        }
     }
 
     /**

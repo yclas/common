@@ -88,7 +88,16 @@ class URL extends Kohana_URL {
             require Kohana::find_file('vendor/DomainParser', 'Parser');
 
         $Parser = new Novutec\DomainParser\Parser();
-        return $Parser->parse($domain)->fqdn;
+        $fqdn_domain = $Parser->parse($domain)->fqdn;
+
+        if (!empty($fqdn_domain) AND $fqdn_domain != NULL )
+            return $fqdn_domain;
+        //failback in case the FQDN parser fails see https://github.com/open-classifieds/open-eshop/issues/508
+        elseif ( preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $domain, $regs))
+            return $regs['domain']; 
+           
+        //something went really wrong :S
+        return FALSE;
     }
 
 

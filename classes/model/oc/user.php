@@ -218,7 +218,7 @@ class Model_OC_User extends ORM {
 
 
     /**
-     * Check if user is admin
+     * Check the actual controller and action request and validates if the user has access to it
      * @todo    code something that you can show to your mom.
      * @param   string  $action
      * @return  boolean
@@ -812,7 +812,7 @@ class Model_OC_User extends ORM {
     }
 
     /**
-     * Check if the user is Admin.
+     * Check if the user is Moderator.
      * @return  boolean
      */
     public function is_moderator()
@@ -824,7 +824,7 @@ class Model_OC_User extends ORM {
     }
 
     /**
-     * Check if the user is Admin.
+     * Check if the user is Translator.
      * @return  boolean
      */
     public function is_translator()

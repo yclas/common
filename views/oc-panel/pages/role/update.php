@@ -39,18 +39,16 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <h4>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="<?=$controller.'|*'?>" <?=(in_array($controller.'.*',$access_in_use))?'checked="checked"':''?>> <?=$controller?>.*
-                                    </label>
+                                <div class="checkbox check-success">
+                                    <?=FORM::checkbox($controller.'|*', 'on', (bool) in_array($controller.'.*',$access_in_use), ['id' => $controller.'|*'])?>
+                                    <label for="<?=$controller.'|*'?>"><?=$controller?>.*</label>
                                 </div>
                             </h4>
                             <p>
                                 <?foreach ($actions as $action):?>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="<?=$controller.'|'.$action?>" <?=(in_array($controller.'.'.$action,$access_in_use))?'checked="checked"':''?> > <?=$action?>
-                                    </label>
+                                <div class="checkbox check-success">
+                                    <?=FORM::checkbox($controller.'|'.$action, 'on', (bool) in_array($controller.'.'.$action,$access_in_use), ['id' => $controller.'|'.$action])?>
+                                    <label for="<?=$controller.'|'.$action?>"><?=$action?></label>
                                 </div>
                                 <?endforeach?>
                             </p>

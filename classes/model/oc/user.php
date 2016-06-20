@@ -805,7 +805,7 @@ class Model_OC_User extends ORM {
      */
     public function is_admin()
     {
-        if ($this->loaded() and $this->id_role==Model_Role::ROLE_ADMIN)
+        if ($this->loaded() AND $this->id_role==Model_Role::ROLE_ADMIN)
             return TRUE;
 
         return FALSE;
@@ -817,7 +817,7 @@ class Model_OC_User extends ORM {
      */
     public function is_moderator()
     {
-        if ($this->loaded() and $this->id_role==Model_Role::ROLE_MODERATOR)
+        if ($this->loaded() AND $this->id_role==Model_Role::ROLE_MODERATOR)
             return TRUE;
 
         return FALSE;
@@ -829,7 +829,7 @@ class Model_OC_User extends ORM {
      */
     public function is_translator()
     {
-        if ($this->loaded() and $this->id_role==Model_Role::ROLE_TRANSLATOR)
+        if ($this->loaded() AND $this->id_role==Model_Role::ROLE_TRANSLATOR)
             return TRUE;
 
         return FALSE;

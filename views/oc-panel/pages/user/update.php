@@ -29,7 +29,7 @@
                 <?=$form->render()?>
             </div>
         </div>
-        <?if (Auth::instance()->get_user()->id_role == Model_Role::ROLE_ADMIN):?>
+        <?if (Auth::instance()->get_user()->is_admin()):?>
           <div class="panel panel-default">
               <div class="panel-heading" id="page-edit-profile">
                   <h3 class="panel-title"><?=__('Change password')?></h3>

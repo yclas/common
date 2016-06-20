@@ -166,7 +166,7 @@ class Controller_Panel_User extends Auth_CrudAjax {
 	public function action_changepass()
 	{
 		// only admins can change password
-		if ($this->request->post() AND $this->user->id_role == Model_Role::ROLE_ADMIN)
+		if ($this->request->post() AND $this->user->is_admin())
 		{
 			$user = new Model_User($this->request->param('id'));
 	

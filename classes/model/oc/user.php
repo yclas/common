@@ -218,7 +218,7 @@ class Model_OC_User extends ORM {
 
 
     /**
-     * Check the actual controller and action request and validates if the user has access to it
+     * Check if user is admin
      * @todo    code something that you can show to your mom.
      * @param   string  $action
      * @return  boolean
@@ -382,10 +382,7 @@ class Model_OC_User extends ORM {
 
         if($user->loaded())
         {
-            if( !in_array($user->id_role, array(Model_Role::ROLE_ADMIN, 
-                                                Model_Role::ROLE_MODERATOR, 
-                                                Model_Role::ROLE_TRANSLATOR)) 
-                )
+            if ( ! $user->is_admin() AND ! $user->is_moderator() AND ! $user->is_translator())
             {
                 $user->status = self::STATUS_SPAM;
 
@@ -798,6 +795,42 @@ class Model_OC_User extends ORM {
             $ga = new PHPGangsta_GoogleAuthenticator();
             return $ga->getQRCodeGoogleUrl(core::config('general.site_name'), $this->google_authenticator);
         }
+
+        return FALSE;
+    }
+
+    /**
+     * Check if the user is Admin.
+     * @return  boolean
+     */
+    public function is_admin()
+    {
+        if ($this->loaded() and $this->id_role==Model_Role::ROLE_ADMIN)
+            return TRUE;
+
+        return FALSE;
+    }
+
+    /**
+     * Check if the user is Admin.
+     * @return  boolean
+     */
+    public function is_moderator()
+    {
+        if ($this->loaded() and $this->id_role==Model_Role::ROLE_MODERATOR)
+            return TRUE;
+
+        return FALSE;
+    }
+
+    /**
+     * Check if the user is Admin.
+     * @return  boolean
+     */
+    public function is_translator()
+    {
+        if ($this->loaded() and $this->id_role==Model_Role::ROLE_TRANSLATOR)
+            return TRUE;
 
         return FALSE;
     }

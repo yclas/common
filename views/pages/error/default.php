@@ -57,7 +57,7 @@
       <div class="jumbotron">
         
         <?if (Auth::instance()->get_user()):?>
-        <?if (Auth::instance()->get_user()->id_role == Model_Role::ROLE_ADMIN):?>
+        <?if (Auth::instance()->get_user()->is_admin()):?>
             <p>Since you are logged in as admin only you can see this message:</p>
             <code><?=$message?></code>
             <p>It's been logged in Panel->Tools->Logs for more information regarding this error.</p>

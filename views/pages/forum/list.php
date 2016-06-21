@@ -23,7 +23,7 @@
             <th><?=__('Last Message')?></th>
             <th><?=__('Replies')?></th>
             <?if (Auth::instance()->logged_in()):?>
-                <?if(Auth::instance()->get_user()->id_role==Model_Role::ROLE_ADMIN):?>
+                <?if(Auth::instance()->get_user()->is_admin()):?>
                     <th><?=__('Edit')?></th>
                 <?endif?>
             <?endif?>
@@ -50,7 +50,7 @@
                 <td width="15%"><span class="label label-warning pull-right"><?=Date::format($topic->last_message, core::config('general.date_format'))?></span></td>
                 <td width="5%"><span class="label label-success pull-right"><?=$replies?></span></td>
                 <?if (Auth::instance()->logged_in()):?>
-                    <?if(Auth::instance()->get_user()->id_role==Model_Role::ROLE_ADMIN):?>
+                    <?if(Auth::instance()->get_user()->is_admin()):?>
                         <td width="10%">
                             <a class="label label-warning" href="<?=Route::url('oc-panel', array('controller'=> 'topic', 'action'=>'update','id'=>$topic->id_post)) ?>">
                                 <span class="icon-edit icon-white glyphicon glyphicon-edit"></span>

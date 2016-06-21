@@ -138,7 +138,7 @@ class Controller_Forum extends Controller {
 
         if(count($forums) == 0)
         {
-        	if(Auth::instance()->logged_in() AND Auth::instance()->get_user()->id_role == Model_Role::ROLE_ADMIN)
+        	if(Auth::instance()->logged_in() AND Auth::instance()->get_user()->is_admin())
         	{
         		Alert::set(Alert::INFO, __('Please, first create some Forums.'));
         		$this->redirect(Route::url('oc-panel',array('controller'=>'forum','action'=>'index')));

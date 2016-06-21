@@ -32,7 +32,7 @@
     </div>
     <div class="col-md-9 span6">
         <?if(Auth::instance()->logged_in()):?>
-            <?if(Auth::instance()->get_user()->id_role==Model_Role::ROLE_ADMIN):?>
+            <?if(Auth::instance()->get_user()->is_admin()):?>
                 <a class="label label-warning pull-right" href="<?=Route::url('oc-panel', array('controller'=> 'topic', 'action'=>'update','id'=>$topic->id_post)) ?>">
                     <i class="glyphicon icon-white icon-edit glyphicon-edit"></i>
                 </a>
@@ -73,7 +73,7 @@
     </div>
     <div class="col-md-9 span6">
     <?if(Auth::instance()->logged_in()):?>
-        <?if(Auth::instance()->get_user()->id_role==Model_Role::ROLE_ADMIN):?>
+        <?if(Auth::instance()->get_user()->is_admin()):?>
             <a class="label label-warning pull-right" href="<?=Route::url('oc-panel', array('controller'=> 'topic', 'action'=>'update','id'=>$reply->id_post)) ?>">
                 <i class="glyphicon icon-white icon-edit glyphicon-edit"></i>
             </a>

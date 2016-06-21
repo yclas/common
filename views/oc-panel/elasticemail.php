@@ -1,4 +1,4 @@
-<?if (core::cookie('elastic_alert')!=1  AND  Auth::instance()->get_user()->id_role==Model_Role::ROLE_ADMIN):?>
+<?if (core::cookie('elastic_alert')!=1  AND Auth::instance()->get_user()->is_admin()):?>
 <div class="alert alert-warning fade in">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true" onclick='setCookie("elastic_alert",1,365)'>×</button>
         <p>

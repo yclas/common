@@ -143,6 +143,37 @@ class Kohana extends Kohana_Core {
         return $value;
     }
 
-
+    /**
+     * Provides simple file-based caching for strings and arrays:
+     *
+     *     // Set the "foo" cache
+     *     Kohana::cache('foo', 'hello, world');
+     *
+     *     // Get the "foo" cache
+     *     $foo = Kohana::cache('foo');
+     *
+     * All caches are stored as PHP code, generated with [var_export][ref-var].
+     * Caching objects may not work as expected. Storing references or an
+     * object or array that has recursion will cause an E_FATAL.
+     *
+     * The cache directory and default cache lifetime is set by [Kohana::init]
+     *
+     * [ref-var]: http://php.net/var_export
+     *
+     * @throws  Kohana_Exception
+     * @param   string  $name       name of the cache
+     * @param   mixed   $data       data to cache
+     * @param   integer $lifetime   number of seconds the cache is valid for
+     * @return  mixed    for getting
+     * @return  boolean  for setting
+     */
+    public static function cache($name, $data = NULL, $lifetime = NULL)
+    {
+        //in case the OC_core is not yet loaded we need to use the normal cache...sucks but happens onload
+        if (class_exists('OC_Core'))
+            return Core::cache($name, $data, $lifetime);
+        else
+            return parent::cache($name, $data, $lifetime);
+    }
 
 }

@@ -29,23 +29,6 @@ class OC_ORM extends Kohana_ORM {
 
 
     /**
-     * nasty bug to check if model is loaded after mysqli_fetch_object PHP 5.6.21 and PHP 7.0.6
-     * used in common/Database_MySQLi_Result.php function current
-     * see https://github.com/open-classifieds/openclassifieds2/issues/1864
-     * @return void 
-     */
-    public function verify_loaded()
-    {
-        // Flag as loaded, valid and get primary key value
-        if ($this->_loaded == FALSE AND isset($this->_object[$this->_primary_key]))
-        {
-            $this->_loaded = $this->_valid = TRUE;
-            $this->_primary_key_value = $this->_object[$this->_primary_key];
-        }    
-    }
-
-
-    /**
      * Insert a new object to the database - Overwrite!
      * @param  Validation $validation Validation object
      * @throws Kohana_Exception

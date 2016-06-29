@@ -27,9 +27,10 @@ class OC_Theme {
      * @param  array $scripts
      * @param  string $type    placeholder
      * @param  string $theme
+     * @param  array  $attributes    default attributes
      * @return string          HTML
      */
-    public static function scripts($scripts, $type = 'header' , $theme = NULL)
+    public static function scripts($scripts, $type = 'header', $theme = NULL, array $attributes = NULL)
     {
 
         if ($theme === NULL)
@@ -48,7 +49,7 @@ class OC_Theme {
                     $file = self::public_path($file, $theme);
 
                     if ($file !== FALSE)
-                        $ret .= HTML::script($file, NULL, TRUE);
+                        $ret .= HTML::script($file, $attributes, TRUE);
                 }
             }
             //only minify in production or stagging OR if specfied
@@ -65,7 +66,7 @@ class OC_Theme {
                     }
                     //externals do nothing...
                     else
-                        $ret .= HTML::script($file, NULL, TRUE);
+                        $ret .= HTML::script($file, $attributes, TRUE);
                 }
 
                 //name for the minify js file
@@ -90,7 +91,7 @@ class OC_Theme {
                     File::write($file_name,JSMin::minify($min));
                 }
 
-                $ret .= HTML::script(self::public_path('js/'.$js_minified_name,$theme), NULL, TRUE);
+                $ret .= HTML::script(self::public_path('js/'.$js_minified_name,$theme), $attributes, TRUE);
 
             }
         }

@@ -95,7 +95,14 @@ $( '#form-ajax-load').submit(function( event ) {
                                 }).done(function(data) {
                                     if ( history.replaceState ) history.pushState( {}, document.title, pageurl );
                                     form.css('cursor','');
-                                    $("#page-wrapper").html(data);
+
+                                    if(document.getElementById('page-wrapper') == null) {
+                                        $("#content").html(data);
+                                    } 
+                                    else {
+                                        $("#page-wrapper").html(data);
+                                    }
+                                    
                                     init_panel();});
 
     return false;  

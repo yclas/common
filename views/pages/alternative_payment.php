@@ -16,7 +16,7 @@
         <div class="text-description"><?=Text::bb2html($content->description,TRUE,FALSE)?></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal"><?=__('OK')?></button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><?=_e('OK')?></button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

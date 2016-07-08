@@ -6,9 +6,9 @@
     <?else:?>
         <a class="btn btn-success pull-right" href="<?=Route::url('forum-new')?>">
     <?endif?>
-        <?=__('New Topic')?></a>
+        <?=_e('New Topic')?></a>
     <?=View::factory('pages/forum/search-form')?>
-    <h1 class="forum-title pull-left"><?=__('Search')?> <?=core::get('search')?></h1>
+    <h1 class="forum-title pull-left"><?=_e('Search')?> <?=core::get('search')?></h1>
     <div class="clearfix"></div>
 </div>
 
@@ -47,6 +47,6 @@
         </tbody>
     </table>
 <?else:?>
-    <h2><?=__('Nothing found, sorry!')?></h2>
-    <p><?=__('You can try a new search or publish a new topic ;)')?></p>
+    <h2><?=_e('Nothing found, sorry!')?></h2>
+    <p><?=_e('You can try a new search or publish a new topic ;)')?></p>
 <?endif?>

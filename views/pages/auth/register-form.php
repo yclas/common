@@ -3,14 +3,14 @@
           <?=Form::errors()?>
           
           <div class="form-group">
-            <label class="col-sm-2 control-label"><?=__('Name')?></label>
+            <label class="col-sm-2 control-label"><?=_e('Name')?></label>
             <div class="col-md-5 col-sm-6">
               <input class="form-control" type="text" name="name" value="<?=Request::current()->post('name')?>" placeholder="<?=__('Name')?>">
             </div>
           </div>
           
           <div class="form-group">
-            <label class="col-sm-2 control-label"><?=__('Email')?></label>
+            <label class="col-sm-2 control-label"><?=_e('Email')?></label>
             <div class="col-md-5 col-sm-6">
               <input
                 class="form-control" 
@@ -25,18 +25,18 @@
           </div>
      
           <div class="form-group">
-            <label class="col-sm-2 control-label"><?=__('New password')?></label>
+            <label class="col-sm-2 control-label"><?=_e('New password')?></label>
             <div class="col-md-5 col-sm-6">
             <input class="form-control" type="password" name="password1" placeholder="<?=__('Password')?>">
             </div>
           </div>
           
           <div class="form-group">
-            <label class="col-sm-2 control-label"><?=__('Repeat password')?></label>
+            <label class="col-sm-2 control-label"><?=_e('Repeat password')?></label>
             <div class="col-md-5 col-sm-6">
             <input class="form-control" type="password" name="password2" placeholder="<?=__('Password')?>">
               <p class="help-block">
-              		<?=__('Type your password twice')?>
+              		<?=_e('Type your password twice')?>
               </p>
             </div>
           </div>
@@ -49,7 +49,7 @@
                   <div id="<?=isset($recaptcha_placeholder) ? $recaptcha_placeholder : 'recaptcha3'?>"></div>
                 </div>
               <?else:?>
-                <label class="col-sm-2 control-label"><?=__('Captcha')?>*:</label>
+                <label class="col-sm-2 control-label"><?=_e('Captcha')?>*:</label>
                 <div class="col-md-5 col-sm-6">
                   <span id="helpBlock" class="help-block"><?=captcha::image_tag('register')?></span>
                   <?= FORM::input('captcha', "", array('class' => 'form-control', 'id' => 'captcha', 'required', 'data-error' => __('Captcha is not correct')))?>
@@ -59,10 +59,10 @@
           </div>
             <div class="page-header"></div> 
             <div class="col-sm-offset-2">
-            <button type="submit" class="btn btn-primary"><?=__('Register')?></button>
+            <button type="submit" class="btn btn-primary"><?=_e('Register')?></button>
               	<a class="btn btn-default"  data-dismiss="modal" data-toggle="modal"  href="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'login'))?>#login-modal">
     				<i class="glyphicon glyphicon-user"></i> 
-    				<?=__('Login')?>
+    				<?=_e('Login')?>
     			</a>
             </div>
           <?=Form::redirect()?>

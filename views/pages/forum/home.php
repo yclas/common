@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 <div class="page-header">
-    <h1 class="forum-title pull-left"><?=__("Forums")?></h1>
+    <h1 class="forum-title pull-left"><?=_e("Forums")?></h1>
     
     <?if (!Auth::instance()->logged_in()):?>
         <a class="btn btn-success pull-right" data-toggle="modal" data-dismiss="modal" 
@@ -8,7 +8,7 @@
     <?else:?>
         <a class="btn btn-success pull-right" href="<?=Route::url('forum-new')?>">
     <?endif?>
-        <?=__('New Topic')?></a>
+        <?=_e('New Topic')?></a>
     
     <?=View::factory('pages/forum/search-form')?>
 <div class="clearfix"></div>
@@ -17,9 +17,9 @@
 <table class="table table-hover" id="task-table">
     <thead>
         <tr>
-            <th><?=__('Forum topic')?></th>
-            <th><?=__('Last Message')?></th>
-            <th><?=__('Topics')?></th>
+            <th><?=_e('Forum topic')?></th>
+            <th><?=_e('Last Message')?></th>
+            <th><?=_e('Topics')?></th>
         </tr>
     </thead>
     <tbody>

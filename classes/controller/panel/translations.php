@@ -166,10 +166,13 @@ class Controller_Panel_Translations extends Auth_Controller {
 
     public function action_replace()
     {   
-        $search     = Core::request('search');
-        $replace    = Core::request('replace');
+        $search     = Core::request('search', Core::request('name'));
+        $replace    = Core::request('replace', Core::request('value'));
         $where      = Core::request('where','original');
-    
+        $exact      = (bool) Core::request('exact','0');
+
+        //d([$search, $replace, $where, $exact]);
+
         $language   = $this->language_fix($this->request->param('id'));
 
         //read original mo file to get the full array
@@ -189,8 +192,13 @@ class Controller_Panel_Translations extends Auth_Controller {
 
             switch ($where) {
                 case 'translation':
+                    //found exact in the translated
+                    if ($exact AND $translated == $search)
+                    {
+                        $data_translated[$id] = $replace;
+                    }
                     //found in the translated
-                    if (strpos($translated,$search)!==FALSE)
+                    elseif (strpos($translated,$search)!==FALSE)
                     {
                         //add it to the new translations
                         $data_translated[$id] = str_replace($search,$replace,$translated);
@@ -198,8 +206,13 @@ class Controller_Panel_Translations extends Auth_Controller {
                     break;
                 
                 case 'original':
-                     //found in the original
-                    if (strpos($original,$search)!==FALSE)
+                    //found exact in the original
+                    if ($exact AND $original == $search)
+                    {
+                        $data_translated[$id] = $replace;
+                    }
+                    //found in the original
+                    elseif(strpos($original,$search)!==FALSE)
                     {
                         //add it to the new translations
                         $data_translated[$id] = str_replace($search,$replace,$original);

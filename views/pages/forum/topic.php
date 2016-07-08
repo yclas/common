@@ -40,10 +40,10 @@
         <?endif?>
         <div class="text-description"><?=Text::bb2html($topic->description,TRUE)?></div>
         <?if (Auth::instance()->logged_in()):?>
-            <a  class="btn btn-primary" href="#reply_form"><?=__('Reply')?></a>
+            <a  class="btn btn-primary" href="#reply_form"><?=_e('Reply')?></a>
         <?else:?>
             <a class="btn btn-primary" data-toggle="modal" data-dismiss="modal" href="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'login'))?>#login-modal">
-                <?=__('Reply')?>
+                <?=_e('Reply')?>
             </a>
         <?endif?>
     </div>
@@ -80,7 +80,7 @@
         <?endif?>
     <?endif?>
         <div class="text-description"><?=Text::bb2html($reply->description,TRUE)?></div>
-        <a  class="btn btn-xs btn-primary" href="#reply_form"><?=__('Reply')?></a>
+        <a  class="btn btn-xs btn-primary" href="#reply_form"><?=_e('Reply')?></a>
     </div>
 
 <div class="clearfix"></div>
@@ -91,9 +91,9 @@
 
 <?if($topic->status==Model_POST::STATUS_ACTIVE AND Auth::instance()->logged_in()):?>
 <form class="well form-horizontal" id="reply_form" method="post" action="<?=Route::url('forum-topic',array('seotitle'=>$topic->seotitle,'forum'=>$forum->seoname))?>"> 
-<h3><?=__('Reply')?></h3>
+<h3><?=_e('Reply')?></h3>
   <?php if ($errors): ?>
-    <p class="message"><?=__('Some errors were encountered, please check the details you entered.')?></p>
+    <p class="message"><?=_e('Some errors were encountered, please check the details you entered.')?></p>
     <ul class="errors">
         <?php foreach ($errors as $message): ?>
             <li><?php echo $message ?></li>
@@ -103,7 +103,7 @@
 
     <div class="form-group control-group">
         <div class="col-md-12">
-            <textarea name="description" rows="10" class="form-control input-xxlarge" required><?=core::post('description',__('Reply here'))?></textarea>
+            <textarea name="description" rows="10" class="form-control input-xxlarge" required><?=core::post('description',_e('Reply here'))?></textarea>
         </div>
     </div>
 
@@ -114,7 +114,7 @@
                     <?=Captcha::recaptcha_display()?>
                     <div id="recaptcha1"></div>
                 <?else:?>
-                    <?=__('Captcha')?>*:<br />
+                    <?=_e('Captcha')?>*:<br />
                     <?=captcha::image_tag('new-reply-topic')?><br />
                     <?= FORM::input('captcha', "", array('class' => 'form-control', 'id' => 'captcha', 'required'))?>
                 <?endif?>
@@ -122,12 +122,12 @@
     </div>
     <?endif?>
 
-    <button type="submit" class="btn btn-primary" name="submit"><?=__('Reply')?></button>
+    <button type="submit" class="btn btn-primary" name="submit"><?=_e('Reply')?></button>
 </form>  
 <?else:?>
 <a class="btn btn-success pull-right" data-toggle="modal" data-dismiss="modal" 
         href="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'login'))?>#login-modal">
-        <?=__('Login to reply')?>
+        <?=_e('Login to reply')?>
 </a>
 <?endif?>  
 

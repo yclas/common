@@ -2,7 +2,7 @@
 <div class="well">
 	
 	<div class="page-header">
-		<h1><?=__('Remember password')?></h1>
+		<h1><?=_e('Remember password')?></h1>
 	</div>
 
 	<?=View::factory('pages/auth/forgot-form')?>

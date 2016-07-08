@@ -2,7 +2,7 @@
     <?if (count($providers = Social::enabled_providers()) > 0) :?>
         <br><br>
         <fieldset>
-            <legend><?=__('Social Login')?></legend>
+            <legend><?=_e('Social Login')?></legend>
             <ul class="list-inline social-providers">
                 <?foreach ($providers as $key => $provider) :?>     
                     <?if(strtolower($key) == 'live')$key='windows'?>

@@ -2,7 +2,7 @@
 <div class="well">
 	
 	<div class="page-header">
-		<h1><?=__('Request Access')?></h1>
+		<h1><?=_e('Request Access')?></h1>
 	</div>
 
 	<?=View::factory('pages/auth/request-form')?>

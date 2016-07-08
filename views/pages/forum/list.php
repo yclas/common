@@ -7,7 +7,7 @@
     <?else:?>
     <a class="btn btn-success pull-right" href="<?=Route::url('forum-new')?>?id_forum=<?=$forum->id_forum?>">
     <?endif?>
-    <?=__('New Topic')?></a>
+    <?=_e('New Topic')?></a>
     
     <?=View::factory('pages/forum/search-form')?>
 
@@ -18,13 +18,13 @@
 <table class="table table-hover" id="task-table">
     <thead>
         <tr>
-            <th><?=__('Topic')?></th>
-            <th><?=__('Created')?></th>
-            <th><?=__('Last Message')?></th>
-            <th><?=__('Replies')?></th>
+            <th><?=_e('Topic')?></th>
+            <th><?=_e('Created')?></th>
+            <th><?=_e('Last Message')?></th>
+            <th><?=_e('Replies')?></th>
             <?if (Auth::instance()->logged_in()):?>
                 <?if(Auth::instance()->get_user()->is_admin()):?>
-                    <th><?=__('Edit')?></th>
+                    <th><?=_e('Edit')?></th>
                 <?endif?>
             <?endif?>
         </tr>

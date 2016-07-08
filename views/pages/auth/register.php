@@ -2,7 +2,7 @@
 
 	
 	<div class="page-header">
-		<h1><?=__('Register')?></h1>
+		<h1><?=_e('Register')?></h1>
 	</div>
 
 	<?=View::factory('pages/auth/register-form')?>

@@ -751,3 +751,55 @@ if ( !function_exists('money_format') )
         return number_format($number, 2); 
     } 
 }
+
+/**
+ * Kohana translation/internationalization function. The PHP function
+ * [strtr](http://php.net/strtr) is used for replacing parameters.
+ *
+ *    __('Welcome back, :user', array(':user' => $username));
+ *
+ * [!!] The target language is defined by [I18n::$lang].
+ *
+ * @uses    I18n::get
+ * @param   string  $string text to translate
+ * @param   array   $values values to replace in the translated text
+ * @param   string  $lang   source language
+ * @return  string
+ */
+function _e($string, array $values = NULL, $lang = 'en-us')
+{
+    $original_string   = $string;
+    $translated_string = $original_string;
+
+    if ($lang !== I18n::$lang)
+    {
+        // The message and target languages are different
+        // Get the translation for this message
+        $string = I18n::get($string);
+        $translated_string = $string;
+    }
+
+    $string = empty($values) ? $string : strtr($string, $values);
+
+    if (Core::get('edit_translation') !== '1')
+        return $string;
+
+    $attributes = [
+        'class' => 'editable',
+        'data-pk' => $original_string,
+        'data-name' => $original_string,
+        'data-title' => $original_string,
+        'data-value' => $translated_string,
+        'data-url' => Route::url('oc-panel', ['controller' => 'translations', 'action' => 'replace' , 'id'=> I18n::$lang]),
+    ];
+
+    $compiled_attributes = '';
+
+    foreach ($attributes as $key => $value)
+    {
+        $compiled_attributes .= ' '.$key;
+        $compiled_attributes .= '="'.htmlspecialchars( (string) $value, ENT_QUOTES, Kohana::$charset, TRUE).'"';
+    }
+
+    return '<span '.$compiled_attributes.'>'.$string.'</span>';
+}

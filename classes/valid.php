@@ -75,12 +75,14 @@ class Valid extends Kohana_Valid{
         //if the json file is not in local or the file exists but is older than 1 week, regenerate the json
         if (!file_exists($file) OR (file_exists($file) AND filemtime($file) < strtotime('-1 week')) )
         {
-            $banned_domains = file_get_contents("https://rawgit.com/ivolo/disposable-email-domains/master/index.json");
+            $banned_domains = Core::curl_get_contents("https://rawgit.com/ivolo/disposable-email-domains/master/index.json",5);
             if ($banned_domains !== FALSE)
-                file_put_contents($file,$banned_domains,LOCK_EX);
+                File::write($file,$banned_domains);
+            else
+                $banned_domains = File::read($file);
         }
         else//get the domains from the file
-            $banned_domains = file_get_contents($file);
+            $banned_domains = File::read($file);
 
         return json_decode($banned_domains);
     }

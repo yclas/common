@@ -58,7 +58,7 @@ class OC_Email {
         //sendign via elasticemail
         if (Core::config('email.elastic_active')==TRUE)
         {
-            return self::ElasticEmail($to,$to_name, $subject, $body, core::config('email.notify_email'), "no-reply ".core::config('general.site_name'));
+            return self::ElasticEmail($to,$to_name, $subject, $body, core::config('email.notify_email'), core::config('email.notify_name'));
         }
         else
         {

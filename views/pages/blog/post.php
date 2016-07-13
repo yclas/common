@@ -14,7 +14,7 @@
 <br/>
 
 <div class="text-description blog-description">
-    <?=Text::bb2html($post->description,TRUE)?>
+    <?=$post->description?>
 </div>  
 
 <div class="pull-right">

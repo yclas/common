@@ -16,7 +16,7 @@
         <a href="https://docs.yclas.com/how_to_add_pages/" target="_blank"><i class="fa fa-question-circle"></i></a>
     <?elseif($type == 'email'):?>
         <a href="https://docs.yclas.com/automatic-emails-sent-to-users/" target="_blank"><i class="fa fa-question-circle"></i></a>
-    <?endif?>>
+    <?endif?>
 </h1>
 
 <hr>

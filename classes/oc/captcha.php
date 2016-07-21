@@ -169,7 +169,7 @@ class OC_Captcha{
                               recaptcha2 = grecaptcha.render("recaptcha2", {"sitekey" : "'.Core::config('general.recaptcha_sitekey').'", "size" : "compact"});
                           }
                           if (document.getElementById("recaptcha3") !== null) {
-                              recaptcha3 = grecaptcha.render("recaptcha3", {"sitekey" : "'.Core::config('general.recaptcha_sitekey').'"});
+                              recaptcha3 = grecaptcha.render("recaptcha3", {"sitekey" : "'.Core::config('general.recaptcha_sitekey').'", "size" : "compact"});
                           }
                           if (document.getElementById("recaptcha4") !== null) {
                               recaptcha4 = grecaptcha.render("recaptcha4", {"sitekey" : "'.Core::config('general.recaptcha_sitekey').'"});

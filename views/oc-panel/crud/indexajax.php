@@ -39,7 +39,7 @@
         <form class="form-inline form-hidden-elements" id="form-ajax-load" method="get" action="<?=Route::url($route, array('controller'=> Request::current()->controller(), 'action'=>'index')) ?>">
             <?foreach($filters as $field_name=>$values):?>
                 <?if (is_array($values)):?>
-                    <select name="filter__<?=$field_name?>" id="filter__<?=$field_name?>" class="form-control disable-chosen" >
+                    <select name="filter__<?=$field_name?>" id="filter__<?=$field_name?>" class="form-control disable-chosen disable-select2" >
                         <option value=""><?=__('Select')?> <?=$field_name?></option>
                         <?foreach ($values as $key=>$value):?>
                             <option value="<?=$key?>" <?=(core::request('filter__'.$field_name)==$key AND core::request('filter__'.$field_name)!==NULL)?'SELECTED':''?> >

@@ -24,7 +24,7 @@
     
 <div class="row">
     <div class="col-md-12">
-        <?= FORM::open(Route::url('oc-panel',array('controller'=>'social', 'action'=>'index')), array('class'=>'', 'enctype'=>'multipart/form-data'))?>
+        <?= FORM::open(Route::url('oc-panel',array('controller'=>'social', 'action'=>'index')), array('class'=>'ajax-load', 'enctype'=>'multipart/form-data'))?>
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="form-group">

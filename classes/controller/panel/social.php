@@ -16,8 +16,13 @@ class Controller_Panel_Social extends Auth_Controller {
 		Breadcrumbs::add(Breadcrumb::factory()->set_title(__('Social Authentication for login')));
 		$this->template->title = __('Social Auth');
 
-        $this->template->styles              = array('css/sortable.css' => 'screen');
+        $this->template->styles              = array(
+        	'css/sortable.css' => 'screen',
+        	'css/pnotify.custom.min.css' => 'screen');
         $this->template->scripts['footer'][] = 'js/jquery-sortable-min.js';
+        $this->template->scripts['footer'][] = 'js/pnotify.custom.min.js';
+        $this->template->scripts['footer'][] = 'js/jquery.validate.min.js';
+        $this->template->scripts['footer'][] = 'js/oc-panel/settings.js';
 
         //retrieve social_auth values
         $config = Social::get();

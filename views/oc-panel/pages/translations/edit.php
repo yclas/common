@@ -20,7 +20,7 @@
         <div class="form-group">
             <input type="text" class="form-control input-sm search-query" name="replace" placeholder="<?=__('replace')?>" value="<?=core::request('replace')?>">
         </div>
-        <select name="where" id="where" class="form-control disable-chosen" >
+        <select name="where" id="where" class="form-control disable-chosen disable-select2" >
             <option value="original"><?=__('Replace Original')?></option>
             <option value="translation"><?=__('Replace Translation')?></option>
         </select>

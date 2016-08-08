@@ -1,5 +1,5 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
-<h1 class="page-header page-title" id="crud-<?=__($name)?>"><?=__('Update')?> <?=Text::ucfirst(__($name))?></h1>
+<h1 class="page-header page-title" id="crud-<?=$name?>"><?=__('Update')?> <?=Text::ucfirst(__($name))?></h1>
 <hr>
   <p>
     <?$controllers = Model_Access::list_controllers()?>

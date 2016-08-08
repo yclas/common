@@ -5,7 +5,7 @@
             <?=__('Preview')?>
         </a>
 	<?endif?>
-<h1 class="page-header page-title" id="crud-<?=__($name)?>"><?=__('Edit Blog Post')?></h1>
+<h1 class="page-header page-title" id="crud-<?=$name?>"><?=__('Edit Blog Post')?></h1>
 <hr>
 <?//var_dump($form)?>
 

@@ -246,6 +246,35 @@ class Controller_Panel_Content extends Auth_Controller {
     }
 
     /**
+     * Sets a new From Email on all the email content elements
+     * @return void 
+     */
+    public function action_set_from_email()
+    {
+        $validation = Validation::factory($this->request->post())
+            ->rule('from_email', 'not_empty')
+            ->rule('from_email', 'email');
+            
+        if ($validation->check()) {
+            $from_email = $this->request->post('from_email');
+
+            $query = DB::update('content')
+                ->set(array('from_email' => $from_email))
+                ->where('type', '=', 'email')->execute();
+
+            Alert::set(Alert::SUCCESS, __('From Email has been changed to :email on all emails.', array(':email' => $from_email)));
+        }
+        else {
+            $errors = $validation->errors('config');
+                
+            foreach ($errors as $error) 
+                Alert::set(Alert::ALERT, $error);
+        }
+
+        HTTP::redirect(Route::url('oc-panel',array('controller'=>'content', 'action'=>'email')));
+    }
+
+    /**
      * saves the content in a specific order
      * @return void 
      */

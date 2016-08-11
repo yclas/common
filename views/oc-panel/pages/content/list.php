@@ -1,6 +1,13 @@
 <?php defined('SYSPATH') or die('No direct script access.');?>
 
 <ul class="list-inline pull-right">
+    <?if($type == 'email'):?>
+        <li>
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#set-email-from">
+                <?=__('Set Email From')?>
+            </button>
+        </li>
+    <?endif?>
     <li>
         <a class="btn btn-primary" 
             href="<?=Route::url('oc-panel', array('controller'=>'content','action'=>'create')).'?type='.$type ?>" 
@@ -98,3 +105,37 @@
         </div>
     <?endif?>
 </div>
+
+<?if($type == 'email'):?>
+    <div class="modal fade" id="set-email-from" tabindex="-1" role="dialog" aria-labelledby="setEmailFrom" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <?=FORM::open(Route::url('oc-panel',array('controller'=>'content','action'=>'set_from_email')), array('enctype'=>'multipart/form-data'))?>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times-circle"></i></button>
+                        <h4 id="setEmailFrom" class="modal-title"><?=__('Set a New From Email')?></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <?=FORM::label('from_email', __('From Email'), array('class'=>'control-label', 'for'=>'from_email'))?>
+                            <?=FORM::input('from_email', Core::request('from_email'), array(
+                                'placeholder' => 'youremail@mail.com', 
+                                'class' => 'form-control', 
+                                'id' => 'from_email',
+                                'type' => 'email',
+                                'required' => ''
+                            ))?>
+                            <span class="help-block">
+                                <?=__("Set a new From Email on all the emails.")?>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="modal-footer text-right">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><?=__('Cancel')?></button>
+                        <?=FORM::button('submit', __('Send'), array('type'=>'submit', 'class'=>'btn btn-primary', 'action'=>Route::url('oc-panel',array('controller'=>'content','action'=>'set_from_email'))))?>
+                    </div>
+                <?=FORM::close()?>
+            </div>
+        </div>
+    </div>
+<?endif?>

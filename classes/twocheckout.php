@@ -20,13 +20,13 @@ class twocheckout {
 
 
     /**
-     * formats an amount to the correct format for paymill. 2.50 == 250
+     * formats an amount to the correct format for 2co ex 1.00
      * @param  float $amount 
      * @return string         
      */
     public static function money_format($amount)
     {
-        return money_format('%.2n', $amount);
+        return substr($amount,0,-1);
     }
 
     /**

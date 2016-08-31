@@ -67,14 +67,10 @@ class twocheckout {
      */
     public static function validate_passback(Model_Order $order)
     {
-        //sandbox always valid
-        if (Core::config('payment.twocheckout_sandbox') == 1)
-            return TRUE;
-
         $hashSecretWord = Core::config('payment.twocheckout_secretword'); //2Checkout Secret Word
         $hashSid        = Core::config('payment.twocheckout_sid'); //2Checkout account number
         $hashTotal      = self::money_format($order->amount); //Sale total to validate against
-        $hashOrder      = Core::request('order_number'); //2Checkout Order Number
+        $hashOrder      = (Core::config('payment.twocheckout_sandbox') == 1)?1:Core::request('order_number'); //2Checkout Order Number , in sandox the order_number is always 1
         $StringToHash   = strtoupper(md5($hashSecretWord . $hashSid . $hashOrder . $hashTotal));
 
         return ($StringToHash == Core::request('key'))?$hashOrder:FALSE;

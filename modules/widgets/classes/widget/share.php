@@ -24,6 +24,11 @@ class Widget_Share extends Widget
                                                         'default'   => __('Share'),
 						 		  						'label'		=> __('Title displayed'),
 														'required'	=> FALSE),
+
+                                'social_media' => array( 'type'     => 'text',
+                                                        'display'   => 'text',
+                                                        'label'     => __('Social media to display'),
+                                                        'required'  => FALSE),
 						 		);
 	}
 

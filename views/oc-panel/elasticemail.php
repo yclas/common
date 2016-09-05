@@ -4,7 +4,7 @@
         <p>
             <strong class="text-success">PRO Tip:</strong> 
             Do you want your emails to reach users inbox? Do you want to trace your e-mails? 
-            Try <a href="http://j.mp/elasticemailoc" class="alert-link" target="_blank">ElasticEmail!</a> Get 25K emails free per month
+            Try <a href="http://j.mp/elasticemailoc" class="alert-link" target="_blank">ElasticEmail!</a> Get 150K emails free per month
         </p>
         <p>
             <a class="btn btn-success" href="http://j.mp/elasticemailoc" target="_blank" onclick='setCookie("elastic_alert",1,365)' >Sign Up</a>

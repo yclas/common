@@ -399,6 +399,34 @@ class OC_I18n extends Kohana_I18n {
         return (isset(self::$locales[$locale]))?self::$locales[$locale]:$locale;
     }
 
+    public static function get_facebook_language()
+    {
+        switch (core::config('i18n.locale')) {
+            case 'ar':
+                return 'ar_AR';
+                break;
+            case 'bn_BD':
+                return 'bn_IN';
+                break;
+            case 'in_ID':
+                return 'id_ID';
+                break;
+            case 'no_NO':
+                return 'nb_NO';
+                break;
+            case 'sn_ZW':
+                return 'en_US';
+                break;
+            case 'tr':
+                return 'tr_TR';
+                break;
+            
+            default:
+                return core::config('i18n.locale');
+                break;
+        }
+    }
+    
     /**
      * returns the number in the locale format
      * @param  float $number 

@@ -399,9 +399,9 @@ class OC_I18n extends Kohana_I18n {
         return (isset(self::$locales[$locale]))?self::$locales[$locale]:$locale;
     }
 
-    public static function get_facebook_language()
+    public static function get_facebook_language($locale)
     {
-        switch (core::config('i18n.locale')) {
+        switch ($locale) {
             case 'ar':
                 return 'ar_AR';
                 break;
@@ -422,7 +422,7 @@ class OC_I18n extends Kohana_I18n {
                 break;
             
             default:
-                return core::config('i18n.locale');
+                return $locale;
                 break;
         }
     }

@@ -42,10 +42,9 @@
     
                 <div class="form-group">
                     <div class="col-md-offset-3 col-sm-9">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="status" <?=($topic->status==Model_Post::STATUS_ACTIVE)?'checked="checked"':''?>>&nbsp;<?=__('Activate')?>
-                            </label>
+                        <div class="checkbox check-success">
+                            <input type="checkbox" name="status" id="status" <?=($topic->status == TRUE)?'checked':''?>>
+                            <label for="status"><?=__('Active')?></label>
                         </div>
                     </div>
                 </div>

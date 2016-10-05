@@ -636,6 +636,15 @@ class OC_I18n extends Kohana_I18n {
     }
 
     /**
+     * format currency without the currency symbol
+     * @return string    formated price
+     */
+    public static function format_currency_without_symbol($string)
+    {
+        return preg_replace("/[^0-9,.]/", "", i18n::money_format($string));
+    }
+
+    /**
      * get ISO 4217 international currency code
      * @return string    international currency code
      */

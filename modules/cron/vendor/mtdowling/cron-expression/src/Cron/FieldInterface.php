@@ -1,13 +1,10 @@
 <?php
 
 namespace Cron;
-
 use DateTime;
 
 /**
  * CRON field interface
- *
- * @author Michael Dowling <mtdowling@gmail.com>
  */
 interface FieldInterface
 {

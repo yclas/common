@@ -3,24 +3,25 @@
 namespace Cron\Tests;
 
 use Cron\DayOfMonthField;
-
 use DateTime;
+use PHPUnit_Framework_TestCase;
 
 /**
  * @author Michael Dowling <mtdowling@gmail.com>
  */
-class DayOfMonthFieldTest extends \PHPUnit_Framework_TestCase
+class DayOfMonthFieldTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @covers Cron\DayOfMonthField::validate
      */
-    public function testValdatesField()
+    public function testValidatesField()
     {
         $f = new DayOfMonthField();
         $this->assertTrue($f->validate('1'));
         $this->assertTrue($f->validate('*'));
         $this->assertTrue($f->validate('*/3,1,1-12'));
-        $this->assertTrue($f->validate('5W, L'));
+        $this->assertTrue($f->validate('5W,L'));
+        $this->assertFalse($f->validate('1.'));
     }
 
     /**

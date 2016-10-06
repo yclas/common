@@ -3,11 +3,12 @@
 namespace Cron\Tests;
 
 use Cron\DayOfWeekField;
+use PHPUnit_Framework_TestCase;
 
 /**
  * @author Michael Dowling <mtdowling@gmail.com>
  */
-class AbstractFieldTest extends \PHPUnit_Framework_TestCase
+class AbstractFieldTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @covers Cron\AbstractField::isRange
@@ -58,6 +59,9 @@ class AbstractFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($f->isInIncrementsOfRanges(2, '3-59/13'));
         $this->assertFalse($f->isInIncrementsOfRanges(14, '*/13'));
         $this->assertFalse($f->isInIncrementsOfRanges(14, '3-59/2'));
+        $this->assertFalse($f->isInIncrementsOfRanges(3, '2-59'));
+        $this->assertFalse($f->isInIncrementsOfRanges(3, '2'));
+        $this->assertFalse($f->isInIncrementsOfRanges(3, '*'));
 
         $this->assertTrue($f->isInIncrementsOfRanges(4, '4/10'));
         $this->assertTrue($f->isInIncrementsOfRanges(14, '4/10'));

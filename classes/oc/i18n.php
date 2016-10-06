@@ -641,7 +641,38 @@ class OC_I18n extends Kohana_I18n {
      */
     public static function format_currency_without_symbol($string)
     {
-        return preg_replace("/[^0-9,.]/", "", i18n::money_format($string));
+        $number_format = core::config('general.number_format');
+
+        if (in_array($number_format, array_keys(self::$currencies)))
+        {
+            if(self::$currencies[$number_format][3]==','){
+
+                // removes thousand separator, displays currency decimal
+                $string = str_replace(',', '', number_format($string, self::$currencies[$number_format][1])); 
+
+                if(self::$currencies[$number_format][2]!='.'){  
+
+                    // replace decimal separator to .
+                    $string = str_replace(',', '.', number_format($string, self::$currencies[$number_format][1])); 
+
+                }
+
+            } else {
+
+                // removes thousand separator, displays currency decimal
+                $string = str_replace('.', '', number_format($string, self::$currencies[$number_format][1])); 
+
+                if(self::$currencies[$number_format][2]!='.'){  
+
+                    // replace decimal separator to .
+                    $string = str_replace(',', '.', number_format($string, self::$currencies[$number_format][1])); 
+
+                }
+            }
+        }
+
+        return $string;
+
     }
 
     /**

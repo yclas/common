@@ -650,26 +650,21 @@ class OC_I18n extends Kohana_I18n {
                 // removes thousand separator, displays currency decimal
                 $string = str_replace(',', '', number_format($string, self::$currencies[$number_format][1])); 
 
-                if(self::$currencies[$number_format][2]!='.'){  
-
-                    // replace decimal separator to .
-                    $string = str_replace(',', '.', number_format($string, self::$currencies[$number_format][1])); 
-
-                }
-
             } else {
 
                 // removes thousand separator, displays currency decimal
                 $string = str_replace('.', '', number_format($string, self::$currencies[$number_format][1])); 
 
-                if(self::$currencies[$number_format][2]!='.'){  
+            }
 
-                    // replace decimal separator to .
-                    $string = str_replace(',', '.', number_format($string, self::$currencies[$number_format][1])); 
+            if(self::$currencies[$number_format][2]!='.'){  
 
-                }
+                // replace decimal separator to .
+                $string = str_replace(',', '.', number_format($string, self::$currencies[$number_format][1])); 
+
             }
         }
+        
 
         return $string;
 

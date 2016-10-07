@@ -59,7 +59,7 @@
     </style>
 
     <div class="container">
-
+        <?=Alert::show()?>
       <div class="jumbotron">
         <?if(core::config('general.private_site_page') != ''):?>
       <?$content = Model_Content::get_by_title(core::config('general.private_site_page'))?>

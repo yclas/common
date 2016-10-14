@@ -42,9 +42,7 @@ class OC_I18n extends Kohana_I18n {
 
         //we allow to choose lang from the url
         if (Core::config('i18n.allow_query_language')==1)
-        {
-            $locales = self::get_languages();
-            
+        {            
             if(Core::get('language')!==NULL)
                 $locale  = Core::get('language');
             elseif (Cookie::get('user_language')!==NULL)
@@ -636,38 +634,19 @@ class OC_I18n extends Kohana_I18n {
     }
 
     /**
-     * format currency without the currency symbol
+     * format number without the currency symbol
+     * @param  float    $number number
      * @return string    formated price
      */
-    public static function format_currency_without_symbol($string)
+    public static function format_currency_without_symbol($number)
     {
-        $number_format = core::config('general.number_format');
-
-        if (in_array($number_format, array_keys(self::$currencies)))
-        {
-            if(self::$currencies[$number_format][3]==','){
-
-                // removes thousand separator, displays currency decimal
-                $string = str_replace(',', '', number_format($string, self::$currencies[$number_format][1])); 
-
-            } else {
-
-                // removes thousand separator, displays currency decimal
-                $string = str_replace('.', '', number_format($string, self::$currencies[$number_format][1])); 
-
-            }
-
-            if(self::$currencies[$number_format][2]!='.'){  
-
-                // replace decimal separator to .
-                $string = str_replace(',', '.', number_format($string, self::$currencies[$number_format][1])); 
-
-            }
-        }
+        $currency = core::config('general.number_format');
         
-
-        return $string;
-
+        //we format based on the currency, correct round and decimal point. No thousands separator.
+        if (in_array($currency, array_keys(self::$currencies)))
+            $number = number_format($number,self::$currencies[$currency][1],self::$currencies[$currency][2],'');
+        
+        return $number;
     }
 
     /**

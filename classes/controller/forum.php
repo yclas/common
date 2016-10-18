@@ -186,7 +186,7 @@ class Controller_Forum extends Controller {
 
                         $forum_url = Route::url('forum-topic',array('forum'=>$topic->forum->seoname,'seotitle'=>$topic->seotitle));
 
-                        if( core::config('email.new_ad_notify') == TRUE OR core::config('email.new_sale_notify')==TRUE )
+                        if( core::config('email.new_ad_notify') == TRUE )
                         {
                             Email::content(core::config('email.notify_email'), '', NULL, NULL, 'new-forum-answer', array('[FORUM.LINK]' => $forum_url));
                         }

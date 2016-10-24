@@ -29,8 +29,6 @@ class OC_Email {
         if (is_array($to) AND count($to)==0)
             return FALSE;
 
-        require_once Kohana::find_file('vendor', 'php-mailer/phpmailer','php');
-
         $body = Text::nl2br($body);
 
         //get the unsubscribe link
@@ -62,6 +60,8 @@ class OC_Email {
         }
         else
         {
+            require_once Kohana::find_file('vendor', 'php-mailer/phpmailer','php');
+            
             $mail= new PHPMailer();
             $mail->CharSet = Kohana::$charset;
 

@@ -201,7 +201,7 @@ class Controller_Panel_Theme extends Auth_Controller {
                 Model_Config::set_value('license','date',time()+7*24*60*60);
 
                 Alert::set(Alert::SUCCESS, __('Theme activated, thanks.'));
-                $this->redirect(Route::url('oc-panel',array('controller'=>'theme','action'=> 'options')));
+                $this->redirect(Route::url('oc-panel',array('controller'=>'theme','action'=> 'index')));
             }
             else
             {

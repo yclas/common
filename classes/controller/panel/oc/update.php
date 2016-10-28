@@ -276,22 +276,8 @@ class Controller_Panel_OC_Update extends Auth_Controller {
      */
     public function action_themes()
     {
-        $licenses = array();
-
-        //getting the licenses unique. to avoid downloading twice
-        $themes = core::config('theme');
-        foreach ($themes as $theme) 
-        {
-            $settings = json_decode($theme,TRUE);
-            if (isset($settings['license']))
-            {
-                if (!in_array($settings['license'], $licenses))
-                    $licenses[] = $settings['license'];
-            }
-        }
-
         //only if theres work to do ;)
-        if (count($licenses)>0)
+        if (Core::config('license.number')!='')
         {
             //activate maintenance mode
             Model_Config::set_value('general','maintenance',1);
@@ -302,9 +288,7 @@ class Controller_Panel_OC_Update extends Auth_Controller {
             //activate default theme
             Model_Config::set_value('appearance','theme','default');
             
-            //for each unique license then download!
-            foreach ($licenses as $license) 
-                Theme::download($license); 
+            Theme::download(Core::config('license.number')); 
             
             //activate original theme
             Model_Config::set_value('appearance','theme',$current_theme);

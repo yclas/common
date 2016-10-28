@@ -151,7 +151,7 @@ class Controller_Panel_Theme extends Auth_Controller {
             $opt = Theme::get_options($theme);
             Theme::load($theme,FALSE);
 
-            if (isset($opt['premium']) AND Theme::get('license')===NULL)
+            if (isset($opt['premium']) AND Core::config('license.number') == NULL)
             {
                  $this->redirect(Route::url('oc-panel',array('controller'=>'theme','action'=> 'license','id'=>$theme) ));
             }
@@ -197,12 +197,8 @@ class Controller_Panel_Theme extends Auth_Controller {
                 else
                     Theme::set_theme($theme);
 
-                Theme::$options = Theme::get_options($theme);       
-                Theme::load($theme);
-
-                Theme::$data['license']      = core::request('license');
-                Theme::$data['license_date'] = time()+7*24*60*60;
-                Theme::save($theme);
+                Model_Config::set_value('license','number',core::request('license'));
+                Model_Config::set_value('license','date',time()+7*24*60*60);
 
                 Alert::set(Alert::SUCCESS, __('Theme activated, thanks.'));
                 $this->redirect(Route::url('oc-panel',array('controller'=>'theme','action'=> 'options')));

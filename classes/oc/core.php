@@ -237,7 +237,7 @@ class OC_Core {
         if ( time() > strtotime('+1 week',filemtime($version_file)) OR $reload === TRUE )
         {
             //read from oc/versions.json on CDN
-            $json = Core::curl_get_contents('http://'.Core::DOMAIN.'/files/versions.json?r='.time());
+            $json = Core::curl_get_contents('https://'.Core::DOMAIN.'/files/versions.json?r='.time());
             $versions = json_decode($json,TRUE);
             if (is_array($versions))
             {
@@ -259,8 +259,7 @@ class OC_Core {
      */
     public static function get_market($reload = FALSE)
     {
-        $market_url = (Kohana::$environment!== Kohana::DEVELOPMENT)? 'market.'.Core::DOMAIN.'':'eshop.lo';
-        $market_url = 'http://'.$market_url.'/api/products';
+        $market_url = Core::market_url().'/api/products';
 
         //try to get the json from the cache
         $market = Core::cache($market_url);
@@ -633,6 +632,31 @@ class OC_Core {
 
         return $image;
             
+    }
+
+    /**
+     * get the correct url for the market
+     * @param  boolean $with_protocol adds protocol to the url
+     * @return string
+     */
+    public static function market_url($with_protocol = TRUE)
+    {
+        $url = '';
+
+        if (Kohana::$environment!== Kohana::DEVELOPMENT)
+        {
+            if (Core::DOMAIN == 'yclas.com')
+                $url = 'selfhosted.yclas.com';
+            else
+                $url = 'market.'.Core::DOMAIN;
+        }
+        else 
+            $url = 'eshop.lo';
+
+        if ($with_protocol === TRUE)
+            $url = (Core::is_HTTPS() ? 'https://' : 'http://').$url;
+
+        return $url;
     }
 
 

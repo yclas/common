@@ -746,12 +746,11 @@ class OC_Theme {
                 OR !Auth::instance()->logged_in() OR $_POST)
             return TRUE;
 
-        if (self::get('premium')==1 AND (self::get('license_date') < time() OR self::get('license_date')==NULL))
+        if (self::get('premium')==1 AND (Core::config('license.date') < time() OR Core::config('license.date')==NULL))
         {
-            if (self::license(self::get('license'))==TRUE)
+            if (self::license(Core::config('license.number'))==TRUE)
             {
-                self::$data['license_date'] = time()+7*24*60*60;
-                self::save();
+                Model_Config::set_value('license','date',time()+7*24*60*60);
                 HTTP::redirect(URL::current());
             }
             elseif (Auth::instance()->get_user()->is_admin())
@@ -767,7 +766,7 @@ class OC_Theme {
         if (Kohana::$environment === Kohana::DEVELOPMENT)
             return TRUE;
         
-        if ($current_theme === NULL)
+/*        if ($current_theme === NULL)
             $current_theme = Theme::$theme;
 
         //getting the licenses unique. to avoid downloading twice
@@ -796,18 +795,16 @@ class OC_Theme {
                     return FALSE;
                 }
             }
-        }
+        }*/
 
-        $api_url = (Kohana::$environment!== Kohana::DEVELOPMENT)? 'market.'.Core::DOMAIN:'eshop.lo';
-        $api_url = 'http://'.$api_url.'/api/license/'.$l.'/?domain='.parse_url(URL::base(), PHP_URL_HOST);
+        $api_url = Core::market_url().'/api/license/'.$l.'/?domain='.parse_url(URL::base(), PHP_URL_HOST);
 
         return json_decode(Core::curl_get_contents($api_url));
     }
 
     public static function download($l)
     {
-        $api_url = (Kohana::$environment!== Kohana::DEVELOPMENT)? 'market.'.Core::DOMAIN:'eshop.lo';
-        $download_url = 'http://'.$api_url.'/api/download/'.$l.'/?domain='.parse_url(URL::base(), PHP_URL_HOST);
+        $download_url = Core::market_url().'/api/download/'.$l.'/?domain='.parse_url(URL::base(), PHP_URL_HOST);
         $fname = DOCROOT.'themes/'.$l.'.zip'; //root folder
         $file_content = core::curl_get_contents($download_url);
 

@@ -19,7 +19,7 @@
     <h2 class="alert-heading"><?=__('Read carefully')?>!</h2>
     <p>
         <ul>
-            <li><?=__('Backup all your files and database')?>. <a target="_blank" href="http://open-classifieds.com/2014/07/23/backup-classifieds-site/"><?=__('Read more')?></a></li>
+            <li><?=__('Backup all your files and database')?>. <a target="_blank" href="https://docs.yclas.com/backup-classifieds-site/"><?=__('Read more')?></a></li>
             <li><?=__('This process can take few minutes DO NOT interrupt it')?></li>
             <li><?=__('If you have doubts check the release notes for this version')?>. <a target="_blank" href="<?=$version['blog']?>"><?=__('Release Notes')?> <?=$latest_version?></a></li>
             <li><?=__('You are responsible for any damages or down time at your site')?></li>

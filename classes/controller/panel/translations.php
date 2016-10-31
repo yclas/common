@@ -355,7 +355,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset='.i18n::$charset.'\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Open Classifieds '.Core::VERSION.'\n"'.PHP_EOL.PHP_EOL;
+"X-Generator: Yclas '.Core::VERSION.'\n"'.PHP_EOL.PHP_EOL;
 
         foreach($translation_array as $key => $values)
         {

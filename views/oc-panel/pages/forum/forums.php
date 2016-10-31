@@ -6,7 +6,7 @@
 
 <h1 class="page-header page-title"><?=__('Forums')?></h1>
 <hr>
-<p><?=__("Change the order of your forums. Keep in mind that more than 2 levels nested probably won´t be displayed in the theme (it is not recommended).")?> <a href="http://open-classifieds.com/2014/05/20/add-forums-section/" target="_blank"><?=__('Read more')?></a></p>
+<p><?=__("Change the order of your forums. Keep in mind that more than 2 levels nested probably won´t be displayed in the theme (it is not recommended).")?> <a href="https://docs.yclas.com/add-forums-section/" target="_blank"><?=__('Read more')?></a></p>
 
 <div class="row">
     <div class="col-md-12">

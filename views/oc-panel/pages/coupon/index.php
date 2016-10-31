@@ -40,7 +40,7 @@
     <div class="alert alert-info fade in">
         <p>
             <strong><?=__('Heads Up!')?></strong> 
-            <?=__('only available with premium themes!').'<br/>'.__('Upgrade your Open Classifieds site to activate this feature.')?>
+            <?=__('only available with premium themes!').'<br/>'.__('Upgrade your Yclas site to activate this feature.')?>
         </p>
         <p>
             <a class="btn btn-info" href="<?=Route::url('oc-panel',array('controller'=>'theme'))?>">

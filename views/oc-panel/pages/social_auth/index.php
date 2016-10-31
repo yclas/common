@@ -12,7 +12,7 @@
     <div class="alert alert-info fade in">
         <p>
             <strong><?=__('Heads Up!')?></strong> 
-            <?=__('Social authentication is only available with premium themes!').' '.__('Upgrade your Open Classifieds site to activate this feature.')?>
+            <?=__('Social authentication is only available with premium themes!').' '.__('Upgrade your Yclas site to activate this feature.')?>
         </p>
         <p>
             <a class="btn btn-info" href="<?=Route::url('oc-panel',array('controller'=>'theme'))?>">

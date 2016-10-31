@@ -1,8 +1,8 @@
-#  Open Classifieds Common
+#  Yclas Common
 
 
 # Description
-Common parts to Open Classifieds projects. Loaded as a module in /oc/modules/common.
+Common parts to Yclas projects. Loaded as a module in /oc/modules/common.
 
 In includes common helpers, tests, views (that belong to the system), vendors and modules. 
 

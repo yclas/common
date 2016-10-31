@@ -2,7 +2,7 @@
 <hr>
 
 <p>
-<?=__('Here you can modify any text you find in your web.')?> <a href="http://open-classifieds.com/2013/08/16/how-to-change-texts/" target="_blank"><?=__('Read more')?></a><br>
+<?=__('Here you can modify any text you find in your web.')?> <a href="https://docs.yclas.com/how-to-change-texts/" target="_blank"><?=__('Read more')?></a><br>
 <?=sprintf("Total of %u strings. %u strings already translated", $total_items, $total_items-$cont_untranslated)?>. <span class="error"><?=sprintf("%u strings yet to translate",$cont_untranslated)?>.</span>
 </p>
 

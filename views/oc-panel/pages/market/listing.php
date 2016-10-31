@@ -69,7 +69,7 @@ foreach ($market as $item):?>
             </p>
             
             <p>
-                <a class="btn btn-primary"  href="http://open-classifieds.com/customization/">
+                <a class="btn btn-primary"  href="https://yclas.com/contact.html">
                     <i class="glyphicon  glyphicon-shopping-cart"></i>  Get a quote!
                 </a>                
             </p>

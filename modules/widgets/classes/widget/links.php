@@ -25,7 +25,7 @@ class Widget_Links extends Widget
                                                         'required'  => FALSE),
                                 'url' => array( 'type'      => 'textarea',
                                                 'display'   => 'textarea',
-                                                'label'     => __('Add as many URL|NAME(http://open-classifieds.com|OpenC ) here, and separate with new line'), 
+                                                'label'     => __('Add as many URL|NAME(https://yclas|Yclas ) here, and separate with new line'), 
                                                 'default'   => '',
                                                 'required'  => TRUE),
                                 'target' => array(  'type'      => 'text',

@@ -34,13 +34,13 @@ class Widget_RSS extends Widget
 						 		'rss_url'  => array(	'type'		=> 'uri',
 						 		  						'display'	=> 'text',
 						 		  						'label'		=> __('RSS url address'),
-						 		  						'default'   => 'http://feeds.feedburner.com/OpenClassifieds',
+						 		  						'default'   => 'http://feeds.feedburner.com/yclas',
 														'required'	=> TRUE),
 
 						 		'rss_title'  => array(	'type'		=> 'text',
 						 		  						'display'	=> 'text',
 						 		  						'label'		=> __('RSS title displayed'),
-						 		  						'default'   => 'Open Classifieds',
+						 		  						'default'   => 'Yclas',
 														'required'	=> FALSE),
 						 		);
 	}

@@ -1,9 +1,9 @@
-# Contributing to Open Classifieds Common
+# Contributing to Yclas Common
 
-Looking to contribute something to Open Classifieds? **Here's how you can help.**
+Looking to contribute something to Yclas? **Here's how you can help.**
 
 ## Environment
-Recommended PHP 5.5 , MySQL 5.5, Apache 2.2, Linux.
+Recommended PHP 7.0 , MySQL 5.5, Apache 2.2, Linux.
 
 
 ## Git usage
@@ -20,12 +20,12 @@ Please check guide for each project.
 
 ## Reporting issues
 
-https://github.com/open-classifieds/common/issues
+https://github.com/yclas/common/issues
 
-We only accept issues that are bug reports or feature requests. Bugs must be isolated and reproducible problems that we can fix within the Open Classifieds core. Please read the following guidelines before opening any issue.
+We only accept issues that are bug reports or feature requests. Bugs must be isolated and reproducible problems that we can fix within the Yclas core. Please read the following guidelines before opening any issue.
 
 1. **Search for existing issues.** We get a lot of duplicate issues, and you'd help us out a lot by first checking if someone else has reported the same issue. Moreover, the issue may have already been resolved with a fix available.
-2. **Create an isolated and reproducible test case.** Be sure the problem exists in Open Classifieds code.
+2. **Create an isolated and reproducible test case.** Be sure the problem exists in Yclas code.
 3. **Include a live example.** Make use of screenshots if needed.
 4. **Share as much information as possible.** Include operating system and version, browser and version, version of OC, customized or vanilla build, etc. where appropriate. Also include steps to reproduce the bug.
 
@@ -49,7 +49,7 @@ We only accept issues that are bug reports or feature requests. Bugs must be iso
 ## Coding standards
 
 - PHP http://kohanaframework.org/3.3/guide/kohana/conventions
-- SQL https://github.com/open-classifieds/openclassifieds2/wiki/SQL-Coding-Standard
+- SQL https://github.com/yclas/yclas/wiki/SQL-Coding-Standard
 
 ## License
 

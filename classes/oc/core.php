@@ -236,8 +236,15 @@ class OC_Core {
         //if older than a month or ?reload=1 force reload
         if ( time() > strtotime('+1 week',filemtime($version_file)) OR $reload === TRUE )
         {
+            if (Core::DOMAIN == 'open-eshop.com')
+                $url = 'https://'.Core::DOMAIN.'/files/versions.json';
+            else
+                $url = 'https://raw.githubusercontent.com/yclas/yclas/master/versions.json';
+            
             //read from oc/versions.json on CDN
-            $json = Core::curl_get_contents('https://'.Core::DOMAIN.'/files/versions.json?r='.time());
+            $json = Core::curl_get_contents($url.'?r='.time());
+
+
             $versions = json_decode($json,TRUE);
             if (is_array($versions))
             {

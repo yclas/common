@@ -54,7 +54,7 @@ foreach ($market as $item):?>
     <div class="col-md-4 col-sm-4 theme">
     <div class="thumbnail" >
 
-        <img  class="thumb_market" src="http://open-classifieds.com/files/market/custom.png">
+        <img  class="thumb_market" src="https://open-classifieds.com/files/market/custom.png">
        
         
         <div class="caption">

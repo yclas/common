@@ -23,7 +23,7 @@ class Controller_Jslocalization extends Controller {
                                                 bottom: true
                                             });
                                 });"; 
-        $this->template->content = $localization_rules;
+        $this->template->content = utf8_decode($localization_rules);
     }
 
     public function action_adi()
@@ -35,7 +35,7 @@ class Controller_Jslocalization extends Controller {
                         content: "'.__('We noticed that you may have an Ad Blocker turned on. Please be aware that our site is best experienced with Ad Blockers turned off.').'"
                     });
                 });';
-        $this->template->content = $ret;
+        $this->template->content = utf8_decode($ret);
     }
 
     public function action_select2()
@@ -76,7 +76,7 @@ class Controller_Jslocalization extends Controller {
                         require: e.require
                     }
                 })();';
-        $this->template->content = $ret;
+        $this->template->content = utf8_decode($ret);
     }
         
     public function action_validate()
@@ -102,7 +102,7 @@ class Controller_Jslocalization extends Controller {
                                   'regex'           => __('Please enter a valid format.'),        
         );
         
-        $this->template->content = '(function ($) {$.extend($.validator.messages, '.json_encode($localization_rules). ');}(jQuery));';
+        $this->template->content = utf8_decode('(function ($) {$.extend($.validator.messages, '.json_encode($localization_rules). ');}(jQuery));');
     }
 
     public function action_chosen()
@@ -122,7 +122,7 @@ class Controller_Jslocalization extends Controller {
                                             break;
                                     }
                                 }'; 
-        $this->template->content = $localization_rules;
+        $this->template->content = utf8_decode($localization_rules);
     }
 
     public function action_bstour()
@@ -178,7 +178,7 @@ class Controller_Jslocalization extends Controller {
                                     return "'.$bstour_basepath.'";
                                 }
                               ';
-        $this->template->content = $localization_rules;
+        $this->template->content = utf8_decode($localization_rules);
     }
     
 }// End Jslocalization Controller

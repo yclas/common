@@ -56,7 +56,7 @@
                 </div>
                 
                 <hr>
-                <?=FORM::button('submit', __('Edit'), array('type'=>'submit', 'class'=>'btn btn-success', 'action'=>Route::url('oc-panel',array('controller'=>'content','action'=>'edit','id'=>$cont->id_content))))?>
+                <?=FORM::button('submit', __('Save'), array('type'=>'submit', 'class'=>'btn btn-success', 'action'=>Route::url('oc-panel',array('controller'=>'content','action'=>'edit','id'=>$cont->id_content))))?>
             </fieldset>
         <?= FORM::close()?>
     </div>

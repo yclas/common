@@ -290,7 +290,7 @@ class OC_Core {
      * @return string on success, false on errors
      * @return string      
      */
-    public static function curl_get_contents($url, $timeout = 30, $extra_headers = NULL))
+    public static function curl_get_contents($url, $timeout = 30, $extra_headers = NULL)
     {
         $c = curl_init(); if ($c === FALSE) return FALSE;
         curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);

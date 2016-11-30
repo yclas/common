@@ -556,6 +556,10 @@ class Model_OC_User extends ORM {
             {
                 throw HTTP_Exception::factory(500,$e->getMessage());
             }
+
+            //add to elasticemail
+            if ( Core::config('email.elastic_listname')!='' )
+                ElasticEmail::subscribe(Core::config('email.elastic_listname'),$user->email,$user->name);
         }
 
         return $user;

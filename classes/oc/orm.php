@@ -160,4 +160,15 @@ class OC_ORM extends Kohana_ORM {
         return $this;
     }
 
+    /**
+     * invalidates the last query from the cache. perfect if we made a searc first and then we create a new item.
+     * @return void 
+     */
+    public function invalidate_cache()
+    {
+        //invalidates the cache for the last query
+        $cache_key = 'Database::query("'.Database::instance().'", "'.$this->last_query().'")';
+        Core::cache($cache_key, NULL, 0);
+    }
+
 }

@@ -135,13 +135,13 @@ class OC_Core {
      */
     public static function cache($name, $data = NULL, $lifetime = NULL)
     {
-        //deletes the cache
-        if ($lifetime===0)
-            return Cache::instance()->delete($name);
-
         //in development we do not store or read we always return null
         if (Kohana::$environment == Kohana::DEVELOPMENT)
             return NULL;
+
+        //deletes the cache
+        if ($lifetime===0)
+            return Cache::instance()->delete($name);
 
         //no data provided we read
         if ($data===NULL)

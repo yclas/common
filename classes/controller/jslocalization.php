@@ -76,6 +76,18 @@ class Controller_Jslocalization extends Controller {
                         require: e.require
                     }
                 })();';
+        $ret .= 'function getCFSearchLocalization(text)
+                {
+                    switch (text)
+                    { 
+                        case "from": 
+                            return "'.addslashes(__('From')).'";
+                            break;
+                        case "to": 
+                            return "'.addslashes(__('To')).'";
+                            break;
+                    }
+                }'; 
         $this->template->content = $ret;
     }
         

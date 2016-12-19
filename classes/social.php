@@ -51,72 +51,112 @@ class Social {
         require_once Kohana::find_file('vendor', 'hybridauth/hybridauth/Hybrid/Exception','php');
     }
 
-    public static function post_ad($id_ad)
+    public static function include_vendor_twitter()
     {
+        require_once Kohana::find_file('vendor/', 'codebird-php/codebird');
+    }
 
-        
-$page_access_token = 'EAAMbimzc0X4BAAMsR2bLSu1EZBfsmF5GUJ6yMdFNC7s4XshP5gMPgeOenMZBgapTrDmZCByzZAHc48vNpFJ99HwJEVhnnRujbsE9LAZCQdfJzZBFZCv23Vs9gpXCZC9DA4iqZBTE5uAINZBsQ4et3XWooRAVxMYt3j1SqYEUsFEpuLjAZDZD';
-$page_id = '345351725560260';
-
-$data['picture'] = "http://www.example.com/image.jpg";
-$data['link'] = "http://www.example.com/";
-$data['message'] = "Your message";
-$data['caption'] = "Caption";
-$data['description'] = "Description";
-
-
-$data['access_token'] = $page_access_token;
-
-$post_url = 'https://graph.facebook.com/'.$page_id.'/feed';
-
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $post_url);
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-$return = curl_exec($ch);
-curl_close($ch);
-d($return);
-
-
-
-        $fb_token = core::config('advertisement.facebook_token');
-        
-        $fb_token = '10154258433555157';
-
-        if ($fb_token != NULL)
+    public static function post_ad(Model_Ad $ad)
+    {
+        if(core::config('advertisement.twitter'))
         {
-
-            require_once Kohana::find_file('vendor', 'facebook-php-graph-sdk-5.4/src/Facebook/autoload','php');
-            $fb_details = social::get()['providers']['Facebook']['keys'];
-
-            $fb = new Facebook\Facebook([
-              'app_id' => $fb_details['id'],
-              'app_secret' => $fb_details['secret'],
-              'default_graph_version' => 'v2.2',
-              ]);
-
-            $linkData = [
-              'link' => 'http://www.example.com',
-              'message' => 'User provided message',
-              ];
-
-            try {
-              // Returns a `Facebook\FacebookResponse` object
-              $response = $fb->post('/me/feed', $linkData, $fb_token);
-            } catch(Facebook\Exceptions\FacebookResponseException $e) {
-              echo 'Graph returned an error: ' . $e->getMessage();
-              exit;
-            } catch(Facebook\Exceptions\FacebookSDKException $e) {
-              echo 'Facebook SDK returned an error: ' . $e->getMessage();
-              exit;
-            }
-
-            $graphNode = $response->getGraphNode();
-
-            echo 'Posted with id: ' . $graphNode['id'];
-
+            self::twitter($ad);
         }
+        if(core::config('advertisement.facebook'))
+        {
+            self::facebook($ad);
+        }
+    }
+
+    public static function twitter(Model_Ad $ad)
+    {
+        self::include_vendor_twitter();
+
+        Codebird::setConsumerKey(core::config('advertisement.twitter_consumer_key'), core::config('advertisement.twitter_consumer_secret'));
+        $cb = Codebird::getInstance();
+        $cb->setToken(core::config('advertisement.access_token'), core::config('advertisement.access_token_secret'));
+
+        // 'status' char limit is 140
+
+        $message = Text::limit_chars($ad->title, 20, NULL, TRUE).', ';
+
+        if($ad->category->id_category_parent != 1 AND $ad->category->parent->loaded())
+            $message .= Text::limit_chars($ad->category->parent->name, 20, NULL, TRUE).' - ';
+
+        $message .= Text::limit_chars($ad->category->name, 20, NULL, TRUE).', ';
+
+        if($ad->id_location != 1)
+        {
+            if($ad->location->id_location_parent != 1 AND $ad->location->parent->loaded())
+                $message .= Text::limit_chars($ad->location->parent->name, 20, NULL, TRUE).', ';
+            
+            $message .= Text::limit_chars($ad->location->name, 20, NULL, TRUE).' - ';
+        }
+
+        if($ad->price>0)
+            $message .= i18n::money_format($ad->price).' - ';
+
+        $url_ad = Route::url('ad', array('category'=>$ad->category->seoname,'seotitle'=>$ad->seotitle));
+        $message .= $url_ad;
+
+        $params = array(
+            'status' => $message
+        );
+
+        if(isset($ad->latitude) AND $ad->latitude!='' AND isset($ad->longitude) AND $ad->longitude!=''){    
+            $params['lat'] = $ad->latitude;
+            $params['long'] = $ad->longitude;
+        }
+
+        $reply = $cb->statuses_update($params);
+    }
+
+    public static function facebook(Model_Ad $ad)
+    {
+        $page_access_token = core::config('advertisement.facebook_access_token');
+        $page_id = core::config('advertisement.facebook_id');
+        $app_secret = core::config('advertisement.facebook_app_secret');
+
+        $appsecret_proof = hash_hmac('sha256', $page_access_token, $app_secret); 
+
+        $url_ad = Route::url('ad', array('category'=>$ad->category->seoname,'seotitle'=>$ad->seotitle));
+
+        $description = $ad->description;
+
+        if($ad->price>0)
+            $description .= ' - '.__('Price').': '.i18n::money_format($ad->price);
+
+        $message = $ad->title.', ';
+
+        if($ad->category->id_category_parent != 1 AND $ad->category->parent->loaded())
+            $message .= $ad->category->parent->name.' - ';
+
+        $message .= $ad->category->name.', ';
+
+        if($ad->id_location != 1)
+        {
+            if($ad->location->id_location_parent != 1 AND $ad->location->parent->loaded())
+                $message .= $ad->location->parent->name.', ';
+            
+            $message .= $ad->location->name;
+        }
+
+        $data['link'] = $url_ad;
+        $data['message'] = $message;
+        $data['caption'] = core::config('general.base_url').' | '.core::config('general.site_name');
+        $data['description'] = $description;
+
+        $data['access_token'] = $page_access_token;
+
+        $post_url = 'https://graph.facebook.com/me/feed?appsecret_proof='.$appsecret_proof.'&scope=publish_stream,status_update';
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $post_url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $return = curl_exec($ch);
+        curl_close($ch);
 
     }
 

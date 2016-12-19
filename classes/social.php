@@ -56,16 +56,28 @@ class Social {
         require_once Kohana::find_file('vendor/', 'codebird-php/codebird');
     }
 
+    public static function social_post_featured_ad(Model_Ad $ad)
+    {
+    	if($ad->status == Model_Ad::STATUS_PUBLISHED AND core::config('advertisement.social_post_only_featured') == TRUE)
+    	{	
+	        if(core::config('advertisement.twitter'))
+	            self::twitter($ad);
+	        
+	        if(core::config('advertisement.facebook'))
+	            self::facebook($ad);
+    	}
+    }
+
     public static function post_ad(Model_Ad $ad)
     {
-        if(core::config('advertisement.twitter'))
-        {
-            self::twitter($ad);
-        }
-        if(core::config('advertisement.facebook'))
-        {
-            self::facebook($ad);
-        }
+    	if($ad->status == Model_Ad::STATUS_PUBLISHED AND core::config('advertisement.social_post_only_featured') == FALSE)
+    	{	
+	        if(core::config('advertisement.twitter'))
+	            self::twitter($ad);
+	        
+	        if(core::config('advertisement.facebook'))
+	            self::facebook($ad);
+    	}
     }
 
     public static function twitter(Model_Ad $ad)
@@ -158,6 +170,25 @@ class Social {
         $return = curl_exec($ch);
         curl_close($ch);
 
+    }
+
+    public static function GetAccessToken()
+    {
+        $token_url = "https://graph.facebook.com/oauth/access_token?client_id=".core::config('advertisement.facebook_app_id')."&client_secret=".core::config('advertisement.facebook_app_secret')."&grant_type=fb_exchange_token&fb_exchange_token=".core::config('advertisement.facebook_access_token');
+
+        $c = curl_init();
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($c, CURLOPT_URL, $token_url);
+        $contents = curl_exec($c);
+        $err  = curl_getinfo($c,CURLINFO_HTTP_CODE);
+        curl_close($c);
+
+        $paramsfb = null;
+        parse_str($contents, $paramsfb);  
+
+        if($err == '200')
+            return $paramsfb['access_token'];
     }
 
 }

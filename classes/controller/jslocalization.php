@@ -86,8 +86,11 @@ class Controller_Jslocalization extends Controller {
                         case "to": 
                             return "'.addslashes(__('To')).'";
                             break;
+                        case "upload_file_to_google_drive": 
+                            return "'.addslashes(__('Upload file to Google Drive')).'";
+                            break;
                     }
-                }'; 
+                }';
         $this->template->content = $ret;
     }
         

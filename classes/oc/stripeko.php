@@ -79,7 +79,8 @@ class OC_StripeKO {
             Core::config('payment.stripe_connect')==TRUE AND  
             Core::config('payment.stripe_private')!='' AND 
             Core::config('payment.stripe_public')!='' AND 
-            Theme::get('premium')==1)
+            Theme::get('premium')==1 AND
+            $order->id_product == Model_Order::PRODUCT_AD_SELL )
         {
             if ($order->ad->price != NULL AND $order->ad->price > 0 AND 
                 (core::config('payment.stock')==0 OR ($order->ad->stock > 0 AND core::config('payment.stock')==1)))

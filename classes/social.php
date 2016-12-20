@@ -188,7 +188,9 @@ class Social {
         parse_str($contents, $paramsfb);  
 
         if($err == '200')
-            return $paramsfb['access_token'];
+            model_config::set_value('advertisement','facebook_access_token',$paramsfb['access_token']);
+        else
+            model_config::set_value('advertisement','facebook_access_token','');
     }
 
 }

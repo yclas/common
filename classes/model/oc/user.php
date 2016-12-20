@@ -541,7 +541,7 @@ class Model_OC_User extends ORM {
                 $password       = Text::random('alnum', 8);
 
             $user->email        = $email;
-            $user->name         = ($name===NULL OR !isset($name))? substr($email, 0, strpos($email, '@')):$name;
+            $user->name         = ($name===NULL OR !isset($name) OR empty($name))? substr($email, 0, strpos($email, '@')):$name;
             $user->status       = self::STATUS_ACTIVE;
             $user->id_role      = Model_Role::ROLE_USER;;
             $user->seoname      = $user->gen_seo_title($user->name);

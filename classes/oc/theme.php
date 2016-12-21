@@ -1046,4 +1046,18 @@ class OC_Theme {
         return FALSE;
     }
 
+    /**
+     * shortcut do we display the header and footer?
+     * @return bool 
+     */
+    public static function landing_single_ad()
+    {
+        if (Theme::get('landing_single_ad',0) == TRUE AND 
+            strtolower(Request::current()->controller())=='ad' AND 
+            strtolower(Request::current()->action()) == 'view')
+            return TRUE;
+        else
+            return FALSE;
+    }
+
 }

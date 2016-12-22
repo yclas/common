@@ -27,7 +27,7 @@
     <div class="form-group">
         <label class="col-sm-4 control-label"><?=_e('New password')?></label>
         <div class="col-sm-8">
-            <input id="register_password" class="form-control" type="password" name="password1" placeholder="<?=__('Password')?>">
+            <input id="<?=isset($modal_form) ? 'register_password_modal' : 'register_password'?>" class="form-control" type="password" name="password1" placeholder="<?=__('Password')?>">
         </div>
     </div>
           
@@ -76,11 +76,17 @@
     
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
-            <button type="submit" class="btn btn-primary"><?=_e('Register')?></button>
-            <a class="btn btn-default"  data-dismiss="modal" data-toggle="modal"  href="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'login'))?>#login-modal">
-                <i class="glyphicon glyphicon-user"></i> 
-                <?=_e('Login')?>
-            </a>
+            <ul class="list-inline">
+                <li>
+                    <button type="submit" class="btn btn-primary"><?=_e('Register')?></button>
+                </li>
+                <li>
+                    <?=_e('Already Have an Account?')?>
+                    <a data-dismiss="modal" data-toggle="modal"  href="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'login'))?>#login-modal">
+                        <?=_e('Login')?>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
     <?=Form::redirect()?>

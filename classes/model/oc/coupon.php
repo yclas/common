@@ -95,7 +95,7 @@ class Model_OC_Coupon extends ORM {
             } 
             catch (ORM_Validation_Exception $e)
             {
-                throw HTTP_Exception::factory(500,$e->getMessage());
+                throw HTTP_Exception::factory(500,$e->errors(''));
             }
             catch (Exception $e) {
                 throw HTTP_Exception::factory(500,$e->getMessage());

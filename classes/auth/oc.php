@@ -408,7 +408,7 @@ class Auth_OC extends Kohana_Auth {
                     }
                     catch (ORM_Validation_Exception $e)
                     {
-                        throw HTTP_Exception::factory(500,$e->getMessage());
+                        throw HTTP_Exception::factory(500,$e->errors(''));
                     }
                     catch(Exception $e)
                     {

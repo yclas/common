@@ -542,6 +542,7 @@ class Model_OC_User extends ORM {
 
             $user->email        = $email;
             $user->name         = ($name===NULL OR !isset($name) OR empty($name))? substr($email, 0, strpos($email, '@')):$name;
+            $user->name         = UTF8::substr($user->name, 0, 145);
             $user->status       = self::STATUS_ACTIVE;
             $user->id_role      = Model_Role::ROLE_USER;;
             $user->seoname      = $user->gen_seo_title($user->name);
@@ -553,6 +554,10 @@ class Model_OC_User extends ORM {
                 $user->save();
             }
             catch (ORM_Validation_Exception $e)
+            {
+                throw HTTP_Exception::factory(500,$e->errors(''));
+            }
+            catch (Exception $e)
             {
                 throw HTTP_Exception::factory(500,$e->getMessage());
             }

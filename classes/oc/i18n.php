@@ -193,6 +193,8 @@ class OC_I18n extends Kohana_I18n {
         //using the gettext dropin forced
         if (self::$dropin === TRUE)
             return _gettext($string);
+        elseif (is_array($string))
+            return _(implode(',',$string));
         else
             return _($string);
     }

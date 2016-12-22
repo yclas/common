@@ -127,10 +127,12 @@ class OC_Captcha{
     {
         return '<script type="text/javascript">
 		function reloadImg(id) {
-		var obj = document.getElementById(id);
-		var src = obj.src;
-		var date = new Date();
-		obj.src = src + "&v=" + date.getTime();
+        var elements = document.getElementsByClassName(id);
+        var date = new Date();
+        for (var i=0; i < elements.length; i++) {
+                src = elements[i].src;
+                elements[i].src = src + "&v=" + date.getTime();
+        }
 		return false;
 		}</script>';
     }
@@ -143,7 +145,7 @@ class OC_Captcha{
     public static function image_tag($name='')
     {
         return self::reload_image().
-                '<img alt="captcha" id="captcha_img_'.$name.'" style="cursor: pointer;" title="Click to refresh"
+                '<img alt="captcha" id="captcha_img_'.$name.'" class="captcha_img_'.$name.'" style="cursor: pointer;" title="Click to refresh"
 				onClick="return reloadImg(\'captcha_img_'.$name.'\');" src="'.captcha::url($name).'">';
     }
     

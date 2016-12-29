@@ -17,7 +17,7 @@
                     <button type="submit" class="btn btn-primary"><?=_e('Send')?></button>
                 </li>
                 <li>
-                    <?=_e('Don\'t Have an Account?')?>
+                    <?=_e('Don’t Have an Account?')?>
                     <a data-toggle="modal" data-dismiss="modal" href="<?=Route::url('oc-panel',array('directory'=>'user','controller'=>'auth','action'=>'register'))?>#register-modal">
                         <?=_e('Register')?>
                     </a>

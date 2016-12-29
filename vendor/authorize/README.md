@@ -1,6 +1,12 @@
 Authorize.Net PHP SDK
 ======================
 
+[![Travis](https://img.shields.io/travis/AuthorizeNet/sdk-php/master.svg)]
+(https://travis-ci.org/AuthorizeNet/sdk-php)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/AuthorizeNet/sdk-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AuthorizeNet/sdk-php/?branch=master)
+[![Packagist](https://img.shields.io/packagist/v/authorizenet/authorizenet.svg)](https://packagist.org/packages/authorizenet/authorizenet)
+
+
 ## License
 Proprietary, see the provided `license.md`.
 
@@ -11,21 +17,30 @@ Proprietary, see the provided `license.md`.
 - JSON PHP Extension
 - SimpleXML PHP Extension
 - An Authorize.Net Merchant Account or Sandbox Account. You can get a 
-	free sandbox account at http://developer.authorize.net/sandbox/
+	free sandbox account at http://developer.authorize.net/hello_world/sandbox/
 
 ## Autoloading
 
-[`Composer`](http://getcomposer.org) currently has a [MITM](https://github.com/composer/composer/issues/1074)
-security vulnerability.  However, if you wish to use it, require it's autoloader in
+We recommend using [`Composer`](http://getcomposer.org) *(note we never recommend you override the new secure-http default setting)*, don't forget to require its autoloader in
 your script or bootstrap file:
 ```php
 require 'vendor/autoload.php';
 ```
-*Note: you'll need a composer.json file with the following require section and to run
+*Update your composer.json file as per the example below and then run
 `composer update`.*
+
 ```json
-"require": {
-    "authorizenet/authorizenet": "~1.8"
+{
+  "require": {
+  "php": ">=5.5",
+  "ext-curl": "*",
+  "authorizenet/authorizenet": "1.8.9",
+  "jms/serializer": "serializer-master-dev as 1.0"
+  },
+  "repositories": [{
+       "type": "vcs",
+       "url": "https://github.com/goetas/serializer.git"
+  }]
 }
 ```
 
@@ -33,159 +48,132 @@ Alternatively, we provide a custom `SPL` autoloader:
 ```php
 require 'path/to/anet_php_sdk/autoload.php';
 ```
-    
+
+**Issue with PHP 7:** *You may get below error when run the composer update with PHP 7. To get rid of this error, use `composer update --ignore-platform-reqs`*
+```php
+Problem 1
+    - Installation request for authorizenet/authorizenet 1.8.6.2 -> satisfiable
+by authorizenet/authorizenet[1.8.6.2].
+    - authorizenet/authorizenet 1.8.6.2 requires php ~5.3 -> your PHP version (7
+.0.3RC1) or value of "config.platform.php" in composer.json does not satisfy that requirement.
+```
+
+## Authentication
+To authenticate with the Authorize.Net API you will need to retrieve your API Login ID and Transaction Key from the [`Merchant Interface`](https://account.authorize.net/).  You can find these details in the Settings section.
+If you need a sandbox account you can sign up for one really easily [`here`](https://developer.authorize.net/sandbox/).
+
+Once you have your keys simply plug them into the appropriate variables, as per the below code dealing with the authentication part of the flow.
+
+...
+````php
+use net\authorize\api\contract\v1 as AnetAPI;
+````
+...
+````php
+$merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
+$merchantAuthentication->setName("YOURLOGIN");
+$merchantAuthentication->setTransactionKey("YOURKEY");
+````
+...
+
+````php
+$request = new AnetAPI\CreateTransactionRequest();
+$request->setMerchantAuthentication($merchantAuthentication);
+````
+...
+
 ## Usage Examples
 
-See below for basic usage examples. View the `tests/` folder for more examples of
-each API.  Additional documentation is in the `docs/` folder.
+Apart from this README, you can find details and examples of using the SDK in the following places:
+- [Developer Center Reference](http://developer.authorize.net/api/reference/index.html)
+- [Github Sample Code Repositories](https://github.com/AuthorizeNet/sample-code-php)
       
-### AuthorizeNetAIM.php Quick Usage Example
+      
+### Quick Usage Example (with Charge Credit Card - Authorize and Capture)
+Note: The following is a php console application. Ensure that you can invoke the php command from command line.
+- Save the below code to a php file named, say, `charge-credit-card.php`
+- Open command prompt and navigate to your sdk folder ( if want to run from a different folder, modify the `require` statement to have the full path to the sdk e.g. `require 'c:/anet-sdk-php/vendor/autoload.php'` in place of `require 'vendor/autoload.php'` )
+- Update dependecies - e.g., With composer, type `composer update`
+- Type `php [<path to folder containing the php file>\]charge-credit-card.php`
 
 ```php
-define("AUTHORIZENET_API_LOGIN_ID", "YOURLOGIN");
-define("AUTHORIZENET_TRANSACTION_KEY", "YOURKEY");
-define("AUTHORIZENET_SANDBOX", true);
-$sale           = new AuthorizeNetAIM;
-$sale->amount   = "5.99";
-$sale->card_num = '6011000000000012';
-$sale->exp_date = '04/15';
-$response = $sale->authorizeAndCapture();
-if ($response->approved) {
-    $transaction_id = $response->transaction_id;
+require 'vendor/autoload.php';
+use net\authorize\api\contract\v1 as AnetAPI;
+use net\authorize\api\controller as AnetController;
+define("AUTHORIZENET_LOG_FILE", "phplog");
+
+// Common setup for API credentials
+$merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
+$merchantAuthentication->setName("556KThWQ6vf2");
+$merchantAuthentication->setTransactionKey("9ac2932kQ7kN2Wzq");
+
+// Create the payment data for a credit card
+$creditCard = new AnetAPI\CreditCardType();
+$creditCard->setCardNumber("4111111111111111");
+$creditCard->setExpirationDate("2038-12");
+$paymentOne = new AnetAPI\PaymentType();
+$paymentOne->setCreditCard($creditCard);
+
+// Create a transaction
+$transactionRequestType = new AnetAPI\TransactionRequestType();
+$transactionRequestType->setTransactionType( "authCaptureTransaction"); 
+$transactionRequestType->setAmount(151.51);
+$transactionRequestType->setPayment($paymentOne);
+
+$request = new AnetAPI\CreateTransactionRequest();
+$request->setMerchantAuthentication($merchantAuthentication);
+$request->setTransactionRequest( $transactionRequestType);
+$controller = new AnetController\CreateTransactionController($request);
+$response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::SANDBOX);
+
+if ($response != null)
+{
+	$tresponse = $response->getTransactionResponse();
+
+	if (($tresponse != null) && ($tresponse->getResponseCode()=="1") )   
+	{
+		echo "Charge Credit Card AUTH CODE : " . $tresponse->getAuthCode() . "\n";
+		echo "Charge Credit Card TRANS ID  : " . $tresponse->getTransId() . "\n";
+	}
+	else
+	{
+		echo  "Charge Credit Card ERROR :  Invalid response\n";
+	}
+}
+else
+{
+	echo  "Charge Credit card Null response returned";
 }
 ```
-    
-### AuthorizeNetAIM.php Advanced Usage Example
-
+### Setting Production Environment  
+Replace the environment constant in the execute method.  For example, in the method above:
 ```php
-define("AUTHORIZENET_API_LOGIN_ID", "YOURLOGIN");
-define("AUTHORIZENET_TRANSACTION_KEY", "YOURKEY");
-define("AUTHORIZENET_SANDBOX", true);
-$auth         = new AuthorizeNetAIM;
-$auth->amount = "45.00";
+$response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::PRODUCTION);
+```  
 
-// Use eCheck:
-$auth->setECheck(
-    '121042882',
-    '123456789123',
-    'CHECKING',
-    'Bank of Earth',
-    'Jane Doe',
-    'WEB'
-);
+## Logging
 
-// Set multiple line items:
-$auth->addLineItem('item1', 'Golf tees', 'Blue tees', '2', '5.00', 'N');
-$auth->addLineItem('item2', 'Golf shirt', 'XL', '1', '40.00', 'N');
+SDK generates log with masking for sensitive data like credit card, expiration dates. The provided levels for logging are 
+ `debug`, `info`, `warn`, `error`. Add ````use \net\authorize\util\LogFactory;````. Logger can be initialized using `$logger = LogFactory::getLog(get_class($this));`
+The default log file `phplog` gets generated in the current folder. The subsequent logs are appended to the same file, unless the execution folder is changed, and a new log file is generated.
 
-// Set Invoice Number:
-$auth->invoice_num = time();
+### Usage Examples
+- Logging a string message `$logger->debug("Sending 'XML' Request type");`
+- Logging xml strings `$logger->debug($xmlRequest);`
+- Logging using formatting `$logger->debugFormat("Integer: %d, Float: %f, Xml-Request: %s\n", array(100, 1.29f, $xmlRequest));`
 
-// Set a Merchant Defined Field:
-$auth->setCustomField("entrance_source", "Search Engine");
+### Customizing Sensitive Tags
+A local copy of [AuthorizedNetSensitiveTagsConfig.json](/lib/net/authorize/util/ANetSensitiveFields.php) gets generated when code invoking the logger first gets executed. The local file can later be edited by developer to re-configure what is masked and what is visible (*Do not edit the json in sdk*). 
+- For each element of the `sensitiveTags` array, 
+  - `tagName` field corresponds to the name of the property in object, or xml-tag that should be hidden entirely ( *XXXX* shown if no replacement specified ) or masked (e.g. showing the last 4 digits of credit card number).
+  - `pattern`[<sup>[Note]</sup>](#regex-note) and `replacement`[<sup>[Note]</sup>](#regex-note) can be left `""`, if the default is to be used (as defined in [Log.php](/lib/net/authorize/util/Log.php)). `pattern` gives the regex to identify, while `replacement` defines the visible part.
+  - `disableMask` can be set to *true* to allow the log to fully display that property in an object, or tag in a xml string.
+- `sensitiveStringRegexes`[<sup>[Note]</sup>](#regex-note) has list of credit-card regexes. So if credit-card number is not already masked, it would get entirely masked.
+- Take care of non-ascii characters (refer [manual](http://php.net/manual/en/regexp.reference.unicode.php)) while defining the regex, e.g. use 
+`"pattern": "(\\p{N}+)(\\p{N}{4})"` instead of `"pattern": "(\\d+)(\\d{4})"`. Also note `\\` escape sequence is used.
 
-// Authorize Only:
-$response  = $auth->authorizeOnly();
-
-if ($response->approved) {
-    $auth_code = $response->transaction_id;
-
-    // Now capture:
-    $capture = new AuthorizeNetAIM;
-    $capture_response = $capture->priorAuthCapture($auth_code);
-
-    // Now void:
-    $void = new AuthorizeNetAIM;
-    $void_response = $void->void($capture_response->transaction_id);
-}
-```
-
-### AuthorizeNetARB.php Usage Example
-
-```php
-define("AUTHORIZENET_API_LOGIN_ID", "YOURLOGIN");
-define("AUTHORIZENET_TRANSACTION_KEY", "YOURKEY");
-$subscription                          = new AuthorizeNet_Subscription;
-$subscription->name                    = "PHP Monthly Magazine";
-$subscription->intervalLength          = "1";
-$subscription->intervalUnit            = "months";
-$subscription->startDate               = "2011-03-12";
-$subscription->totalOccurrences        = "12";
-$subscription->amount                  = "12.99");
-$subscription->creditCardCardNumber    = "6011000000000012";
-$subscription->creditCardExpirationDate= "2018-10";
-$subscription->creditCardCardCode      = "123";
-$subscription->billToFirstName         = "Rasmus";
-$subscription->billToLastName          = "Doe";
-
-// Create the subscription.
-$request         = new AuthorizeNetARB;
-$response        = $request->createSubscription($subscription);
-$subscription_id = $response->getSubscriptionId();
-```
-
-### AuthorizeNetCIM.php Usage Example
-
-```php
-define("AUTHORIZENET_API_LOGIN_ID", "YOURLOGIN");
-define("AUTHORIZENET_TRANSACTION_KEY", "YOURKEY");
-$request = new AuthorizeNetCIM;
-// Create new customer profile
-$customerProfile                     = new AuthorizeNetCustomer;
-$customerProfile->description        = "Description of customer";
-$customerProfile->merchantCustomerId = time();
-$customerProfile->email              = "test@domain.com";
-$response = $request->createCustomerProfile($customerProfile);
-if ($response->isOk()) {
-    $customerProfileId = $response->getCustomerProfileId();
-}
-```
-
-### AuthorizeNetSIM.php Usage Example
-
-```php
-define("AUTHORIZENET_API_LOGIN_ID", "YOURLOGIN");
-define("AUTHORIZENET_MD5_SETTING", "");
-$message = new AuthorizeNetSIM;
-if ($message->isAuthorizeNet()) {
-    $transactionId = $message->transaction_id;
-}
-```
-    
-### AuthorizeNetDPM.php Usage Example
-
-```php
-$url             = "http://YOUR_DOMAIN.com/direct_post.php";
-$api_login_id    = 'YOUR_API_LOGIN_ID';
-$transaction_key = 'YOUR_TRANSACTION_KEY';
-$md5_setting     = 'YOUR_MD5_SETTING'; // Your MD5 Setting
-$amount          = "5.99";
-AuthorizeNetDPM::directPostDemo($url, $api_login_id, $transaction_key, $amount, $md5_setting);
-```
-
-### AuthorizeNetCP.php Usage Example
-
-```php
-define("AUTHORIZENET_API_LOGIN_ID", "YOURLOGIN");
-define("AUTHORIZENET_TRANSACTION_KEY", "YOURKEY");
-define("AUTHORIZENET_MD5_SETTING", "");
-$sale              = new AuthorizeNetCP;
-$sale->amount      = '59.99';
-$sale->device_type = '4';
-$sale->setTrack1Data('%B4111111111111111^CARDUSER/JOHN^1803101000000000020000831000000?');
-$response = $sale->authorizeAndCapture();
-$trans_id = $response->transaction_id;
-```
-
-### AuthorizeNetTD.php Usage Example
-
-```php
-define("AUTHORIZENET_API_LOGIN_ID", "YOURLOGIN");
-define("AUTHORIZENET_TRANSACTION_KEY", "YOURKEY");
-$request  = new AuthorizeNetTD;
-$response = $request->getTransactionDetails("12345");
-echo $response->xml->transaction->transactionStatus;
-```
+**<a name="regex-note">Note</a>:**
+**For any regex, no starting or ending '/' or any other delimiter should be defined. The '/' delimiter and unicode flag is added in the code.**
 
 ## Testing
 

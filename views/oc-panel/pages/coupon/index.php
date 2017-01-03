@@ -140,7 +140,7 @@
                         <p class="help-block">
                             <?=__('Please use the correct CSV format')?>, <?=__('limited to 10.000 at a time')?>, <?=__('1 MB file')?>.
                             <br>
-                            <?=__('Coupons')?>: <a href="https://mega.nz/#!V1RSSIoS!QBD0IlfKqcAuswEv18SXQ1vkbp4eUeCxpIH5sXQVskY"><?=__('download example')?>.</a>
+                            <?=__('Coupons')?>: <a href="https://cdn.rawgit.com/yclas/yclas/master/install/samples/import/coupons.csv"><?=__('download example')?>.</a>
                         </p>
                     </div>
                 </div>

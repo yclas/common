@@ -49,6 +49,8 @@ class Social {
         require_once Kohana::find_file('vendor', 'hybridauth/hybridauth/Hybrid/Endpoint','php');
         require_once Kohana::find_file('vendor', 'hybridauth/hybridauth/Hybrid/Logger','php');
         require_once Kohana::find_file('vendor', 'hybridauth/hybridauth/Hybrid/Exception','php');
+        require_once Kohana::find_file('vendor', 'hybridauth/hybridauth/Hybrid/Auth','php');
+        require_once Kohana::find_file('vendor', 'hybridauth/vendor/autoload','php');
     }
 
     public static function include_vendor_twitter()

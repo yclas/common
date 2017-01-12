@@ -69,7 +69,7 @@ class OC_StripeKO {
 
 
     /**
-     * generates HTML for apy buton
+     * generates HTML for pay buton
      * @param  Model_Order $order 
      * @return string                 
      */
@@ -85,6 +85,32 @@ class OC_StripeKO {
             if ($order->ad->price != NULL AND $order->ad->price > 0 AND 
                 (core::config('payment.stock')==0 OR ($order->ad->stock > 0 AND core::config('payment.stock')==1)))
                 return View::factory('pages/stripe/button_connect',array('order'=>$order));
+        }
+
+        return '';
+    }
+
+    /**
+     * generates HTML for pay buton
+     * @param  Model_Ad $ad 
+     * @return string                 
+     */
+    public static function button_guest_connect(Model_Ad $ad)
+    {
+        if ( !empty($ad->user->stripe_user_id) AND
+            Core::config('payment.stripe_connect')==TRUE AND  
+            Core::config('payment.stripe_private')!='' AND 
+            Core::config('payment.stripe_public')!='' AND 
+            Theme::get('premium')==1)
+        {
+            if ($ad->price != NULL AND $ad->price > 0 AND 
+                (core::config('payment.stock')==0 OR ($ad->stock > 0 AND core::config('payment.stock')==1)))
+            {
+                if(isset($ad->cf_shipping) AND Valid::price($ad->cf_shipping) AND $ad->cf_shipping > 0)
+                    $ad->price = $ad->price + $ad->cf_shipping;
+
+                return View::factory('pages/stripe/button_guest_connect',array('ad'=>$ad));
+            }
         }
 
         return '';
